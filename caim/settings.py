@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.gis",
     "leaflet",
+    "sorl.thumbnail",  # Only needed for local dev - prod used imagekit.io
     "crispy_forms",
     "crispy_bootstrap5",
     "phonenumber_field",
@@ -176,8 +177,10 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 CRISPY_FAIL_SILENTLY = False
 
 # Imagekit.io + cloudfront resizing
+IMAGE_RESIZE_USE_IMAGKIT = os.getenv("IMAGE_RESIZE_USE_IMAGKIT", False)
 IMAGE_RESIZE_ORIGIN = os.getenv("IMAGE_RESIZE_ORIGIN", None)
 IMAGE_RESIZE_CDN = os.getenv("IMAGE_RESIZE_CDN", None)
+
 
 # Avatar
 AVATAR_GRAVATAR_DEFAULT = "mp"

@@ -1,5 +1,6 @@
 from django import template
 from django.conf import settings
+from sorl.thumbnail import get_thumbnail
 
 
 register = template.Library()
@@ -20,12 +21,18 @@ def modify_qs(context, key1=None, value1=None, key2=None, value2=None):
 @register.filter
 def image_resize(value, resize):
     parts = resize.split(" ")
-    wh = parts[0].split("x")
-    filter = "c-maintain_ratio,fo-auto,pr-true"
-    if parts[1] == "max":
-        filter = "c-at_max,pr-true"
+    if settings.IMAGE_RESIZE_USE_IMAGKIT:
+        # Replace the S3 bucket with the imagekit CDN URL and add the resize params
+        wh = parts[0].split("x")
+        filter = "c-maintain_ratio,fo-auto,pr-true"
+        if parts[1] == "max":
+            filter = "c-at_max,pr-true"
 
-    return (
-        value.replace(settings.IMAGE_RESIZE_ORIGIN, settings.IMAGE_RESIZE_CDN)
-        + f"?tr=w-{wh[0]},h-{wh[1]},{filter}"
-    )
+        return (
+            value.replace(settings.IMAGE_RESIZE_ORIGIN, settings.IMAGE_RESIZE_CDN)
+            + f"?tr=w-{wh[0]},h-{wh[1]},{filter}"
+        )
+    else:
+        # Use sorl-thumbnail to resize and return url
+        value = value.replace("/media/", "")
+        return get_thumbnail(value, parts[0], quality=99).url
