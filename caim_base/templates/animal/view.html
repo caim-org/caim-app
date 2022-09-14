@@ -1,0 +1,129 @@
+{% extends "base/wrapper.html" %}
+{% load caim_helpers %}
+
+{% block content %}
+
+<div class="bg-dark context-bar">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 py-3">
+        <p class="text-light my-0">
+          {% if request.GET.zip %}
+          <a href="/browse?{% modify_qs %}">&laquo; Back to results</a>
+          {% else %}
+          <a href="/browse?zip={{animal.awg.zip_code}}">&laquo; Animals nearby</a>
+          {% endif %}
+        </p>
+      </div>
+      <div class="col-md-6 pt-2 text-end d-none d-md-block">
+        <a href="#" onclick="todo()" class="btn btn-secondary">Foster this {{ animal.animal_type | lower }}</a>
+        &nbsp;
+        {% if isShortlisted %}
+        <a href="#" onclick="toggleShortlistLarge(this, {{ animal.id }});return false;" class="btn btn-primary"><i
+            class="bi-heart-fill"></i> Added to shortlist</a>
+        {% else %}
+        <a href="#" onclick="toggleShortlistLarge(this, {{ animal.id }});return false;" class="btn btn-secondary"><i
+            class="bi-heart"></i> Add to shortlist</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="animal-slideshow bg-dark mb-4" style="display:none">
+  <div><img src="{{ animal.primary_photo.url|image_resize:'800x500 max' }}" /></div>
+  {% for image in images %}
+    <div><img src="{{ image.photo.url|image_resize:'800x500 max' }}" /></div>
+  {% endfor %}
+</div>
+
+<div class="animal-slideshow bg-dark mb-4">
+  <ul id="lightSlider" class="bg-dark gallery list-unstyled cS-hidden">
+    <li class="text-center">
+      <img src="{{ animal.primary_photo.url|image_resize:'800x500 max' }}" />
+    </li>
+    {% for image in images %}
+    <li class="text-center">
+      <img src="{{ image.photo.url|image_resize:'800x500 max' }}" />
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card mb-3">
+        <div class="card-body">
+
+          <h2>{{ animal.name }}</h2>
+          <p>
+            {{ animal.breedsText }}
+            |
+            {{ animal.sexText }}
+            |
+            {{ animal.ageText }}
+            |
+            {{ animal.sizeText }}
+          </p>
+          <p>
+            {{ animal.description | urlizetrunc:60 |linebreaks }}
+          </p>
+
+          {% if animal.special_needs %}
+          <h4>Special Needs</h4>
+          <p>
+            {{ animal.special_needs | urlizetrunc:60 | linebreaks }}
+          </p>
+          {% endif %}
+
+          {% if animal.vaccinations_notes %}
+          <h4>Vaccination Notes</h4>
+          <p>
+            {{ animal.vaccinations_notes | urlizetrunc:60 | linebreaks }}
+          </p>
+          {% endif %}
+
+          {% include './comments.html' %}
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h4><a href="/awg/{{animal.awg.id}}">{{ animal.awg.name }}</a></h4>
+          <p>{{ animal.awg.city }}</p>
+          <p>{{ animal.awg.state }}</p>
+          <p>{{ animal.awg.zip_code }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+<script type="text/javascript">
+  setTimeout(function(){
+    $(document).ready(function() {
+      $("#lightSlider").lightSlider({
+        gallery:false,
+        item: 1,
+        slideMargin: 20,
+        speed:500,
+        pause: 5000,
+        auto:true,
+        loop:true,
+        pager: true,
+        adaptiveHeight:true,
+        currentPagerPosition: 'middle',
+        onSliderLoad: function() {
+            $('#lightSlider').removeClass('cS-hidden');
+        }     
+    }); 
+    });
+  }, 50);
+</script>
+
+  {% endblock %}

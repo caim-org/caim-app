@@ -1,0 +1,51 @@
+{% load avatar_tags %}
+
+{% if not user.is_authenticated %}
+    <p class="text-center">
+        Only registered users can post or see comments. Please,
+        <a href="{% url 'login' %}?next={{ animal.get_absolute_url }}">login</a>
+        or <a href="{% url 'register' %}?next={{ animal.get_absolute_url }}">register</a>.
+    </p>
+{% else %}
+
+    <div id="comments" class="py-4">
+    {{ commentCount }} comment{{ commentCount|pluralize }}
+    ha{{ commentCount|pluralize:"s,ve" }} been posted.
+    </div>
+
+    {% for comment in comments %}
+    <div class="comment" id="comment-{{comment.id}}">
+    {% avatar comment.user 40 40 class="comment-avatar avatar" %}
+    <div class="comment-inner">
+        <div class="comment-username">{{comment.user.username}}</div>
+        <div class="comment-body">{{comment.body|urlizetrunc:60|linebreaks}}</div>
+        <div class="comment-meta">
+        <div>
+            <span data-timestamp="{{comment.created_at|date:'c'}}">
+                {{comment.created_at|date:'r'}}[{{comment.edited_at}}]
+            </span>
+            {% if comment.edited_at %}(edited){% endif %}
+        </div>
+        <div>
+            {% if comment.can_be_edited %}<a href="/comments/{{comment.id}}/edit">Edit comment</a>{% endif %} |
+            {% if comment.can_be_deleted %}<a href="/comments/{{comment.id}}/delete">Delete comment</a>{% endif %}
+        </div>
+        </div>
+    </div>
+    </div>
+    {% endfor %}
+
+    <form method="post" action="/comments/add">
+    {% csrf_token %}
+    <input type="hidden" name="animalId" value="{{animal.id}}" />
+    <div class="comment">
+        {% avatar user 40 40 class="comment-avatar avatar" %}
+        <div class="comment-inner">
+        <div class="comment-username">Add your comment</div>
+        <textarea rows="3" name="body"></textarea>
+        <input type="submit" class="btn btn-primary" value="Add comment" />
+        </div>
+    </div>
+    </form>
+
+{% endif %}

@@ -1,0 +1,86 @@
+{% extends 'base/wrapper.html' %}
+{% load caim_helpers %}
+
+{% block content %}
+  <div class="bg-dark context-bar">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 py-3">&nbsp;</div>
+        <div class="col-md-6 pt-2 text-end d-none d-md-block">&nbsp;</div>
+      </div>
+    </div>
+  </div>
+  <br />
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card mb-3">
+          <div class="card-body">
+            <h2>{{ awg.name }}</h2>
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ac venenatis arcu. Nulla dignissim finibus consectetur. Pellentesque viverra neque id dolor eleifend, non rhoncus diam rhoncus. Vivamus placerat, purus nec sodales tincidunt, odio neque suscipit sem, at tempor erat erat in justo. Sed massa nibh, faucibus at semper vel, tempor at nisi. Nam velit lorem, viverra vitae pharetra sed, congue eu mi. Integer sed urna nisi. Integer pellentesque tristique est, nec tristique nisi fringilla at. Donec commodo, lorem posuere maximus tincidunt, enim metus semper mi, in sagittis mi metus vel diam. Donec viverra interdum ullamcorper. Fusce vitae posuere quam. Morbi non lorem non nulla tempor euismod ut ut velit. Integer pretium rhoncus diam, a rhoncus magna aliquet id. In eget porttitor odio. Vivamus sodales felis volutpat dui pretium, at dignissim ante malesuada. Ut varius leo nec varius commodo.</p>
+            <p>Pellentesque sed eros id neque mattis commodo. Praesent commodo accumsan augue, id vehicula urna bibendum interdum. Nunc eu diam ullamcorper, imperdiet lacus quis, aliquet sapien. Praesent venenatis est nec lectus convallis pretium. Nam in facilisis odio. Pellentesque vitae neque nulla. Mauris egestas mattis dapibus. Integer ut ante vel quam auctor hendrerit. Phasellus condimentum dignissim faucibus. Donec aliquet dignissim sagittis. Praesent id risus pellentesque, fringilla augue eu, imperdiet dui. Donec laoreet interdum leo, sed ultrices lorem porta ut. Quisque elementum euismod orci et dignissim. Cras dignissim ligula ac dui sodales vulputate. Duis mollis felis at erat ultricies commodo.</p>
+            <p>Maecenas lobortis a odio eu placerat. Phasellus luctus turpis id diam posuere pretium. Proin pellentesque libero feugiat dui interdum, ut ornare libero dictum. Ut tincidunt neque in venenatis iaculis. Sed faucibus, metus eget tempus congue, est augue consectetur augue, at iaculis leo nibh at mi. Nam congue et lacus et congue. Curabitur egestas augue diam. Pellentesque pulvinar, quam vel suscipit eleifend, magna dui mollis ligula, nec tincidunt lectus ante ut nisi. Maecenas at porttitor arcu. In tempus aliquam dui, a efficitur augue elementum a. Nullam sit amet leo in nisi porta suscipit non aliquam lorem. Nunc lacinia id arcu at pharetra. Proin eu turpis vel arcu tempor posuere. Mauris consequat risus in volutpat aliquam. Vivamus at velit at tellus tempor suscipit. Etiam venenatis velit id arcu pulvinar, a malesuada odio molestie.</p>
+          </div>
+        </div>
+
+
+        <h3>Animals available</h3>
+        <div class="row">
+          {% for animal in animals %}
+          <div class="col-md-4">
+            <a href="/animal/{{ animal.id }}?{% modify_qs %}" style="text-decoration:none; color: #333;">
+              <div class="card animal-card">
+                {% if animal.id in shortlistAnimalIds %}
+                <div class="animal-shortlist animal-shortlist-selected"
+                  onclick="toggleShortlistSmall(this, {{ animal.id }});return false;">
+                  <i class="bi-heart-fill"></i>
+                </div>
+                {% else %}
+                <div class="animal-shortlist" onclick="toggleShortlistSmall(this, {{ animal.id }});return false;">
+                  <i class="bi-heart"></i>
+                </div>
+                {% endif %}
+                <div class="card-img-top"
+                  style="background-image: url({{ animal.primary_photo.url|image_resize:'300x300 crop' }}) ">
+                </div>
+                <div class="card-body">
+                  <h5>{{ animal.name }}</h5>
+                  <div class="text-truncate text-xsmall">{{animal.age|title}} - {{ animal.breedsText }}</div>
+                  <div class="text-truncate text-xsmall text-danger">
+                    {% if animal.euth_date %}
+                    Euth Date: {{animal.euth_date}}
+                    {% else %}
+                    &nbsp;
+                    {% endif %}
+                  </div>
+                  {% if search.zip %}
+                  <div class="text-truncate text-xsmall">{{ animal.distance.mi | floatformat:"0" }} miles away</div>
+                  {% endif %}
+                </div>
+              </div>
+            </a>
+          </div>
+          {% empty %}
+          <p>No animals found. Please try different filters.</p>
+          {% endfor %}
+        </div>
+    
+    
+
+
+
+      </div>
+
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <p>{{ awg.city }}</p>
+            <p>{{ awg.state }}</p>
+            <p>{{ awg.zip_code }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

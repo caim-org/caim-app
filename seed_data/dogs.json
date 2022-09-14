@@ -1,0 +1,2218 @@
+{
+    "00d92e5645119392f99a9d44f02a207c": {
+        "distance": 2479.4189379867767,
+        "profile_match_score": null,
+        "profile_match_type": null,
+        "animal": {
+            "id": 50097164,
+            "type": {
+                "id": 2,
+                "name": "Dog"
+            },
+            "species": {
+                "id": 11,
+                "name": "Dog"
+            },
+            "primary_breed": {
+                "id": 210,
+                "name": "Border Collie",
+                "slug": "border-collie"
+            },
+            "secondary_breed": null,
+            "is_mixed_breed": true,
+            "is_unknown_breed": false,
+            "primary_color": null,
+            "secondary_color": null,
+            "tertiary_color": null,
+            "age": "Adult",
+            "sex": "Male",
+            "size": "Medium",
+            "coat_length": null,
+            "name": "Sheriff",
+            "description": "Can we play?\nI am a happy boyand I love to play with my friends, whether they are human or dogs!I sometimes am a little nervousmeeting new people, and I am also nervouswhen new people come to the door. I will get more training to help me with this! When I am home, I love getting pet and will snuggle up close to get belly rubs. Smelling things is my favorite hobby, whether it be around the house or on walks. I love to be outside exploring the sights and the sounds of the yard. I get very excited when I see other dogs while on walks and I want to go up to them and say hello. If I get too overwhelmed, however, I can be pretty noisy. I'm an adventurer at heart, so if I am left alone outside too long, I may get bored and decide to go explore the neighborhood, despite the fence.I'd dobest in a home withchildren 13 years and older. Another dog is a must!\n\nGeneral Socialization Notes:\n\n I'm a sweet boy and a little shy meeting new people. I do warm up quickly. I like my crate, especially if there is food inside. I love to play with other dogs. I am a smart boy and will love to continue training.\n\nDoes Sheriff like other pets?\n\nI absolutely love to play with other dogs, it's one of my favorite things! We can get loud and rambunctious but it's all in good fun. I gotreally excited when I saw a cat on one of my walks and would need to figure out how I feel about them before committing to living with one.\n\nDoes Sheriff like children?\n\nI haven't met any children while I've been with my fosters, but I like to jump, chase, and gently nip when I'm excited, so I'd probably do best around children over 13.\n\nFavorite Toys:\n\nI like Kongs stuffed with my favorite foods, and NylaBones. Tennis balls are also fun to chase but I'd prefer to be playing with another dog or human instead of an inanimate object!\n\nIdeal Forever Home:\n\nMy ideal foreverhome would have another dog who likes to play, and a yard with at least a six foot fence! I am learning how to work for treats, and I would like to continue my undergrad in good boy-ism! A home without cats or small children would be ideal, along with a family who has a lot of love (and belly rubs) to give!",
+            "organization_animal_identifier": "5808",
+            "primary_photo_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/50097164\/1\/?bust=1659881422",
+            "primary_photo_cropped_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/50097164\/1\/?bust=1659881422",
+            "photo_urls": [
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/50097164\/1\/?bust=1659881422",
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/50097164\/2\/?bust=1659881422",
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/50097164\/3\/?bust=1659881425"
+            ],
+            "videos": [],
+            "adoption_status": "adoptable",
+            "attributes": [
+                "House trained",
+                "Spay\/Neuter",
+                "Shots Current"
+            ],
+            "special_needs_notes": null,
+            "home_environment_attributes": {
+                "good_with_children": false,
+                "good_with_dogs": true,
+                "good_with_cats": true,
+                "good_with_other_animals": null,
+                "other_animals": null
+            },
+            "tags": [],
+            "public_adoption_fee": null,
+            "adoption_fee_waived": false,
+            "display_adoption_fee": false,
+            "published_at": "2020-12-20T15:00:44+0000",
+            "adopted_at": null,
+            "url": "https:\/\/www.petfinder.com\/dog\/sheriff-50097164\/co\/colorado-springs\/all-breed-rescue-and-training-co18\/"
+        },
+        "contact": {
+            "email": "info.abrt@gmail.com",
+            "phone": "(719) 264-6460"
+        },
+        "location": {
+            "address": {
+                "address1": "410 1\/2 E. Fillmore St",
+                "address2": null,
+                "city": "Colorado Springs",
+                "state": "CO",
+                "postal_code": "80907",
+                "country": "US"
+            },
+            "geo": {
+                "latitude": 38.8748785,
+                "longitude": -104.8143248
+            },
+            "name": null,
+            "open_to_public": true,
+            "by_appointment_only": false,
+            "hours": {
+                "sunday": null,
+                "monday": null,
+                "tuesday": null,
+                "wednesday": null,
+                "thursday": null,
+                "friday": null,
+                "saturday": null
+            },
+            "is_map_hidden": false,
+            "is_transport": false
+        },
+        "organization": {
+            "name": "All Breed Rescue & Training",
+            "display_id": "CO18"
+        },
+        "id": "00d92e5645119392f99a9d44f02a207c"
+    },
+    "031ae492e0a58a3abdfaccc5d0d63500": {
+        "distance": 2479.1263068740946,
+        "profile_match_score": null,
+        "profile_match_type": null,
+        "animal": {
+            "id": 56408239,
+            "type": {
+                "id": 2,
+                "name": "Dog"
+            },
+            "species": {
+                "id": 11,
+                "name": "Dog"
+            },
+            "primary_breed": {
+                "id": 388,
+                "name": "Terrier",
+                "slug": "airedale-terrier"
+            },
+            "secondary_breed": null,
+            "is_mixed_breed": true,
+            "is_unknown_breed": false,
+            "primary_color": null,
+            "secondary_color": null,
+            "tertiary_color": null,
+            "age": "Baby",
+            "sex": "Female",
+            "size": "Medium",
+            "coat_length": null,
+            "name": "Libi",
+            "description": "Libi is very playful and needs a furry friend that will reciprocate her youthful energy. We are located in the Colorado Springs area & we require a home visit. Please apply at www.whimperstowags.org under the Forms tab.",
+            "organization_animal_identifier": "18293947-22-0601-01",
+            "primary_photo_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56408239\/1\/?bust=1659847820",
+            "primary_photo_cropped_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56408239\/1\/?bust=1659847820",
+            "photo_urls": [
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56408239\/1\/?bust=1659847820",
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56408239\/2\/?bust=1659847785"
+            ],
+            "videos": [],
+            "adoption_status": "adoptable",
+            "attributes": [
+                "House trained",
+                "Spay\/Neuter"
+            ],
+            "special_needs_notes": null,
+            "home_environment_attributes": {
+                "good_with_children": null,
+                "good_with_dogs": true,
+                "good_with_cats": null,
+                "good_with_other_animals": null,
+                "other_animals": null
+            },
+            "tags": [],
+            "public_adoption_fee": null,
+            "adoption_fee_waived": false,
+            "display_adoption_fee": false,
+            "published_at": "2022-07-21T21:04:55+0000",
+            "adopted_at": null,
+            "url": "https:\/\/www.petfinder.com\/dog\/libi-56408239\/co\/colorado-springs\/whimpers-to-wags-rescue-inc-co523\/"
+        },
+        "contact": {
+            "email": "whimperstowags@gmail.com",
+            "phone": null
+        },
+        "location": {
+            "address": {
+                "address1": null,
+                "address2": null,
+                "city": "Colorado Springs",
+                "state": "CO",
+                "postal_code": "80907",
+                "country": "US"
+            },
+            "geo": {
+                "latitude": 38.8778926,
+                "longitude": -104.8104424
+            },
+            "name": null,
+            "open_to_public": false,
+            "by_appointment_only": false,
+            "hours": {
+                "sunday": null,
+                "monday": null,
+                "tuesday": null,
+                "wednesday": null,
+                "thursday": null,
+                "friday": null,
+                "saturday": null
+            },
+            "is_map_hidden": false,
+            "is_transport": false
+        },
+        "organization": {
+            "name": "Whimpers to Wags Rescue, Inc.",
+            "display_id": "CO523"
+        },
+        "id": "031ae492e0a58a3abdfaccc5d0d63500"
+    },
+    "16667b8444063746e027490748b72fc9": {
+        "distance": 2479.2252251767454,
+        "profile_match_score": null,
+        "profile_match_type": null,
+        "animal": {
+            "id": 56171487,
+            "type": {
+                "id": 2,
+                "name": "Dog"
+            },
+            "species": {
+                "id": 11,
+                "name": "Dog"
+            },
+            "primary_breed": {
+                "id": 210,
+                "name": "Border Collie",
+                "slug": "border-collie"
+            },
+            "secondary_breed": null,
+            "is_mixed_breed": true,
+            "is_unknown_breed": false,
+            "primary_color": "Black",
+            "secondary_color": "White \/ Cream",
+            "tertiary_color": null,
+            "age": "Young",
+            "sex": "Male",
+            "size": "Large",
+            "coat_length": "Medium",
+            "name": "Shadow ",
+            "description": "Hello my name is Shadow, I am about a year old and a border collie mix. I Love meeting new people and giving them hugs. I am a very fluffy boy that would like all the attention. I will need to met the other dog just to be sure they can handle my cuteness. I love playing with dogs and meting them!\n\nI am at Camp Bow Wow East which is located at 1075 Ford Street Unit 120 Colorado Springs, CO 80915. Contact them if you would like to come meet me, their number is (719) 573-9247. ",
+            "organization_animal_identifier": null,
+            "primary_photo_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56171487\/3\/?bust=1657661509",
+            "primary_photo_cropped_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56171487\/3\/?bust=1657661509",
+            "photo_urls": [
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56171487\/3\/?bust=1657661509",
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56171487\/1\/?bust=1657213458",
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56171487\/2\/?bust=1657213459",
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56171487\/4\/?bust=1657661509",
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56171487\/5\/?bust=1657661510",
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56171487\/6\/?bust=1657661510"
+            ],
+            "videos": [],
+            "adoption_status": "adoptable",
+            "attributes": [
+                "Spay\/Neuter",
+                "Shots Current"
+            ],
+            "special_needs_notes": null,
+            "home_environment_attributes": {
+                "good_with_children": true,
+                "good_with_dogs": true,
+                "good_with_cats": null,
+                "good_with_other_animals": null,
+                "other_animals": null
+            },
+            "tags": [
+                "Friendly",
+                "Affectionate",
+                "Playful",
+                "Funny"
+            ],
+            "public_adoption_fee": 400,
+            "adoption_fee_waived": false,
+            "display_adoption_fee": true,
+            "published_at": "2022-07-12T21:31:52+0000",
+            "adopted_at": null,
+            "url": "https:\/\/www.petfinder.com\/dog\/shadow-56171487\/co\/colorado-springs\/no-hound-unhomed-co436\/"
+        },
+        "contact": {
+            "email": "nohoundunhomed@gmail.com",
+            "phone": "(719) 660-5198"
+        },
+        "location": {
+            "address": {
+                "address1": "4295 Northpark Dr",
+                "address2": null,
+                "city": "Colorado Springs",
+                "state": "CO",
+                "postal_code": "80907",
+                "country": "US"
+            },
+            "geo": {
+                "latitude": 38.8936544,
+                "longitude": -104.8284528
+            },
+            "name": null,
+            "open_to_public": true,
+            "by_appointment_only": false,
+            "hours": {
+                "sunday": "closed",
+                "monday": "9-5",
+                "tuesday": "9-5",
+                "wednesday": "9-5",
+                "thursday": "9-5",
+                "friday": "9-5",
+                "saturday": "9-5"
+            },
+            "is_map_hidden": false,
+            "is_transport": false
+        },
+        "organization": {
+            "name": "No Hound Unhomed",
+            "display_id": "CO436"
+        },
+        "id": "16667b8444063746e027490748b72fc9"
+    },
+    "20fe28008e22ae94d5ad50c11f8ee4c4": {
+        "distance": 2479.4189379867767,
+        "profile_match_score": null,
+        "profile_match_type": null,
+        "animal": {
+            "id": 52606781,
+            "type": {
+                "id": 2,
+                "name": "Dog"
+            },
+            "species": {
+                "id": 11,
+                "name": "Dog"
+            },
+            "primary_breed": {
+                "id": 344,
+                "name": "Pit Bull Terrier",
+                "slug": "pit-bull"
+            },
+            "secondary_breed": null,
+            "is_mixed_breed": true,
+            "is_unknown_breed": false,
+            "primary_color": null,
+            "secondary_color": null,
+            "tertiary_color": null,
+            "age": "Adult",
+            "sex": "Male",
+            "size": "Large",
+            "coat_length": null,
+            "name": "Jasper",
+            "description": "I can't wait to meet my new best friend!\nI'm a sensitive, gentle soul who has been through difficult times. It takes me a long while to trust. But once I feel comfortable, I am an easygoing, playful, goofy guy! My favorite thing to do is cuddle on the couch or in bed with you and sprawl out on my back. In the morning I am so excited for the day, I might even give you kisses! I'd do fine with other dogs and may do best in a home with older children, 13 years old and older.\n\nGeneral Socialization Notes:\n\n Although I like to share space with people, I'm not used to this 'petting' thing. It can be startling when someone reaches out toward me. I also have had really scary experiences with the leash, and will need a lot of time to work on this. I walk very nicely and enjoy myself once I'm on the leash, though! I will need time to warm up to new people.\n\nDoes Jasper like other pets?\n\nI love other dogs and communicate with them very well. If they are too pushy with me, it makes me afraid, so I would love another nice friendly dog to play with. I'm very respectful of cats.\n\nDoes Jasper like children?\n\n I haven't had a chance to meet children yet at my foster home. Due to my shy nature, I may do best with older children.\n\nFavorite Toys:\n\nI don't know how to play with toys yet. But I love a good Kong with peanut butter or plain yogurt - I will do anything for yogurt!\n\nIdeal Forever Home:\n\n I will need an experienced best friend to bond with who is patient, quiet and kind. I will need to continue having positive experiences with new people and places throughout my life to stay happy and socialized. I'd do great in a home with another, social dog and in a home with older children or no children.",
+            "organization_animal_identifier": "5858",
+            "primary_photo_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/52606781\/1\/?bust=1659881500",
+            "primary_photo_cropped_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/52606781\/1\/?bust=1659881500",
+            "photo_urls": [
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/52606781\/1\/?bust=1659881500",
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/52606781\/2\/?bust=1659881436",
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/52606781\/3\/?bust=1659881434"
+            ],
+            "videos": [],
+            "adoption_status": "adoptable",
+            "attributes": [
+                "House trained",
+                "Spay\/Neuter",
+                "Shots Current"
+            ],
+            "special_needs_notes": null,
+            "home_environment_attributes": {
+                "good_with_children": false,
+                "good_with_dogs": true,
+                "good_with_cats": true,
+                "good_with_other_animals": null,
+                "other_animals": null
+            },
+            "tags": [],
+            "public_adoption_fee": null,
+            "adoption_fee_waived": false,
+            "display_adoption_fee": false,
+            "published_at": "2021-08-08T14:01:45+0000",
+            "adopted_at": null,
+            "url": "https:\/\/www.petfinder.com\/dog\/jasper-52606781\/co\/colorado-springs\/all-breed-rescue-and-training-co18\/"
+        },
+        "contact": {
+            "email": "info.abrt@gmail.com",
+            "phone": "(719) 264-6460"
+        },
+        "location": {
+            "address": {
+                "address1": "410 1\/2 E. Fillmore St",
+                "address2": null,
+                "city": "Colorado Springs",
+                "state": "CO",
+                "postal_code": "80907",
+                "country": "US"
+            },
+            "geo": {
+                "latitude": 38.8748785,
+                "longitude": -104.8143248
+            },
+            "name": null,
+            "open_to_public": true,
+            "by_appointment_only": false,
+            "hours": {
+                "sunday": null,
+                "monday": null,
+                "tuesday": null,
+                "wednesday": null,
+                "thursday": null,
+                "friday": null,
+                "saturday": null
+            },
+            "is_map_hidden": false,
+            "is_transport": false
+        },
+        "organization": {
+            "name": "All Breed Rescue & Training",
+            "display_id": "CO18"
+        },
+        "id": "20fe28008e22ae94d5ad50c11f8ee4c4"
+    },
+    "2ff6a8d28317daff0edac795841f544e": {
+        "distance": 2479.2252251767454,
+        "profile_match_score": null,
+        "profile_match_type": null,
+        "animal": {
+            "id": 56377287,
+            "type": {
+                "id": 2,
+                "name": "Dog"
+            },
+            "species": {
+                "id": 11,
+                "name": "Dog"
+            },
+            "primary_breed": {
+                "id": 290,
+                "name": "Husky",
+                "slug": "siberian-husky"
+            },
+            "secondary_breed": {
+                "id": 187,
+                "name": "Australian Shepherd",
+                "slug": "australian-shepherd"
+            },
+            "is_mixed_breed": true,
+            "is_unknown_breed": false,
+            "primary_color": "Black",
+            "secondary_color": "Yellow \/ Tan \/ Blond \/ Fawn",
+            "tertiary_color": null,
+            "age": "Young",
+            "sex": "Female",
+            "size": "Large",
+            "coat_length": "Medium",
+            "name": "Bailey ",
+            "description": "Hello my name is Bailey. I am a pretty energetic girl that walks well on a leash and give you cuddles. I am great with other dogs and love meeting them. The rescue tried getting my picture but I just wanted attention from them because I really want attention. I love meeting people and getting pets from them. The rescue will do their best to get better pictures of me. \n",
+            "organization_animal_identifier": null,
+            "primary_photo_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56377287\/1\/?bust=1658244038",
+            "primary_photo_cropped_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56377287\/1\/?bust=1658244038",
+            "photo_urls": [
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56377287\/1\/?bust=1658244038"
+            ],
+            "videos": [],
+            "adoption_status": "adoptable",
+            "attributes": [
+                "Spay\/Neuter",
+                "Shots Current"
+            ],
+            "special_needs_notes": null,
+            "home_environment_attributes": {
+                "good_with_children": true,
+                "good_with_dogs": true,
+                "good_with_cats": null,
+                "good_with_other_animals": null,
+                "other_animals": null
+            },
+            "tags": [
+                "Affectionate",
+                "Friendly",
+                "Playful",
+                "Funny"
+            ],
+            "public_adoption_fee": 400,
+            "adoption_fee_waived": false,
+            "display_adoption_fee": true,
+            "published_at": "2022-07-21T15:23:02+0000",
+            "adopted_at": null,
+            "url": "https:\/\/www.petfinder.com\/dog\/bailey-56377287\/co\/colorado-springs\/no-hound-unhomed-co436\/"
+        },
+        "contact": {
+            "email": "nohoundunhomed@gmail.com",
+            "phone": "(719) 660-5198"
+        },
+        "location": {
+            "address": {
+                "address1": "4295 Northpark Dr",
+                "address2": null,
+                "city": "Colorado Springs",
+                "state": "CO",
+                "postal_code": "80907",
+                "country": "US"
+            },
+            "geo": {
+                "latitude": 38.8936544,
+                "longitude": -104.8284528
+            },
+            "name": null,
+            "open_to_public": true,
+            "by_appointment_only": false,
+            "hours": {
+                "sunday": "closed",
+                "monday": "9-5",
+                "tuesday": "9-5",
+                "wednesday": "9-5",
+                "thursday": "9-5",
+                "friday": "9-5",
+                "saturday": "9-5"
+            },
+            "is_map_hidden": false,
+            "is_transport": false
+        },
+        "organization": {
+            "name": "No Hound Unhomed",
+            "display_id": "CO436"
+        },
+        "id": "2ff6a8d28317daff0edac795841f544e"
+    },
+    "318ee4081e474986dc5725f66b030ba7": {
+        "distance": 2479.4189379867767,
+        "profile_match_score": null,
+        "profile_match_type": null,
+        "animal": {
+            "id": 56177773,
+            "type": {
+                "id": 2,
+                "name": "Dog"
+            },
+            "species": {
+                "id": 11,
+                "name": "Dog"
+            },
+            "primary_breed": {
+                "id": 360,
+                "name": "Rottweiler",
+                "slug": "rottweiler"
+            },
+            "secondary_breed": null,
+            "is_mixed_breed": true,
+            "is_unknown_breed": false,
+            "primary_color": null,
+            "secondary_color": null,
+            "tertiary_color": null,
+            "age": "Adult",
+            "sex": "Male",
+            "size": "Large",
+            "coat_length": null,
+            "name": "Dude",
+            "description": "I love belly rubs!!\nI'm a super laid back guy! I am very sweet too and love belly rubs. I'm a bit of a velcro dog because Ilike to be with my people and know what they are doing all the time. I am a little anxious being alone and would prefer a home where I amnot left by myself for long. I'm also a great listener and know lots of cues.I love every dog I meet. I do, however, need to be fed separately. Iguard my food so I'd need to work on that. I've lived with older children and did well with them. I'd do best in a home without cats.\n\nGeneral Socialization Notes:\n\n I'm a friendly, social guy! I do well with other dogs. I do resource guard a little bit, so I'd need to work on that. I'm very smart and love to train. I'm alsocrate trained.\n\nDoes Dude like other pets?\n\n I love other dogs! I'd enjoy a home with another dog.I'd do best in a home without cats.\n\nDoes Dude like children?\n\nI'd do best in a home with older children, 12 years old and older.\n\nFavorite Toys:\n\nI love playing ball! I also love treats of all kinds.\n\nIdeal Forever Home:\n\n I'd love an active family. I'd enjoy a backyard to play in. I'd do fine with other dogs, but no cats please. I also could live with older children. I'm a happy boy and would love a family that loves to spend time with me and go on adventures!",
+            "organization_animal_identifier": "5883",
+            "primary_photo_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56177773\/1\/?bust=1660486248",
+            "primary_photo_cropped_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56177773\/1\/?bust=1660486248",
+            "photo_urls": [
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56177773\/1\/?bust=1660486248",
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56177773\/2\/?bust=1660486247",
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56177773\/3\/?bust=1660486248"
+            ],
+            "videos": [],
+            "adoption_status": "adoptable",
+            "attributes": [
+                "House trained",
+                "Spay\/Neuter",
+                "Shots Current"
+            ],
+            "special_needs_notes": null,
+            "home_environment_attributes": {
+                "good_with_children": true,
+                "good_with_dogs": true,
+                "good_with_cats": false,
+                "good_with_other_animals": null,
+                "other_animals": null
+            },
+            "tags": [],
+            "public_adoption_fee": null,
+            "adoption_fee_waived": false,
+            "display_adoption_fee": false,
+            "published_at": "2022-07-03T14:00:58+0000",
+            "adopted_at": null,
+            "url": "https:\/\/www.petfinder.com\/dog\/dude-56177773\/co\/colorado-springs\/all-breed-rescue-and-training-co18\/"
+        },
+        "contact": {
+            "email": "info.abrt@gmail.com",
+            "phone": "(719) 264-6460"
+        },
+        "location": {
+            "address": {
+                "address1": "410 1\/2 E. Fillmore St",
+                "address2": null,
+                "city": "Colorado Springs",
+                "state": "CO",
+                "postal_code": "80907",
+                "country": "US"
+            },
+            "geo": {
+                "latitude": 38.8748785,
+                "longitude": -104.8143248
+            },
+            "name": null,
+            "open_to_public": true,
+            "by_appointment_only": false,
+            "hours": {
+                "sunday": null,
+                "monday": null,
+                "tuesday": null,
+                "wednesday": null,
+                "thursday": null,
+                "friday": null,
+                "saturday": null
+            },
+            "is_map_hidden": false,
+            "is_transport": false
+        },
+        "organization": {
+            "name": "All Breed Rescue & Training",
+            "display_id": "CO18"
+        },
+        "id": "318ee4081e474986dc5725f66b030ba7"
+    },
+    "354cab32c03965603e9836ca18f0db84": {
+        "distance": 2479.1263068740946,
+        "profile_match_score": null,
+        "profile_match_type": null,
+        "animal": {
+            "id": 55150497,
+            "type": {
+                "id": 2,
+                "name": "Dog"
+            },
+            "species": {
+                "id": 11,
+                "name": "Dog"
+            },
+            "primary_breed": {
+                "id": 388,
+                "name": "Terrier",
+                "slug": "airedale-terrier"
+            },
+            "secondary_breed": null,
+            "is_mixed_breed": true,
+            "is_unknown_breed": false,
+            "primary_color": null,
+            "secondary_color": null,
+            "tertiary_color": null,
+            "age": "Young",
+            "sex": "Male",
+            "size": "Medium",
+            "coat_length": null,
+            "name": "Spanky",
+            "description": "Very timid, but a really sweet boy! He needs someone home a lot. Please no small children. Will need a fenced yard and a furry friend. Spanky is a lady's man, he prefers women. We are in the Colorado Springs area. All adoptions require a home visit. Adoption fee is $300.00 Please apply at www.whimperstowags.org under forms. 8\/11\/22 11:52 AM",
+            "organization_animal_identifier": "17011769-21-0701-02",
+            "primary_photo_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/55150497\/1\/?bust=1659848386",
+            "primary_photo_cropped_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/55150497\/1\/?bust=1659848386",
+            "photo_urls": [
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/55150497\/1\/?bust=1659848386"
+            ],
+            "videos": [],
+            "adoption_status": "adoptable",
+            "attributes": [
+                "House trained",
+                "Spay\/Neuter"
+            ],
+            "special_needs_notes": null,
+            "home_environment_attributes": {
+                "good_with_children": null,
+                "good_with_dogs": true,
+                "good_with_cats": null,
+                "good_with_other_animals": null,
+                "other_animals": null
+            },
+            "tags": [],
+            "public_adoption_fee": null,
+            "adoption_fee_waived": false,
+            "display_adoption_fee": false,
+            "published_at": "2022-03-30T02:19:53+0000",
+            "adopted_at": null,
+            "url": "https:\/\/www.petfinder.com\/dog\/spanky-55150497\/co\/colorado-springs\/whimpers-to-wags-rescue-inc-co523\/"
+        },
+        "contact": {
+            "email": "whimperstowags@gmail.com",
+            "phone": null
+        },
+        "location": {
+            "address": {
+                "address1": null,
+                "address2": null,
+                "city": "Colorado Springs",
+                "state": "CO",
+                "postal_code": "80907",
+                "country": "US"
+            },
+            "geo": {
+                "latitude": 38.8778926,
+                "longitude": -104.8104424
+            },
+            "name": null,
+            "open_to_public": false,
+            "by_appointment_only": false,
+            "hours": {
+                "sunday": null,
+                "monday": null,
+                "tuesday": null,
+                "wednesday": null,
+                "thursday": null,
+                "friday": null,
+                "saturday": null
+            },
+            "is_map_hidden": false,
+            "is_transport": false
+        },
+        "organization": {
+            "name": "Whimpers to Wags Rescue, Inc.",
+            "display_id": "CO523"
+        },
+        "id": "354cab32c03965603e9836ca18f0db84"
+    },
+    "3e87e7f2a8097101f02acb44866bbf22": {
+        "distance": 2479.4189379867767,
+        "profile_match_score": null,
+        "profile_match_type": null,
+        "animal": {
+            "id": 50866752,
+            "type": {
+                "id": 2,
+                "name": "Dog"
+            },
+            "species": {
+                "id": 11,
+                "name": "Dog"
+            },
+            "primary_breed": {
+                "id": 185,
+                "name": "Australian Cattle Dog \/ Blue Heeler",
+                "slug": "australian-cattle-dog"
+            },
+            "secondary_breed": null,
+            "is_mixed_breed": true,
+            "is_unknown_breed": false,
+            "primary_color": null,
+            "secondary_color": null,
+            "tertiary_color": null,
+            "age": "Adult",
+            "sex": "Male",
+            "size": "Medium",
+            "coat_length": null,
+            "name": "Stark",
+            "description": "Can we do everything together?\nI am looking for my forever best friend! My personality is the epitome of what it means to be a Heeler. I want to be around my person and alwaystouching them when we are together. I love to play tug, chew bones, and get exercise. If I can cuddle while doing so, even better! Most importantly, I LOVE CARS! I always want to hop in the car or truck.I am afraid of new experiences, but I am brave. As long as I can smell around, I will warm up to the new person, place, or thing. Although I am deaf, I constantly check in and read the social cues given by people and other animals, aswell. I'd do best in a home with children 13 years and older. Please no apartments for me, I can bark a bit and we thinkI may get in trouble in an apartment!\n\nGeneral Socialization Notes:\n\n I have lived with cats and older children. I do fine with some dogs, but will need a slow introduction and very specific boundaries in the house as I tend to guard resources. While outside on a leash, I have only shown positive interest in other dogs. When I am uncomfortable with another dog, I will warn them with a low growl.Typically, I warm up quickly after my warning. I have not had any accidents inside.I am fully potty trained. I love my crate!I am learning to walk on a leash, but I pull and try to play tug with it. I am a bit mouthy and need help to curb that behavior.\n\nDoes Stark like other pets?\n\n I have lived with cats prior to my foster and showed little interest. I show a lot of interest in the cats I live with currentlybecause they react to me.I do betterwith female dogsthat are my size.I have shown extreme resource guarding with the large dogs whom I live with currently. I am working on that. Outside of the house, I only show positive interest in all dogs.\n\nDoes Stark like children?\n\n I have only lived with teenagers prior to my foster home. Outside of the home I have not enjoyed watching kids run around. They make me nervous. I'd do best in a home with children 13 years and older.\n\nFavorite Toys:\n\n I love rope toys to play tug. I also enjoybones, kongs, and other hard chew toys. I would probably enjoy soft toystoo, but my foster siblings rip soft toys to pieces before I have a chance to play with them.\n\nIdeal Forever Home:\n\n A home with confident, calm, yet active peoplewould be wonderful!Please no apartments for me!I am a Heeler and I have the energy to back it up! I want to use my intelligence and need exercise daily.I would love it if you allow me to go on car rides with you daily because I love the car.I need someone with a lot of patience and someone willing totrain with me especially since I'm deaf! I would love a place that likes cuddles and constant interaction. I bond with my person& quickly and would love to give you all my loyalty and companionship!",
+            "organization_animal_identifier": "5812",
+            "primary_photo_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/50866752\/1\/?bust=1659881426",
+            "primary_photo_cropped_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/50866752\/1\/?bust=1659881426",
+            "photo_urls": [
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/50866752\/1\/?bust=1659881426",
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/50866752\/2\/?bust=1659881426",
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/50866752\/3\/?bust=1659881428"
+            ],
+            "videos": [],
+            "adoption_status": "adoptable",
+            "attributes": [
+                "House trained",
+                "Spay\/Neuter",
+                "Shots Current"
+            ],
+            "special_needs_notes": null,
+            "home_environment_attributes": {
+                "good_with_children": false,
+                "good_with_dogs": true,
+                "good_with_cats": true,
+                "good_with_other_animals": null,
+                "other_animals": null
+            },
+            "tags": [],
+            "public_adoption_fee": null,
+            "adoption_fee_waived": false,
+            "display_adoption_fee": false,
+            "published_at": "2021-03-14T14:01:12+0000",
+            "adopted_at": null,
+            "url": "https:\/\/www.petfinder.com\/dog\/stark-50866752\/co\/colorado-springs\/all-breed-rescue-and-training-co18\/"
+        },
+        "contact": {
+            "email": "info.abrt@gmail.com",
+            "phone": "(719) 264-6460"
+        },
+        "location": {
+            "address": {
+                "address1": "410 1\/2 E. Fillmore St",
+                "address2": null,
+                "city": "Colorado Springs",
+                "state": "CO",
+                "postal_code": "80907",
+                "country": "US"
+            },
+            "geo": {
+                "latitude": 38.8748785,
+                "longitude": -104.8143248
+            },
+            "name": null,
+            "open_to_public": true,
+            "by_appointment_only": false,
+            "hours": {
+                "sunday": null,
+                "monday": null,
+                "tuesday": null,
+                "wednesday": null,
+                "thursday": null,
+                "friday": null,
+                "saturday": null
+            },
+            "is_map_hidden": false,
+            "is_transport": false
+        },
+        "organization": {
+            "name": "All Breed Rescue & Training",
+            "display_id": "CO18"
+        },
+        "id": "3e87e7f2a8097101f02acb44866bbf22"
+    },
+    "44da4e510b461361c6078a5af975cdc2": {
+        "distance": 2479.4189379867767,
+        "profile_match_score": null,
+        "profile_match_type": null,
+        "animal": {
+            "id": 54775130,
+            "type": {
+                "id": 2,
+                "name": "Dog"
+            },
+            "species": {
+                "id": 11,
+                "name": "Dog"
+            },
+            "primary_breed": {
+                "id": 210,
+                "name": "Border Collie",
+                "slug": "border-collie"
+            },
+            "secondary_breed": null,
+            "is_mixed_breed": true,
+            "is_unknown_breed": false,
+            "primary_color": null,
+            "secondary_color": null,
+            "tertiary_color": null,
+            "age": "Adult",
+            "sex": "Female",
+            "size": "Medium",
+            "coat_length": null,
+            "name": "Cool Whip",
+            "description": "Do you want to snuggle and cuddle? I'm your girl!\nI am a very affectionate girl! My favorite thing to do is snuggle on the couch with you! After a nice snuggle, I'd love a longwalk through the neighborhood. I cannot hear, but I am very focused on my person to look for my cues. I know hand signals for all thecues. I do get a little anxious when left alone, so I will need to continue to work on this. I am so smart andvery treat motivated! I may dobest as an only dog or in a home with asocialdog who matches my energy and canhelp me with my manners. No small children or cats please. I'd do best in a home with a backyard. Apartment living would not work well for me.\n\nGeneral Socialization Notes:\n\n I am a very lovinggirl! I enjoymeeting new people, but I amworking on my manners. I am called a 'velcro dog' because I love to be with my human(s.) I love to meet new dogs, but I need to learn my manners with them, as well. I am a little too much for most dogs.\n\nDoes Cool Whip like other pets?\n\n I want to meet every dog I see, but I need to learn manners. I can be pushy and have trouble reading other dogs.I may do best as an only dog or with a dog that can help me with my manners. No cats please.\n\nDoes Cool Whip like children?\n\n I'd do best in a home with older children, 13 years old and up. I am very sensitive to sudden movements, so small children may not be best for me.\n\nFavorite Toys:\n\nI love to catch balls and frisbees and I love to play tug!\n\nIdeal Forever Home:\n\n I'd need a home where I am not left alone for long periods of time, maybe withsomeone who works from home. I would love a very active family because I love exercise and going out and about in the world. I would also love to learn dog sports, like agility, frisbee or maybenose work. I would need tocontinue to train. I'd do best in a home without cats and no small children.I may also do best in a home as an only dog or in a home with a dog that can help me with my manners.",
+            "organization_animal_identifier": "5872",
+            "primary_photo_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/54775130\/1\/?bust=1660486301",
+            "primary_photo_cropped_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/54775130\/1\/?bust=1660486301",
+            "photo_urls": [
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/54775130\/1\/?bust=1660486301",
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/54775130\/2\/?bust=1660486241",
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/54775130\/3\/?bust=1660486238"
+            ],
+            "videos": [],
+            "adoption_status": "adoptable",
+            "attributes": [
+                "House trained",
+                "Spay\/Neuter",
+                "Shots Current"
+            ],
+            "special_needs_notes": null,
+            "home_environment_attributes": {
+                "good_with_children": true,
+                "good_with_dogs": true,
+                "good_with_cats": false,
+                "good_with_other_animals": null,
+                "other_animals": null
+            },
+            "tags": [],
+            "public_adoption_fee": null,
+            "adoption_fee_waived": false,
+            "display_adoption_fee": false,
+            "published_at": "2022-02-27T15:00:42+0000",
+            "adopted_at": null,
+            "url": "https:\/\/www.petfinder.com\/dog\/cool-whip-54775130\/co\/colorado-springs\/all-breed-rescue-and-training-co18\/"
+        },
+        "contact": {
+            "email": "info.abrt@gmail.com",
+            "phone": "(719) 264-6460"
+        },
+        "location": {
+            "address": {
+                "address1": "410 1\/2 E. Fillmore St",
+                "address2": null,
+                "city": "Colorado Springs",
+                "state": "CO",
+                "postal_code": "80907",
+                "country": "US"
+            },
+            "geo": {
+                "latitude": 38.8748785,
+                "longitude": -104.8143248
+            },
+            "name": null,
+            "open_to_public": true,
+            "by_appointment_only": false,
+            "hours": {
+                "sunday": null,
+                "monday": null,
+                "tuesday": null,
+                "wednesday": null,
+                "thursday": null,
+                "friday": null,
+                "saturday": null
+            },
+            "is_map_hidden": false,
+            "is_transport": false
+        },
+        "organization": {
+            "name": "All Breed Rescue & Training",
+            "display_id": "CO18"
+        },
+        "id": "44da4e510b461361c6078a5af975cdc2"
+    },
+    "4561c24b2ae7bb2ab615f0bff3e3d744": {
+        "distance": 2479.1263068740946,
+        "profile_match_score": null,
+        "profile_match_type": null,
+        "animal": {
+            "id": 56408093,
+            "type": {
+                "id": 2,
+                "name": "Dog"
+            },
+            "species": {
+                "id": 11,
+                "name": "Dog"
+            },
+            "primary_breed": {
+                "id": 231,
+                "name": "Chihuahua",
+                "slug": "chihuahua"
+            },
+            "secondary_breed": null,
+            "is_mixed_breed": false,
+            "is_unknown_breed": false,
+            "primary_color": null,
+            "secondary_color": null,
+            "tertiary_color": null,
+            "age": "Adult",
+            "sex": "Female",
+            "size": "Small",
+            "coat_length": null,
+            "name": "Elsa",
+            "description": "Elsa just wants to be with her people and loves to lay on your lap! We are located in the Colorado Springs area and we require a home visit. Please apply at www.whimperstowags.org under the Forms tab.",
+            "organization_animal_identifier": "18293940-22-0506-02",
+            "primary_photo_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56408093\/1\/?bust=1659847722",
+            "primary_photo_cropped_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56408093\/1\/?bust=1659847722",
+            "photo_urls": [
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56408093\/1\/?bust=1659847722",
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56408093\/2\/?bust=1659847725"
+            ],
+            "videos": [],
+            "adoption_status": "adoptable",
+            "attributes": [
+                "House trained",
+                "Spay\/Neuter"
+            ],
+            "special_needs_notes": null,
+            "home_environment_attributes": {
+                "good_with_children": null,
+                "good_with_dogs": true,
+                "good_with_cats": null,
+                "good_with_other_animals": null,
+                "other_animals": null
+            },
+            "tags": [],
+            "public_adoption_fee": null,
+            "adoption_fee_waived": false,
+            "display_adoption_fee": false,
+            "published_at": "2022-07-21T20:49:26+0000",
+            "adopted_at": null,
+            "url": "https:\/\/www.petfinder.com\/dog\/elsa-56408093\/co\/colorado-springs\/whimpers-to-wags-rescue-inc-co523\/"
+        },
+        "contact": {
+            "email": "whimperstowags@gmail.com",
+            "phone": null
+        },
+        "location": {
+            "address": {
+                "address1": null,
+                "address2": null,
+                "city": "Colorado Springs",
+                "state": "CO",
+                "postal_code": "80907",
+                "country": "US"
+            },
+            "geo": {
+                "latitude": 38.8778926,
+                "longitude": -104.8104424
+            },
+            "name": null,
+            "open_to_public": false,
+            "by_appointment_only": false,
+            "hours": {
+                "sunday": null,
+                "monday": null,
+                "tuesday": null,
+                "wednesday": null,
+                "thursday": null,
+                "friday": null,
+                "saturday": null
+            },
+            "is_map_hidden": false,
+            "is_transport": false
+        },
+        "organization": {
+            "name": "Whimpers to Wags Rescue, Inc.",
+            "display_id": "CO523"
+        },
+        "id": "4561c24b2ae7bb2ab615f0bff3e3d744"
+    },
+    "4a9f080735542a1d10cc120a28177e48": {
+        "distance": 2474.4863395836082,
+        "profile_match_score": null,
+        "profile_match_type": null,
+        "animal": {
+            "id": 56452332,
+            "type": {
+                "id": 2,
+                "name": "Dog"
+            },
+            "species": {
+                "id": 11,
+                "name": "Dog"
+            },
+            "primary_breed": {
+                "id": 226,
+                "name": "Catahoula Leopard Dog",
+                "slug": "louisiana-catahoula-leopard-dog"
+            },
+            "secondary_breed": null,
+            "is_mixed_breed": true,
+            "is_unknown_breed": false,
+            "primary_color": "Brown \/ Chocolate",
+            "secondary_color": null,
+            "tertiary_color": null,
+            "age": "Adult",
+            "sex": "Male",
+            "size": "Large",
+            "coat_length": null,
+            "name": "Suni",
+            "description": "Suni is a very sweet, playful boy. He is kennel trained and house trained. Suni also knows sit and to wait for his food and to go outside and come inside. He will stare into your soul when he wants something, and his keywords are you wanna (eat, go outside) and he will run to what he wants. Suni's favorite treats include salmon, ice cubes, pumpkin, peanut butter, chicken, bananas, and blueberry greenies. He is trained to only eat out of his bowl and his very food tolerant. Suni loves his people, children, and other dogs too! He does suffer from separation anxiety due to some trauma from his past, and would do well with another companion or human home with him. He does have a protective side and may act weary until he trusts you, this boy packs a big punch for his slinky body. Suni uses his whole body when he plays, and when he jumps on you for love but a simple get down and he will listen and get down. He is very attentive and picks up on everyone's emotions, and only wants you to feel better. Suni truly wants to be loved by his people all the time and would do well with any family that can provide that. Suni is very trainable, and is eager to please. He is also a huge snuggler and enjoys being a bed hog. Will you be Suni's forever family? \n\n \n\nIf you are interested in adopting, please visit our website and complete an adoption application at www.elpasocountycanine.org\/adopt\n\n\\r\\n",
+            "organization_animal_identifier": "ps_52750393",
+            "primary_photo_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56452332\/1\/?bust=1660525494",
+            "primary_photo_cropped_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56452332\/1\/?bust=1660525494",
+            "photo_urls": [
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56452332\/1\/?bust=1660525494",
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56452332\/2\/?bust=1660525303",
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56452332\/3\/?bust=1660525376",
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56452332\/4\/?bust=1660525480"
+            ],
+            "videos": [],
+            "adoption_status": "adoptable",
+            "attributes": [
+                "Spay\/Neuter",
+                "Shots Current"
+            ],
+            "special_needs_notes": null,
+            "home_environment_attributes": {
+                "good_with_children": null,
+                "good_with_dogs": true,
+                "good_with_cats": null,
+                "good_with_other_animals": null,
+                "other_animals": null
+            },
+            "tags": [],
+            "public_adoption_fee": 325,
+            "adoption_fee_waived": false,
+            "display_adoption_fee": true,
+            "published_at": "2022-07-26T02:35:15+0000",
+            "adopted_at": null,
+            "url": "https:\/\/www.petfinder.com\/dog\/suni-56452332\/co\/colorado-springs\/el-paso-county-canine-rescue-co516\/"
+        },
+        "contact": {
+            "email": "info@elpasocountycanine.org",
+            "phone": null
+        },
+        "location": {
+            "address": {
+                "address1": null,
+                "address2": null,
+                "city": "Colorado Springs",
+                "state": "CO",
+                "postal_code": "80920",
+                "country": "US"
+            },
+            "geo": {
+                "latitude": 38.9583005,
+                "longitude": -104.7812654
+            },
+            "name": null,
+            "open_to_public": false,
+            "by_appointment_only": false,
+            "hours": {
+                "sunday": null,
+                "monday": null,
+                "tuesday": null,
+                "wednesday": null,
+                "thursday": null,
+                "friday": null,
+                "saturday": null
+            },
+            "is_map_hidden": true,
+            "is_transport": false
+        },
+        "organization": {
+            "name": "El Paso County Canine Rescue",
+            "display_id": "CO516"
+        },
+        "id": "4a9f080735542a1d10cc120a28177e48"
+    },
+    "4a9f8c1899c8852c3ab58a5c64db58b7": {
+        "distance": 2479.2252251767454,
+        "profile_match_score": null,
+        "profile_match_type": null,
+        "animal": {
+            "id": 54282256,
+            "type": {
+                "id": 2,
+                "name": "Dog"
+            },
+            "species": {
+                "id": 11,
+                "name": "Dog"
+            },
+            "primary_breed": {
+                "id": 290,
+                "name": "Husky",
+                "slug": "siberian-husky"
+            },
+            "secondary_breed": null,
+            "is_mixed_breed": true,
+            "is_unknown_breed": false,
+            "primary_color": "Gray \/ Blue \/ Silver",
+            "secondary_color": "White \/ Cream",
+            "tertiary_color": null,
+            "age": "Adult",
+            "sex": "Male",
+            "size": "Large",
+            "coat_length": "Medium",
+            "name": "Angel ",
+            "description": "Hello my name is Angel, I am a 4 year old husky mix that is from Las Cruz, New Mexico. I was an owner surrender as my family had become homeless. I do not mind baths, the blow dryer and I love being brushed. I get along with other dogs and people. I do like to also roll on my back for brushing but still love attention.  ABSOLUTLEY NO CATS PLEASE.\nI do walk with a limp of sorts which happened along time ago when I was a young puppy, that's what the vets are thinking. The options I have are that I can live with it and have arthritis, get a new hip for my leg to be in or I become  tri pod. Right now I am doing fine not letting it bother me and I am still playing with dogs, getting love and enjoying life. \n\nWill you come and meet me with all my fluff? ",
+            "organization_animal_identifier": "982126051552323",
+            "primary_photo_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/54282256\/3\/?bust=1658847772",
+            "primary_photo_cropped_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/54282256\/3\/?bust=1658847772",
+            "photo_urls": [
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/54282256\/3\/?bust=1658847772",
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/54282256\/1\/?bust=1642545702",
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/54282256\/2\/?bust=1645053401",
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/54282256\/4\/?bust=1658847773",
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/54282256\/5\/?bust=1658847774",
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/54282256\/6\/?bust=1658847775"
+            ],
+            "videos": [],
+            "adoption_status": "adoptable",
+            "attributes": [
+                "Spay\/Neuter",
+                "Special needs",
+                "Shots Current"
+            ],
+            "special_needs_notes": null,
+            "home_environment_attributes": {
+                "good_with_children": true,
+                "good_with_dogs": true,
+                "good_with_cats": false,
+                "good_with_other_animals": null,
+                "other_animals": null
+            },
+            "tags": [
+                "Friendly",
+                "Affectionate",
+                "Gentle"
+            ],
+            "public_adoption_fee": 400,
+            "adoption_fee_waived": false,
+            "display_adoption_fee": true,
+            "published_at": "2022-01-25T19:20:32+0000",
+            "adopted_at": null,
+            "url": "https:\/\/www.petfinder.com\/dog\/angel-54282256\/co\/colorado-springs\/no-hound-unhomed-co436\/"
+        },
+        "contact": {
+            "email": "nohoundunhomed@gmail.com",
+            "phone": "(719) 660-5198"
+        },
+        "location": {
+            "address": {
+                "address1": "4295 Northpark Dr",
+                "address2": null,
+                "city": "Colorado Springs",
+                "state": "CO",
+                "postal_code": "80907",
+                "country": "US"
+            },
+            "geo": {
+                "latitude": 38.8936544,
+                "longitude": -104.8284528
+            },
+            "name": null,
+            "open_to_public": true,
+            "by_appointment_only": false,
+            "hours": {
+                "sunday": "closed",
+                "monday": "9-5",
+                "tuesday": "9-5",
+                "wednesday": "9-5",
+                "thursday": "9-5",
+                "friday": "9-5",
+                "saturday": "9-5"
+            },
+            "is_map_hidden": false,
+            "is_transport": false
+        },
+        "organization": {
+            "name": "No Hound Unhomed",
+            "display_id": "CO436"
+        },
+        "id": "4a9f8c1899c8852c3ab58a5c64db58b7"
+    },
+    "567c5bc407120ef810130ad40d67ee29": {
+        "distance": 2479.4189379867767,
+        "profile_match_score": null,
+        "profile_match_type": null,
+        "animal": {
+            "id": 56088467,
+            "type": {
+                "id": 2,
+                "name": "Dog"
+            },
+            "species": {
+                "id": 11,
+                "name": "Dog"
+            },
+            "primary_breed": {
+                "id": 312,
+                "name": "Labrador Retriever",
+                "slug": "labrador-retriever"
+            },
+            "secondary_breed": null,
+            "is_mixed_breed": true,
+            "is_unknown_breed": false,
+            "primary_color": null,
+            "secondary_color": null,
+            "tertiary_color": null,
+            "age": "Young",
+            "sex": "Female",
+            "size": "Small",
+            "coat_length": null,
+            "name": "Fanta",
+            "description": "Spunky puppy with a big loving heart!\nHi! My name is Fanta. I'm shy at first around humans but warm up to people faster than you would expect. I am very spunky and will play with dogs of any size! I love to play hard, nap hard and then repeat! I listen well and am learning my basic cues. I am an excellent eater and do mealtime easily with my foster siblings. I don't like walks as my confidence is not high enough yet, but I am curious about trying. I am crate and potty trained, but I am a puppy still and have the occasional accident. My ideal forever home would have a fenced in backyard. Another dog to play with is a must. I'd love a patient family to help build my confidence. Older children, 13 years old and up, are best.\n\nGeneral socialization notes:\n\n I'm shy at first, but warm up quickly with a little patience. Once warmed up, I love belly rubs and head scratches from people. I love other dogs and I learn a lot from them. I like praise more than treats as rewards when learning.I am crate trained and if you grab my crate Kong, I go right in. When you get home, it might take me a minute to come out after opening the door.\n\nDoes Fanta like other pets?\n\nYes, I love other dogs and would do best in a home with another dog or multiple dogs. I play with my foster brother for hours at a time to get nice and exhausted. Then I take long naps to recharge for more play time. I have limited experience with cats and did fine with them.\n\nDoes Fanta like children?\n\nSmall children move too fast and might scare me. I'd do best in a home with children 13 years old and older.\n\nFavorite toys:\n\nI love pretty much all toys, but really like Kongs and antlers. I will de-stuff soft toys if given the chance, but I don't eat the stuffing.\n\nIdeal forever home:\n\n I'll do best in a home with a patient family and other dogs. I am learning a lot from my foster siblings and will continue to learn with you. I'd love a fenced in backyard to be able to run and play in. I'd be fine with cats. I'd be okay with children 13 years old and older.",
+            "organization_animal_identifier": "5884",
+            "primary_photo_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56088467\/1\/?bust=1660486248",
+            "primary_photo_cropped_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56088467\/1\/?bust=1660486248",
+            "photo_urls": [
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56088467\/1\/?bust=1660486248",
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56088467\/2\/?bust=1660486247"
+            ],
+            "videos": [],
+            "adoption_status": "adoptable",
+            "attributes": [
+                "House trained",
+                "Spay\/Neuter",
+                "Shots Current"
+            ],
+            "special_needs_notes": null,
+            "home_environment_attributes": {
+                "good_with_children": true,
+                "good_with_dogs": true,
+                "good_with_cats": true,
+                "good_with_other_animals": null,
+                "other_animals": null
+            },
+            "tags": [],
+            "public_adoption_fee": null,
+            "adoption_fee_waived": false,
+            "display_adoption_fee": false,
+            "published_at": "2022-06-26T14:00:53+0000",
+            "adopted_at": null,
+            "url": "https:\/\/www.petfinder.com\/dog\/fanta-56088467\/co\/colorado-springs\/all-breed-rescue-and-training-co18\/"
+        },
+        "contact": {
+            "email": "info.abrt@gmail.com",
+            "phone": "(719) 264-6460"
+        },
+        "location": {
+            "address": {
+                "address1": "410 1\/2 E. Fillmore St",
+                "address2": null,
+                "city": "Colorado Springs",
+                "state": "CO",
+                "postal_code": "80907",
+                "country": "US"
+            },
+            "geo": {
+                "latitude": 38.8748785,
+                "longitude": -104.8143248
+            },
+            "name": null,
+            "open_to_public": true,
+            "by_appointment_only": false,
+            "hours": {
+                "sunday": null,
+                "monday": null,
+                "tuesday": null,
+                "wednesday": null,
+                "thursday": null,
+                "friday": null,
+                "saturday": null
+            },
+            "is_map_hidden": false,
+            "is_transport": false
+        },
+        "organization": {
+            "name": "All Breed Rescue & Training",
+            "display_id": "CO18"
+        },
+        "id": "567c5bc407120ef810130ad40d67ee29"
+    },
+    "706d908fb7ee4dfebc19bb29f6dbf646": {
+        "distance": 2474.4863395836082,
+        "profile_match_score": null,
+        "profile_match_type": null,
+        "animal": {
+            "id": 56373587,
+            "type": {
+                "id": 2,
+                "name": "Dog"
+            },
+            "species": {
+                "id": 11,
+                "name": "Dog"
+            },
+            "primary_breed": {
+                "id": 210,
+                "name": "Border Collie",
+                "slug": "border-collie"
+            },
+            "secondary_breed": null,
+            "is_mixed_breed": true,
+            "is_unknown_breed": false,
+            "primary_color": "Tricolor (Brown, Black, & White)",
+            "secondary_color": null,
+            "tertiary_color": null,
+            "age": "Baby",
+            "sex": "Female",
+            "size": "Small",
+            "coat_length": null,
+            "name": "Tia",
+            "description": "This beautiful heeler\/collie mix goes by the name Tia. She is an absolute love! She has normal puppy energy but given her breed, she will likely be on the higher end of energy. She loves snuggles and playing with her sister! We are working on potty training, kennel training and leash training. She is such a quick learner and loves to please her people. Will you be her forever family?\n\n \n\nIf you are interested in adopting, please visit our website and complete an adoption application at www.elpasocountycanine.org\/adopt\n\n\\r\\n",
+            "organization_animal_identifier": "ps_84496852",
+            "primary_photo_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56373587\/1\/?bust=1660525451",
+            "primary_photo_cropped_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56373587\/1\/?bust=1660525451",
+            "photo_urls": [
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56373587\/1\/?bust=1660525451",
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56373587\/2\/?bust=1660525137"
+            ],
+            "videos": [],
+            "adoption_status": "adoptable",
+            "attributes": [
+                "Spay\/Neuter",
+                "Shots Current"
+            ],
+            "special_needs_notes": null,
+            "home_environment_attributes": {
+                "good_with_children": null,
+                "good_with_dogs": true,
+                "good_with_cats": null,
+                "good_with_other_animals": null,
+                "other_animals": null
+            },
+            "tags": [],
+            "public_adoption_fee": 425,
+            "adoption_fee_waived": false,
+            "display_adoption_fee": true,
+            "published_at": "2022-07-19T00:35:40+0000",
+            "adopted_at": null,
+            "url": "https:\/\/www.petfinder.com\/dog\/tia-56373587\/co\/colorado-springs\/el-paso-county-canine-rescue-co516\/"
+        },
+        "contact": {
+            "email": "info@elpasocountycanine.org",
+            "phone": null
+        },
+        "location": {
+            "address": {
+                "address1": null,
+                "address2": null,
+                "city": "Colorado Springs",
+                "state": "CO",
+                "postal_code": "80920",
+                "country": "US"
+            },
+            "geo": {
+                "latitude": 38.9583005,
+                "longitude": -104.7812654
+            },
+            "name": null,
+            "open_to_public": false,
+            "by_appointment_only": false,
+            "hours": {
+                "sunday": null,
+                "monday": null,
+                "tuesday": null,
+                "wednesday": null,
+                "thursday": null,
+                "friday": null,
+                "saturday": null
+            },
+            "is_map_hidden": true,
+            "is_transport": false
+        },
+        "organization": {
+            "name": "El Paso County Canine Rescue",
+            "display_id": "CO516"
+        },
+        "id": "706d908fb7ee4dfebc19bb29f6dbf646"
+    },
+    "7120c19b7ddb76dd1925f40ffa05757f": {
+        "distance": 2479.1263068740946,
+        "profile_match_score": null,
+        "profile_match_type": null,
+        "animal": {
+            "id": 55392395,
+            "type": {
+                "id": 2,
+                "name": "Dog"
+            },
+            "species": {
+                "id": 11,
+                "name": "Dog"
+            },
+            "primary_breed": {
+                "id": 338,
+                "name": "Papillon",
+                "slug": "papillon"
+            },
+            "secondary_breed": null,
+            "is_mixed_breed": true,
+            "is_unknown_breed": false,
+            "primary_color": null,
+            "secondary_color": null,
+            "tertiary_color": null,
+            "age": "Adult",
+            "sex": "Female",
+            "size": "Medium",
+            "coat_length": null,
+            "name": "Luna",
+            "description": "Luna is a real character! She LOVES toys, is very vocal and loves to play. She definitely needs some direction! She would like a furry friend and needs a 6 ft fenced in yard. Please, no small children. Her adoption fee is $300.00 she is spayed, microchipped & vaccinated. We are in the Colorado Springs area. We require a home visit on all adoptions. Please apply at www.whimperstowags.org under 'Forms'.",
+            "organization_animal_identifier": "17978117-22-0211-02",
+            "primary_photo_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/55392395\/1\/?bust=1659848214",
+            "primary_photo_cropped_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/55392395\/1\/?bust=1659848214",
+            "photo_urls": [
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/55392395\/1\/?bust=1659848214",
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/55392395\/2\/?bust=1659848219"
+            ],
+            "videos": [],
+            "adoption_status": "adoptable",
+            "attributes": [
+                "House trained",
+                "Spay\/Neuter"
+            ],
+            "special_needs_notes": null,
+            "home_environment_attributes": {
+                "good_with_children": null,
+                "good_with_dogs": true,
+                "good_with_cats": null,
+                "good_with_other_animals": null,
+                "other_animals": null
+            },
+            "tags": [],
+            "public_adoption_fee": null,
+            "adoption_fee_waived": false,
+            "display_adoption_fee": false,
+            "published_at": "2022-04-25T02:32:47+0000",
+            "adopted_at": null,
+            "url": "https:\/\/www.petfinder.com\/dog\/luna-55392395\/co\/colorado-springs\/whimpers-to-wags-rescue-inc-co523\/"
+        },
+        "contact": {
+            "email": "whimperstowags@gmail.com",
+            "phone": null
+        },
+        "location": {
+            "address": {
+                "address1": null,
+                "address2": null,
+                "city": "Colorado Springs",
+                "state": "CO",
+                "postal_code": "80907",
+                "country": "US"
+            },
+            "geo": {
+                "latitude": 38.8778926,
+                "longitude": -104.8104424
+            },
+            "name": null,
+            "open_to_public": false,
+            "by_appointment_only": false,
+            "hours": {
+                "sunday": null,
+                "monday": null,
+                "tuesday": null,
+                "wednesday": null,
+                "thursday": null,
+                "friday": null,
+                "saturday": null
+            },
+            "is_map_hidden": false,
+            "is_transport": false
+        },
+        "organization": {
+            "name": "Whimpers to Wags Rescue, Inc.",
+            "display_id": "CO523"
+        },
+        "id": "7120c19b7ddb76dd1925f40ffa05757f"
+    },
+    "82b324d77c1a145f9dfffad33b8a6b3e": {
+        "distance": 2479.4189379867767,
+        "profile_match_score": null,
+        "profile_match_type": null,
+        "animal": {
+            "id": 55044434,
+            "type": {
+                "id": 2,
+                "name": "Dog"
+            },
+            "species": {
+                "id": 11,
+                "name": "Dog"
+            },
+            "primary_breed": {
+                "id": 321,
+                "name": "Mastiff",
+                "slug": "mastiff"
+            },
+            "secondary_breed": null,
+            "is_mixed_breed": true,
+            "is_unknown_breed": false,
+            "primary_color": null,
+            "secondary_color": null,
+            "tertiary_color": null,
+            "age": "Adult",
+            "sex": "Female",
+            "size": "Large",
+            "coat_length": null,
+            "name": "Amari",
+            "description": "I may be big, but that doesn't mean I can't be a lap dog!\nI am extremely friendly and such a happy girl! I love meeting new people.I love laying in my human'slap and getting all the attention. Being close to my human means a lot to me.Walks are my favorite part of the day and I love running around outside, especiallyin the snow. I've done really well with other dogs my sizein my foster homes. I'm still learning my manners and I do pull on leash, but I'm working on that.I'd do best in a home with no small dogs or cats. Older children, 8 years and older, would be best.A 6 ft, secure fence is a must!\n\nGeneral Socialization Notes:\n\n I am great with people!I love getting attention. I get very excited when I see dogs while I'm out on a walk.I look forwardto continuing totrain with my human, so I can work on that. I've lived with other dogs close to my sizeand have done well.\n\nDoes Amari like other pets?\n\n I get extremely excited on leashwhen I seeother dogs. It is hard to control my excitement.I might be a bit pushy. Once I get to know a dog friendwith proper introductions, I do well. No small dogs or cats please.\n\nDoes Amari like children?\n\nI may do best with older children, 8 years old and older.\n\nFavorite Toys:\n\n Ropes and bones are my favorite! I love burying my bones too.\n\nIdeal Forever Home:\n\n I would love to be ina homewhere Ican take frequent walks andplay ina nice backyard. I wouldn't do well in an apartment.I love being outdoors!I'd enjoyhumans who cangive me lots of attention. Training will be very important for me. I sometimes do not like being alone, but I am doing okay with that. I'd do fine with children, 8 years old and older. I'd do great with anothersocial dog close to my size or I'd also be fine as an only dog.",
+            "organization_animal_identifier": "5811",
+            "primary_photo_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/55044434\/1\/?bust=1659881483",
+            "primary_photo_cropped_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/55044434\/1\/?bust=1659881483",
+            "photo_urls": [
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/55044434\/1\/?bust=1659881483",
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/55044434\/2\/?bust=1659881423",
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/55044434\/3\/?bust=1659881424"
+            ],
+            "videos": [],
+            "adoption_status": "adoptable",
+            "attributes": [
+                "House trained",
+                "Spay\/Neuter",
+                "Shots Current"
+            ],
+            "special_needs_notes": null,
+            "home_environment_attributes": {
+                "good_with_children": true,
+                "good_with_dogs": true,
+                "good_with_cats": false,
+                "good_with_other_animals": null,
+                "other_animals": null
+            },
+            "tags": [],
+            "public_adoption_fee": null,
+            "adoption_fee_waived": false,
+            "display_adoption_fee": false,
+            "published_at": "2022-03-20T14:00:49+0000",
+            "adopted_at": null,
+            "url": "https:\/\/www.petfinder.com\/dog\/amari-55044434\/co\/colorado-springs\/all-breed-rescue-and-training-co18\/"
+        },
+        "contact": {
+            "email": "info.abrt@gmail.com",
+            "phone": "(719) 264-6460"
+        },
+        "location": {
+            "address": {
+                "address1": "410 1\/2 E. Fillmore St",
+                "address2": null,
+                "city": "Colorado Springs",
+                "state": "CO",
+                "postal_code": "80907",
+                "country": "US"
+            },
+            "geo": {
+                "latitude": 38.8748785,
+                "longitude": -104.8143248
+            },
+            "name": null,
+            "open_to_public": true,
+            "by_appointment_only": false,
+            "hours": {
+                "sunday": null,
+                "monday": null,
+                "tuesday": null,
+                "wednesday": null,
+                "thursday": null,
+                "friday": null,
+                "saturday": null
+            },
+            "is_map_hidden": false,
+            "is_transport": false
+        },
+        "organization": {
+            "name": "All Breed Rescue & Training",
+            "display_id": "CO18"
+        },
+        "id": "82b324d77c1a145f9dfffad33b8a6b3e"
+    },
+    "8998e032abbf7cbf3b5409025c3fe775": {
+        "distance": 2479.4189379867767,
+        "profile_match_score": null,
+        "profile_match_type": null,
+        "animal": {
+            "id": 54692061,
+            "type": {
+                "id": 2,
+                "name": "Dog"
+            },
+            "species": {
+                "id": 11,
+                "name": "Dog"
+            },
+            "primary_breed": {
+                "id": 344,
+                "name": "Pit Bull Terrier",
+                "slug": "pit-bull"
+            },
+            "secondary_breed": null,
+            "is_mixed_breed": true,
+            "is_unknown_breed": false,
+            "primary_color": null,
+            "secondary_color": null,
+            "tertiary_color": null,
+            "age": "Adult",
+            "sex": "Male",
+            "size": "Large",
+            "coat_length": null,
+            "name": "Bandit",
+            "description": "I'm looking for a partner in crime!\nI'm a sweet boy! I do prefer slower introductions, at first,when meeting new people.Once I warm up though, I love to cuddle! I also would love if you threwme a toy. It's one of my favorite things! I can spend hours entertaining myself with throwing my owntoys up in the air. That's a little bit of my goofy side.I'd do best in a home with older children because I have lots of energyandI can be a bit jumpy. I am fine with other dogs,but may do best with dogs that match my high energy.\n\nGeneral Socialization Notes:\n\n I do needa little time when meeting new people. I willbark and jump, at first. With yummy treats, I dowarm up quickly. I do, sometimes, chew random objects if they are easy for me to get, but I'm working on that.\n\nDoes Bandit like other pets?\n\n I love other dogs but sometimes, I can be a little much for them. I like to play rough. But, I'd love a buddy that matches my energy! I may do best in a home without cats.\n\nDoes Bandit like children?\n\n I have lived with children, but I may do best in a home with older children, 12 years old and older.\n\nFavorite Toys:\n\n If it's a toy, I love it!! Some of my all time favorites though, are kongs, rope toys, bones and balls!\n\nIdeal Forever Home:\n\n I'd love a home with a yard to run and play in. I'd also love a family that loves to spend time with me and cuddle. I'd love to live with another dog, but that dog would need to match my energy and play style, so we could play all day! A home with older children and no cats, would be best.",
+            "organization_animal_identifier": "5873",
+            "primary_photo_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/54692061\/1\/?bust=1660486241",
+            "primary_photo_cropped_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/54692061\/1\/?bust=1660486241",
+            "photo_urls": [
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/54692061\/1\/?bust=1660486241",
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/54692061\/2\/?bust=1660486240",
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/54692061\/3\/?bust=1660486239"
+            ],
+            "videos": [],
+            "adoption_status": "adoptable",
+            "attributes": [
+                "House trained",
+                "Spay\/Neuter",
+                "Shots Current"
+            ],
+            "special_needs_notes": null,
+            "home_environment_attributes": {
+                "good_with_children": true,
+                "good_with_dogs": true,
+                "good_with_cats": false,
+                "good_with_other_animals": null,
+                "other_animals": null
+            },
+            "tags": [],
+            "public_adoption_fee": null,
+            "adoption_fee_waived": false,
+            "display_adoption_fee": false,
+            "published_at": "2022-02-20T15:00:47+0000",
+            "adopted_at": null,
+            "url": "https:\/\/www.petfinder.com\/dog\/bandit-54692061\/co\/colorado-springs\/all-breed-rescue-and-training-co18\/"
+        },
+        "contact": {
+            "email": "info.abrt@gmail.com",
+            "phone": "(719) 264-6460"
+        },
+        "location": {
+            "address": {
+                "address1": "410 1\/2 E. Fillmore St",
+                "address2": null,
+                "city": "Colorado Springs",
+                "state": "CO",
+                "postal_code": "80907",
+                "country": "US"
+            },
+            "geo": {
+                "latitude": 38.8748785,
+                "longitude": -104.8143248
+            },
+            "name": null,
+            "open_to_public": true,
+            "by_appointment_only": false,
+            "hours": {
+                "sunday": null,
+                "monday": null,
+                "tuesday": null,
+                "wednesday": null,
+                "thursday": null,
+                "friday": null,
+                "saturday": null
+            },
+            "is_map_hidden": false,
+            "is_transport": false
+        },
+        "organization": {
+            "name": "All Breed Rescue & Training",
+            "display_id": "CO18"
+        },
+        "id": "8998e032abbf7cbf3b5409025c3fe775"
+    },
+    "8d4bdad4e67bfae6c81a788ac22f866c": {
+        "distance": 2479.4189379867767,
+        "profile_match_score": null,
+        "profile_match_type": null,
+        "animal": {
+            "id": 55748297,
+            "type": {
+                "id": 2,
+                "name": "Dog"
+            },
+            "species": {
+                "id": 11,
+                "name": "Dog"
+            },
+            "primary_breed": {
+                "id": 344,
+                "name": "Pit Bull Terrier",
+                "slug": "pit-bull"
+            },
+            "secondary_breed": null,
+            "is_mixed_breed": true,
+            "is_unknown_breed": false,
+            "primary_color": null,
+            "secondary_color": null,
+            "tertiary_color": null,
+            "age": "Young",
+            "sex": "Male",
+            "size": "Small",
+            "coat_length": null,
+            "name": "Bucket",
+            "description": "I'm a really chill guy!\nHi! I'm a very sweet boy! I'd love a home with abigger, confident dog to be my best friend. I love to spend time with my humans too. I'm very active so I'd enjoy doing lots of training. I love toys of any kind! I'd do best in a home with older children, 13 years old and up. I'd love ayard with lots of room to run. Cats would be fine.\n\nGeneral Socialization Notes:\n\nI'm a very social boy. I'm crate trained and doing really well with potty training. I'm very smart and love to learn!\n\nDoes Bucket like other pets?\n\nYes, I'd do fine with another confident dog. I've also briefly met a cat and I did well.\n\nDoes Bucket like children?\n\n I'd do best in a home with children 13 years oldand older.\n\nFavorite Toys:\n\nAll kinds of toys! They're my favorite.\n\nIdeal Forever Home:\n\n I'd love a home where I can spend time with my humans. I'd love to have a bigger, confident dog to show me the ways. I'd be fine with cats. I'd do best with older children. I'd also love to do lots of training. I'm a very smart guy!",
+            "organization_animal_identifier": "5887",
+            "primary_photo_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/55748297\/1\/?bust=1660486312",
+            "primary_photo_cropped_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/55748297\/1\/?bust=1660486312",
+            "photo_urls": [
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/55748297\/1\/?bust=1660486312",
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/55748297\/2\/?bust=1660486248",
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/55748297\/3\/?bust=1660486248"
+            ],
+            "videos": [],
+            "adoption_status": "adoptable",
+            "attributes": [
+                "House trained",
+                "Spay\/Neuter",
+                "Shots Current"
+            ],
+            "special_needs_notes": null,
+            "home_environment_attributes": {
+                "good_with_children": false,
+                "good_with_dogs": true,
+                "good_with_cats": true,
+                "good_with_other_animals": null,
+                "other_animals": null
+            },
+            "tags": [],
+            "public_adoption_fee": null,
+            "adoption_fee_waived": false,
+            "display_adoption_fee": false,
+            "published_at": "2022-05-29T14:01:14+0000",
+            "adopted_at": null,
+            "url": "https:\/\/www.petfinder.com\/dog\/bucket-55748297\/co\/colorado-springs\/all-breed-rescue-and-training-co18\/"
+        },
+        "contact": {
+            "email": "info.abrt@gmail.com",
+            "phone": "(719) 264-6460"
+        },
+        "location": {
+            "address": {
+                "address1": "410 1\/2 E. Fillmore St",
+                "address2": null,
+                "city": "Colorado Springs",
+                "state": "CO",
+                "postal_code": "80907",
+                "country": "US"
+            },
+            "geo": {
+                "latitude": 38.8748785,
+                "longitude": -104.8143248
+            },
+            "name": null,
+            "open_to_public": true,
+            "by_appointment_only": false,
+            "hours": {
+                "sunday": null,
+                "monday": null,
+                "tuesday": null,
+                "wednesday": null,
+                "thursday": null,
+                "friday": null,
+                "saturday": null
+            },
+            "is_map_hidden": false,
+            "is_transport": false
+        },
+        "organization": {
+            "name": "All Breed Rescue & Training",
+            "display_id": "CO18"
+        },
+        "id": "8d4bdad4e67bfae6c81a788ac22f866c"
+    },
+    "91dec88987fc155e7f33e3af904d6b79": {
+        "distance": 2479.4189379867767,
+        "profile_match_score": null,
+        "profile_match_type": null,
+        "animal": {
+            "id": 52035431,
+            "type": {
+                "id": 2,
+                "name": "Dog"
+            },
+            "species": {
+                "id": 11,
+                "name": "Dog"
+            },
+            "primary_breed": {
+                "id": 225,
+                "name": "Carolina Dog",
+                "slug": "carolina-dog"
+            },
+            "secondary_breed": null,
+            "is_mixed_breed": true,
+            "is_unknown_breed": false,
+            "primary_color": null,
+            "secondary_color": null,
+            "tertiary_color": null,
+            "age": "Adult",
+            "sex": "Male",
+            "size": "Medium",
+            "coat_length": null,
+            "name": "Lorenzo",
+            "description": "I'm a shy but very sweet boy!\nI'm a big goofy guy and once I warm to you I want to play, have fun and be the center of attention! I love other dogs!I need to work on some good boy\/be calm manners, but I know how to fetch and sit and always aim to be a sweet boy. Hikes and walks are a lot of fun, and once I have my daily exercise I like to chill out and snooze on the couch. Looking for someone to pamper me and give me lots of attention. I'd do best in a home with older children, 13 years and older. No cats, please.\n\nGeneral Socialization Notes:\n\nI'm very shy, at first, and need to take it slow to get to know you. Once I warm up, I'm a very sweet boy and I love to be with you.I do jump up and can be a little mouthy when I get excited. I am very smart and would love to continue training. I love treats! I'm also crate trained.\n\nDoes Lorenzo like other pets?\n\n I'd need to go to a home with another social dog. I love dog friends! They help me with building my confidence. I'd do best in a home without cats.\n\nDoes Lorenzo like children?\n\nBecause of my shy nature, I'd do best in a home with children 13 years and older.\n\nFavorite Toys:\n\nI love playing fetch and I love stuffed Kongs!\n\nIdeal Forever Home:\n\n I'd need a home that is willing to be patient with me and let me go at my own pace, especially when meeting new people.I most definitely want a dog in my new home to play with and to help me with my confidence.I love to go on long walks and I love water,so I'd enjoy an active family.I'd do best in a home with older children, 13 years and older.",
+            "organization_animal_identifier": "5836",
+            "primary_photo_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/52035431\/1\/?bust=1659881489",
+            "primary_photo_cropped_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/52035431\/1\/?bust=1659881489",
+            "photo_urls": [
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/52035431\/1\/?bust=1659881489",
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/52035431\/2\/?bust=1659881433",
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/52035431\/3\/?bust=1659881433"
+            ],
+            "videos": [],
+            "adoption_status": "adoptable",
+            "attributes": [
+                "House trained",
+                "Spay\/Neuter",
+                "Shots Current"
+            ],
+            "special_needs_notes": null,
+            "home_environment_attributes": {
+                "good_with_children": false,
+                "good_with_dogs": true,
+                "good_with_cats": false,
+                "good_with_other_animals": null,
+                "other_animals": null
+            },
+            "tags": [],
+            "public_adoption_fee": null,
+            "adoption_fee_waived": false,
+            "display_adoption_fee": false,
+            "published_at": "2021-06-20T14:01:12+0000",
+            "adopted_at": null,
+            "url": "https:\/\/www.petfinder.com\/dog\/lorenzo-52035431\/co\/colorado-springs\/all-breed-rescue-and-training-co18\/"
+        },
+        "contact": {
+            "email": "info.abrt@gmail.com",
+            "phone": "(719) 264-6460"
+        },
+        "location": {
+            "address": {
+                "address1": "410 1\/2 E. Fillmore St",
+                "address2": null,
+                "city": "Colorado Springs",
+                "state": "CO",
+                "postal_code": "80907",
+                "country": "US"
+            },
+            "geo": {
+                "latitude": 38.8748785,
+                "longitude": -104.8143248
+            },
+            "name": null,
+            "open_to_public": true,
+            "by_appointment_only": false,
+            "hours": {
+                "sunday": null,
+                "monday": null,
+                "tuesday": null,
+                "wednesday": null,
+                "thursday": null,
+                "friday": null,
+                "saturday": null
+            },
+            "is_map_hidden": false,
+            "is_transport": false
+        },
+        "organization": {
+            "name": "All Breed Rescue & Training",
+            "display_id": "CO18"
+        },
+        "id": "91dec88987fc155e7f33e3af904d6b79"
+    },
+    "a3a25f9e91050654c605fa81a765eeaf": {
+        "distance": 2479.2252251767454,
+        "profile_match_score": null,
+        "profile_match_type": null,
+        "animal": {
+            "id": 56348223,
+            "type": {
+                "id": 2,
+                "name": "Dog"
+            },
+            "species": {
+                "id": 11,
+                "name": "Dog"
+            },
+            "primary_breed": {
+                "id": 227,
+                "name": "Cattle Dog",
+                "slug": "australian-cattle-dog"
+            },
+            "secondary_breed": {
+                "id": 312,
+                "name": "Labrador Retriever",
+                "slug": "labrador-retriever"
+            },
+            "is_mixed_breed": true,
+            "is_unknown_breed": false,
+            "primary_color": "Apricot \/ Beige",
+            "secondary_color": "Golden",
+            "tertiary_color": null,
+            "age": "Young",
+            "sex": "Female",
+            "size": "Large",
+            "coat_length": "Short",
+            "name": "Dixie (Sarabi)",
+            "description": "Hello my name is Dixie or Sarabi, I just learned that a pool is really fun and refreshing after running around with other dogs. I am loyal once I get to know a person or a few. I want to jump into their arms to greet them but will also accept pets if I am by you. I do pretty well on a leash but that doesn\u2019t mean there isn\u2019t room for improvement.  ",
+            "organization_animal_identifier": null,
+            "primary_photo_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56348223\/1\/?bust=1657993921",
+            "primary_photo_cropped_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56348223\/1\/?bust=1657993921",
+            "photo_urls": [
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56348223\/1\/?bust=1657993921"
+            ],
+            "videos": [],
+            "adoption_status": "adoptable",
+            "attributes": [
+                "Spay\/Neuter",
+                "Shots Current"
+            ],
+            "special_needs_notes": null,
+            "home_environment_attributes": {
+                "good_with_children": null,
+                "good_with_dogs": true,
+                "good_with_cats": null,
+                "good_with_other_animals": null,
+                "other_animals": null
+            },
+            "tags": [
+                "Friendly",
+                "Affectionate",
+                "Playful",
+                "Loyal"
+            ],
+            "public_adoption_fee": 400,
+            "adoption_fee_waived": false,
+            "display_adoption_fee": true,
+            "published_at": "2022-07-22T15:20:13+0000",
+            "adopted_at": null,
+            "url": "https:\/\/www.petfinder.com\/dog\/dixie-sarabi-56348223\/co\/colorado-springs\/no-hound-unhomed-co436\/"
+        },
+        "contact": {
+            "email": "nohoundunhomed@gmail.com",
+            "phone": "(719) 660-5198"
+        },
+        "location": {
+            "address": {
+                "address1": "4295 Northpark Dr",
+                "address2": null,
+                "city": "Colorado Springs",
+                "state": "CO",
+                "postal_code": "80907",
+                "country": "US"
+            },
+            "geo": {
+                "latitude": 38.8936544,
+                "longitude": -104.8284528
+            },
+            "name": null,
+            "open_to_public": true,
+            "by_appointment_only": false,
+            "hours": {
+                "sunday": "closed",
+                "monday": "9-5",
+                "tuesday": "9-5",
+                "wednesday": "9-5",
+                "thursday": "9-5",
+                "friday": "9-5",
+                "saturday": "9-5"
+            },
+            "is_map_hidden": false,
+            "is_transport": false
+        },
+        "organization": {
+            "name": "No Hound Unhomed",
+            "display_id": "CO436"
+        },
+        "id": "a3a25f9e91050654c605fa81a765eeaf"
+    },
+    "d847d4d9c6d5fe447c9ffe7d47e0bece": {
+        "distance": 2479.2252251767454,
+        "profile_match_score": null,
+        "profile_match_type": null,
+        "animal": {
+            "id": 56396516,
+            "type": {
+                "id": 2,
+                "name": "Dog"
+            },
+            "species": {
+                "id": 11,
+                "name": "Dog"
+            },
+            "primary_breed": {
+                "id": 215,
+                "name": "Boxer",
+                "slug": "boxer"
+            },
+            "secondary_breed": {
+                "id": 347,
+                "name": "Pointer",
+                "slug": "english-pointer"
+            },
+            "is_mixed_breed": true,
+            "is_unknown_breed": false,
+            "primary_color": "Apricot \/ Beige",
+            "secondary_color": "Red \/ Chestnut \/ Orange",
+            "tertiary_color": "White \/ Cream",
+            "age": "Adult",
+            "sex": "Female",
+            "size": "Large",
+            "coat_length": "Short",
+            "name": "Hirie",
+            "description": "Hello my name is Hirie, it sounds like Lake Erie but with an H in front of it. I am a sweet girl that loves attention and wants to stay close to something I know weather it be a dog or my favorite thing a human. I am learning how to play with other dogs by watching them and so far I am doing really well being in a group of dogs. ",
+            "organization_animal_identifier": null,
+            "primary_photo_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56396516\/1\/?bust=1658354596",
+            "primary_photo_cropped_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56396516\/1\/?bust=1658354596",
+            "photo_urls": [
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56396516\/1\/?bust=1658354596"
+            ],
+            "videos": [],
+            "adoption_status": "adoptable",
+            "attributes": [
+                "Spay\/Neuter",
+                "Shots Current"
+            ],
+            "special_needs_notes": null,
+            "home_environment_attributes": {
+                "good_with_children": null,
+                "good_with_dogs": true,
+                "good_with_cats": false,
+                "good_with_other_animals": null,
+                "other_animals": null
+            },
+            "tags": [
+                "Friendly",
+                "Playful",
+                "Funny"
+            ],
+            "public_adoption_fee": 400.02,
+            "adoption_fee_waived": false,
+            "display_adoption_fee": true,
+            "published_at": "2022-07-21T15:48:11+0000",
+            "adopted_at": null,
+            "url": "https:\/\/www.petfinder.com\/dog\/hirie-56396516\/co\/colorado-springs\/no-hound-unhomed-co436\/"
+        },
+        "contact": {
+            "email": "nohoundunhomed@gmail.com",
+            "phone": "(719) 660-5198"
+        },
+        "location": {
+            "address": {
+                "address1": "4295 Northpark Dr",
+                "address2": null,
+                "city": "Colorado Springs",
+                "state": "CO",
+                "postal_code": "80907",
+                "country": "US"
+            },
+            "geo": {
+                "latitude": 38.8936544,
+                "longitude": -104.8284528
+            },
+            "name": null,
+            "open_to_public": true,
+            "by_appointment_only": false,
+            "hours": {
+                "sunday": "closed",
+                "monday": "9-5",
+                "tuesday": "9-5",
+                "wednesday": "9-5",
+                "thursday": "9-5",
+                "friday": "9-5",
+                "saturday": "9-5"
+            },
+            "is_map_hidden": false,
+            "is_transport": false
+        },
+        "organization": {
+            "name": "No Hound Unhomed",
+            "display_id": "CO436"
+        },
+        "id": "d847d4d9c6d5fe447c9ffe7d47e0bece"
+    },
+    "fb174fb952c28f9ce3f0f092ecc3d0eb": {
+        "distance": 2479.1263068740946,
+        "profile_match_score": null,
+        "profile_match_type": null,
+        "animal": {
+            "id": 56408237,
+            "type": {
+                "id": 2,
+                "name": "Dog"
+            },
+            "species": {
+                "id": 11,
+                "name": "Dog"
+            },
+            "primary_breed": {
+                "id": 231,
+                "name": "Chihuahua",
+                "slug": "chihuahua"
+            },
+            "secondary_breed": null,
+            "is_mixed_breed": true,
+            "is_unknown_breed": false,
+            "primary_color": null,
+            "secondary_color": null,
+            "tertiary_color": null,
+            "age": "Adult",
+            "sex": "Female",
+            "size": "Small",
+            "coat_length": null,
+            "name": "Mamas",
+            "description": "Mama's is active for her age. She loves to play with the other dogs and is very curious and eager to please . She is a lap dog and loves to cuddle. Mama's is in Colorado Springs area and we do require a home visit we teach adoption",
+            "organization_animal_identifier": "18293972-22-0624-12",
+            "primary_photo_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56408237\/1\/?bust=1659847738",
+            "primary_photo_cropped_url": "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56408237\/1\/?bust=1659847738",
+            "photo_urls": [
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56408237\/1\/?bust=1659847738",
+                "https:\/\/dl5zpyw5k3jeb.cloudfront.net\/photos\/pets\/56408237\/2\/?bust=1659847931"
+            ],
+            "videos": [],
+            "adoption_status": "adoptable",
+            "attributes": [
+                "Spay\/Neuter"
+            ],
+            "special_needs_notes": null,
+            "home_environment_attributes": {
+                "good_with_children": null,
+                "good_with_dogs": true,
+                "good_with_cats": null,
+                "good_with_other_animals": null,
+                "other_animals": null
+            },
+            "tags": [],
+            "public_adoption_fee": null,
+            "adoption_fee_waived": false,
+            "display_adoption_fee": false,
+            "published_at": "2022-07-21T21:04:55+0000",
+            "adopted_at": null,
+            "url": "https:\/\/www.petfinder.com\/dog\/mamas-56408237\/co\/colorado-springs\/whimpers-to-wags-rescue-inc-co523\/"
+        },
+        "contact": {
+            "email": "whimperstowags@gmail.com",
+            "phone": null
+        },
+        "location": {
+            "address": {
+                "address1": null,
+                "address2": null,
+                "city": "Colorado Springs",
+                "state": "CO",
+                "postal_code": "80907",
+                "country": "US"
+            },
+            "geo": {
+                "latitude": 38.8778926,
+                "longitude": -104.8104424
+            },
+            "name": null,
+            "open_to_public": false,
+            "by_appointment_only": false,
+            "hours": {
+                "sunday": null,
+                "monday": null,
+                "tuesday": null,
+                "wednesday": null,
+                "thursday": null,
+                "friday": null,
+                "saturday": null
+            },
+            "is_map_hidden": false,
+            "is_transport": false
+        },
+        "organization": {
+            "name": "Whimpers to Wags Rescue, Inc.",
+            "display_id": "CO523"
+        },
+        "id": "fb174fb952c28f9ce3f0f092ecc3d0eb"
+    }
+}

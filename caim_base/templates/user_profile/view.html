@@ -1,0 +1,37 @@
+{% extends 'base/wrapper.html' %}
+{% load avatar_tags %}
+
+{% block content %}
+<div class="bg-dark context-bar">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 py-3">
+            <p class="text-light my-0">
+              <a href="/user" onclick="return todo();">&laquo; All members</a>
+            </p>
+          </div>
+        <div class="col-md-6  py-2 text-end d-none d-md-block">
+            {% if user == request.user %}
+                <a href="/user/{{ user.username }}/edit" class="btn btn-secondary">Edit profile</a>
+                <a href="{% url 'avatar_change' %}" class="btn btn-secondary">Change profile image</a>
+            {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  
+<div class="container">
+    <div class="row justify-content-md-center">
+      <div class="col-md-8">
+        <div class="container py-5">
+            <h3>
+                {% avatar user 80 80 class="avatar" %}
+                {{ user.username }}
+            </h3>
+            <div>
+                {{ user_profile.description | default:"No description available" | urlizetrunc:60 | linebreaks}}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

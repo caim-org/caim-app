@@ -1,0 +1,192 @@
+{% extends "base/wrapper.html" %}
+{% load caim_helpers %}
+
+
+{% block content %}
+<div class="bg-dark mb-4 context-bar">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 py-3">
+        <p class="text-light my-0">Showing {{ paginator.count }} dogs 
+          {% if search.zip %}
+            within
+            {% if search.radius %}{{search.radius}} miles{% else %}any distance{% endif %}
+            of {{ search.zip }}
+          {% endif %}
+        </p>
+      </div>
+      <div class="col-md-6 pt-2 text-end d-none d-md-block">
+        <a href="#" onclick="todo()" class="btn btn-secondary">Save search</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-3 mb-3">
+      <div class="card">
+        <div class="card-body">
+          <form action="/browse" method="get">
+            <input type="hidden" name="zip" value="{{search.zip|default:''}}" />
+            <div class="filter">
+              Breed
+              <select class="form-select" name="breed">
+                <option value="" {% if not search.breed %}selected{% endif %}>Any breed</option>
+                {% for b in breeds %}
+                <option value="{{b.slug}}" {% if b.slug == search.breed %}selected{% endif %}>{{b.name}}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="filter">
+              Age
+              <select class="form-select" name="age">
+                <option {% if not search.age %}selected{% endif %} value="">Any age</option>
+                <option {% if search.age == 'baby' %}selected{% endif %} value="baby">Puppy/Kitten</option>
+                <option {% if search.age == 'young' %}selected{% endif %} value="young">Young</option>
+                <option {% if search.age == 'adult' %}selected{% endif %} value="adult">Adult</option>
+                <option {% if search.age == 'senior' %}selected{% endif %} value="senior">Senior</option>
+              </select>
+            </div>
+            <div class="filter">
+              Euth date
+              <select class="form-select" name="euth_date">
+                <option {% if not search.euth_date %}selected{% endif %} value="">Any</option>
+                <option {% if search.euth_date == 1 %}selected{% endif %} value="1">Tomorrow</option>
+                <option {% if search.euth_date == 7 %}selected{% endif %} value="7">Within 7 days</option>
+                <option {% if search.euth_date == 14 %}selected{% endif %} value="14">Within 14 days</option>
+              </select>
+            </div>
+            {% if search.zip %}
+            <div class="filter">
+              Distance
+              <select class="form-select" name="radius">
+                <option value="any" {% if not search.radius %}selected{% endif %}>Any distance</option>
+                <option value="50" {% if search.radius == 50 %}selected{% endif %}>&lt; 50 miles</option>
+                <option value="100" {% if search.radius == 100 %}selected{% endif %}>&lt; 100 miles</option>
+                <option value="500" {% if search.radius == 500 %}selected{% endif %}>&lt; 500 miles</option>
+              </select>
+            </div>
+            {% endif %}
+            <div class="filter">
+              Order by
+              <select class="form-select" name="sort">
+                {% if search.zip %}
+                <option value="distance" {% if search.sort == 'distance' %}selected{% endif %}>Distance (Closest first)
+                </option>
+                {% endif %}
+                <option value="euth_date" {% if search.sort == 'euth_date' %}selected{% endif %}>Soonest euth date first
+                </option>
+                <option value="-created_at" {% if search.sort == '-created_at' %}selected{% endif %}>Newest listing first
+                </option>
+                <option value="created_at" {% if search.sort == 'created_at' %}selected{% endif %}>Oldest listing first
+                </option>
+              </select>
+            </div>
+            <div class="filter">
+              Attributes
+              <div>
+                <label>
+                  <input type="checkbox" name="goodwith_cats" {% if search.goodwith_cats %}checked{% endif %} /> Good
+                  with cats
+                </label>
+              </div>
+              <div>
+                <label>
+                  <input type="checkbox" name="goodwith_dogs" {% if search.goodwith_dogs %}checked{% endif %} /> Good
+                  with dogs
+                </label>
+              </div>
+              <div>
+                <label>
+                  <input type="checkbox" name="goodwith_kids" {% if search.goodwith_kids %}checked{% endif %} /> Good
+                  with kids
+                </label>
+              </div>
+              {% if request.user.id %}
+              <div>
+                <label>
+                  <input type="checkbox" name="shortlist" {% if search.shortlist %}checked{% endif %} /> My shortlist
+                </label>
+              </div>
+              {% endif %}
+            </div>
+            <div>
+              <input type="submit" class="btn btn-primary" value="Update filters" />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-9">
+
+      <div class="row">
+        {% for animal in animals %}
+        <div class="col-md-4">
+          <a href="/animal/{{ animal.id }}?{% modify_qs %}" style="text-decoration:none; color: #333;">
+            <div class="card animal-card">
+              {% if animal.id in shortlistAnimalIds %}
+              <div class="animal-shortlist animal-shortlist-selected"
+                onclick="toggleShortlistSmall(this, {{ animal.id }});return false;">
+                <i class="bi-heart-fill"></i>
+              </div>
+              {% else %}
+              <div class="animal-shortlist" onclick="toggleShortlistSmall(this, {{ animal.id }});return false;">
+                <i class="bi-heart"></i>
+              </div>
+              {% endif %}
+              <div class="card-img-top"
+                style="background-image: url({{ animal.primary_photo.url|image_resize:'300x300 crop' }}) ">
+              </div>
+              <div class="card-body">
+                <h5>{{ animal.name }}</h5>
+                <div class="text-truncate text-xsmall">{{animal.age|title}} - {{ animal.breedsText }}</div>
+                <div class="text-truncate text-xsmall text-danger">
+                  {% if animal.euth_date %}
+                  Euth Date: {{animal.euth_date}}
+                  {% else %}
+                  &nbsp;
+                  {% endif %}
+                </div>
+                {% if search.zip %}
+                <div class="text-truncate text-xsmall">{{ animal.distance.mi | floatformat:"0" }} miles away</div>
+                {% endif %}
+              </div>
+            </div>
+          </a>
+        </div>
+        {% empty %}
+        <p>No animals found. Please try different filters.</p>
+        {% endfor %}
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <nav>
+            <ul class="pagination justify-content-md-start justify-content-center">
+              {% if animals.has_previous %}
+              <li class="page-item"><a class="page-link"
+                  href="?{% modify_qs 'page' animals.previous_page_number %}">&laquo; Prev</a></li>
+              {% else %}
+              <li class="page-item disabled"><a class="page-link" href="#">&laquo; Prev</a></li>
+              {% endif %}
+              <li class="page-item disabled"><a class="page-link" href="#">Page {{ search.page }} of {{ paginator.num_pages }}</a></li>
+              {% if animals.has_next %}
+              <li class="page-item"><a class="page-link" href="?{% modify_qs 'page' animals.next_page_number %}">Next
+                  &raquo;</a></li>
+              {% else %}
+              <li class="page-item disabled"><a class="page-link" href="#">Next &raquo;</a></li>
+              {% endif %}
+            </ul>
+          </nav>
+        </div>
+      </div>
+
+
+
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

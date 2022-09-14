@@ -1,0 +1,37 @@
+{% extends 'base/wrapper.html' %}
+{% load avatar_tags %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-md-center">
+      <div class="col-md-8">
+        <div class="container py-5">
+            <h3>Edit comment</h3>
+
+            <br />
+
+            <form method="post" action="">
+            {% csrf_token %}
+
+                <div class="comment" id="comment-{{comment.id}}">
+                    {% avatar comment.user 40 40 class="comment-avatar" %}
+                    <div class="comment-inner">
+                        <div class="comment-username">{{comment.user.username}}</div>
+                        <div class="comment-body">
+                            <textarea rows="5" name="body">{{ comment.body }}</textarea>
+                        </div>
+                        <div class="comment-meta">
+                            <div data-timestamp="{{comment.created_at|date:'c'}}">{{comment.created_at|date:'r'}}</div>
+                        </div>
+                        <div class="my-3">
+                            <input type="submit" value="Update comment" class="btn btn-primary" />
+                            <a href="{{ animal.get_absolute_url }}#comment-{{comment.id}}" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            
+        </div>
+    </div>
+</div>
+{% endblock %}

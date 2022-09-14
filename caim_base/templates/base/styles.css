@@ -1,0 +1,115 @@
+/* @todo move into static asset */
+
+.context-bar .btn {
+    margin-top: 3px;
+}
+
+.avatar {
+    border-radius: 50%;
+}
+
+/* Browse */
+
+.animal-shortlist {
+    position: absolute;
+    background: white;
+    border-radius: 30px;
+    right: 8px;
+    top: 8px;
+    box-shadow: 1px 1px 12px rgba(0, 0, 0, 0.5);
+    width: 32px;
+    height: 32px;
+    line-height: 36px;
+    text-align: center;
+}
+
+.animal-shortlist-selected {
+    background: #37CABA;
+    color: white;
+}
+
+.animal-card:hover .animal-shortlist {
+    right: 6px;
+    top: 6px;
+}
+
+.animal-card h5 {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    ;
+}
+
+.animal-card .card-img-top {
+    height: 300px;
+    background-size: cover;
+    background-position: center;
+}
+
+/* Animal */
+.animal-slideshow {
+    text-align: center;
+    padding-bottom: 8px;
+    min-height: 300px;
+}
+
+.animal-slideshow img {
+    max-width: 100%;
+}
+
+.animal-slideshow .lSSlideOuter .lSPager.lSpg li a {
+    background: #666;
+}
+
+.animal-slideshow .lSSlideOuter .lSPager.lSpg li.active a {
+    background: #eee;
+}
+
+/* Comments */
+.comment {
+    padding-left: 50px;
+    position: relative;
+    margin-bottom: 8px;
+}
+
+.comment-avatar {
+    position: absolute;
+    top: 4px;
+    left: 0px;
+}
+
+.comment .comment-inner {
+    padding: 6px 10px;
+    border-radius: 7px;
+    background: #f5f5f5;
+}
+
+.comment .comment-inner::before {
+    content: '';
+    position: absolute;
+    border: 12px solid transparent;
+    border-right: 12px solid #f5f5f5;
+    top: 12px;
+    left: 31px;
+}
+
+.comment .comment-username {}
+
+.comment .comment-meta {
+    color: #aaa;
+    margin: 0px !important;
+    font-size: small;
+}
+
+@media (min-width: 768px) {
+    .comment .comment-meta {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
+
+.comment textarea {
+    width: 100%;
+    font-size: 12px;
+}
