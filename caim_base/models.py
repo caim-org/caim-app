@@ -2,7 +2,9 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.contrib.gis.db.models import PointField
 from django.contrib.auth.models import AbstractUser
+from django.utils.safestring import mark_safe
 from phonenumber_field.modelfields import PhoneNumberField
+from .templatetags.caim_helpers import image_resize
 
 
 User = get_user_model()
@@ -196,6 +198,17 @@ class Animal(models.Model):
 
     def get_absolute_url(self):
         return f"/animal/{self.id}"
+
+    def admin_image_tag(self):
+        if self.primary_photo:
+            resized_url = image_resize(self.primary_photo.url, "45x45")
+            return mark_safe(
+                '<img src="%s" style="width: 45px; height:45px;" />' % resized_url
+            )
+        else:
+            return "No Photo"
+
+    admin_image_tag.short_description = "Image"
 
 
 class AnimalImage(models.Model):

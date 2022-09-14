@@ -11,6 +11,15 @@ class AnimalImageInline(admin.StackedInline):
 
 class AnimalAdmin(admin.ModelAdmin):
     inlines = (AnimalImageInline,)
+    list_display = (
+        "name",
+        "id",
+        "admin_image_tag",
+        "animal_type",
+        "sex",
+        "age",
+        "primary_breed",
+    )
 
 
 admin.site.register(Breed)
