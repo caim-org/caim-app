@@ -24,6 +24,8 @@ class AnimalAdmin(AdminImageMixin, admin.ModelAdmin):
         "age",
         "primary_breed",
     )
+    search_fields = ["name"]
+    list_filter = ["animal_type", "awg"]
 
 
 class AwgMemberInline(AdminImageMixin, admin.StackedInline):
@@ -35,6 +37,8 @@ class AwgAdmin(LeafletGeoAdmin, admin.ModelAdmin):
     list_display = ("name", "state", "city", "phone", "email")
     # readonly_fields = ["geo_location"]
     inlines = (AwgMemberInline,)
+    search_fields = ["name"]
+    list_filter = ["state", "city"]
 
 
 admin.site.register(Breed)
