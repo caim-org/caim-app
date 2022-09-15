@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import Http404
 from django.core.paginator import Paginator
 
-from ..models import Awg, Animal
+from ..models import Awg, Animal, AnimalShortList
 
 
 def view(request, awg_id):
@@ -22,10 +22,17 @@ def view(request, awg_id):
     paginator = Paginator(all_animals, npp)
     animals = paginator.page(current_page)
 
+    if request.user.is_authenticated:
+        shortlists = AnimalShortList.objects.filter(user=request.user.id)
+        shortlist_animal_ids = [s.animal_id for s in shortlists]
+    else:
+        shortlist_animal_ids = []
+
     context = {
         "awg": awg,
         "pageTitle": f"{awg.name}",
         "animals": animals,
         "paginator": paginator,
+        "shortlistAnimalIds": shortlist_animal_ids,
     }
     return render(request, "awg/view.html", context)
