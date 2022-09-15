@@ -9,7 +9,7 @@
       <div class="col-md-6 py-3">
         <p class="text-light my-0">
           {% if request.GET.zip %}
-          <a href="/browse?{% modify_qs %}">&laquo; Back to results</a>
+          <a href="/browse{% modify_qs %}">&laquo; Back to results</a>
           {% else %}
           <a href="/browse?zip={{animal.awg.zip_code}}">&laquo; Animals nearby</a>
           {% endif %}

@@ -14,7 +14,10 @@ def modify_qs(context, key1=None, value1=None, key2=None, value2=None):
         get[key1] = value1
     if key2:
         get[key2] = value2
-    return get.urlencode()
+    ret = get.urlencode()
+    if ret == "":
+        return ""
+    return "?" + ret
 
 
 # url | image_resize:"WxH crop|max"
