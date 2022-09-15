@@ -10,7 +10,7 @@
           {% else %}
           <li class="page-item disabled"><a class="page-link" href="#">&laquo; Prev</a></li>
           {% endif %}
-          <li class="page-item disabled"><a class="page-link" href="#">Page {{ search.page }} of {{ paginator.num_pages }}</a></li>
+          <li class="page-item disabled"><a class="page-link" href="#">Page {{ animals.number }} of {{ paginator.num_pages }}</a></li>
           {% if animals.has_next %}
           <li class="page-item"><a class="page-link" href="{% modify_qs 'page' animals.next_page_number %}">Next
               &raquo;</a></li>

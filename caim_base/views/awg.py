@@ -15,9 +15,12 @@ def view(request, awg_id):
         "primary_breed", "secondary_breed", "awg"
     )
 
+    current_page = request.GET.get("page", 1)
+    npp = 24
+
     all_animals = query.all()
-    paginator = Paginator(all_animals, 24)
-    animals = paginator.page(1)
+    paginator = Paginator(all_animals, npp)
+    animals = paginator.page(current_page)
 
     context = {
         "awg": awg,
