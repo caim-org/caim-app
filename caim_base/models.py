@@ -74,6 +74,16 @@ class Awg(models.Model):
         return f"/organization/{self.id}"
 
 
+class AwgMember(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    awg = models.ForeignKey(Awg, on_delete=models.CASCADE)
+    canEditProfile = models.BooleanField(default=False)
+    canManageAnimals = models.BooleanField(default=False)
+    canManageMembers = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
 class AnimalType(models.TextChoices):
     DOG = "DOG", "Dog"
     CAT = "CAT", "Cat"
