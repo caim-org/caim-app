@@ -6,7 +6,11 @@
     <div class="container">
       <div class="row">
         <div class="col-md-6 py-3">&nbsp;</div>
-        <div class="col-md-6 pt-2 text-end d-none d-md-block">&nbsp;</div>
+        <div class="col-md-6 pt-2 text-end d-none d-md-block">
+          {% if currentUserCanEdit %}
+            <a href="{{ awg.get_absolute_url }}/edit" class="btn btn-secondary">Manage organization</a>
+          {% endif %}
+        </div>
       </div>
     </div>
   </div>

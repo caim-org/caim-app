@@ -26,7 +26,12 @@ class AnimalAdmin(AdminImageMixin, admin.ModelAdmin):
     )
 
 
+class AwgAdmin(LeafletGeoAdmin, admin.ModelAdmin):
+    list_display = ("name", "state", "city", "phone", "email")
+    # readonly_fields = ["geo_location"]
+
+
 admin.site.register(Breed)
 admin.site.register(Animal, AnimalAdmin)
-admin.site.register(Awg, LeafletGeoAdmin)
+admin.site.register(Awg, AwgAdmin)
 admin.site.register(AnimalComment)

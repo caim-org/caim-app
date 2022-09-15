@@ -92,7 +92,7 @@
     <div class="col-md-4">
       <div class="card">
         <div class="card-body">
-          <h4><a href="/awg/{{animal.awg.id}}">{{ animal.awg.name }}</a></h4>
+          <h4><a href="{{animal.awg.get_absolute_url}}">{{ animal.awg.name }}</a></h4>
           {% with awg=animal.awg %}
           {% include 'components/awg_address.html' %}
           {% endwith %}

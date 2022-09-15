@@ -43,7 +43,8 @@ urlpatterns = [
     path("comments/<comment_id>/delete", comments.delete),
     path("user/<username>", user_profile.view),
     path("user/<username>/edit", user_profile.edit),
-    path("awg/<awg_id>", awg.view, name="awg"),
+    path("organization/<awg_id>/edit", awg.edit, name="awg_edit"),
+    path("organization/<awg_id>", awg.view, name="awg"),
 ]
 
 if settings.DEBUG:

@@ -28,11 +28,18 @@ def view(request, awg_id):
     else:
         shortlist_animal_ids = []
 
+    current_user_can_edit_awg = awg.can_be_edited_by(request.user)
+
     context = {
         "awg": awg,
         "pageTitle": f"{awg.name}",
         "animals": animals,
         "paginator": paginator,
         "shortlistAnimalIds": shortlist_animal_ids,
+        "currentUserCanEdit": current_user_can_edit_awg,
     }
     return render(request, "awg/view.html", context)
+
+
+def edit(request, awg_id):
+    pass

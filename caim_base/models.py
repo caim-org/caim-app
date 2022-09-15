@@ -67,6 +67,12 @@ class Awg(models.Model):
     def __str__(self):
         return self.name
 
+    def can_be_edited_by(self, user):
+        return user.is_staff  # @todo also if the user has admin to this AWG
+
+    def get_absolute_url(self):
+        return f"/organization/{self.id}"
+
 
 class AnimalType(models.TextChoices):
     DOG = "DOG", "Dog"
