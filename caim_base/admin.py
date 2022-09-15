@@ -1,15 +1,19 @@
+import logging
+
 from django.contrib import admin
-from .models import Breed, Animal, Awg, AnimalComment, AnimalImage
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from leaflet.admin import LeafletGeoAdmin
 
+from .models import Breed, Animal, Awg, AnimalComment, AnimalImage
+from .admin_widgets import AdminImageMixin
 
-class AnimalImageInline(admin.StackedInline):
+
+class AnimalImageInline(AdminImageMixin, admin.StackedInline):
     model = AnimalImage
     extra = 0
 
 
-class AnimalAdmin(admin.ModelAdmin):
+class AnimalAdmin(AdminImageMixin, admin.ModelAdmin):
     inlines = (AnimalImageInline,)
     list_display = (
         "name",
