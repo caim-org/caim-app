@@ -1,5 +1,6 @@
 {% load static %}
 {% load avatar_tags %}
+{% load leaflet_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,6 +20,8 @@
     <style>
       {% include './styles.css' %}
     </style>
+    {% leaflet_js %}
+    {% leaflet_css %}
   </head>
 
   <body class="{{ bodyClasses }}">
