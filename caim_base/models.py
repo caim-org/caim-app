@@ -203,7 +203,8 @@ class Animal(models.Model):
         if self.primary_photo:
             resized_url = image_resize(self.primary_photo.url, "45x45")
             return mark_safe(
-                '<img src="%s" style="width: 45px; height:45px;" />' % resized_url
+                '<img src="%s" style="max-width: 45px; max-height:45px;" />'
+                % resized_url
             )
         else:
             return "No Photo"
