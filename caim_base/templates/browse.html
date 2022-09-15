@@ -121,31 +121,8 @@
     <div class="col-md-9">
 
       {% include 'components/animal_list.html' %}
-
-      <div class="row">
-        <div class="col-12">
-          <nav>
-            <ul class="pagination justify-content-md-start justify-content-center">
-              {% if animals.has_previous %}
-              <li class="page-item"><a class="page-link"
-                  href="{% modify_qs 'page' animals.previous_page_number %}">&laquo; Prev</a></li>
-              {% else %}
-              <li class="page-item disabled"><a class="page-link" href="#">&laquo; Prev</a></li>
-              {% endif %}
-              <li class="page-item disabled"><a class="page-link" href="#">Page {{ search.page }} of {{ paginator.num_pages }}</a></li>
-              {% if animals.has_next %}
-              <li class="page-item"><a class="page-link" href="{% modify_qs 'page' animals.next_page_number %}">Next
-                  &raquo;</a></li>
-              {% else %}
-              <li class="page-item disabled"><a class="page-link" href="#">Next &raquo;</a></li>
-              {% endif %}
-            </ul>
-          </nav>
-        </div>
-      </div>
-
-
-
+      {% include 'components/animal_pagination.html' %}
+      
     </div>
   </div>
 </div>

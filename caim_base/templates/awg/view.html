@@ -25,16 +25,17 @@
           </div>
         </div>
 
-        <h3>Animals available</h3>
-        {% include 'components/animal_list.html' %}
+        {% if paginator.count %}
+          <h3>{{ paginator.count }} Animals available</h3>
+          {% include 'components/animal_list.html' %}
+          {% include 'components/animal_pagination.html' %}
+        {% endif %}
       </div>
 
       <div class="col-md-4">
         <div class="card">
           <div class="card-body">
-            <p>{{ awg.city }}</p>
-            <p>{{ awg.state }}</p>
-            <p>{{ awg.zip_code }}</p>
+            {% include 'components/awg_address.html' %}
           </div>
         </div>
       </div>

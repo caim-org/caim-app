@@ -93,9 +93,9 @@
       <div class="card">
         <div class="card-body">
           <h4><a href="/awg/{{animal.awg.id}}">{{ animal.awg.name }}</a></h4>
-          <p>{{ animal.awg.city }}</p>
-          <p>{{ animal.awg.state }}</p>
-          <p>{{ animal.awg.zip_code }}</p>
+          {% with awg=animal.awg %}
+          {% include 'components/awg_address.html' %}
+          {% endwith %}
         </div>
       </div>
     </div>

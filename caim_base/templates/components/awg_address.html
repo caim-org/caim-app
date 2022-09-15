@@ -1,0 +1,65 @@
+{% load leaflet_tags %}
+
+{% leaflet_js %}
+{% leaflet_css %}
+<style>
+  .addr {
+    color: #aaa;
+    margin-right: 10px;
+  }
+</style>
+{% leaflet_map 'addressmap' %}
+<br />
+
+<p>
+  <i class="addr bi-geo-alt-fill"></i> {{ awg.city }}, {{ awg.state }}, {{ awg.zip_code }}
+</p>
+{% if awg.phone %}
+  <p>
+    <i class="addr bi-telephone-fill"></i> {{ awg.phone }}
+  </p>
+{% endif %}
+{% if awg.email %}
+  <p>
+    <i class="addr bi-envelope-fill"></i> {{ awg.email }}
+  </p>
+{% endif %}
+{% if awg.website_url %}
+  <p>
+    <i class="addr bi-globe"></i> {{ awg.website_url|urlizetrunc:255 }}
+  </p>
+{% endif %}
+{% if awg.facebook_url %}
+  <p>
+    <i class="addr bi-facebook"></i> {{ awg.facebook_url|urlizetrunc:255 }}
+  </p>
+{% endif %}
+{% if awg.instagram_url %}
+  <p>
+    <i class="addr bi-instagram"></i> {{ awg.instagram_url|urlizetrunc:255 }}
+  </p>
+{% endif %}
+{% if awg.twitter_url %}
+  <p>
+    <i class="addr bi-twitter"></i> {{ awg.twitter_url|urlizetrunc:255 }}
+  </p>
+{% endif %}
+{% if awg.tiktok_url %}
+  <p>
+    <i class="addr bi-tiktok"></i> {{ awg.tiktok_url|urlizetrunc:255 }}
+  </p>
+{% endif %}
+
+
+<script>
+    window.addEventListener(
+      'map:init',
+      function (e) {
+        var p = L.latLng({{ awg.geo_location.1 }},{{ awg.geo_location.0 }});
+        var detail = e.detail
+        L.marker(p).addTo(detail.map)
+        detail.map.setView(p, 10)
+      },
+      false
+    )
+  </script>
