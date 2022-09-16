@@ -40,4 +40,9 @@ def image_resize(value, resize):
     else:
         # Use sorl-thumbnail to resize and return url
         value = value.replace("/media/", "")
-        return get_thumbnail(value, parts[0], quality=99).url
+        args = {
+            "quality": 99,
+        }
+        if parts[1] == "crop":
+            args["crop"] = "center"
+        return get_thumbnail(value, parts[0], **args).url

@@ -47,6 +47,9 @@ def view(request):
         "goodwith_kids": request.GET.get("goodwith_kids", "") == "on",
         "shortlist": request.GET.get("shortlist", "") == "on",
     }
+    if not search["zip"] and search["sort"] == "distance":
+        search["sort"] = "-created_at"
+
     current_page = int(request.GET.get("page", 1))
     npp = int(request.GET.get("limit", 21))
 

@@ -68,10 +68,7 @@ def query_animals(
         query = query.filter(distance__lte=radius_meters)
 
     if sort:
-        sortby = sort
-        if sortby == "distance" and not zip:
-            sortby = "-created_at"
-        query = query.order_by(sortby, "id")
+        query = query.order_by(sort, "id")
 
     if shortlist and user.is_authenticated:
         shortlists = AnimalShortList.objects.filter(user=user.id)
