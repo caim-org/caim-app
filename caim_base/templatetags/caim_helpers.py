@@ -24,6 +24,8 @@ def modify_qs(context, key1=None, value1=None, key2=None, value2=None):
 @register.filter
 def image_resize(value, resize):
     parts = resize.split(" ")
+    if len(parts) == 1:
+        parts.append("crop")
     if settings.IMAGE_RESIZE_USE_IMAGKIT:
         # Replace the S3 bucket with the imagekit CDN URL and add the resize params
         wh = parts[0].split("x")

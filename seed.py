@@ -145,13 +145,11 @@ def load_animals(animal_type, file_name):
                 age=map_age(aa["age"].lower()),
                 special_needs=aa.get("special_needs_notes", "") or "",
                 description=aa.get("description", "") or "",
+                is_special_needs=False,
                 is_euth_listed=False,
                 euth_date=fake.date_between(start_date="today", end_date="+30d"),
-                # primary_photo_url = aa['primary_photo_url'],
-                # photo_urls = aa['photo_urls'],
                 is_spayed_neutered="Spay/Neuter" in aa["attributes"],
                 is_vaccinations_current="Shots Current" in aa["attributes"],
-                is_house_trained="House trained" in aa["attributes"],
                 behaviour_dogs=map_behavour(
                     aa["home_environment_attributes"].get("good_with_dogs", False)
                 ),
@@ -179,7 +177,8 @@ def load_animals(animal_type, file_name):
                             os.path.basename(image_url), File(open(img_result[0], "rb"))
                         )
                         ai.save()
-        except:
+        except Exception as er:
+            print(er)
             print("SKIPPEd")
 
 

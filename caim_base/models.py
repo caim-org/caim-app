@@ -26,9 +26,9 @@ class ZipCode(models.Model):
 
 class Awg(models.Model):
     class AwgType(models.TextChoices):
-        CENTER_ONLY = "CENTER_ONLY", "Center only"
+        SHELTER_ONLY = "SHELTER_ONLY", "Shelter only"
         FOSTER_ONLY = "FOSTER_ONLY", "Foster only"
-        CENTER_AND_FOSTER = "CENTER_AND_FOSTER", "Both"
+        SHELTER_AND_FOSTER = "SHELTER_AND_FOSTER", "Both"
 
     name = models.CharField(max_length=100)
     petfinder_id = models.CharField(max_length=32, blank=True, null=True, default=None)
@@ -40,14 +40,25 @@ class Awg(models.Model):
         default=None,
         blank=True,
         null=True,
+        verbose_name="AWS type",
     )
 
-    has_501c3_tax_exemption = models.BooleanField(default=False)
-    company_ein = models.CharField(max_length=16, blank=True, null=True, default=None)
+    has_501c3_tax_exemption = models.BooleanField(
+        default=False, verbose_name="501c3 tax exempt charity"
+    )
+    company_ein = models.CharField(
+        max_length=16,
+        blank=True,
+        null=True,
+        default=None,
+        verbose_name="Employer Identification Number (EIN)",
+    )
 
-    workwith_dogs = models.BooleanField(default=False)
-    workwith_cats = models.BooleanField(default=False)
-    workwith_other = models.BooleanField(default=False)
+    workwith_dogs = models.BooleanField(default=False, verbose_name="Works with dogs?")
+    workwith_cats = models.BooleanField(default=False, verbose_name="Works with cats?")
+    workwith_other = models.BooleanField(
+        default=False, verbose_name="Works with other animals?"
+    )
 
     geo_location = PointField()
     zip_code = models.CharField(max_length=16, blank=True, null=True, default=None)
@@ -55,11 +66,25 @@ class Awg(models.Model):
     state = models.CharField(max_length=2)
     email = models.EmailField(max_length=32, blank=True, null=True, default=None)
     phone = PhoneNumberField(blank=True, null=True, default=None)
-    website_url = models.URLField(max_length=255, blank=True, null=True, default=None)
-    facebook_url = models.URLField(max_length=255, blank=True, null=True, default=None)
-    instagram_url = models.URLField(max_length=255, blank=True, null=True, default=None)
-    twitter_url = models.URLField(max_length=255, blank=True, null=True, default=None)
-    tiktok_url = models.URLField(max_length=255, blank=True, null=True, default=None)
+    website_url = models.URLField(
+        max_length=255, blank=True, null=True, default=None, verbose_name="Website URL"
+    )
+    facebook_url = models.URLField(
+        max_length=255, blank=True, null=True, default=None, verbose_name="Facebook URL"
+    )
+    instagram_url = models.URLField(
+        max_length=255,
+        blank=True,
+        null=True,
+        default=None,
+        verbose_name="Instagram URL",
+    )
+    twitter_url = models.URLField(
+        max_length=255, blank=True, null=True, default=None, verbose_name="Twitter URL"
+    )
+    tiktok_url = models.URLField(
+        max_length=255, blank=True, null=True, default=None, verbose_name="TikTok URL"
+    )
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -143,7 +168,22 @@ class Animal(models.Model):
     petfinder_id = models.CharField(
         max_length=32, blank=True, null=True, default=None, unique=True
     )
-    awg = models.ForeignKey(Awg, on_delete=models.CASCADE)
+    awg = models.ForeignKey(Awg, on_delete=models.CASCADE, verbose_name="AWG")
+    awg_internal_id = models.CharField(
+        max_length=64,
+        null=True,
+        default=None,
+        blank=True,
+        verbose_name="AWG internal ID",
+    )
+    awg_profile_url = models.URLField(
+        max_length=255,
+        blank=True,
+        null=True,
+        default=None,
+        verbose_name="AWG animal profile URL",
+    )
+    is_published = models.BooleanField(default=True)
     primary_breed = models.ForeignKey(
         Breed, on_delete=models.RESTRICT, related_name="primary_animal_set"
     )
@@ -169,29 +209,36 @@ class Animal(models.Model):
         max_length=8,
         choices=AnimalAge.choices,
     )
-    is_spayed_neutered = models.BooleanField()
-    is_vaccinations_current = models.BooleanField()
-    is_house_trained = models.BooleanField()
-    special_needs = models.TextField(blank=True)
-    vaccinations_notes = models.TextField(blank=True)
+    is_spayed_neutered = models.BooleanField(verbose_name="Is spayed / neutered")
+    is_vaccinations_current = models.BooleanField(
+        verbose_name="Vaccinations are up to date"
+    )
+    is_special_needs = models.BooleanField(verbose_name="Has special needs")
+    special_needs = models.TextField(blank=True, verbose_name="Special needs details")
+    vaccinations_notes = models.TextField(blank=True, verbose_name="Vaccination notes")
     description = models.TextField(blank=True)
     behaviour_dogs = models.CharField(
         max_length=10,
         choices=AnimalBehaviourGrade.choices,
         default=AnimalBehaviourGrade.NOT_TESTED,
+        verbose_name="Behavour with dogs",
     )
     behaviour_cats = models.CharField(
         max_length=10,
         choices=AnimalBehaviourGrade.choices,
         default=AnimalBehaviourGrade.NOT_TESTED,
+        verbose_name="Behavour with cats",
     )
     behaviour_kids = models.CharField(
         max_length=10,
         choices=AnimalBehaviourGrade.choices,
         default=AnimalBehaviourGrade.NOT_TESTED,
+        verbose_name="Behavour with kidw",
     )
-    is_euth_listed = models.BooleanField()
-    euth_date = models.DateField(blank=True, null=True, default=None)
+    is_euth_listed = models.BooleanField(verbose_name="Is scheduled for euthanasia")
+    euth_date = models.DateField(
+        blank=True, null=True, default=None, verbose_name="Scheduled euthanasia date"
+    )
     primary_photo = models.ImageField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
