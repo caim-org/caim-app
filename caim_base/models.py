@@ -30,6 +30,7 @@ class Awg(models.Model):
         FOSTER_ONLY = "FOSTER_ONLY", "Foster only"
         SHELTER_AND_FOSTER = "SHELTER_AND_FOSTER", "Both"
 
+    id = models.AutoField(primary_key=True, verbose_name="CAIM ID")
     name = models.CharField(max_length=100)
     petfinder_id = models.CharField(max_length=32, blank=True, null=True, default=None)
 
@@ -162,6 +163,7 @@ class Animal(models.Model):
         GOOD = "GOOD", "Good"
         NOT_TESTED = "NOT_TESTED", "Not tested"
 
+    id = models.AutoField(primary_key=True, verbose_name="CAIM ID")
     name = models.CharField(max_length=100)
     animal_type = models.CharField(
         max_length=3,

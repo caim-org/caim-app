@@ -34,7 +34,7 @@ class AwgMemberInline(AdminImageMixin, admin.StackedInline):
 
 
 class AwgAdmin(LeafletGeoAdmin, admin.ModelAdmin):
-    list_display = ("name", "state", "city", "phone", "email")
+    list_display = ("name", "id", "state", "city", "phone", "email")
     # readonly_fields = ["geo_location"]
     inlines = (AwgMemberInline,)
     search_fields = ["name"]
