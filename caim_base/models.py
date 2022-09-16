@@ -37,7 +37,7 @@ class Awg(models.Model):
         SHELTER_AND_FOSTER = "SHELTER_AND_FOSTER", "Both Shelter and Foster"
 
     id = models.AutoField(primary_key=True, verbose_name="CAIM ID")
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, verbose_name="Organization name")
     petfinder_id = models.CharField(max_length=32, blank=True, null=True, default=None)
     is_published = models.BooleanField(default=False, verbose_name="Is listed on site?")
     description = models.TextField(blank=True)
