@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.contrib.gis.db.models import PointField
+from django.contrib.gis.geos import Point
 from django.contrib.auth.models import AbstractUser
 from django.utils.safestring import mark_safe
 from phonenumber_field.modelfields import PhoneNumberField
@@ -28,12 +29,12 @@ class Awg(models.Model):
     class AwgType(models.TextChoices):
         SHELTER_ONLY = "SHELTER_ONLY", "Shelter only"
         FOSTER_ONLY = "FOSTER_ONLY", "Foster only"
-        SHELTER_AND_FOSTER = "SHELTER_AND_FOSTER", "Both"
+        SHELTER_AND_FOSTER = "SHELTER_AND_FOSTER", "Both Shelter and Foster"
 
     id = models.AutoField(primary_key=True, verbose_name="CAIM ID")
     name = models.CharField(max_length=100)
     petfinder_id = models.CharField(max_length=32, blank=True, null=True, default=None)
-
+    is_published = models.BooleanField(default=False, verbose_name="Is listed on site?")
     description = models.TextField(blank=True)
     awg_type = models.CharField(
         max_length=32,
@@ -41,7 +42,7 @@ class Awg(models.Model):
         default=None,
         blank=True,
         null=True,
-        verbose_name="AWS type",
+        verbose_name="Organisation type",
     )
 
     has_501c3_tax_exemption = models.BooleanField(
@@ -101,6 +102,10 @@ class Awg(models.Model):
 
     def get_absolute_url(self):
         return f"/organization/{self.id}"
+
+    def save(self, *args, **kwargs):
+        self.geo_location = Point(0, 0)
+        super(Awg, self).save(*args, **kwargs)
 
 
 class AwgMember(models.Model):

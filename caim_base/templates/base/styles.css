@@ -1,4 +1,7 @@
 /* @todo move into static asset */
+.asteriskField {
+    color: red;
+}
 
 .context-bar .btn {
     margin-top: 3px;

@@ -92,6 +92,7 @@ def upsert_awg(name, pf_id, city, state, zip, lat, lng):
             state=state,
             zip_code=zip,
             geo_location=Point(lng, lat),
+            is_published=True,
         )
         awg.save()
 
