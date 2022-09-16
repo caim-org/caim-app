@@ -64,6 +64,9 @@ class Awg(models.Model):
     zip_code = models.CharField(max_length=16, blank=True, null=True, default=None)
     city = models.CharField(max_length=32, blank=True, null=True, default=None)
     state = models.CharField(max_length=2)
+    is_exact_location_shown = models.BooleanField(
+        default=False, verbose_name="Show exact location?"
+    )
     email = models.EmailField(max_length=32, blank=True, null=True, default=None)
     phone = PhoneNumberField(blank=True, null=True, default=None)
     website_url = models.URLField(

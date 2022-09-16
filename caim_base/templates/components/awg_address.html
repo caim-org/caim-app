@@ -6,12 +6,19 @@
     margin-right: 10px;
   }
 </style>
+{% if awg.is_exact_location_shown %}
 {% leaflet_map 'addressmap' %}
 <br />
 
 <p>
   <i class="addr bi-geo-alt-fill"></i> {{ awg.city }}, {{ awg.state }}, {{ awg.zip_code }}
 </p>
+{% else %}
+<p>
+  <i class="addr bi-geo-alt-fill"></i> {{ awg.city }}, {{ awg.state }}
+</p>
+{% endif %}
+
 {% if awg.phone %}
   <p>
     <i class="addr bi-telephone-fill"></i> {{ awg.phone }}
