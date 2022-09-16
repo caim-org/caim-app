@@ -18,19 +18,12 @@
   <div class="container">
     <div class="row">
       <div class="col-md-8">
-        <div class="card mb-3">
-          <div class="card-body">
-            <h2>{{ awg.name }}</h2>
-            <br />
-
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ac venenatis arcu. Nulla dignissim finibus consectetur. Pellentesque viverra neque id dolor eleifend, non rhoncus diam rhoncus. Vivamus placerat, purus nec sodales tincidunt, odio neque suscipit sem, at tempor erat erat in justo. Sed massa nibh, faucibus at semper vel, tempor at nisi. Nam velit lorem, viverra vitae pharetra sed, congue eu mi. Integer sed urna nisi. Integer pellentesque tristique est, nec tristique nisi fringilla at. Donec commodo, lorem posuere maximus tincidunt, enim metus semper mi, in sagittis mi metus vel diam. Donec viverra interdum ullamcorper. Fusce vitae posuere quam. Morbi non lorem non nulla tempor euismod ut ut velit. Integer pretium rhoncus diam, a rhoncus magna aliquet id. In eget porttitor odio. Vivamus sodales felis volutpat dui pretium, at dignissim ante malesuada. Ut varius leo nec varius commodo.</p>
-            <p>Pellentesque sed eros id neque mattis commodo. Praesent commodo accumsan augue, id vehicula urna bibendum interdum. Nunc eu diam ullamcorper, imperdiet lacus quis, aliquet sapien. Praesent venenatis est nec lectus convallis pretium. Nam in facilisis odio. Pellentesque vitae neque nulla. Mauris egestas mattis dapibus. Integer ut ante vel quam auctor hendrerit. Phasellus condimentum dignissim faucibus. Donec aliquet dignissim sagittis. Praesent id risus pellentesque, fringilla augue eu, imperdiet dui. Donec laoreet interdum leo, sed ultrices lorem porta ut. Quisque elementum euismod orci et dignissim. Cras dignissim ligula ac dui sodales vulputate. Duis mollis felis at erat ultricies commodo.</p>
-            <p>Maecenas lobortis a odio eu placerat. Phasellus luctus turpis id diam posuere pretium. Proin pellentesque libero feugiat dui interdum, ut ornare libero dictum. Ut tincidunt neque in venenatis iaculis. Sed faucibus, metus eget tempus congue, est augue consectetur augue, at iaculis leo nibh at mi. Nam congue et lacus et congue. Curabitur egestas augue diam. Pellentesque pulvinar, quam vel suscipit eleifend, magna dui mollis ligula, nec tincidunt lectus ante ut nisi. Maecenas at porttitor arcu. In tempus aliquam dui, a efficitur augue elementum a. Nullam sit amet leo in nisi porta suscipit non aliquam lorem. Nunc lacinia id arcu at pharetra. Proin eu turpis vel arcu tempor posuere. Mauris consequat risus in volutpat aliquam. Vivamus at velit at tellus tempor suscipit. Etiam venenatis velit id arcu pulvinar, a malesuada odio molestie.</p>
-          </div>
-        </div>
+        <h2>{{ awg.name }}</h2>
+        {{ awg.description|urlizetrunc:60|linebreaks }}
+        <br />
 
         {% if paginator.count %}
-          <h3>{{ paginator.count }} Animals available</h3>
+          <h4>{{ paginator.count }} Animals available</h4>
           {% include 'components/animal_list.html' %}
           {% include 'components/animal_pagination.html' %}
         {% endif %}

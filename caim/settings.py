@@ -177,7 +177,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 CRISPY_FAIL_SILENTLY = False
 
 # Imagekit.io + cloudfront resizing
-IMAGE_RESIZE_USE_IMAGKIT = os.getenv("IMAGE_RESIZE_USE_IMAGKIT", False)
+IMAGE_RESIZE_USE_IMAGKIT = os.getenv("IMAGE_RESIZE_USE_IMAGKIT", "0") == "1"
 IMAGE_RESIZE_ORIGIN = os.getenv("IMAGE_RESIZE_ORIGIN", None)
 IMAGE_RESIZE_CDN = os.getenv("IMAGE_RESIZE_CDN", None)
 
