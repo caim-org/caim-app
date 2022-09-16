@@ -1,11 +1,16 @@
+import logging
+
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.contrib.gis.db.models import PointField
-from django.contrib.gis.geos import Point
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ValidationError
 from django.utils.safestring import mark_safe
 from phonenumber_field.modelfields import PhoneNumberField
 from .templatetags.caim_helpers import image_resize
+from .states import states
+
+logger = logging.getLogger(__name__)
 
 
 User = get_user_model()
@@ -65,7 +70,7 @@ class Awg(models.Model):
     geo_location = PointField()
     zip_code = models.CharField(max_length=16, blank=True, null=True, default=None)
     city = models.CharField(max_length=32, blank=True, null=True, default=None)
-    state = models.CharField(max_length=2)
+    state = models.CharField(max_length=2, choices=states.items())
     is_exact_location_shown = models.BooleanField(
         default=False, verbose_name="Show exact location?"
     )
@@ -103,8 +108,19 @@ class Awg(models.Model):
     def get_absolute_url(self):
         return f"/organization/{self.id}"
 
+    def clean(self):
+        # Validate zip_code
+        if self.zip_code:
+            zip_info = ZipCode.objects.filter(zip_code=self.zip_code).first()
+            if not zip_info:
+                raise ValidationError({"zip_code": "Invalid US zip code"})
+
     def save(self, *args, **kwargs):
-        self.geo_location = Point(0, 0)
+        try:
+            zip_info = ZipCode.objects.get(zip_code=self.zip_code)
+            self.geo_location = zip_info.geo_location
+        except:
+            logger.warn("ZIP code not valid")
         super(Awg, self).save(*args, **kwargs)
 
 

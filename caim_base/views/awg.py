@@ -7,7 +7,7 @@ from django.core.exceptions import PermissionDenied
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Submit
 
-from ..models import Awg, AnimalShortList, AwgMember
+from ..models import Awg, AnimalShortList, AwgMember, ZipCode
 from ..animal_search import query_animals
 
 
@@ -145,7 +145,7 @@ def edit(request, awg_id):
 
     if request.POST:
         form = AwgForm(request.POST, instance=awg)
-        if form.is_valid:
+        if form.is_valid():
             form.save()
     else:
         form = AwgForm(instance=awg)
@@ -161,7 +161,7 @@ def create(request):
 
     if request.POST:
         form = AwgForm(request.POST)
-        if form.is_valid:
+        if form.is_valid():
             awg = form.save()
             member = AwgMember(
                 user=request.user,
