@@ -36,10 +36,20 @@ class Awg(models.Model):
         FOSTER_ONLY = "FOSTER_ONLY", "Foster only"
         SHELTER_AND_FOSTER = "SHELTER_AND_FOSTER", "Both Shelter and Foster"
 
+    class AwgStatus(models.TextChoices):
+        APPLIED = "APPLIED", "Applied"
+        PUBLISHED = "PUBLISHED", "Published"
+        UNPUBLISHED = "UNPUBLISHED", "Unpublished"
+
     id = models.AutoField(primary_key=True, verbose_name="CAIM ID")
     name = models.CharField(max_length=100, verbose_name="Organization name")
     petfinder_id = models.CharField(max_length=32, blank=True, null=True, default=None)
-    is_published = models.BooleanField(default=False, verbose_name="Is listed on site?")
+    status = models.CharField(
+        max_length=16,
+        choices=AwgStatus.choices,
+        default=AwgStatus.APPLIED,
+        verbose_name="Listing status",
+    )
     description = models.TextField(blank=True)
     awg_type = models.CharField(
         max_length=32,

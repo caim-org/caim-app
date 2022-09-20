@@ -162,6 +162,7 @@ def create(request):
     if request.POST:
         form = AwgForm(request.POST)
         if form.is_valid():
+            awg.status = Awg.AwgStatus.APPLIED
             awg = form.save()
             member = AwgMember(
                 user=request.user,
@@ -170,7 +171,7 @@ def create(request):
                 canManageAnimals=True,
                 canManageMembers=True,
             )
-            member.save()  # Add current user as full member
+            member.save()  # Add current user as full admin member
             return render(request, "awg/create-success.html")
     else:
         form = AwgForm(submit_label="Submit form")
