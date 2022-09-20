@@ -162,8 +162,9 @@ def create(request):
     if request.POST:
         form = AwgForm(request.POST)
         if form.is_valid():
+            awg = form.save(commit=False)
             awg.status = Awg.AwgStatus.APPLIED
-            awg = form.save()
+            awg.save()
             member = AwgMember(
                 user=request.user,
                 awg=awg,
