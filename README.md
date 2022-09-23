@@ -70,3 +70,6 @@ AWS_PROFILE=personal aws ecr get-login-password --region us-east-1 | docker logi
 docker buildx build --platform linux/amd64 -t 512481205340.dkr.ecr.us-east-1.amazonaws.com/caim-test:latest --push .
 
 
+AWS_PROFILE=caim aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 324366619902.dkr.ecr.us-east-1.amazonaws.com
+
+docker buildx build --platform linux/amd64 -t 324366619902.dkr.ecr.us-east-1.amazonaws.com/caim-app-staging:latest --push .

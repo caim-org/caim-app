@@ -143,8 +143,8 @@ MEDIA_USE_S3 = os.getenv("MEDIA_USE_S3", "0") == "1"
 
 if MEDIA_USE_S3:
     # aws settings
-    AWS_ACCESS_KEY_ID = os.getenv("MEDIA_AWS_ACCESS_KEY_ID")
-    AWS_SECRET_ACCESS_KEY = os.getenv("MEDIA_AWS_SECRET_ACCESS_KEY")
+    AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
     AWS_STORAGE_BUCKET_NAME = os.getenv("MEDIA_AWS_STORAGE_BUCKET_NAME")
     AWS_DEFAULT_ACL = "public-read"
     AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
@@ -212,6 +212,8 @@ if not PRODUCTION:
     CSRF_TRUSTED_ORIGINS = [
         "http://127.0.0.1:8000",
         "https://5rhtrm273h.us-east-1.awsapprunner.com",
+        "https://staging.app.caim.org",
+        "https://app.caim.org",
     ]
 
 if os.getenv("DOCKER"):
