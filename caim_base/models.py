@@ -112,8 +112,23 @@ class Awg(models.Model):
     def __str__(self):
         return self.name
 
-    def can_be_edited_by(self, user):
-        return user.is_staff  # @todo also if the user has admin to this AWG
+    def get_permissions_for_user(self, user):
+        ret = []
+        # If CAIM staff, all permissions
+        if user.is_staff:
+            ret.append("EDIT_PROFILE")
+            ret.append("MANAGE_ANIMALS")
+            ret.append("MANAGE_MEMBERS")
+        # Look for AWGMember for this user and AWG
+        member = self.awgmember_set.filter(user=user).first()
+        if member:
+            if member.canEditProfile:
+                ret.append("EDIT_PROFILE")
+            if member.canManageAnimals:
+                ret.append("MANAGE_ANIMALS")
+            if member.canManageMembers:
+                ret.append("MANAGE_MEMBERS")
+        return ret
 
     def get_absolute_url(self):
         return f"/organization/{self.id}"

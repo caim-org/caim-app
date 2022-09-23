@@ -32,7 +32,7 @@ def view(request, awg_id):
     else:
         shortlist_animal_ids = []
 
-    current_user_can_edit_awg = awg.can_be_edited_by(request.user)
+    current_user_permissions = awg.get_permissions_for_user(request.user)
 
     context = {
         "awg": awg,
@@ -40,7 +40,7 @@ def view(request, awg_id):
         "animals": animals,
         "paginator": paginator,
         "shortlistAnimalIds": shortlist_animal_ids,
-        "currentUserCanEdit": current_user_can_edit_awg,
+        "currentUserPermissions": current_user_permissions,
     }
     return render(request, "awg/view.html", context)
 
@@ -140,7 +140,8 @@ def edit(request, awg_id):
     except Awg.DoesNotExist:
         raise Http404("Awg not found")
 
-    if not awg.can_be_edited_by(request.user):
+    current_user_permissions = awg.get_permissions_for_user(request.user)
+    if not "EDIT_PROFILE" in current_user_permissions:
         raise PermissionDenied("User does not have permission to edit this AWG")
 
     if request.POST:
@@ -151,13 +152,13 @@ def edit(request, awg_id):
         form = AwgForm(instance=awg)
 
     context = {"awg": awg, "pageTitle": f"{awg.name} | Edit profile", "form": form}
-    return render(request, "awg/edit.html", context)
+    return render(request, "awg/manage/edit-profile.html", context)
 
 
 def create(request):
 
     if not request.user.is_authenticated:
-        return render(request, "awg/create-must-login.html")
+        return render(request, "awg/apply/must-login.html")
 
     if request.POST:
         form = AwgForm(request.POST)
@@ -173,9 +174,9 @@ def create(request):
                 canManageMembers=True,
             )
             member.save()  # Add current user as full admin member
-            return render(request, "awg/create-success.html")
+            return render(request, "awg/apply/success.html")
     else:
         form = AwgForm(submit_label="Submit form")
 
     context = {"pageTitle": f"Create organizatiion profile", "form": form}
-    return render(request, "awg/create.html", context)
+    return render(request, "awg/apply/form.html", context)
