@@ -1,6 +1,4 @@
 
-
-
 # Caim app
 
 
@@ -66,10 +64,13 @@ The app is currently hostest on AWS AppRunner.
 
 ### Deployment notes
 
-AWS_PROFILE=personal aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 512481205340.dkr.ecr.us-east-1.amazonaws.com
-docker buildx build --platform linux/amd64 -t 512481205340.dkr.ecr.us-east-1.amazonaws.com/caim-test:latest --push .
+To deploy to the staging site:
 
+```
+1) Login to AWS ECR (need AWS access and correct AWS_PROFILE):
 
 AWS_PROFILE=caim aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 324366619902.dkr.ecr.us-east-1.amazonaws.com
 
+2) Build image and push to staging ECR
 docker buildx build --platform linux/amd64 -t 324366619902.dkr.ecr.us-east-1.amazonaws.com/caim-app-staging:latest --push .
+```
