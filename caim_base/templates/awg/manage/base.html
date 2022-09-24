@@ -5,11 +5,16 @@
     <div class="container">
       <div class="row">
         <div class="col-md-6 py-3">
-          <a href="{{ awg.get_absolute_url }}">&laquo; View organization profile</a>
+          {% block contextBack %}
+            <a href="{{ awg.get_absolute_url }}">&laquo; View organization profile</a>
+          {% endblock %}
         </div>
         <div class="col-md-6 pt-2 text-end d-none d-md-block">
+          {% block contextOptions %}
+
+          {% endblock %}
           {% if currentUserPermissions %}
-            <div class="dropdown">
+            <div class="dropdown d-inline">
               <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Manage organization</button>
               <ul class="dropdown-menu">
                 {% if 'EDIT_PROFILE' in currentUserPermissions %}

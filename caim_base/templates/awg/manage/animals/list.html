@@ -1,0 +1,60 @@
+{% extends '../base.html' %}
+{% load caim_helpers %}
+
+{% block contextOptions %}
+  <a href="{{ awg.get_absolute_url }}/animals/add" class="btn btn-secondary">Add animal</a>
+{% endblock %}
+
+{% block innerContent %}
+  <div class="row">
+    <div class="col-md-12">
+      <h2>Animals</h2>
+
+      <div class="table-responsive">
+        <table class="table table-bordered table-header">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Photo</th>
+              <th>AWG ID</th>
+              <th>Type</th>
+              <th>Breed(s)</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for animal in animals %}
+              <tr>
+                <td>
+                  <a href="{{ awg.get_absolute_url }}/animals/{{ animal.id }}">{{ animal.name }}</a>
+                </td>
+                <td>
+                  <img src="{{ animal.primary_photo.url|image_resize:'40x40 crop' }}" />
+                </td>
+                <td>{{ animal.awg_internal_id }}</td>
+                <td>{{ animal.animal_type }}</td>
+                <td>{{ animal.breedsText }}</td>
+                <td>
+                  {% if animal.is_published %}
+                    Published
+                  {% else %}
+                    Hidden
+                  {% endif %}
+                </td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="6">
+                  No animals listed. You can <a href="{{ awg.get_absolute_url }}/animals/add">add one</a>.
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <p>
+          <a href="{{ awg.get_absolute_url }}/animals/add" class="btn btn-secondary">Add animal</a>
+        </p>
+      </div>
+    </div>
+  </div>
+{% endblock %}

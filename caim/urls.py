@@ -46,6 +46,16 @@ urlpatterns = [
     path("organization/apply", awg.create, name="awg_create"),
     path("organization/<awg_id>/edit", awg.edit, name="awg_edit"),
     path("organization/<awg_id>/animals", awg.list_animals, name="awg_list_animals"),
+    path(
+        "organization/<awg_id>/animals/add",
+        awg.add_animal,
+        name="awg_add_animal",
+    ),
+    path(
+        "organization/<awg_id>/animals/<animal_id>",
+        awg.edit_animal,
+        name="awg_edit_animal",
+    ),
     path("organization/<awg_id>/members", awg.list_members, name="awg_list_members"),
     path("organization/<awg_id>", awg.view, name="awg"),
 ]

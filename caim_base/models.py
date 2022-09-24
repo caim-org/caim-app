@@ -118,14 +118,14 @@ class Awg(models.Model):
         if user.is_staff:
             ret.append("EDIT_PROFILE")
             ret.append("MANAGE_ANIMALS")
-            ret.append("MANAGE_MEMBERS")
+            # ret.append("MANAGE_MEMBERS")
         # Look for AWGMember for this user and AWG
         member = self.awgmember_set.filter(user=user).first()
         if member:
             if member.canEditProfile:
                 ret.append("EDIT_PROFILE")
-            if member.canManageAnimals:
-                ret.append("MANAGE_ANIMALS")
+            # if member.canManageAnimals:
+            #    ret.append("MANAGE_ANIMALS")
             if member.canManageMembers:
                 ret.append("MANAGE_MEMBERS")
         return ret
@@ -191,17 +191,17 @@ class Animal(models.Model):
         M = "M", "Male"
 
     class AnimalSize(models.TextChoices):
-        XS = "XS", "X-Small"
-        S = "S", "Small"
-        M = "M", "Medium"
-        L = "L", "Large"
-        XL = "XL", "X-Large"
+        # XS = "XS", "X-Small"
+        S = "S", "Small (0-25 lbs)"
+        M = "M", "Medium (26-60 lbs)"
+        L = "L", "Large (61-100 lbs)"
+        XL = "XL", "X-Large (101 lbs+)  "
 
     class AnimalAge(models.TextChoices):
-        BABY = "BABY", "Puppy/Kitten"
-        YOUNG = "YOUNG", "Young"
-        ADULT = "ADULT", "Adult"
-        SENIOR = "SENIOR", "Senior"
+        BABY = "BABY", "Puppy (< 1 year)"
+        YOUNG = "YOUNG", "Young (1-3 years)"
+        ADULT = "ADULT", "Adult (3-8 years)"
+        SENIOR = "SENIOR", "Senior (8+ years)"
 
     class AnimalBehaviourGrade(models.TextChoices):
         POOR = "POOR", "Poor"
