@@ -58,6 +58,10 @@ Running the app locally requires:
 4. Migrate the database via `python manage.py migrate`
 5. Build test data with `python manage.py shell < seed.py`
 
+## How to contribute
+
+We welcome your help! Please browse the attached project and issues for things to work on (more will be added shortly). Please branch off `main`, implement your feature, and send a pull request.
+
 ## Hosting
 
 The app is currently hostest on AWS AppRunner. 
