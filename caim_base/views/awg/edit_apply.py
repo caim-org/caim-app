@@ -116,7 +116,14 @@ def edit(request, awg_id):
     else:
         form = AwgForm(instance=awg)
 
-    context = {"awg": awg, "pageTitle": f"{awg.name} | Edit profile", "form": form}
+    current_user_permissions = awg.get_permissions_for_user(request.user)
+
+    context = {
+        "awg": awg,
+        "pageTitle": f"{awg.name} | Edit profile",
+        "form": form,
+        "currentUserPermissions": current_user_permissions,
+    }
     return render(request, "awg/manage/edit-profile.html", context)
 
 

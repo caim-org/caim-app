@@ -1,0 +1,43 @@
+{% extends 'base/wrapper.html' %}
+
+{% block content %}
+  <div class="bg-dark context-bar">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 py-3">
+          <a href="{{ awg.get_absolute_url }}">&laquo; View organization profile</a>
+        </div>
+        <div class="col-md-6 pt-2 text-end d-none d-md-block">
+          {% if currentUserPermissions %}
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Manage organization</button>
+              <ul class="dropdown-menu">
+                {% if 'EDIT_PROFILE' in currentUserPermissions %}
+                  <li>
+                    <a class="dropdown-item" href="{{ awg.get_absolute_url }}/edit">Edit organization profile</a>
+                  </li>
+                {% endif %}
+                {% if 'MANAGE_ANIMALS' in currentUserPermissions %}
+                  <li>
+                    <a class="dropdown-item" href="{{ awg.get_absolute_url }}/animals">Manage animals</a>
+                  </li>
+                {% endif %}
+                {% if 'MANAGE_MEMBERS' in currentUserPermissions %}
+                  <li>
+                    <a class="dropdown-item" href="{{ awg.get_absolute_url }}/members">Manage admins</a>
+                  </li>
+                {% endif %}
+              </ul>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <br />
+  <div class="container">
+    {% block innerContent %}
+
+    {% endblock %}
+  </div>
+{% endblock %}

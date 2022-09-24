@@ -1,8 +1,8 @@
-{% extends 'base/wrapper.html' %}
+{% extends './base.html' %}
 {% load caim_helpers %}
 {% load crispy_forms_tags %}
 
-{% block content %}
+{% block innerContent %}
   <style>
     legend {
       font-size: 1.2em;
@@ -14,33 +14,20 @@
     }
   </style>
 
-  <div class="bg-dark context-bar">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6 py-3">
-          <a href="{{ awg.get_absolute_url }}">&laquo; View organization profile</a>
-        </div>
-        <div class="col-md-6 pt-2 text-end d-none d-md-block">&nbsp;</div>
-      </div>
+  <div class="row">
+    <div class="col-md-8">
+      <h2>{{ awg.name }}</h2>
+
+      {% crispy form %}
+      <p>
+        <br />
+        <span class="asteriskField">*</span> denotes required field
+      </p>
     </div>
-  </div>
-  <br />
-  <div class="container">
-    <div class="row">
-      <div class="col-md-8">
-        <h2>{{ awg.name }}</h2>
 
-        {% crispy form %}
-        <p>
-          <br />
-          <span class="asteriskField">*</span> denotes required field
-        </p>
-      </div>
-
-      <div class="col-md-4">
-        <div class="card">
-          <div class="card-body">Help / Info?</div>
-        </div>
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">Help / Info?</div>
       </div>
     </div>
   </div>
