@@ -133,7 +133,7 @@ def create(request):
         return render(request, "awg/apply/must-login.html")
 
     if request.POST:
-        form = AwgForm(request.POST)
+        form = AwgForm(request.POST, submit_label="Submit form")
         if form.is_valid():
             awg = form.save(commit=False)
             awg.status = Awg.AwgStatus.APPLIED

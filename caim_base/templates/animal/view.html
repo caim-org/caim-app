@@ -30,18 +30,14 @@
   </div>
 </div>
 
-<div class="animal-slideshow bg-dark mb-4" style="display:none">
-  <div><img src="{{ animal.primary_photo.url|image_resize:'800x500 max' }}" /></div>
-  {% for image in images %}
-    <div><img src="{{ image.photo.url|image_resize:'800x500 max' }}" /></div>
-  {% endfor %}
-</div>
 
 <div class="animal-slideshow bg-dark mb-4">
   <ul id="lightSlider" class="bg-dark gallery list-unstyled cS-hidden">
+    {% if animal.primary_photo %}
     <li class="text-center">
       <img src="{{ animal.primary_photo.url|image_resize:'800x500 max' }}" />
     </li>
+    {% endif %}
     {% for image in images %}
     <li class="text-center">
       <img src="{{ image.photo.url|image_resize:'800x500 max' }}" />

@@ -7,15 +7,120 @@
 {% endblock %}
 
 {% block innerContent %}
+  <style>
+    .photos {
+      border: 1px solid #ddd;
+      background: #f5f5f5;
+      padding: 8px;
+      margin-bottom: 8px;
+      margin-top: 20px;
+    }
+    .photos img {
+      margin: 0 0px 4px 0px;
+      border: 1px solid rgba(0, 0, 0, 0.5);
+      padding: 4px;
+      cursor: pointer;
+    }
+    .photos img.primary {
+      border: 5px solid #37caba;
+      padding: 0px;
+    }
+    #photo-modal img {
+      max-width: 100%;
+    }
+  </style>
+  <script>
+    var photoModal
+    var addPhotoModal
+    window.onload = function () {
+      photoModal = new bootstrap.Modal(document.getElementById('photo-modal'))
+      addPhotoModal = new bootstrap.Modal(document.getElementById('add-photo-modal'))
+    }
+    function showPhoto(el) {
+      el = $(el)
+      var animalimage_id = el.data('photo-id')
+      $('#photo-modal .modal-body img').attr('src', el.data('photo-url'))
+      $('#photo-modal .modal-body form [name=animalimage_id]').val(animalimage_id)
+      $('#photo-modal .modal-body form').css('display', animalimage_id == 'primary' ? 'none' : '')
+      photoModal.show()
+    }
+    function showAddPhoto() {
+      addPhotoModal.show()
+    }
+  </script>
+  <h2>Edit animal</h2>
+
   <div class="row">
     <div class="col-md-8">
-      <h2>Edit animal</h2>
-
       {% crispy form %}
       <p>
         <br />
         <span class="asteriskField">*</span> denotes required field
       </p>
     </div>
+    <div class="col-md-4">
+      <div class="photos">
+        Primary photo: <br />
+        {% if animal.primary_photo %}
+          <img src="{{ animal.primary_photo.url|image_resize:'200x200 crop' }}" data-photo-id="primary" onclick="showPhoto(this);" data-photo-url="{{ animal.primary_photo.url|image_resize:'400x400' }}" class="animal-photo primary" />
+        {% else %}
+          <span class="text-black-50">No primary image</span><br />
+        {% endif %}
+        <br />
+        Other photos: <br />
+        {% for photo in photos %}
+          <img src="{{ photo.photo.url|image_resize:'116x116 crop' }}" data-photo-id="{{ photo.id }}" onclick="showPhoto(this);" data-photo-url="{{ photo.photo.url|image_resize:'400x400' }}" class="animal-photo" />
+          {% empty %}<span class="text-black-50">No other images</span>
+        {% endfor %}
+      </div>
+      <a href="#" onclick="showAddPhoto();return false;" class="btn btn-secondary">Add photo</a>
+    </div>
+  </div>
+
+  <div id="photo-modal" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Photo</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="text-center">
+            <img src="https://placekitten.com/408/287" />
+          </p>
+          <form class="text-center" method="post" action="{{ awg.get_absolute_url }}/animals/{{ animal.id }}/photos">
+            {% csrf_token %}
+            <input type="hidden" name="animalimage_id" value="" />
+            <button type="submit" name="action" class="btn btn-primary" value="MAKE_PRIMARY">Make primary image</button>
+            <button type="submit" name="action" class="btn btn-danger" value="DELETE">Delete photo</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="add-photo-modal" class="modal" tabindex="-1">
+    <form method="post" enctype="multipart/form-data" action="{{ awg.get_absolute_url }}/animals/{{ animal.id }}/photos">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add photo</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            {% csrf_token %}
+            <input class="form-control" type="file" name="photo" class="" />
+            <p class="mt-3 text-black-50">Photos can be jpg, png or gif files up to 5mb in size.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" name="action" class="btn btn-primary" value="ADD_PHOTO">Add photo</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </form>
   </div>
 {% endblock %}

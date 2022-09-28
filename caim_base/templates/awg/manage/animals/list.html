@@ -20,16 +20,17 @@
               <th>Type</th>
               <th>Breed(s)</th>
               <th>Status</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
             {% for animal in animals %}
               <tr>
+                <td>{{ animal.name }}</td>
                 <td>
-                  <a href="{{ awg.get_absolute_url }}/animals/{{ animal.id }}">{{ animal.name }}</a>
-                </td>
-                <td>
-                  <img src="{{ animal.primary_photo.url|image_resize:'40x40 crop' }}" />
+                  {% if animal.primary_photo %}
+                    <img src="{{ animal.primary_photo.url|image_resize:'40x40 crop' }}" />
+                  {% endif %}
                 </td>
                 <td>{{ animal.awg_internal_id }}</td>
                 <td>{{ animal.animal_type }}</td>
@@ -41,10 +42,13 @@
                     Hidden
                   {% endif %}
                 </td>
+                <td>
+                  <a href="{{ awg.get_absolute_url }}/animals/{{ animal.id }}" class="btn btn-primary">Edit animal</a>
+                </td>
               </tr>
               {% empty %}
               <tr>
-                <td colspan="6">
+                <td colspan="7">
                   No animals listed. You can <a href="{{ awg.get_absolute_url }}/animals/add">add one</a>.
                 </td>
               </tr>

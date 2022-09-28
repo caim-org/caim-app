@@ -16,7 +16,7 @@
           </div>
           {% endif %}
           <div class="card-img-top"
-            style="background-image: url({{ animal.primary_photo.url|image_resize:'300x300 crop' }}) ">
+            style="background-color: #eee;{% if animal.primary_photo %}background-image: url({{ animal.primary_photo.url|image_resize:'300x300 crop' }}){% endif %}">
           </div>
           <div class="card-body">
             <h5>{{ animal.name }}</h5>

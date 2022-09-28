@@ -190,6 +190,7 @@ class Animal(models.Model):
         F = "F", "Female"
         M = "M", "Male"
 
+    # @todo these ranges need to be animal type specific
     class AnimalSize(models.TextChoices):
         # XS = "XS", "X-Small"
         S = "S", "Small (0-25 lbs)"
@@ -197,6 +198,7 @@ class Animal(models.Model):
         L = "L", "Large (61-100 lbs)"
         XL = "XL", "X-Large (101 lbs+)  "
 
+    # @todo these ranges need to be animal type specific
     class AnimalAge(models.TextChoices):
         BABY = "BABY", "Puppy (< 1 year)"
         YOUNG = "YOUNG", "Young (1-3 years)"
@@ -284,11 +286,14 @@ class Animal(models.Model):
         max_length=10,
         choices=AnimalBehaviourGrade.choices,
         default=AnimalBehaviourGrade.NOT_TESTED,
-        verbose_name="Behavour with kidw",
+        verbose_name="Behavour with kids",
     )
     is_euth_listed = models.BooleanField(verbose_name="Is scheduled for euthanasia")
     euth_date = models.DateField(
-        blank=True, null=True, default=None, verbose_name="Scheduled euthanasia date"
+        blank=True,
+        null=True,
+        default=None,
+        verbose_name="Scheduled euthanasia date",
     )
     primary_photo = models.ImageField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
