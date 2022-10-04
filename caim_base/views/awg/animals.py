@@ -37,7 +37,12 @@ def list_animals(request, awg_id):
     current_page = 1
     npp = 100
 
-    query = query_animals(request.user, awg_id=awg.id)
+    query = query_animals(
+        request.user,
+        awg_id=awg.id,
+        hide_unpublished_animals=False,
+        hide_unpublished_awgs=False,
+    )
     all_animals = query.all()
     paginator = Paginator(all_animals, npp)
     animals = paginator.page(current_page)

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import Http404
 from django.core.paginator import Paginator
 
@@ -11,6 +11,12 @@ def view(request, awg_id):
         awg = Awg.objects.get(id=awg_id)
     except Awg.DoesNotExist:
         raise Http404("Awg not found")
+
+    current_user_permissions = awg.get_permissions_for_user(request.user)
+
+    # If not published AND current user is not a staff member, redirect
+    if not awg.status == "PUBLISHED" and not current_user_permissions:
+        return redirect("/")
 
     current_page = request.GET.get("page", 1)
     npp = 21
@@ -26,8 +32,6 @@ def view(request, awg_id):
         shortlist_animal_ids = [s.animal_id for s in shortlists]
     else:
         shortlist_animal_ids = []
-
-    current_user_permissions = awg.get_permissions_for_user(request.user)
 
     context = {
         "awg": awg,

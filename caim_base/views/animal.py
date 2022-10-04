@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import Http404
-from ..models import Animal, AnimalShortList, AnimalComment
+from ..models import Animal, AnimalShortList, AnimalComment, Awg
 
 
 def view(request, animal_id):
@@ -8,6 +8,10 @@ def view(request, animal_id):
         animal = Animal.objects.get(id=animal_id)
     except Animal.DoesNotExist:
         raise Http404("Animal not found")
+
+    # If the animal listing is not published OR if the aws is not published, we redirect
+    if not animal.is_published or not animal.awg.status == Awg.AwgStatus.PUBLISHED:
+        return redirect("/")
 
     is_shortlisted = False
     if request.user.id:

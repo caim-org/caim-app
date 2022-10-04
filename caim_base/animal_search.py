@@ -2,7 +2,7 @@ from datetime import timedelta, datetime
 from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.geos import Point
 from django.core.exceptions import BadRequest
-from .models import Animal, ZipCode, AnimalShortList, AnimalType
+from .models import Animal, ZipCode, AnimalShortList, AnimalType, Awg
 
 
 def query_animals(
@@ -20,10 +20,18 @@ def query_animals(
     goodwith_kids=None,
     shortlist=False,
     sort="-created_at",
+    hide_unpublished_animals=True,
+    hide_unpublished_awgs=True,
 ):
     query = Animal.objects.filter(animal_type=animal_type).prefetch_related(
         "primary_breed", "secondary_breed", "awg"
     )
+
+    if hide_unpublished_animals:
+        query = query.filter(is_published=True)
+
+    if hide_unpublished_awgs:
+        query = query.filter(awg__status=Awg.AwgStatus.PUBLISHED)
 
     zip_info = None
     if zip:
