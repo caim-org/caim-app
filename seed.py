@@ -138,6 +138,7 @@ def load_animals(animal_type, file_name):
                 primary_breed=primary_breed,
                 secondary_breed=secondary_breed,
                 petfinder_id=pf_id,
+                is_published=True,
                 awg_id=awg.id,
                 is_mixed_breed=aa["is_mixed_breed"],
                 is_unknown_breed=aa.get("is_unknown_breed", False),

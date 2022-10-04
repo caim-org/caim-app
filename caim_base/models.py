@@ -248,7 +248,7 @@ class Animal(models.Model):
         default=None,
         verbose_name="AWG animal profile URL",
     )
-    is_published = models.BooleanField(default=True)
+    is_published = models.BooleanField(default=False)
     primary_breed = models.ForeignKey(
         Breed, on_delete=models.RESTRICT, related_name="primary_animal_set"
     )
@@ -336,6 +336,9 @@ class Animal(models.Model):
     def get_absolute_url(self):
         return f"/animal/{self.id}"
 
+    def can_be_published(self):
+        return bool(self.primary_photo)
+
     def admin_image_tag(self):
         if self.primary_photo:
             resized_url = image_resize(self.primary_photo.url, "45x45")
@@ -347,6 +350,12 @@ class Animal(models.Model):
             return "No Photo"
 
     admin_image_tag.short_description = "Image"
+
+    def save(self, *args, **kwargs):
+        # Automatically unpublish is record no longer valid to be published
+        if not self.can_be_published():
+            self.is_published = False
+        super(Animal, self).save(*args, **kwargs)
 
 
 class AnimalImage(models.Model):

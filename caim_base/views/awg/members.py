@@ -32,7 +32,7 @@ def list_members(request, awg_id):
 
     context = {
         "awg": awg,
-        "pageTitle": f"{awg.name} | Members",
+        "pageTitle": f"{awg.name} | Manage members",
         "currentUserPermissions": current_user_permissions,
         "members": members,
     }

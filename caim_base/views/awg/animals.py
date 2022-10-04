@@ -44,12 +44,39 @@ def list_animals(request, awg_id):
 
     context = {
         "awg": awg,
-        "pageTitle": f"{awg.name} | Animals",
+        "pageTitle": f"{awg.name} | Manage animals",
         "currentUserPermissions": current_user_permissions,
         "animals": animals,
         "paginator": paginator,
     }
     return render(request, "awg/manage/animals/list.html", context)
+
+
+@login_required()
+@require_http_methods(["POST"])
+def publish_animal(request, awg_id, animal_id):
+    awg, current_user_permissions = check_awg_user_permissions(request, awg_id)
+
+    try:
+        animal = Animal.objects.get(id=animal_id, awg_id=awg_id)
+    except Animal.DoesNotExist:
+        raise Http404("Animal not found")
+
+    if request.POST["action"] == "PUBLISH":
+        if not animal.can_be_published():
+            messages.error(request, "Animal cannot be published")
+        else:
+            animal.is_published = True
+            animal.save()
+            messages.success(request, "Animal was published")
+    elif request.POST["action"] == "UNPUBLISH":
+        animal.is_published = False
+        animal.save()
+        messages.success(request, "Animal was unpublished")
+    else:
+        raise BadRequest("Unknown action")
+
+    return redirect(f"{awg.get_absolute_url()}/animals/{animal.id}")
 
 
 class NativeDateInput(DateInput):

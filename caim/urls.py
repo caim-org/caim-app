@@ -64,6 +64,11 @@ urlpatterns = [
         awg.animal_photos,
         name="awg_animal_photos",
     ),
+    path(
+        "organization/<awg_id>/animals/<animal_id>/publish",
+        awg.publish_animal,
+        name="awg_animal_publish",
+    ),
     path("organization/<awg_id>/members", awg.list_members, name="awg_list_members"),
     path("organization/<awg_id>/members/add", awg.add_member, name="awg_add_member"),
     path(

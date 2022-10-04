@@ -8,6 +8,13 @@
 
 {% block innerContent %}
   <style>
+    .publish {
+      border: 1px solid #ddd;
+      background: #f5f5f5;
+      padding: 8px;
+      margin-bottom: 8px;
+      margin-top: 20px;
+    }
     .photos {
       border: 1px solid #ddd;
       background: #f5f5f5;
@@ -59,6 +66,24 @@
       </p>
     </div>
     <div class="col-md-4">
+      <div class="publish">
+        <form method="post" action="{{ awg.get_absolute_url }}/animals/{{ animal.id }}/publish">
+          {% csrf_token %}
+          {% if animal.is_published %}
+            <p>
+              Animal is published. <a href="{{ animal.get_absolute_url }}">View public page</a>.
+            </p>
+            <button name="action" value="UNPUBLISH" class="btn btn-secondary">Unpublish animal</button>
+          {% else %}
+            <p>Animal is not published</p>
+            {% if not animal.can_be_published %}
+              Please add photos in order to publish this animal
+            {% else %}
+              <button name="action" value="PUBLISH" class="btn btn-primary">Publish animal</button>
+            {% endif %}
+          {% endif %}
+        </form>
+      </div>
       <div class="photos">
         Primary photo: <br />
         {% if animal.primary_photo %}
