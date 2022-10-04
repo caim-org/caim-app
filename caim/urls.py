@@ -35,6 +35,9 @@ urlpatterns = [
     path("animal/<animal_id>", animal.view, name="animal"),
     path("register", auth.register_view, name="register"),
     path("login", auth.login_view, name="login"),
+    path(
+        "login/", auth.login_view, name="login_with_slash"
+    ),  # @todo fix trailing slash issues
     path("logout", auth.logout_view, name="logout"),
     path("api/shortlist", shortlist.api, name="shortlist_api"),
     path("avatar/", include("avatar.urls")),
@@ -62,6 +65,12 @@ urlpatterns = [
         name="awg_animal_photos",
     ),
     path("organization/<awg_id>/members", awg.list_members, name="awg_list_members"),
+    path("organization/<awg_id>/members/add", awg.add_member, name="awg_add_member"),
+    path(
+        "organization/<awg_id>/members/update",
+        awg.update_member,
+        name="awg_update_member",
+    ),
     path("organization/<awg_id>", awg.view, name="awg"),
 ]
 

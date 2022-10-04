@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import os
 from glob import glob
 from pathlib import Path
-
+from django.contrib.messages import constants as messages
 
 PRODUCTION = os.getenv("PRODUCTION", "0") == "1"
 
@@ -223,3 +223,12 @@ if os.getenv("DOCKER"):
 
 PHONENUMBER_DEFAULT_REGION = "US"
 MAX_UPLOAD_SIZE = "5242880"
+
+
+MESSAGE_TAGS = {
+    messages.DEBUG: "alert-secondary",
+    messages.INFO: "alert-info",
+    messages.SUCCESS: "alert-success",
+    messages.WARNING: "alert-warning",
+    messages.ERROR: "alert-danger",
+}

@@ -1,0 +1,164 @@
+{% extends '../base.html' %}
+{% load avatar_tags %}
+{% load caim_helpers %}
+
+{% block innerContent %}
+  <style>
+    th {
+      text-align: center;
+    }
+  </style>
+  <script>
+    var addMemberModal
+    var modifyMemberModal
+    window.onload = function () {
+      addMemberModal = new bootstrap.Modal(document.getElementById('add-member-modal'))
+      modifyMemberModal = new bootstrap.Modal(document.getElementById('modify-member-modal'))
+    }
+    function showAddMemberModal() {
+      addMemberModal.show()
+    }
+    function showModifyMemberModal(el) {
+      const tr = $(el).closest('tr')
+      const member = tr.data('member')
+      // Update form to show settings for this membership
+      $('#modify-member-modal input[name=membershipId]').val(member.id)
+      $('#modify-member-details').text(member.user_username + ' (' + member.user_email + ')')
+      $('#modify-member-modal input[name=canEditProfile]').prop('checked', member.canEditProfile)
+      $('#modify-member-modal input[name=canManageAnimals]').prop('checked', member.canManageAnimals)
+      $('#modify-member-modal input[name=canManageMembers]').prop('checked', member.canManageMembers)
+      modifyMemberModal.show()
+    }
+  </script>
+
+  <div class="row">
+    <div class="col-md-8">
+      <h2>Admin members</h2>
+
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <tr>
+            <th>User</th>
+            <th>Email</th>
+            <th>Permissions</th>
+            <th></th>
+          </tr>
+          {% for member in members %}
+            <tr data-member="{{ member.to_dict|json_dumps }}">
+              <td class="text-nowrap">
+                {% avatar member.user 30 30 %}{{ member.user.username }}
+              </td>
+              <td>{{ member.user.email }}</td>
+              <td>
+                {% if member.canEditProfile %}
+                  <span class="badge bg-secondary">Edit listing</span>
+                {% endif %}
+                {% if member.canManageAnimals %}
+                  <span class="badge bg-secondary">Manage animals</span>
+                {% endif %}
+                {% if member.canManageMembers %}
+                  <span class="badge bg-secondary">Manage members</span>
+                {% endif %}
+              </td>
+              <td>
+                <button class="btn btn-primary" onclick="showModifyMemberModal(this);return false;">Edit</button>
+              </td>
+            </tr>
+          {% endfor %}
+        </table>
+      </div>
+
+      <p>
+        <button class="btn btn-primary" onclick="showAddMemberModal();return false;">Add member</button>
+      </p>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <p>This page allows you to grant access to other users to edit and manage your organization's pages.</p>
+          <p>There are 3 permissions you can give a member:</p>
+          <ol>
+            <li>
+              <b>Edit listing:</b> User can edit the public infomation and text on the organizations profile page
+            </li>
+            <li>
+              <b>Manage animals:</b> User can add, edit and remove animal listings for this organization
+            </li>
+            <li>
+              <b>Manage admins:</b> User can add, edit and remove other admins for this organisation
+            </li>
+          </ol>
+          <p>You can't remive the 'manage admins' permission from yourself.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="add-member-modal" class="modal" tabindex="-1">
+    <form method="post" action="{{ awg.get_absolute_url }}/members/add">
+      {% csrf_token %}
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add member</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <label for="add_member_email" class="form-label requiredField">Email address<span class="asteriskField">*</span></label>
+            <input id="add_member_email" name="email" type="email" required class="form-control" />
+
+            <p class="text-small text-muted">Note that user must have created a user account before inviting them.</p>
+
+            <div>
+              <label><input name="canEditProfile" type="checkbox" />&nbsp;Edit listing</label>
+            </div>
+            <div>
+              <label><input name="canManageAnimals" type="checkbox" />&nbsp;Manage animals</label>
+            </div>
+            <div>
+              <label><input name="canManageMembers" type="checkbox" />&nbsp;Manage members</label>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" name="action" class="btn btn-primary">Add member</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div id="modify-member-modal" class="modal" tabindex="-1">
+    <form method="post" action="{{ awg.get_absolute_url }}/members/update">
+      <input type="hidden" name="membershipId" />
+      {% csrf_token %}
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Modify member</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div id="modify-member-details">AlJames (al.james@gmail.com)</div>
+            <br />
+            <div>
+              <label><input name="canEditProfile" type="checkbox" />&nbsp;Edit listing</label>
+            </div>
+            <div>
+              <label><input name="canManageAnimals" type="checkbox" />&nbsp;Manage animals</label>
+            </div>
+            <div>
+              <label><input name="canManageMembers" type="checkbox" />&nbsp;Manage members</label>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" name="action" class="btn btn-primary" value="UPDATE">Save changes</button>
+            <button type="submit" name="action" class="btn btn-danger" value="DELETE">Remove member</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+{% endblock %}

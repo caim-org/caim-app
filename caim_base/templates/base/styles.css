@@ -3,6 +3,10 @@
     color: red;
 }
 
+.text-small{
+    font-size: 80%;
+}
+
 .context-bar .btn {
     margin-top: 3px;
 }

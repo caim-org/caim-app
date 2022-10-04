@@ -3,6 +3,9 @@ from django.core.exceptions import PermissionDenied, BadRequest
 from django.http import Http404
 from django.core.paginator import Paginator
 from django.forms import ModelForm, DateInput
+from django.contrib import messages
+from django.views.decorators.http import require_http_methods
+from django.contrib.auth.decorators import login_required
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Submit
@@ -20,11 +23,13 @@ def check_awg_user_permissions(request, awg_id):
     current_user_permissions = awg.get_permissions_for_user(request.user)
     if not "MANAGE_ANIMALS" in current_user_permissions:
         raise PermissionDenied(
-            "User does not have permission to manage members for this AWG"
+            "User does not have permission to manage animals for this AWG"
         )
     return awg, current_user_permissions
 
 
+@login_required()
+@require_http_methods(["GET"])
 def list_animals(request, awg_id):
     awg, current_user_permissions = check_awg_user_permissions(request, awg_id)
 
@@ -130,6 +135,8 @@ class AwgAnimalForm(ModelForm):
         }
 
 
+@login_required()
+@require_http_methods(["POST", "GET"])
 def edit_animal(request, awg_id, animal_id):
     awg, current_user_permissions = check_awg_user_permissions(request, awg_id)
 
@@ -139,12 +146,15 @@ def edit_animal(request, awg_id, animal_id):
         raise Http404("Animal not found")
 
     if request.POST:
-        form = AwgAnimalForm(request.POST, instance=animal, submit_label="Add animal")
+        form = AwgAnimalForm(request.POST, instance=animal)
         if form.is_valid():
             animal = form.save()
+            messages.success(request, "Animal was updated")
             return redirect(f"{awg.get_absolute_url()}/animals/{animal.id}")
+        else:
+            messages.error(request, "Please correct form errors")
     else:
-        form = AwgAnimalForm(instance=animal, submit_label="Add animal")
+        form = AwgAnimalForm(instance=animal)
 
     photos = animal.animalimage_set.all()
 
@@ -168,7 +178,10 @@ def add_animal(request, awg_id):
             animal = form.save(commit=False)
             animal.awg = awg
             animal.save()
+            messages.success(request, "Animal was added")
             return redirect(f"{awg.get_absolute_url()}/animals/{animal.id}")
+        else:
+            messages.error(request, "Please correct form errors")
     else:
         form = AwgAnimalForm(submit_label="Add animal")
 
@@ -181,6 +194,8 @@ def add_animal(request, awg_id):
     return render(request, "awg/manage/animals/add.html", context)
 
 
+@login_required()
+@require_http_methods(["POST"])
 def animal_photos(request, awg_id, animal_id):
     awg, current_user_permissions = check_awg_user_permissions(request, awg_id)
 
@@ -191,34 +206,48 @@ def animal_photos(request, awg_id, animal_id):
 
     action = request.POST["action"]
 
-    if action == "ADD_PHOTO":
-        if "photo" in request.FILES:
-            file = request.FILES["photo"]
-            file_name = f"${animal.id}_${file.name}"
-            if not file.content_type in ("image/jpeg", "image/gif", "image/png"):
-                raise BadRequest("Cannot upload this file type")
-            if animal.primary_photo:
-                new_animalimage = AnimalImage(animal=animal, photo=animal.primary_photo)
-                new_animalimage.photo.save(file_name, file)
-                new_animalimage.save()
-            else:
-                animal.primary_photo.save(file_name, file)
+    try:
+        if action == "ADD_PHOTO":
+            if "photo" in request.FILES:
+                file = request.FILES["photo"]
+                file_name = f"${animal.id}_${file.name}"
+                if not file.content_type in ("image/jpeg", "image/gif", "image/png"):
+                    raise BadRequest(
+                        "Cannot upload this file type. Please make sure its a jpeg, png or gif image."
+                    )
+                if animal.primary_photo:
+                    new_animalimage = AnimalImage(
+                        animal=animal, photo=animal.primary_photo
+                    )
+                    new_animalimage.photo.save(file_name, file)
+                    new_animalimage.save()
+                else:
+                    animal.primary_photo.save(file_name, file)
+                    animal.save()
+                messages.success(request, "Animal photo was added")
+        else:
+            animalimage_id = request.POST["animalimage_id"]
+            if not action or not animalimage_id:
+                raise BadRequest("Missing parameters")
+
+            animalimage = AnimalImage.objects.get(id=animalimage_id)
+
+            if action == "DELETE":
+                animalimage.delete()
+                messages.success(request, "Animal photo was deleted")
+            elif action == "MAKE_PRIMARY":
+                if animal.primary_photo:
+                    new_animalimage = AnimalImage(
+                        animal=animal, photo=animal.primary_photo
+                    )
+                    new_animalimage.save()
+                animal.primary_photo = animalimage.photo
                 animal.save()
-    else:
-        animalimage_id = request.POST["animalimage_id"]
-        if not action or not animalimage_id:
-            raise BadRequest("Missing parameters")
-
-        animalimage = AnimalImage.objects.get(id=animalimage_id)
-
-        if action == "DELETE":
-            animalimage.delete()
-        elif action == "MAKE_PRIMARY":
-            if animal.primary_photo:
-                new_animalimage = AnimalImage(animal=animal, photo=animal.primary_photo)
-                new_animalimage.save()
-            animal.primary_photo = animalimage.photo
-            animal.save()
-            animalimage.delete()
+                animalimage.delete()
+                messages.success(request, "Animal primary photo updated")
+            else:
+                raise BadRequest("Unknown action")
+    except BadRequest as e:
+        messages.error(request, str(e))
 
     return redirect(f"{awg.get_absolute_url()}/animals/{animal.id}")

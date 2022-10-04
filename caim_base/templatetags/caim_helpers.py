@@ -1,3 +1,4 @@
+import json
 from django import template
 from django.conf import settings
 from sorl.thumbnail import get_thumbnail
@@ -46,3 +47,9 @@ def image_resize(value, resize):
         if parts[1] == "crop":
             args["crop"] = "center"
         return get_thumbnail(value, parts[0], **args).url
+
+
+@register.filter
+def json_dumps(value):
+    print(value)
+    return json.dumps(value)

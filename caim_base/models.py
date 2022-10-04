@@ -118,14 +118,14 @@ class Awg(models.Model):
         if user.is_staff:
             ret.append("EDIT_PROFILE")
             ret.append("MANAGE_ANIMALS")
-            # ret.append("MANAGE_MEMBERS")
+            ret.append("MANAGE_MEMBERS")
         # Look for AWGMember for this user and AWG
         member = self.awgmember_set.filter(user=user).first()
         if member:
             if member.canEditProfile:
                 ret.append("EDIT_PROFILE")
-            # if member.canManageAnimals:
-            #    ret.append("MANAGE_ANIMALS")
+            if member.canManageAnimals:
+                ret.append("MANAGE_ANIMALS")
             if member.canManageMembers:
                 ret.append("MANAGE_MEMBERS")
         return ret
@@ -163,6 +163,18 @@ class AwgMember(models.Model):
             "user",
             "awg",
         )
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "user_email": self.user.email,
+            "user_username": self.user.username,
+            "awg_id": self.awg_id,
+            "canEditProfile": self.canEditProfile,
+            "canManageAnimals": self.canManageAnimals,
+            "canManageMembers": self.canManageMembers,
+        }
 
 
 class AnimalType(models.TextChoices):
