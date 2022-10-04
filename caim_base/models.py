@@ -112,8 +112,16 @@ class Awg(models.Model):
     def __str__(self):
         return self.name
 
+    def user_is_member_of_awg(self, user):
+        if not user.id:
+            return False
+        member = self.awgmember_set.filter(user=user).first()
+        return bool(member)
+
     def get_permissions_for_user(self, user):
         ret = []
+        if not user.id:
+            return ret
         # If CAIM staff, all permissions
         if user.is_staff:
             ret.append("EDIT_PROFILE")

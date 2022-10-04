@@ -12,10 +12,12 @@ def view(request, awg_id):
     except Awg.DoesNotExist:
         raise Http404("Awg not found")
 
-    current_user_permissions = awg.get_permissions_for_user(request.user)
-
     # If not published AND current user is not a staff member, redirect
-    if not awg.status == "PUBLISHED" and not current_user_permissions:
+    if (
+        not awg.status == "PUBLISHED"
+        and not awg.user_is_member_of_awg(request.user)
+        and not request.user.is_staff
+    ):
         return redirect("/")
 
     current_page = request.GET.get("page", 1)
@@ -32,6 +34,8 @@ def view(request, awg_id):
         shortlist_animal_ids = [s.animal_id for s in shortlists]
     else:
         shortlist_animal_ids = []
+
+    current_user_permissions = awg.get_permissions_for_user(request.user)
 
     context = {
         "awg": awg,

@@ -9,8 +9,13 @@ def view(request, animal_id):
     except Animal.DoesNotExist:
         raise Http404("Animal not found")
 
-    # If the animal listing is not published OR if the aws is not published, we redirect
-    if not animal.is_published or not animal.awg.status == Awg.AwgStatus.PUBLISHED:
+    awg = animal.awg
+    # If the animal listing is not published OR if the aws is not published AND the user is not staff we redirect
+    if (
+        (not animal.is_published or not awg.status == Awg.AwgStatus.PUBLISHED)
+        and not awg.user_is_member_of_awg(request.user)
+        and not request.user.is_staff
+    ):
         return redirect("/")
 
     is_shortlisted = False
