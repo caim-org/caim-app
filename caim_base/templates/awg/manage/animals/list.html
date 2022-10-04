@@ -30,6 +30,8 @@
                 <td>
                   {% if animal.primary_photo %}
                     <img src="{{ animal.primary_photo.url|image_resize:'40x40 crop' }}" />
+                  {% else %}
+                    None
                   {% endif %}
                 </td>
                 <td>{{ animal.awg_internal_id }}</td>
