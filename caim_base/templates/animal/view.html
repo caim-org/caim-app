@@ -5,10 +5,10 @@
     <meta property="og:url" content="https://{{request.get_host}}{{animal.get_absolute_url}}">
 {% if animal.primary_photo %}
     <meta property="og:image" content="{{ animal.primary_photo.url|image_resize:'600x500 max' }}">
-    {% for image in images %}
-    <meta property="og:image" content="{{ image.url|image_resize:'600x500 max' }}">
-    {% endfor %}
 {% endif %}
+{% for image in images %}
+    <meta property="og:image" content="{{ image.photo.url|image_resize:'600x500 max' }}">
+{% endfor %}
     <meta property="og:description" content="Foster and save this animal">
 {% endblock %}
 
