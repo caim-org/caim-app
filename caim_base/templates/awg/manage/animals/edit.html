@@ -70,9 +70,14 @@
         <form method="post" action="{{ awg.get_absolute_url }}/animals/{{ animal.id }}/publish">
           {% csrf_token %}
           {% if animal.is_published %}
-            <p>
-              Animal is published. <a href="{{ animal.get_absolute_url }}">View public page</a>.
-            </p>
+            {% if awg.status == 'PUBLISHED' %}
+              <p>
+                Animal is published. <a href="{{ animal.get_absolute_url }}">View public page</a>.
+              </p>
+            {% else %}
+              <p>Animal is published, however wont be visible on the site until your organization is approved.</p>
+            {% endif %}
+
             <button name="action" value="UNPUBLISH" class="btn btn-secondary">Unpublish animal</button>
           {% else %}
             <p>Animal is not published</p>
