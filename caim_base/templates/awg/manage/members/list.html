@@ -64,6 +64,10 @@
                 <button class="btn btn-primary" onclick="showModifyMemberModal(this);return false;">Edit</button>
               </td>
             </tr>
+            {% empty %}
+            <tr>
+              <td colspan="4">No members. You can add one below.</td>
+            </tr>
           {% endfor %}
         </table>
       </div>
