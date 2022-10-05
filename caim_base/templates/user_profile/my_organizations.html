@@ -11,11 +11,11 @@
             </h3>
             <ul>
                 {% for membership in memberships %}
-                <li>
-                    <a href="{{membership.awg.get_absolute_url}}">{{ membership.awg.name }}</a>
-                </li>
+                    <li>
+                        <a href="{{membership.awg.get_absolute_url}}">{{ membership.awg.name }}</a>
+                    </li>
                 {% empty %}
-                <p>You are not a member of any organizations</p>
+                <li>You are not a member of any organizations</li>
                 {% endfor %}
             </ul>
         </div>
