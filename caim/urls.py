@@ -33,6 +33,11 @@ urlpatterns = [
     path("", home.index, name="home"),
     path("browse", browse.view, name="browse"),
     path("animal/<animal_id>", animal.view, name="animal"),
+    path(
+        "my-organizations",
+        user_profile.my_organizations,
+        name="user_profile_my_organizations",
+    ),
     path("register", auth.register_view, name="register"),
     path("login", auth.login_view, name="login"),
     path(

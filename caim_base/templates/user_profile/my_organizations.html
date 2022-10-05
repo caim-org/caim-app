@@ -1,0 +1,24 @@
+{% extends 'base/wrapper.html' %}
+{% load avatar_tags %}
+
+{% block content %}  
+<div class="container">
+    <div class="row justify-content-md-center">
+      <div class="col-md-8">
+        <div class="container py-5">
+            <h3>
+                My organizations
+            </h3>
+            <ul>
+                {% for membership in memberships %}
+                <li>
+                    <a href="{{membership.awg.get_absolute_url}}">{{ membership.awg.name }}</a>
+                </li>
+                {% empty %}
+                <p>You are not a member of any organizations</p>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

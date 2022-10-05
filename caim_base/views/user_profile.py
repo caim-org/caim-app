@@ -46,7 +46,13 @@ def view(request, username):
         user_profile.save()
 
     return render(
-        request, "user_profile/view.html", {"user": user, "user_profile": user_profile}
+        request,
+        "user_profile/view.html",
+        {
+            "user": user,
+            "user_profile": user_profile,
+            "pageTitle": f"{user.username} | User profile",
+        },
     )
 
 
@@ -82,3 +88,12 @@ def edit(request, username):
         )
 
     return render(request, "user_profile/edit.html", {"user": user, "form": form})
+
+
+def my_organizations(request):
+    memberships = request.user.awgmember_set.all()
+    return render(
+        request,
+        "user_profile/my_organizations.html",
+        {"memberships": memberships, "pageTitle": "My organizations"},
+    )
