@@ -145,7 +145,11 @@ def edit(request, awg_id):
 def create(request):
 
     if not request.user.is_authenticated:
-        return render(request, "awg/apply/must-login.html")
+        return render(
+            request,
+            "awg/apply/must-login.html",
+            {"pageTitle": "Create organization profile"},
+        )
 
     if request.POST:
         form = AwgForm(request.POST, submit_label="Submit form")
@@ -167,9 +171,9 @@ def create(request):
             except:
                 print("Could not send email")
 
-            return render(request, "awg/apply/success.html")
+            return render(request, "awg/apply/success.html", {"pageTitle": "Success"})
     else:
         form = AwgForm(submit_label="Submit form")
 
-    context = {"pageTitle": f"Create organizatiion profile", "form": form}
+    context = {"pageTitle": "Create organization profile", "form": form}
     return render(request, "awg/apply/form.html", context)
