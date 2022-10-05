@@ -8,8 +8,18 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Submit
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
+from templated_email import send_templated_mail
 
 from ...models import Awg, AwgMember
+
+
+def send_new_awg_application_email(awg):
+    send_templated_mail(
+        template_name="new_awg_application",
+        recipient_list=["hello@caim.org"],
+        context={"awg": awg},
+        from_email="notifications@caim.org",
+    )
 
 
 class AwgForm(ModelForm):
@@ -151,6 +161,12 @@ def create(request):
                 canManageMembers=True,
             )
             member.save()  # Add current user as full admin member
+
+            try:
+                send_new_awg_application_email(awg)
+            except:
+                print("Could not send email")
+
             return render(request, "awg/apply/success.html")
     else:
         form = AwgForm(submit_label="Submit form")

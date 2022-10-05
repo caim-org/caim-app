@@ -12,7 +12,9 @@ django-avatar==7.0.0
 django-crispy-forms==1.14.0
 django-leaflet==0.28.3
 django-phonenumber-field==7.0.0
+django-render-block==0.9.1
 django-storages==1.13.1
+django-templated-email==3.0.0
 djangorestframework==3.13.1
 docutils==0.19
 easy-thumbnails==2.8.3

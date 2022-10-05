@@ -1,0 +1,10 @@
+{% block subject %}New AWG application{% endblock %}
+{% block plain %}
+Hi!,
+
+A new AWG has applied for a listing.
+
+AWG name: {{awg.name}}
+
+You can log into https://app.caim.org/admin to review
+{% endblock %}
