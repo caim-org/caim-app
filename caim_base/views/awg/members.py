@@ -23,7 +23,7 @@ def check_awg_user_permissions(request, awg_id):
     return awg, current_user_permissions
 
 
-@login_required(login_url="/login/")
+@login_required()
 @require_http_methods(["GET"])
 def list_members(request, awg_id):
     awg, current_user_permissions = check_awg_user_permissions(request, awg_id)

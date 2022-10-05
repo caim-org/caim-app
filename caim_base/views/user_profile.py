@@ -5,6 +5,9 @@ from django import forms
 from django.core import validators
 from ..models import User, UserProfile
 
+from django.views.decorators.http import require_http_methods
+from django.contrib.auth.decorators import login_required
+
 
 class UserProfileForm(forms.Form):
     username = forms.CharField(
@@ -32,6 +35,7 @@ class UserProfileForm(forms.Form):
     )
 
 
+@require_http_methods(["GET"])
 def view(request, username):
     try:
         user = User.objects.get(username=username)
@@ -56,6 +60,8 @@ def view(request, username):
     )
 
 
+@login_required()
+@require_http_methods(["POST", "GET"])
 def edit(request, username):
     try:
         user = User.objects.get(username=username)
@@ -87,9 +93,15 @@ def edit(request, username):
             initial={"username": user.username, "description": user_profile.description}
         )
 
-    return render(request, "user_profile/edit.html", {"user": user, "form": form})
+    return render(
+        request,
+        "user_profile/edit.html",
+        {"user": user, "form": form, "pageTitle": "Edit your user profile"},
+    )
 
 
+@login_required()
+@require_http_methods(["GET"])
 def my_organizations(request):
     memberships = request.user.awgmember_set.all()
     return render(
