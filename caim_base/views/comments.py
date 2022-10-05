@@ -6,6 +6,8 @@ from ..models import Animal, AnimalComment
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 
+from ..notifications import notify_animal_comment
+
 
 @login_required()
 @require_http_methods(["POST"])
@@ -20,6 +22,12 @@ def add(request):
         raise BadRequest("Params invalid")
     comment = AnimalComment(user=request.user, animal=animal, body=body)
     comment.save()
+
+    # try:
+    notify_animal_comment(comment)
+    # except:
+    #    print("Could not send notifications")
+
     return redirect(f"{animal.get_absolute_url()}#comment-{comment.id}")
 
 

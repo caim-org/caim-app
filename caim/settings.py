@@ -234,13 +234,18 @@ MESSAGE_TAGS = {
 }
 
 
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "email-smtp.us-east-1.amazonaws.com"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = "AKIAUXBOB2T7B35RTLHJ"
-EMAIL_HOST_PASSWORD = "BCpObC2toqE/VwzhA0XQWDupMotB7FtnPc6w3LIPoTTd"
-DEFAULT_FROM_EMAIL = "notifications@caim.org"
+EMAIL_ENABLED = os.getenv("EMAIL_ENABLED", "0") == "1"
+
+if EMAIL_ENABLED:
+    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+    EMAIL_HOST = os.getenv("EMAIL_HOST")
+    EMAIL_PORT = os.getenv("EMAIL_PORT")
+    EMAIL_USE_TLS = True
+    EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+    EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+else:
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 TEMPLATED_EMAIL_TEMPLATE_DIR = "emails/"
 TEMPLATED_EMAIL_FILE_EXTENSION = "email"
+DEFAULT_FROM_EMAIL = "notifications@caim.org"

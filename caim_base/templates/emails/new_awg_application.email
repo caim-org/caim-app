@@ -1,6 +1,6 @@
 {% block subject %}New AWG application{% endblock %}
 {% block plain %}
-Hi!,
+Hi!
 
 A new AWG has applied for a listing.
 
