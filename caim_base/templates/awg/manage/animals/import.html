@@ -1,0 +1,21 @@
+{% extends '../base.html' %}
+{% load caim_helpers %}
+{% load crispy_forms_tags %}
+
+{% block contextBack %}
+  <a href="{{ awg.get_absolute_url }}/animals">&laquo; Back to animals</a>
+{% endblock %}
+
+{% block innerContent %}
+  <div class="row">
+    <div class="col-md-8">
+      <h2>Import animal from petfinder</h2>
+
+      {% crispy form %}
+      <p>
+        <br />
+        <span class="asteriskField">*</span> denotes required field
+      </p>
+    </div>
+  </div>
+{% endblock %}

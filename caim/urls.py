@@ -55,6 +55,11 @@ urlpatterns = [
         name="awg_add_animal",
     ),
     path(
+        "organization/<awg_id>/animals/import",
+        awg.import_animal,
+        name="awg_import_animal",
+    ),
+    path(
         "organization/<awg_id>/animals/<animal_id>",
         awg.edit_animal,
         name="awg_edit_animal",

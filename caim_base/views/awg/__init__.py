@@ -6,5 +6,10 @@ from .animals import (
     add_animal,
     animal_photos,
     publish_animal,
+    import_animal,
 )
-from .members import list_members, add_member, update_member
+from .members import (
+    list_members,
+    add_member,
+    update_member,
+)

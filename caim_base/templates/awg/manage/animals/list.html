@@ -2,7 +2,17 @@
 {% load caim_helpers %}
 
 {% block contextOptions %}
-  <a href="{{ awg.get_absolute_url }}/animals/add" class="btn btn-secondary">Add animal</a>
+  <div class="dropdown d-inline">
+    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Add animal</button>
+    <ul class="dropdown-menu">
+      <li>
+        <a class="dropdown-item" href="{{ awg.get_absolute_url }}/animals/add">Add via form</a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="{{ awg.get_absolute_url }}/animals/import">Import from Petfinder</a>
+      </li>
+    </ul>
+  </div>
 {% endblock %}
 
 {% block innerContent %}
@@ -58,7 +68,8 @@
           </tbody>
         </table>
         <p>
-          <a href="{{ awg.get_absolute_url }}/animals/add" class="btn btn-secondary">Add animal</a>
+          <a href="{{ awg.get_absolute_url }}/animals/add" class="btn btn-secondary">Add animal via form</a>
+          <a href="{{ awg.get_absolute_url }}/animals/import" class="btn btn-secondary">Import animal from Petfinder</a>
         </p>
       </div>
     </div>

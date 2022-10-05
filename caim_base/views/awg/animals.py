@@ -6,12 +6,14 @@ from django.forms import ModelForm, DateInput
 from django.contrib import messages
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
+from django import forms
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Submit
 
 from ...models import Awg, Animal, AnimalImage
 from ...animal_search import query_animals
+from ...animal_petfinder_import import import_animal_from_petfinder, ImportAnimalError
 
 
 def check_awg_user_permissions(request, awg_id):
@@ -101,6 +103,7 @@ class AwgAnimalForm(ModelForm):
             Fieldset(
                 "About animal",
                 "name",
+                "awg_internal_id",
                 "animal_type",
                 "primary_breed",
                 "secondary_breed",
@@ -137,6 +140,7 @@ class AwgAnimalForm(ModelForm):
         model = Animal
         fields = [
             "name",
+            "awg_internal_id",
             "animal_type",
             "primary_breed",
             "secondary_breed",
@@ -165,6 +169,7 @@ class AwgAnimalForm(ModelForm):
         widgets = {
             "euth_date": NativeDateInput(),
         }
+        labels = {"awg_internal_id": "Your ID for this animal"}
 
 
 @login_required()
@@ -283,3 +288,32 @@ def animal_photos(request, awg_id, animal_id):
         messages.error(request, str(e))
 
     return redirect(f"{awg.get_absolute_url()}/animals/{animal.id}")
+
+
+class ImportURLForm(forms.Form):
+    url = forms.URLField(label="URL")
+    helper = FormHelper()
+    helper.add_input(Submit("submit", "Submit", css_class="btn-primary"))
+    helper.form_method = "POST"
+
+
+@login_required()
+@require_http_methods(["GET", "POST"])
+def import_animal(request, awg_id):
+    awg, current_user_permissions = check_awg_user_permissions(request, awg_id)
+
+    if request.POST:
+        form = ImportURLForm(request.POST)
+        if form.is_valid():
+            try:
+                url = request.POST["url"].strip()
+                animal = import_animal_from_petfinder(awg, url)
+                messages.success(request, "Animal imported")
+                return redirect(f"{awg.get_absolute_url()}/animals/{animal.id}")
+            except ImportAnimalError as e:
+                messages.error(request, str(e))
+    else:
+        form = ImportURLForm()
+
+    context = {"awg": awg, "pageTitle": f"Import from petfinder", "form": form}
+    return render(request, "awg/manage/animals/import.html", context)
