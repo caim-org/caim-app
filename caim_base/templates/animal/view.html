@@ -2,14 +2,16 @@
 {% load caim_helpers %}
 
 {% block opengraph %}
-    <meta property="og:url" content="https://{{request.get_host}}{{animal.get_absolute_url}}">
+
+  <meta property="og:title" content="{{animal.name}} | {{ animal.sexText}} | {{ animal.sizeText }}">
+  <meta property="og:url" content="{{animal.get_absolute_url}}">
 {% if animal.primary_photo %}
     <meta property="og:image" content="{{ animal.primary_photo.url|image_resize:'600x500 max' }}">
 {% endif %}
 {% for image in images %}
     <meta property="og:image" content="{{ image.photo.url|image_resize:'600x500 max' }}">
 {% endfor %}
-    <meta property="og:description" content="Foster and save this animal">
+    <meta property="og:description" content="{{ animal.name}} is located at {{ animal.awg.name}} in {{ animal.awg.city }}. We urgently need a foster to save {{ himHer }}">
 {% endblock %}
 
 {% block content %}
@@ -64,6 +66,11 @@
       <div class="card mb-3">
         <div class="card-body">
 
+          <div class="fb-share-button float-end" 
+          data-href="{{animal.get_absolute_url}}" 
+          data-layout="button"
+          data-size="large">
+          </div>
           <h2>{{ animal.name }}</h2>
           <p>
             {{ animal.breedsText }}
@@ -93,6 +100,8 @@
           {% endif %}
 
           {% include './comments.html' %}
+
+
         </div>
       </div>
     </div>
@@ -132,5 +141,15 @@
     });
   }, 50);
 </script>
+
+  <!-- Load Facebook SDK for JavaScript -->
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+  fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
 
   {% endblock %}

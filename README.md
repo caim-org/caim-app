@@ -77,4 +77,7 @@ AWS_PROFILE=caim aws ecr get-login-password --region us-east-1 | docker login --
 
 2) Build image and push to staging ECR
 docker buildx build --platform linux/amd64 -t 324366619902.dkr.ecr.us-east-1.amazonaws.com/caim-app-staging:latest --push .
+
+3) Build image and push to prod ECR
+docker buildx build --platform linux/amd64 -t 324366619902.dkr.ecr.us-east-1.amazonaws.com/caim-app-prod:latest --push .
 ```

@@ -1,6 +1,7 @@
 import os
 import requests
 import json
+import html
 import urllib.request
 from . import models
 from django.core.files import File
@@ -29,6 +30,10 @@ def extract_animal_data(html):
     except Exception as e:
         print(e)
         return None
+
+
+def clean_text(str):
+    return html.unescape(str).strip()
 
 
 def map_age(str):
@@ -82,7 +87,7 @@ def create_animal_from_petfinder_data(awg, data):
         secondary_breed = lookup_breed(data["primary_breed"])
 
     animal = models.Animal(
-        name=data["name"],
+        name=clean_text(data["name"]),
         animal_type=models.AnimalType.DOG,
         primary_breed=primary_breed,
         secondary_breed=secondary_breed,
@@ -93,8 +98,8 @@ def create_animal_from_petfinder_data(awg, data):
         sex=map_sex(data["sex"]),
         size=map_size(data["size"].lower()),
         age=map_age(data["age"].lower()),
-        special_needs=data.get("special_needs_notes", "") or "",
-        description=data.get("description", "") or "",
+        special_needs=clean_text(data.get("special_needs_notes", "") or ""),
+        description=clean_text(data.get("description", "") or ""),
         is_special_needs=False,
         is_euth_listed=False,
         is_spayed_neutered="Spay/Neuter" in data["attributes"],

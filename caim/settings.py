@@ -30,6 +30,10 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = os.getenv("DEBUG", "0") == "1"
 ALLOWED_HOSTS = ["*"]
 
+# Cant use x-forwarded-host with cloudfront and apprunner
+# so we do it via env vars
+# USE_X_FORWARDED_HOST = True
+URL_PREFIX = os.getenv("URL_PREFIX")
 
 # Application definition
 
@@ -211,7 +215,6 @@ if DEBUG:
 if not PRODUCTION:
     CSRF_TRUSTED_ORIGINS = [
         "http://127.0.0.1:8000",
-        "https://5rhtrm273h.us-east-1.awsapprunner.com",
         "https://staging.app.caim.org",
         "https://app.caim.org",
     ]
