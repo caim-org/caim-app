@@ -9,6 +9,7 @@ from django.utils.safestring import mark_safe
 from phonenumber_field.modelfields import PhoneNumberField
 from .templatetags.caim_helpers import image_resize
 from .states import states
+from .utils import full_url
 
 logger = logging.getLogger(__name__)
 
@@ -139,7 +140,7 @@ class Awg(models.Model):
         return ret
 
     def get_absolute_url(self):
-        return f"/organization/{self.id}"
+        return full_url(f"/organization/{self.id}")
 
     def clean(self):
         # Validate zip_code
@@ -342,7 +343,7 @@ class Animal(models.Model):
         return Animal.AnimalSize[self.size].label
 
     def get_absolute_url(self):
-        return f"/animal/{self.id}"
+        return full_url(f"/animal/{self.id}")
 
     def can_be_published(self):
         return bool(self.primary_photo)

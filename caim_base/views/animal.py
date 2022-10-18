@@ -41,5 +41,6 @@ def view(request, animal_id):
         "comments": comments,
         "commentCount": len(comments),
         "images": animal.animalimage_set.all(),
+        "himHer": "her" if animal.sex == Animal.AnimalSex.F else "him",
     }
     return render(request, "animal/view.html", context)
