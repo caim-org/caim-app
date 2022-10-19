@@ -4,5 +4,5 @@ Hi!
 
 A new comment has been posted on animal {{ animal.name }}. 
 
-You can view it here: https://app.caim.org{{animal.get_absolute_url}}
+You can view it here: {{animal.get_absolute_url}}
 {% endblock %}

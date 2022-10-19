@@ -1,4 +1,106 @@
 /* @todo move into static asset */
+.page-narrow .container {
+    max-width: 1024px;
+    ;
+  }
+  
+.navbar-nav .dropdown-menu {
+  /* on top od search bar */
+  z-index: 9999;
+}
+
+  body {
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    color: #37CABA;
+  }
+  
+  a {
+    color: #37CABA;
+  
+  }
+  
+  .btn-primary {
+    color: white;
+    background: #37CABA;
+  }
+  
+  .btn {
+    border-radius: 50px;
+    border: none;
+  }
+  
+  input.text {
+    border-radius: 50px;
+  }
+  
+  .navbar {
+    padding-top: 20px;
+  }
+  
+  .navbar .nav-item a {
+    padding: 8px 30px !important;
+  }
+  
+  .nav-item a.btn {
+    padding: 8px 50px !important;
+  }
+  
+  .hero-mia {
+    background-image: url(/static/img/HeroDog.png);
+    background-position: 85% 100%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 600px;
+  }
+  
+  
+  
+  .card {
+    border: 1px solid #ddd;
+    box-shadow: 0px 3px 16px rgba(0, 0, 0, 0.2);
+  
+  }
+  
+  .animal-card {
+    margin-bottom: 1.5em;
+    text-align: center;
+    padding: 2px;
+    ;
+  }
+  
+  .animal-card:hover {
+    cursor: pointer;
+    border: 3px solid #37CABA;
+    padding: 0px;
+  }
+  
+  .animal-card h5 {}
+  
+  .animal-card .card-img-top {
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .filter {
+    margin-bottom: 1em;
+  }
+  
+  .text-xsmall {
+    font-size: 13px;
+  }
+
+.btn{
+    padding: 0.375rem 1.5rem ;
+}
+
 .asteriskField {
     color: red;
 }
@@ -7,6 +109,11 @@
     font-size: 80%;
 }
 
+.context-bar {
+    position: sticky;
+    top: 0;
+    z-index: 9998;
+}
 .context-bar .btn {
     margin-top: 3px;
 }
@@ -16,12 +123,12 @@
 }
 
 legend {
-font-size: 1.2em;
-font-weight: bold;
-border-bottom: 1px solid #ccc;
-margin-top: 20px;
-background: #eee;
-padding: 8px;
+    font-size: 1.2em;
+    font-weight: bold;
+    border-bottom: 1px solid #ccc;
+    margin-top: 20px;
+    background: #eee;
+    padding: 8px;
 }
 
 .table-header thead tr {

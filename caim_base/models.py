@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime
 
 from django.contrib.auth import get_user_model
 from django.db import models
@@ -142,6 +143,9 @@ class Awg(models.Model):
     def get_absolute_url(self):
         return full_url(f"/organization/{self.id}")
 
+    def is_currently_published(self):
+        return self.status == Awg.AwgStatus.PUBLISHED
+
     def clean(self):
         # Validate zip_code
         if self.zip_code:
@@ -217,7 +221,7 @@ class Animal(models.Model):
         S = "S", "Small (0-25 lbs)"
         M = "M", "Medium (26-60 lbs)"
         L = "L", "Large (61-100 lbs)"
-        XL = "XL", "X-Large (101 lbs+)  "
+        XL = "XL", "X-Large (101 lbs+)"
 
     # @todo these ranges need to be animal type specific
     class AnimalAge(models.TextChoices):
@@ -319,6 +323,7 @@ class Animal(models.Model):
     primary_photo = models.ImageField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    first_published_at = models.DateTimeField(blank=True, default=None, null=True)
 
     def __str__(self):
         return self.name
@@ -348,6 +353,10 @@ class Animal(models.Model):
     def can_be_published(self):
         return bool(self.primary_photo)
 
+    def is_currently_published(self):
+        # Is published and the owning awg published?
+        return self.is_published and self.awg.is_currently_published()
+
     def admin_image_tag(self):
         if self.primary_photo:
             resized_url = image_resize(self.primary_photo.url, "45x45")
@@ -364,6 +373,8 @@ class Animal(models.Model):
         # Automatically unpublish is record no longer valid to be published
         if not self.can_be_published():
             self.is_published = False
+        if not self.first_published_at and self.is_currently_published():
+            self.first_published_at = datetime.now()
         super(Animal, self).save(*args, **kwargs)
 
 

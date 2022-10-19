@@ -25,7 +25,7 @@
 <div class="container">
   <div class="row">
     <div class="col-md-3 mb-3">
-      <div class="card">
+      <div class="card sticky-top" style="top:80px;">
         <div class="card-body">
           <form action="/browse" method="get">
             <input type="hidden" name="zip" value="{{search.zip|default:''}}" />
@@ -46,6 +46,16 @@
                 <option {% if search.age == 'young' %}selected{% endif %} value="young">Young</option>
                 <option {% if search.age == 'adult' %}selected{% endif %} value="adult">Adult</option>
                 <option {% if search.age == 'senior' %}selected{% endif %} value="senior">Senior</option>
+              </select>
+            </div>
+            <div class="filter">
+              Size
+              <select class="form-select" name="size">
+                <option {% if not search.size %}selected{% endif %} value="">Any size</option>
+                <option {% if search.size == 's' %}selected{% endif %} value="s">Small (0-25 lbs)</option>
+                <option {% if search.size == 'm' %}selected{% endif %} value="m">Medium (26-60 lbs)</option>
+                <option {% if search.size == 'l' %}selected{% endif %} value="l">Large (61-100 lbs)</option>
+                <option {% if search.size == 'xl' %}selected{% endif %} value="xl">X-Large (101 lbs+)</option>
               </select>
             </div>
             <div class="filter">
