@@ -39,6 +39,7 @@ def view(request):
         "radius": parse_radius(request.GET),
         "breed": request.GET.get("breed", "").lower(),
         "age": request.GET.get("age", "").lower(),
+        "size": request.GET.get("size", "").lower(),
         "sex": request.GET.get("sex", "").lower(),
         "euth_date_within_days": parse_euth_date(request.GET),
         "sort": request.GET.get("sort", "distance").lower(),

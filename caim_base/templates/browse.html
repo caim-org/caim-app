@@ -49,6 +49,16 @@
               </select>
             </div>
             <div class="filter">
+              Size
+              <select class="form-select" name="size">
+                <option {% if not search.size %}selected{% endif %} value="">Any size</option>
+                <option {% if search.size == 's' %}selected{% endif %} value="s">Small (0-25 lbs)</option>
+                <option {% if search.size == 'm' %}selected{% endif %} value="m">Medium (26-60 lbs)</option>
+                <option {% if search.size == 'l' %}selected{% endif %} value="l">Large (61-100 lbs)</option>
+                <option {% if search.size == 'xl' %}selected{% endif %} value="xl">X-Large (101 lbs+)</option>
+              </select>
+            </div>
+            <div class="filter">
               Euth date
               <select class="form-select" name="euth_date">
                 <option {% if not search.euth_date %}selected{% endif %} value="">Any</option>

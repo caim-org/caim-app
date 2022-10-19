@@ -12,6 +12,7 @@ def query_animals(
     radius=None,
     age=None,
     sex=None,
+    size=None,
     breed=None,
     awg_id=None,
     euth_date_within_days=None,
@@ -44,6 +45,9 @@ def query_animals(
 
     if age:
         query = query.filter(age=age.upper())
+
+    if size:
+        query = query.filter(size=size.upper())
 
     if awg_id:
         query = query.filter(awg_id=awg_id)

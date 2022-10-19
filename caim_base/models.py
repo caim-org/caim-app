@@ -217,7 +217,7 @@ class Animal(models.Model):
         S = "S", "Small (0-25 lbs)"
         M = "M", "Medium (26-60 lbs)"
         L = "L", "Large (61-100 lbs)"
-        XL = "XL", "X-Large (101 lbs+)  "
+        XL = "XL", "X-Large (101 lbs+)"
 
     # @todo these ranges need to be animal type specific
     class AnimalAge(models.TextChoices):
