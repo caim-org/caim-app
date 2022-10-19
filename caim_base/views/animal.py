@@ -12,7 +12,7 @@ def view(request, animal_id):
     awg = animal.awg
     # If the animal listing is not published OR if the aws is not published AND the user is not staff we redirect
     if (
-        (not animal.is_published or not awg.status == Awg.AwgStatus.PUBLISHED)
+        (not animal.is_currently_published())
         and not awg.user_is_member_of_awg(request.user)
         and not request.user.is_staff
     ):
