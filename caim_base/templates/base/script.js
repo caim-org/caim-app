@@ -5,6 +5,26 @@ function todo() {
     return false;
 }
 
+// Saved searched
+function saveSearch(){
+    if (!USER) {
+        alert('Please login or register');
+        return;
+    }
+    const params = Object.fromEntries(new URLSearchParams(location.search));
+
+    $.ajax({
+        url: '/api/saved-search/add',
+        type: 'post',
+        data: {
+            'search': params,
+        },
+        headers: csrfHeaders(),
+    }).then(function(){
+        alert('Saved');
+    });
+}
+
 // Localize timestamp spans
 $('[data-timestamp]').each(function (idx, el) {
     el = $(el);
