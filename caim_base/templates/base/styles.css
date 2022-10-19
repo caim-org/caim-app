@@ -104,6 +104,11 @@
     font-size: 80%;
 }
 
+.context-bar {
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+}
 .context-bar .btn {
     margin-top: 3px;
 }
