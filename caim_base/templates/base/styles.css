@@ -16,12 +16,12 @@
 }
 
 legend {
-font-size: 1.2em;
-font-weight: bold;
-border-bottom: 1px solid #ccc;
-margin-top: 20px;
-background: #eee;
-padding: 8px;
+    font-size: 1.2em;
+    font-weight: bold;
+    border-bottom: 1px solid #ccc;
+    margin-top: 20px;
+    background: #eee;
+    padding: 8px;
 }
 
 .table-header thead tr {
