@@ -16,7 +16,26 @@
         </p>
       </div>
       <div class="col-md-6 pt-2 text-end d-none d-md-block">
-        <a href="#" onclick="todo()" class="btn btn-secondary">Save search</a>
+        <div class="d-flex justify-content-end align-items-center">
+        <a href="#" onclick="saveSearch()" class="btn btn-secondary">Save search</a>
+
+        {% if savedSearches %}
+        <li class="dropdown">
+          <a class="dropdown-toggle" style="text-decoration: none; color:white;" data-bs-toggle="dropdown" href="#" role="button">
+            Saved searches
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            {% for saved_search in savedSearches %}
+            <li>
+              <a class="dropdown-item" href="{{ saved_search.get_absolute_url }}">
+              {{ saved_search.name }}
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </li>
+        {% endif %}
+        </div>
       </div>
     </div>
   </div>
@@ -61,10 +80,10 @@
             <div class="filter">
               Euth date
               <select class="form-select" name="euth_date">
-                <option {% if not search.euth_date %}selected{% endif %} value="">Any</option>
-                <option {% if search.euth_date == 1 %}selected{% endif %} value="1">Tomorrow</option>
-                <option {% if search.euth_date == 7 %}selected{% endif %} value="7">Within 7 days</option>
-                <option {% if search.euth_date == 14 %}selected{% endif %} value="14">Within 14 days</option>
+                <option {% if not search.euth_date_within_days %}selected{% endif %} value="">Any</option>
+                <option {% if search.euth_date_within_days == 1 %}selected{% endif %} value="1">Tomorrow</option>
+                <option {% if search.euth_date_within_days == 7 %}selected{% endif %} value="7">Within 7 days</option>
+                <option {% if search.euth_date_within_days == 14 %}selected{% endif %} value="14">Within 14 days</option>
               </select>
             </div>
             {% if search.zip %}
@@ -132,7 +151,8 @@
 
       {% include 'components/animal_list.html' %}
       {% include 'components/animal_pagination.html' %}
-      
+      {% include 'components/saved_search_modal.html' %}
+
     </div>
   </div>
 </div>

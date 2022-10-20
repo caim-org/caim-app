@@ -67,6 +67,9 @@ Note:
 4. Migrate the database via `python manage.py migrate`
 5. Build test data with `python manage.py shell < seed.py`
 
+Notes:
+- The postgres local docker image listenes on port 5433 (rather than the default postgres port of 5432) to avoid clashes if you happen to have postgres running locally on your machine
+
 ## How to contribute
 
 We welcome your help! Please browse the attached project and issues for things to work on (more will be added shortly). Please branch off `main`, implement your feature, and send a pull request.
