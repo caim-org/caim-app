@@ -1,5 +1,6 @@
 import logging
 from datetime import datetime
+import urllib
 
 from django.contrib.auth import get_user_model
 from django.db import models
@@ -464,3 +465,21 @@ class SavedSearch(models.Model):
         except:
             logger.warn("ZIP code not valid")
         super(SavedSearch, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        query_params = {
+            "zip": self.zip_code,
+            "radius": self.radius,
+            "sex": self.sex,
+            "age": self.age,
+            "size": self.size,
+            "breed": self.breed.slug if self.breed else None,
+            "euth_date": self.euth_date_within_days,
+            "goodwith_cats": "on" if self.goodwith_cats else None,
+            "goodwith_dogs": "on" if self.goodwith_dogs else None,
+            "goodwith_kids": "on" if self.goodwith_kids else None,
+        }
+        # Remove None values
+        filtered_query_params = {k: v for k, v in query_params.items() if v}
+        query_string = urllib.parse.urlencode(filtered_query_params)
+        return full_url(f"/browse?{query_string}")

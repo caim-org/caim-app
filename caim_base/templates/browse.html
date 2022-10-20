@@ -16,7 +16,26 @@
         </p>
       </div>
       <div class="col-md-6 pt-2 text-end d-none d-md-block">
+        <div class="d-flex justify-content-end align-items-center">
         <a href="#" onclick="saveSearch()" class="btn btn-secondary">Save search</a>
+
+        {% if savedSearches %}
+        <li class="dropdown">
+          <a class="dropdown-toggle" style="text-decoration: none; color:white;" data-bs-toggle="dropdown" href="#" role="button">
+            Saved searches
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            {% for saved_search in savedSearches %}
+            <li>
+              <a class="dropdown-item" href="{{ saved_search.get_absolute_url }}">
+              {{ saved_search.name }}
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </li>
+        {% endif %}
+        </div>
       </div>
     </div>
   </div>

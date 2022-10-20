@@ -8,7 +8,7 @@ from django.contrib.gis.geos import Point
 
 from ..animal_search import query_animals
 
-from ..models import Animal, Breed, ZipCode, AnimalType, AnimalShortList
+from ..models import Animal, Breed, ZipCode, AnimalType, AnimalShortList, SavedSearch
 
 
 def parse_radius(args):
@@ -59,8 +59,10 @@ def view(request):
     if request.user.is_authenticated:
         shortlists = AnimalShortList.objects.filter(user=request.user.id)
         shortlist_animal_ids = [s.animal_id for s in shortlists]
+        saved_searches = SavedSearch.objects.filter(user=request.user.id)
     else:
         shortlist_animal_ids = []
+        saved_searches = []
 
     all_animals = query.all()
     paginator = Paginator(all_animals, npp)
@@ -73,5 +75,6 @@ def view(request):
         "pageTitle": "Browse animals",
         "shortlistAnimalIds": shortlist_animal_ids,
         "paginator": paginator,
+        "savedSearches": saved_searches,
     }
     return render(request, "browse.html", context)
