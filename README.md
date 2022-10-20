@@ -53,14 +53,6 @@ Slideshow is https://github.com/sachinchoolur/lightslider. Just copied the dist 
 
 Running the app locally requires:
 
-Note: 
-- The postgres version on your local environment might be different from the one on the
-        docker-compose.yml file. 
-        They both have to be of the version before running the docker command, to avoid running 
-        into postgis error.
-- If you get an error that the port number "5432" is taken or running anotheer process,
-  you can use another port for example port: 25
-
 1. The correct env variables via `source local.env`
 2. Making a virtual env `mkvirtualenv caim-django` and then `pip install -r requirements.txt`
 3. Running the postgres container via `docker compose up`
