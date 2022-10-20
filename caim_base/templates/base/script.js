@@ -7,21 +7,34 @@ function todo() {
 
 // Saved searched
 function saveSearch(){
+    var modal = new bootstrap.Modal(document.getElementById('savedSearchModal'))
     if (!USER) {
         alert('Please login or register');
         return;
     }
-    const params = Object.fromEntries(new URLSearchParams(location.search));
+    const params = new URLSearchParams(location.search);
 
     $.ajax({
         url: '/api/saved-search/add',
         type: 'post',
         data: {
-            'search': params,
+            'animal_type': 'dog',
+            'zip': params.get('zip'),
+            'radius': params.get('radius'),
+            'age': params.get('age'),
+            'size': params.get('size'),
+            'sex': params.get('sex'),
+            'breed': params.get('breed'),
+
+            'euth_date_within_days': params.get('euth_date'),
+            'goodwith_cats': params.has('goodwith_cats') || null,
+            'goodwith_dogs': params.has('goodwith_dogs') || null,
+            'goodwith_kids': params.has('goodwith_kids') || null,
         },
         headers: csrfHeaders(),
-    }).then(function(){
-        alert('Saved');
+    }).then(function(result){
+        $('#savedSearchModalSearchName').html(result.name);
+        modal.show();
     });
 }
 

@@ -405,3 +405,62 @@ class AnimalComment(models.Model):
 
     def can_be_edited_by(self, user):
         return self.user == user or user.is_staff
+
+
+class SavedSearch(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(
+        max_length=64,
+    )
+    animal_type = models.CharField(
+        max_length=3,
+        choices=AnimalType.choices,
+        default=AnimalType.DOG,
+    )
+    zip_code = models.CharField(max_length=16, blank=True, null=True, default=None)
+    geo_location = PointField()
+    radius = models.IntegerField(blank=True, null=True, default=None)
+    sex = models.CharField(
+        max_length=1,
+        choices=Animal.AnimalSex.choices,
+        blank=True,
+        null=True,
+        default=None,
+    )
+    size = models.CharField(
+        max_length=2,
+        choices=Animal.AnimalSize.choices,
+        blank=True,
+        null=True,
+        default=None,
+    )
+    age = models.CharField(
+        max_length=8,
+        choices=Animal.AnimalAge.choices,
+        blank=True,
+        null=True,
+        default=None,
+    )
+    breed = models.ForeignKey(
+        Breed,
+        on_delete=models.CASCADE,
+        related_name="+",  # Dont need related field on breed
+        blank=True,
+        null=True,
+        default=None,
+    )
+    euth_date_within_days = models.IntegerField(blank=True, null=True, default=None)
+    goodwith_cats = models.BooleanField(blank=True, null=True, default=None)
+    goodwith_dogs = models.BooleanField(blank=True, null=True, default=None)
+    goodwith_kids = models.BooleanField(blank=True, null=True, default=None)
+    is_notifications_enabled = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        try:
+            zip_info = ZipCode.objects.get(zip_code=self.zip_code)
+            self.geo_location = zip_info.geo_location
+        except:
+            logger.warn("ZIP code not valid")
+        super(SavedSearch, self).save(*args, **kwargs)

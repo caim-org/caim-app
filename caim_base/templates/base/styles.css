@@ -6,7 +6,7 @@
   
 .navbar-nav .dropdown-menu {
   /* on top od search bar */
-  z-index: 9999;
+  z-index: 1050;
 }
 
   body {
@@ -112,7 +112,7 @@
 .context-bar {
     position: sticky;
     top: 0;
-    z-index: 9998;
+    z-index: 1030;
 }
 .context-bar .btn {
     margin-top: 3px;
