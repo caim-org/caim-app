@@ -20,7 +20,7 @@ function saveSearch(){
         data: {
             'animal_type': 'dog',
             'zip': params.get('zip'),
-            'radius': params.get('radius'),
+            'radius': params.get('radius') || 50,
             'age': params.get('age'),
             'size': params.get('size'),
             'sex': params.get('sex'),
