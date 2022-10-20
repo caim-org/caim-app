@@ -26,6 +26,7 @@ from caim_base.views import (
     comments,
     user_profile,
     awg,
+    saved_search,
 )
 
 urlpatterns = [
@@ -45,6 +46,7 @@ urlpatterns = [
     ),  # @todo fix trailing slash issues
     path("logout", auth.logout_view, name="logout"),
     path("api/shortlist", shortlist.api, name="shortlist_api"),
+    path("api/saved-search/add", saved_search.add, name="saved_search_add"),
     path("avatar/", include("avatar.urls")),
     path("comments/add", comments.add),
     path("comments/<comment_id>/edit", comments.edit),

@@ -1,5 +1,6 @@
 import logging
 from datetime import datetime
+import urllib
 
 from django.contrib.auth import get_user_model
 from django.db import models
@@ -405,3 +406,80 @@ class AnimalComment(models.Model):
 
     def can_be_edited_by(self, user):
         return self.user == user or user.is_staff
+
+
+class SavedSearch(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(
+        max_length=64,
+    )
+    animal_type = models.CharField(
+        max_length=3,
+        choices=AnimalType.choices,
+        default=AnimalType.DOG,
+    )
+    zip_code = models.CharField(max_length=16, blank=True, null=True, default=None)
+    geo_location = PointField()
+    radius = models.IntegerField(blank=True, null=True, default=None)
+    sex = models.CharField(
+        max_length=1,
+        choices=Animal.AnimalSex.choices,
+        blank=True,
+        null=True,
+        default=None,
+    )
+    size = models.CharField(
+        max_length=2,
+        choices=Animal.AnimalSize.choices,
+        blank=True,
+        null=True,
+        default=None,
+    )
+    age = models.CharField(
+        max_length=8,
+        choices=Animal.AnimalAge.choices,
+        blank=True,
+        null=True,
+        default=None,
+    )
+    breed = models.ForeignKey(
+        Breed,
+        on_delete=models.CASCADE,
+        related_name="+",  # Dont need related field on breed
+        blank=True,
+        null=True,
+        default=None,
+    )
+    euth_date_within_days = models.IntegerField(blank=True, null=True, default=None)
+    goodwith_cats = models.BooleanField(blank=True, null=True, default=None)
+    goodwith_dogs = models.BooleanField(blank=True, null=True, default=None)
+    goodwith_kids = models.BooleanField(blank=True, null=True, default=None)
+    is_notifications_enabled = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        try:
+            zip_info = ZipCode.objects.get(zip_code=self.zip_code)
+            self.geo_location = zip_info.geo_location
+        except:
+            logger.warn("ZIP code not valid")
+        super(SavedSearch, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        query_params = {
+            "zip": self.zip_code,
+            "radius": self.radius,
+            "sex": self.sex,
+            "age": self.age,
+            "size": self.size,
+            "breed": self.breed.slug if self.breed else None,
+            "euth_date": self.euth_date_within_days,
+            "goodwith_cats": "on" if self.goodwith_cats else None,
+            "goodwith_dogs": "on" if self.goodwith_dogs else None,
+            "goodwith_kids": "on" if self.goodwith_kids else None,
+        }
+        # Remove None values
+        filtered_query_params = {k: v for k, v in query_params.items() if v}
+        query_string = urllib.parse.urlencode(filtered_query_params)
+        return full_url(f"/browse?{query_string}")
