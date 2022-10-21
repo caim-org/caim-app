@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 
-from ...models import Awg, User, AwgMember
+from ...models.awg import Awg, User, AwgMember
 
 
 def check_awg_user_permissions(request, awg_id):

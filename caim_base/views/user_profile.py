@@ -3,7 +3,7 @@ from django.http import Http404
 from django.shortcuts import render, redirect
 from django import forms
 from django.core import validators
-from ..models import User, UserProfile
+from ..models.awg import User, UserProfile
 
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required

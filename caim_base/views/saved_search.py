@@ -1,6 +1,6 @@
 from django.core.exceptions import BadRequest
 from django.http import JsonResponse
-from ..models import SavedSearch, Breed
+from ..models.animals import SavedSearch, Breed
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 
