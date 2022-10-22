@@ -35,6 +35,8 @@ ALLOWED_HOSTS = ["*"]
 # USE_X_FORWARDED_HOST = True
 URL_PREFIX = os.getenv("URL_PREFIX")
 
+LOGIN_URL = "/login"
+
 # Application definition
 
 INSTALLED_APPS = [
