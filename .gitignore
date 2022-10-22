@@ -161,4 +161,4 @@ cython_debug/
 
 staging.env
 *.env
-static/
+/static/
