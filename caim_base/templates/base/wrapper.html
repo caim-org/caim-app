@@ -7,6 +7,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{{ pageTitle }} | Caim</title>
     <meta property="fb:app_id" content="1743458032720604">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Caim.org">
@@ -21,10 +22,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link type="text/css" rel="stylesheet" href="{% static 'lightslider/css/lightslider.css' %}" /> 
-    <title>{{ pageTitle }} | Caim</title>
-    <style>
-      {% include './styles.css' %}
-    </style>
     {% leaflet_js %}
     {% leaflet_css %}
     {% block head %}
@@ -105,9 +102,7 @@
       var USER = null;
       {% endif %}
     </script>
-    <script>
-      {% include './script.js' %}
-    </script>
+    <script src="{% static 'js/common.js' %}"></script>
     <div id="csrf" style="display:none">
       {% csrf_token %}
     </div>
