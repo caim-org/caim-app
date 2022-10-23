@@ -1,7 +1,8 @@
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 import urllib
 
+from django.utils import timezone
 from django.db import models
 from django.contrib.gis.db.models import PointField
 from django.utils.safestring import mark_safe
@@ -280,6 +281,8 @@ class SavedSearch(models.Model):
     is_notifications_enabled = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    last_checked_at = models.DateTimeField(null=True, default=None, blank=True)
+    check_every = models.DurationField(default=timedelta(days=1))
 
     def save(self, *args, **kwargs):
         try:
@@ -306,3 +309,9 @@ class SavedSearch(models.Model):
         filtered_query_params = {k: v for k, v in query_params.items() if v}
         query_string = urllib.parse.urlencode(filtered_query_params)
         return full_url(f"/browse?{query_string}")
+
+    def is_ready_to_check(self):
+        # Is this search due checking?
+        if not self.last_checked_at:
+            return True
+        return (self.last_checked_at + self.check_every) < timezone.now()

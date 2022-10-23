@@ -1,9 +1,9 @@
-# This view is called daily
-
-
+from datetime import datetime
+from django.http import JsonResponse
+from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
 from templated_email import send_templated_mail
-
-from ..models import SavedSearch
+from ..models.animals import SavedSearch
 from ..animal_search import query_animals
 
 
@@ -36,21 +36,38 @@ def check_new_animals_send_email(saved_search):
         goodwith_cats=saved_search.goodwith_cats,
         goodwith_dogs=saved_search.goodwith_dogs,
         goodwith_kids=saved_search.goodwith_kids,
-        # todo published since
+        # published_since = saved_search.last_checked_at
     ).all()
 
+    # Update the last_checked_at date to now for this search
+    # Update this before sending, so that bugs or errors thrown whilst processing
+    # dont result in many emails being sent (eg at most once)
+    saved_search.last_checked_at = datetime.utcnow()
+    saved_search.save()
+
     if len(animals) > 0:
-        print(f"{saved_search.name} #{saved_search.id}: Animals found matching")
-        # Animals to send!
+        print(
+            f"{saved_search.name} #{saved_search.id}: Animals found for search. Sending."
+        )
         send_email(saved_search, animals)
     else:
-        print(f"{saved_search.name} #{saved_search.id}: No animals found matching")
+        print(
+            f"{saved_search.name} #{saved_search.id}: No animals found for search. Skipping."
+        )
 
 
+# This view is called every hour by a cron rule (EventBridge rule)
+@require_http_methods(["POST"])
+@csrf_exempt
 def send_saved_search_email_notifications(request):
-    # @todo just the ones not checked since last time
     saved_searches = SavedSearch.objects.all()
 
-    print(saved_searches)
     for saved_search in saved_searches:
-        check_new_animals_send_email(saved_search)
+        print(f"{saved_search.name} #{saved_search.id}: Processing")
+        if saved_search.is_ready_to_check():
+            print("Checking search as ready to check")
+            check_new_animals_send_email(saved_search)
+        else:
+            print("Skipping as not ready to check")
+
+    return JsonResponse({"ok": True})
