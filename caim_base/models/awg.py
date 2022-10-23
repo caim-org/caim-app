@@ -5,32 +5,14 @@ import urllib
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.contrib.gis.db.models import PointField
-from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
-from django.utils.safestring import mark_safe
 from phonenumber_field.modelfields import PhoneNumberField
-from ..templatetags.caim_helpers import image_resize
 from ..states import states
 from ..utils import full_url
+from .user import User
+from .geo import ZipCode
 
 logger = logging.getLogger(__name__)
-
-
-User = get_user_model()
-# Change default User model so email is unique and main identifier
-User._meta.get_field("email")._unique = True
-User.USERNAME_FIELD = "email"
-User.REQUIRED_FIELDS = ["username"]
-
-
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    description = models.TextField(blank=True)
-
-
-class ZipCode(models.Model):
-    zip_code = models.CharField(max_length=16, unique=True)
-    geo_location = PointField()
 
 
 class Awg(models.Model):
