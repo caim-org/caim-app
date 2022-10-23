@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import Http404
 from django.core.paginator import Paginator
 
-from ...models import Awg, AnimalShortList
+from ...models.animals import AnimalShortList
+from ...models.awg import Awg
 from ...animal_search import query_animals
 
 

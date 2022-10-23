@@ -3,7 +3,8 @@ from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.geos import Point
 from django.core.exceptions import BadRequest
 from django.db.models import Q
-from .models import Animal, ZipCode, AnimalShortList, AnimalType, Awg
+from .models.animals import Animal, ZipCode, AnimalShortList, AnimalType
+from .models.awg import Awg
 
 
 def query_animals(
