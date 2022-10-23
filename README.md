@@ -60,7 +60,7 @@ Running the app locally requires:
 5. Build test data with `python manage.py shell < seed.py`
 
 Notes:
-- The postgres local docker image listenes on port 5433 (rather than the default postgres port of 5432) to avoid clashes if you happen to have postgres running locally on your machine
+- The postgres local docker image listenes on port 5434 (rather than the default postgres port of 5432) to avoid clashes if you happen to have postgres running locally on your machine
 
 ## How to contribute
 

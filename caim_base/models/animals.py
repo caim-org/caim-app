@@ -7,7 +7,9 @@ from django.contrib.gis.db.models import PointField
 from django.utils.safestring import mark_safe
 from caim_base.templatetags.caim_helpers import image_resize
 from ..utils import full_url
-from .awg import Awg, User, ZipCode
+from .awg import Awg
+from .user import User
+from .geo import ZipCode
 
 logger = logging.getLogger(__name__)
 
