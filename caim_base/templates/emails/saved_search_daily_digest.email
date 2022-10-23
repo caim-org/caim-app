@@ -1,0 +1,11 @@
+{% block subject %}New animals matching search: {{saved_search.name }}{% endblock %}
+{% block plain %}
+Hi there.
+
+The following animals have been added to caim matching your saved search "{{saved_search.name }}". 
+
+{% for animal in animals %}
+- {{ animal.name }} / {{animal.breedsText}} / {{animal.ageText}} [{{ animal.get_absolute_url }}]{% endfor %}
+
+
+{% endblock %}
