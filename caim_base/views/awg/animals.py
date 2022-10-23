@@ -11,7 +11,8 @@ from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Submit
 
-from ...models import Awg, Animal, AnimalImage
+from ...models.animals import Animal, AnimalImage
+from ...models.awg import Awg
 from ...animal_search import query_animals
 from ...animal_petfinder_import import import_animal_from_petfinder, ImportAnimalError
 

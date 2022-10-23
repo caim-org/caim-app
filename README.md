@@ -52,6 +52,7 @@ Slideshow is https://github.com/sachinchoolur/lightslider. Just copied the dist 
 ## Local development
 
 Running the app locally requires:
+
 1. The correct env variables via `source local.env`
 2. Making a virtual env `mkvirtualenv caim-django` and then `pip install -r requirements.txt`
 3. Running the postgres container via `docker compose up`

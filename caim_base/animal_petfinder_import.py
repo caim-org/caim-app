@@ -3,7 +3,7 @@ import requests
 import json
 import html
 import urllib.request
-from . import models
+from .models import animals
 from django.core.files import File
 
 
@@ -38,44 +38,44 @@ def clean_text(str):
 
 def map_age(str):
     if str == "baby":
-        return models.Animal.AnimalAge.BABY
+        return animals.Animal.AnimalAge.BABY
     if str == "young":
-        return models.Animal.AnimalAge.YOUNG
+        return animals.Animal.AnimalAge.YOUNG
     if str == "adult":
-        return models.Animal.AnimalAge.ADULT
+        return animals.Animal.AnimalAge.ADULT
     if str == "senior":
-        return models.Animal.AnimalAge.SENIOR
+        return animals.Animal.AnimalAge.SENIOR
 
 
 def map_size(str):
     if str == "small":
-        return models.Animal.AnimalSize.S
+        return animals.Animal.AnimalSize.S
     if str == "medium":
-        return models.Animal.AnimalSize.M
+        return animals.Animal.AnimalSize.M
     if str == "large":
-        return models.Animal.AnimalSize.L
+        return animals.Animal.AnimalSize.L
     return None
 
 
 def map_behavour(v):
     if v == True:
-        return models.Animal.AnimalBehaviourGrade.GOOD
+        return animals.Animal.AnimalBehaviourGrade.GOOD
     if v == False:
-        return models.Animal.AnimalBehaviourGrade.POOR
-    return models.Animal.AnimalBehaviourGrade.NOT_TESTED
+        return animals.Animal.AnimalBehaviourGrade.POOR
+    return animals.Animal.AnimalBehaviourGrade.NOT_TESTED
 
 
 def map_sex(v):
     v = v.lower()
     if v == "female":
-        return models.Animal.AnimalSex.F
+        return animals.Animal.AnimalSex.F
     if v == "male":
-        return models.Animal.AnimalSex.M
+        return animals.Animal.AnimalSex.M
     return None
 
 
 def lookup_breed(pfbreed):
-    return models.Breed.objects.filter(slug=pfbreed["slug"]).first()
+    return animals.Breed.objects.filter(slug=pfbreed["slug"]).first()
 
 
 def create_animal_from_petfinder_data(awg, data):
@@ -86,9 +86,9 @@ def create_animal_from_petfinder_data(awg, data):
     if "secondary_breed" in data and data["secondary_breed"]:
         secondary_breed = lookup_breed(data["primary_breed"])
 
-    animal = models.Animal(
+    animal = animals.Animal(
         name=clean_text(data["name"]),
-        animal_type=models.AnimalType.DOG,
+        animal_type=animals.AnimalType.DOG,
         primary_breed=primary_breed,
         secondary_breed=secondary_breed,
         petfinder_id=data["id"],
@@ -124,7 +124,7 @@ def create_animal_from_petfinder_data(awg, data):
     if data["photo_urls"]:
         for image_url in data["photo_urls"]:
             if image_url != data["primary_photo_url"]:
-                ai = models.AnimalImage(animal=animal)
+                ai = animals.AnimalImage(animal=animal)
                 img_result = urllib.request.urlretrieve(image_url)
                 ai.photo.save(
                     os.path.basename(image_url), File(open(img_result[0], "rb"))

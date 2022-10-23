@@ -8,7 +8,8 @@ from django.contrib.gis.geos import Point
 
 from ..animal_search import query_animals
 
-from ..models import Animal, Breed, ZipCode, AnimalType, AnimalShortList, SavedSearch
+from ..models.animals import Animal, Breed, AnimalType, AnimalShortList, SavedSearch
+from ..models.awg import ZipCode
 
 
 def parse_radius(args):

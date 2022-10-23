@@ -2,7 +2,7 @@ from datetime import datetime
 from django.core.exceptions import BadRequest, PermissionDenied
 from django.http import Http404
 from django.shortcuts import redirect, render
-from ..models import Animal, AnimalComment
+from ..models.animals import Animal, AnimalComment
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 

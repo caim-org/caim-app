@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import Http404
-from ..models import Animal, AnimalShortList, AnimalComment, Awg
+from ..models.animals import Animal, AnimalShortList, AnimalComment
+from ..models.awg import Awg
 
 
 def view(request, animal_id):

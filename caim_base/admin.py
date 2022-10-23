@@ -4,7 +4,8 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from leaflet.admin import LeafletGeoAdmin
 
-from .models import Breed, Animal, Awg, AnimalComment, AnimalImage, AwgMember
+from .models.animals import Breed, Animal, Awg, AnimalComment, AnimalImage
+from .models.awg import AwgMember
 from .admin_widgets import AdminImageMixin
 
 

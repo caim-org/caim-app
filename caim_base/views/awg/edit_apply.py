@@ -9,7 +9,7 @@ from crispy_forms.layout import Layout, Fieldset, Submit
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 
-from ...models import Awg, AwgMember
+from ...models.awg import Awg, AwgMember
 from ...notifications import notify_new_awg_application
 
 
