@@ -28,7 +28,7 @@ def check_new_animals_send_email(saved_search):
         else None,
         breed=saved_search.breed.slug if saved_search.breed else None,
         zip=saved_search.zip_code,
-        radius=saved_search.radius or "any",
+        radius=saved_search.radius,
         age=saved_search.age,
         size=saved_search.size,
         sex=saved_search.sex,
