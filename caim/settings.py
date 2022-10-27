@@ -80,6 +80,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "caim_base.context_processors.global_template_variables",
             ],
         },
     },
@@ -108,8 +109,6 @@ DATABASES = {
         # "OPTIONS": {"options": "-c search_path=caim_dev,public"},
     }
 }
-
-
 
 
 # Password validation
