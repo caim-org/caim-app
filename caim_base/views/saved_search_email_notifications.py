@@ -21,6 +21,10 @@ def send_email(saved_search, animals):
 
 
 def check_new_animals_send_email(saved_search):
+    # Check for newly published animals since last check time
+    # However its a new saved search, last_checked_at is None, so use created_at instead
+    # Otherwise we will send ALL the animals on the site
+    datetime_to_check_since = saved_search.last_checked_at or saved_search.created_at
     animals = query_animals(
         user=saved_search.user,
         animal_type=str(saved_search.animal_type).upper()
@@ -36,7 +40,7 @@ def check_new_animals_send_email(saved_search):
         goodwith_cats=saved_search.goodwith_cats,
         goodwith_dogs=saved_search.goodwith_dogs,
         goodwith_kids=saved_search.goodwith_kids,
-        # published_since = saved_search.last_checked_at
+        published_since=datetime_to_check_since,
     ).all()
 
     # Update the last_checked_at date to now for this search
