@@ -1,6 +1,8 @@
 import csv
 import json
-from caim_base import models
+import os
+from caim_base.models.animals import Animal, AnimalImage, AnimalType,  Breed, ZipCode
+from caim_base.models.awg import Awg
 from django.contrib.gis.geos import Point
 from django.db import transaction
 from django.core.files import File
@@ -11,20 +13,20 @@ fake = Faker()
 
 
 def load_zips():
-    models.ZipCode.objects.all().delete()
+    ZipCode.objects.all().delete()
     file_name = "seed_data/zips.txt"
     with open(file_name) as csv_file:
         zips = []
         csv_reader = csv.reader(csv_file, delimiter=",")
 
         for row in csv_reader:
-            p = models.ZipCode(
+            p = ZipCode(
                 zip_code=row[0],
                 geo_location=Point(float(row[2]), float(row[1])),
             )
             zips.append(p)
 
-        models.ZipCode.objects.bulk_create(zips)
+        ZipCode.objects.bulk_create(zips)
 
 
 def load_breeds(animal_type, file_name):
@@ -34,7 +36,7 @@ def load_breeds(animal_type, file_name):
     with transaction.atomic():
         for handle in breeds:
             name = breeds[handle]
-            b = models.Breed(name=name, slug=handle, animal_type=animal_type.upper())
+            b = Breed(name=name, slug=handle, animal_type=animal_type.upper())
             b.save()
 
     f.close()
@@ -42,57 +44,57 @@ def load_breeds(animal_type, file_name):
 
 def map_age(str):
     if str == "baby":
-        return models.Animal.AnimalAge.BABY
+        return Animal.AnimalAge.BABY
     if str == "young":
-        return models.Animal.AnimalAge.YOUNG
+        return Animal.AnimalAge.YOUNG
     if str == "adult":
-        return models.Animal.AnimalAge.ADULT
+        return Animal.AnimalAge.ADULT
     if str == "senior":
-        return models.Animal.AnimalAge.SENIOR
+        return Animal.AnimalAge.SENIOR
 
 
 def map_size(str):
     if str == "small":
-        return models.Animal.AnimalSize.S
+        return Animal.AnimalSize.S
     if str == "medium":
-        return models.Animal.AnimalSize.M
+        return Animal.AnimalSize.M
     if str == "large":
-        return models.Animal.AnimalSize.L
+        return Animal.AnimalSize.L
     return None
 
 
 def map_behavour(v):
     if v == True:
-        return models.Animal.AnimalBehaviourGrade.GOOD
+        return Animal.AnimalBehaviourGrade.GOOD
     if v == False:
-        return models.Animal.AnimalBehaviourGrade.POOR
-    return models.Animal.AnimalBehaviourGrade.NOT_TESTED
+        return Animal.AnimalBehaviourGrade.POOR
+    return Animal.AnimalBehaviourGrade.NOT_TESTED
 
 
 def map_sex(v):
     v = v.lower()
     if v == "female":
-        return models.Animal.AnimalSex.F
+        return Animal.AnimalSex.F
     if v == "male":
-        return models.Animal.AnimalSex.M
+        return Animal.AnimalSex.M
     return None
 
 
 def lookup_breed(pfbreed):
-    return models.Breed.objects.filter(slug=pfbreed["slug"]).first()
+    return Breed.objects.filter(slug=pfbreed["slug"]).first()
 
 
 def upsert_awg(name, pf_id, city, state, zip, lat, lng):
-    awg = models.Awg.objects.filter(petfinder_id=pf_id).first()
+    awg = Awg.objects.filter(petfinder_id=pf_id).first()
     if not awg:
-        awg = models.Awg(
+        awg = Awg(
             name=name,
             petfinder_id=pf_id,
             city=city,
             state=state,
             zip_code=zip,
             geo_location=Point(lng, lat),
-            status=models.Awg.AwgStatus.PUBLISHED,
+            status=Awg.AwgStatus.PUBLISHED,
         )
         awg.save()
 
@@ -132,9 +134,9 @@ def load_animals(animal_type, file_name):
             )
 
             print(aa)
-            a = models.Animal(
+            a = Animal(
                 name=aa["name"],
-                animal_type=models.AnimalType.DOG,
+                animal_type=AnimalType.DOG,
                 primary_breed=primary_breed,
                 secondary_breed=secondary_breed,
                 petfinder_id=pf_id,
@@ -173,7 +175,7 @@ def load_animals(animal_type, file_name):
                 for image_url in aa["photo_urls"]:
                     print(image_url)
                     if image_url != aa["primary_photo_url"]:
-                        ai = models.AnimalImage(animal=a)
+                        ai = AnimalImage(animal=a)
                         img_result = urllib.request.urlretrieve(image_url)
                         ai.photo.save(
                             os.path.basename(image_url), File(open(img_result[0], "rb"))
@@ -184,9 +186,9 @@ def load_animals(animal_type, file_name):
             print("SKIPPEd")
 
 
-models.Animal.objects.all().delete()
-models.Awg.objects.all().delete()
-models.Breed.objects.all().delete()
+Animal.objects.all().delete()
+Awg.objects.all().delete()
+Breed.objects.all().delete()
 
 load_zips()
 load_breeds("dog", "seed_data/dog-breeds.json")
