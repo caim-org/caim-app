@@ -229,6 +229,20 @@ class AnimalComment(models.Model):
         return self.user == user or user.is_staff
 
 
+class AnimalSubComment(models.Model):
+    comment = models.ForeignKey(AnimalComment, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    body = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    edited_at = models.DateTimeField(blank=True, null=True)  
+
+    def can_be_deleted_by(self, user):
+        return self.can_be_edited_by(user)
+
+    def can_be_edited_by(self, user):
+        return self.user == user or user.is_staff
+
+
 class SavedSearch(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(
