@@ -1,15 +1,11 @@
-from datetime import timedelta, datetime
 from django.shortcuts import render
-from django.db.models import Q
-from django.core.exceptions import BadRequest
 from django.core.paginator import Paginator
 from django.contrib.gis.db.models.functions import Distance
-from django.contrib.gis.geos import Point
 
 from ..animal_search import query_animals
 
-from ..models.animals import Animal, Breed, AnimalType, AnimalShortList, SavedSearch
-from ..models.awg import ZipCode
+from ..models.animals import Breed, AnimalType, AnimalShortList, SavedSearch
+from ..models.geo import ZipCode
 
 
 def parse_radius(args):

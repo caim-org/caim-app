@@ -3,8 +3,12 @@ from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.geos import Point
 from django.core.exceptions import BadRequest
 from django.db.models import Q
-from .models.animals import Animal, ZipCode, AnimalShortList, AnimalType
+from .models.animals import Animal, AnimalShortList, AnimalType
 from .models.awg import Awg
+from .models.geo import ZipCode
+
+
+# This function deals with searching for animals with certain common filters
 
 
 def query_animals(
@@ -25,6 +29,7 @@ def query_animals(
     sort="-created_at",
     hide_unpublished_animals=True,
     hide_unpublished_awgs=True,
+    published_since=None,
 ):
     query = Animal.objects.filter(animal_type=animal_type).prefetch_related(
         "primary_breed", "secondary_breed", "awg"
@@ -35,6 +40,9 @@ def query_animals(
 
     if hide_unpublished_awgs:
         query = query.filter(awg__status=Awg.AwgStatus.PUBLISHED)
+
+    if published_since:
+        query = query.filter(first_published_at__gt=published_since)
 
     zip_info = None
     if zip:

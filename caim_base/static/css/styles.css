@@ -2,110 +2,110 @@
 .page-narrow .container {
     max-width: 1024px;
     ;
-  }
-  
-.navbar-nav .dropdown-menu {
-  /* on top od search bar */
-  z-index: 1050;
 }
 
-  body {
+.navbar-nav .dropdown-menu {
+    /* on top od search bar */
+    z-index: 1050;
+}
+
+body {
     font-family: 'Poppins', sans-serif;
-  }
-  
-  h1,
-  h2,
-  h3,
-  h4,
-  h5 {
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
     color: #37CABA;
-  }
-  
-  a {
+}
+
+a {
     color: #37CABA;
-  
-  }
-  
-  .btn-primary {
+
+}
+
+.btn-primary {
     color: white;
     background: #37CABA;
-  }
-  
-  .btn {
+}
+
+.btn {
     border-radius: 50px;
     border: none;
-  }
-  
-  input.text {
+}
+
+input.text {
     border-radius: 50px;
-  }
-  
-  .navbar {
+}
+
+.navbar {
     padding-top: 20px;
-  }
-  
-  .navbar .nav-item a {
+}
+
+.navbar .nav-item a {
     padding: 8px 30px !important;
-  }
-  
-  .nav-item a.btn {
+}
+
+.nav-item a.btn {
     padding: 8px 50px !important;
-  }
-  
-  .hero-mia {
+}
+
+.hero-mia {
     background-image: url(/static/img/HeroDog.png);
     background-position: 85% 100%;
     background-repeat: no-repeat;
     background-size: contain;
     height: 600px;
-  }
-  
-  
-  
-  .card {
+}
+
+
+
+.card {
     border: 1px solid #ddd;
     box-shadow: 0px 3px 16px rgba(0, 0, 0, 0.2);
-  
-  }
-  
-  .animal-card {
+
+}
+
+.animal-card {
     margin-bottom: 1.5em;
     text-align: center;
     padding: 2px;
     ;
-  }
-  
-  .animal-card:hover {
+}
+
+.animal-card:hover {
     cursor: pointer;
     border: 3px solid #37CABA;
     padding: 0px;
-  }
-  
-  .animal-card h5 {}
-  
-  .animal-card .card-img-top {
+}
+
+.animal-card h5 {}
+
+.animal-card .card-img-top {
     height: 200px;
     background-size: cover;
     background-position: center;
-  }
-  
-  .filter {
-    margin-bottom: 1em;
-  }
-  
-  .text-xsmall {
-    font-size: 13px;
-  }
+}
 
-.btn{
-    padding: 0.375rem 1.5rem ;
+.filter {
+    margin-bottom: 1em;
+}
+
+.text-xsmall {
+    font-size: 13px;
+}
+
+.btn {
+    padding: 0.375rem 1.5rem;
 }
 
 .asteriskField {
     color: red;
 }
 
-.text-small{
+.text-small {
     font-size: 80%;
 }
 
@@ -114,6 +114,7 @@
     top: 0;
     z-index: 1030;
 }
+
 .context-bar .btn {
     margin-top: 3px;
 }
@@ -133,7 +134,7 @@ legend {
 
 .table-header thead tr {
     background-color: #eee;
-  }
+}
 
 /* Browse */
 

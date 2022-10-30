@@ -47,6 +47,9 @@ def add(request):
     if params["breed"]:
         breed = Breed.objects.get(slug=params["breed"])
 
+    # Radius can be "any" but its stored in db as None
+    radius = None if params["radius"] == "any" else params["radius"]
+
     # Check for existing saved search for this user with same params
     # If one exists, we dont add a new one and return a payload with existing=True
     existing_row = SavedSearch.objects.filter(
@@ -54,7 +57,7 @@ def add(request):
         animal_type=params["animal_type"],
         breed=breed,
         zip_code=params["zip_code"],
-        radius=params["radius"],
+        radius=radius,
         age=params["age"],
         size=params["size"],
         sex=params["sex"],
@@ -80,7 +83,7 @@ def add(request):
         animal_type=params["animal_type"],
         breed=breed,
         zip_code=params["zip_code"],
-        radius=params["radius"],
+        radius=radius,
         age=params["age"],
         size=params["size"],
         sex=params["sex"],

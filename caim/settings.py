@@ -35,6 +35,8 @@ ALLOWED_HOSTS = ["*"]
 # USE_X_FORWARDED_HOST = True
 URL_PREFIX = os.getenv("URL_PREFIX")
 
+LOGIN_URL = "/login"
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -78,6 +80,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "caim_base.context_processors.global_template_variables",
             ],
         },
     },
@@ -106,8 +109,6 @@ DATABASES = {
         # "OPTIONS": {"options": "-c search_path=caim_dev,public"},
     }
 }
-
-
 
 
 # Password validation
@@ -162,13 +163,8 @@ if MEDIA_USE_S3:
     DEFAULT_FILE_STORAGE = "caim.storage_backends.PublicMediaStorage"
 else:
     STATIC_URL = "/static/"
-    STATIC_ROOT = BASE_DIR / "static/static"
     MEDIA_URL = "/media/"
-    MEDIA_ROOT = BASE_DIR / "static/media"
-
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
+    MEDIA_ROOT = BASE_DIR / "static" / "media"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

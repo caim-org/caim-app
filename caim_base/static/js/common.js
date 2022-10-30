@@ -6,7 +6,7 @@ function todo() {
 }
 
 // Saved searched
-function saveSearch(){
+function saveSearch() {
     var modal = new bootstrap.Modal(document.getElementById('savedSearchModal'))
     if (!USER) {
         alert('Please login or register');
@@ -32,7 +32,7 @@ function saveSearch(){
             'goodwith_kids': params.has('goodwith_kids') || null,
         },
         headers: csrfHeaders(),
-    }).then(function(result){
+    }).then(function (result) {
         $('#savedSearchModalSearchName').html(result.name);
         modal.show();
     });

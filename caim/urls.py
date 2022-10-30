@@ -27,6 +27,7 @@ from caim_base.views import (
     user_profile,
     awg,
     saved_search,
+    saved_search_email_notifications,
 )
 
 urlpatterns = [
@@ -47,6 +48,11 @@ urlpatterns = [
     path("logout", auth.logout_view, name="logout"),
     path("api/shortlist", shortlist.api, name="shortlist_api"),
     path("api/saved-search/add", saved_search.add, name="saved_search_add"),
+    path(
+        "api/saved-search/send-emails",
+        saved_search_email_notifications.send_saved_search_email_notifications,
+        name="saved_search_send_emails",
+    ),
     path("avatar/", include("avatar.urls")),
     path("comments/add", comments.add),
     path("comments/<comment_id>/edit", comments.edit),
