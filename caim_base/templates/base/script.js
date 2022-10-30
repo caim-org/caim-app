@@ -46,6 +46,29 @@ $('[data-timestamp]').each(function (idx, el) {
     el.text(fmt.format(dte));
 });
 
+
+$('.reply').click(function(button){
+    let buttonID = button.target.id;
+
+        // Reply form element
+    var replyForm = `
+    <form method="post" id="reply-form${buttonID}" class="reply-form" action="/comments/${buttonID}/reply">
+        {% csrf_token %}
+        <input type="text" name="comment_id" value="${buttonID}" hidden>
+
+        <div class="comment-inner">
+            <textarea rows="2" name="body" spellcheck="false"></textarea>
+            <input type="submit" class="btn btn-primary reply-button" value="Reply">
+        </div>
+    </form>`;
+
+    // display/append the form under the exact comment
+    var formInstance = document.getElementById('reply-form'+buttonID)
+    if(!formInstance) {
+        $('#comment-meta'+buttonID).after(replyForm);
+    }
+});
+
 function csrfHeaders() {
     return {
         'X-CSRFToken': document.getElementById('csrf').querySelector('input').value
@@ -94,4 +117,4 @@ function setShortlist(animalId, isSet) {
         },
         headers: csrfHeaders(),
     });
-}
+}comment
