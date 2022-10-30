@@ -1,10 +1,14 @@
+from django.urls import reverse, reverse_lazy
 from datetime import datetime
 from django.core.exceptions import BadRequest, PermissionDenied
+from django.views.generic import CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import Http404
 from django.shortcuts import redirect, render
-from ..models.animals import Animal, AnimalComment
+from ..models.animals import Animal, AnimalComment, AnimalSubComment
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 
 from ..notifications import notify_animal_comment
 
@@ -87,3 +91,49 @@ def delete(request, comment_id):
                 "animal": animal,
             },
         )
+
+
+class CreateSubComment(LoginRequiredMixin, CreateView):
+    model = AnimalSubComment
+    fields = ["body"]
+
+    def form_valid(self, form):
+        comment_id = self.request.POST.get('comment_id')
+        comment = AnimalComment.objects.get(pk=comment_id)
+        form.instance.comment = comment
+        form.instance.user = self.request.user
+        return super(CreateSubComment, self).form_valid(form)
+
+    def get_success_url(self):
+        comment = AnimalComment.objects.get(pk=self.kwargs['comment_id'])
+        return reverse_lazy('animal', kwargs={'animal_id': comment.animal.id})
+
+
+class SubCommentEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = AnimalSubComment
+    fields = ["body"]
+    template_name = "comments/edit_reply.html"
+
+    def test_func(self):
+        reply = self.get_object()
+        if reply.can_be_edited_by(self.request.user):
+            return True
+        else:
+            return False
+            
+
+class SubCommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = AnimalSubComment
+    template_name = 'comments/delete_reply.html'
+    fields = []
+
+    def test_func(self):
+        reply = self.get_object()
+        if  reply.can_be_deleted_by(self.request.user):
+            return True
+        else:
+            return False
+
+    def get_success_url(self):
+        reply = self.get_object()
+        return reverse_lazy('animal', kwargs={'animal_id': reply.comment.animal.id})
