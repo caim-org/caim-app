@@ -228,6 +228,9 @@ class AnimalComment(models.Model):
     def can_be_edited_by(self, user):
         return self.user == user or user.is_staff
 
+    def get_sub_comments(self):
+        return  AnimalSubComment.objects.filter(comment=self.id)
+
 
 class AnimalSubComment(models.Model):
     comment = models.ForeignKey(AnimalComment, on_delete=models.CASCADE)
@@ -241,6 +244,9 @@ class AnimalSubComment(models.Model):
 
     def can_be_edited_by(self, user):
         return self.user == user or user.is_staff
+    
+    def get_absolute_url(self):
+        return full_url(f"/animal/{self.comment.animal.id}#comments")
 
 
 class SavedSearch(models.Model):
