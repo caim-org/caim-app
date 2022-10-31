@@ -46,18 +46,16 @@ $('[data-timestamp]').each(function (idx, el) {
     el.text(fmt.format(dte));
 });
 
-
 $('.reply').click(function(button){
     let buttonID = button.target.id;
 
         // Reply form element
     var replyForm = `
-    <form method="post" id="reply-form${buttonID}" class="reply-form" action="/comments/${buttonID}/reply">
-        {% csrf_token %}
+    <form method="post" id="reply-form${buttonID}" class="reply-form" onsubmit="submitForm(event)">
         <input type="text" name="comment_id" value="${buttonID}" hidden>
 
         <div class="comment-inner">
-            <textarea rows="2" name="body" spellcheck="false"></textarea>
+            <textarea rows="2" name="body" spellcheck="false" required></textarea>
             <input type="submit" class="btn btn-primary reply-button" value="Reply">
         </div>
     </form>`;
@@ -68,6 +66,26 @@ $('.reply').click(function(button){
         $('#comment-meta'+buttonID).after(replyForm);
     }
 });
+
+function submitForm(event){
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const formProps = Object.fromEntries(formData);
+    var commentID = formProps.comment_id;
+    var formBody = formProps.body;
+    $.ajax({
+        url: `/comments/${commentID}/reply`,
+        type: 'post',
+        data: {
+            'body': formBody,
+            'comment_id': commentID
+        },
+        headers: csrfHeaders(),
+        success: function(response){
+            window.location.reload();
+        },
+    });
+}
 
 function csrfHeaders() {
     return {
@@ -117,4 +135,4 @@ function setShortlist(animalId, isSet) {
         },
         headers: csrfHeaders(),
     });
-}comment
+}

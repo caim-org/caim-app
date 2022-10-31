@@ -98,10 +98,12 @@ class CreateSubComment(LoginRequiredMixin, CreateView):
     fields = ["body"]
 
     def form_valid(self, form):
-        comment_id = self.request.POST.get('comment_id')
-        comment = AnimalComment.objects.get(pk=comment_id)
-        form.instance.comment = comment
-        form.instance.user = self.request.user
+        if self.request.is_ajax():
+            comment_id = self.request.POST.get('comment_id')
+            comment = AnimalComment.objects.get(pk=comment_id)
+            form.instance.comment = comment
+            form.instance.user = self.request.user
+            form.instance.body = self.request.POST.get('body')
         return super(CreateSubComment, self).form_valid(form)
 
     def get_success_url(self):
