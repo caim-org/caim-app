@@ -13,8 +13,8 @@
             <form method="post" action="">
             {% csrf_token %}
 
-                <div class="comment" id="comment-{{comment.id}}">
-                    {% avatar comment.user 40 40 class="comment-avatar" %}
+                <div class="comment" id="comment-{{animalsubcomment.id}}">
+                    {% avatar animalsubcomment.user 40 40 class="comment-avatar" %}
                     <div class="comment-inner">
                         <div class="comment-username">{{animalsubcomment.user.username}}</div>
                         <div class="comment-body">

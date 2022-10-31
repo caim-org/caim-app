@@ -98,8 +98,8 @@ class CreateSubComment(LoginRequiredMixin, CreateView):
     fields = ["body"]
 
     def form_valid(self, form):
-        is_ajax = self.request.headers.get('x-requested-with') == 'XMLHttpRequest'
-        if is_ajax:
+        is_ajax =  self.request.headers.get('x-requested-with') == 'XMLHttpRequest'
+        if is_ajax():
             comment_id = self.request.POST.get('comment_id')
             comment = AnimalComment.objects.get(pk=comment_id)
             form.instance.comment = comment
