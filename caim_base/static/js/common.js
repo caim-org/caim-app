@@ -46,25 +46,28 @@ $('[data-timestamp]').each(function (idx, el) {
     el.text(fmt.format(dte));
 });
 
-$('.reply').click(function(button){
-    let buttonID = button.target.id;
+$( document ).ready(function() {
+   // click event on the reply buttons
+    $('.reply').click(function(button){
+        let buttonID = button.target.id;
 
-        // Reply form element
-    var replyForm = `
-    <form method="post" id="reply-form${buttonID}" class="reply-form" onsubmit="submitForm(event)">
-        <input type="text" name="comment_id" value="${buttonID}" hidden>
+            // Reply form element
+        var replyForm = `
+        <form method="post" id="reply-form${buttonID}" class="reply-form" onsubmit="submitForm(event)">
+            <input type="hidden" name="comment_id" value="${buttonID}">
 
-        <div class="comment-inner">
-            <textarea rows="2" name="body" spellcheck="false" required></textarea>
-            <input type="submit" class="btn btn-primary reply-button" value="Reply">
-        </div>
-    </form>`;
+            <div class="comment-inner">
+                <textarea rows="2" name="body" spellcheck="false" required></textarea>
+                <input type="submit" class="btn btn-primary reply-button" value="Reply">
+            </div>
+        </form>`;
 
-    // display/append the form under the exact comment
-    var formInstance = document.getElementById('reply-form'+buttonID)
-    if(!formInstance) {
-        $('#comment-meta'+buttonID).after(replyForm);
-    }
+        // display/append the form under the exact comment
+        var formInstance = document.getElementById('reply-form'+buttonID)
+        if(!formInstance) {
+            $('#comment-meta'+buttonID).after(replyForm);
+        }
+    });
 });
 
 function submitForm(event){
