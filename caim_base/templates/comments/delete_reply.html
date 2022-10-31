@@ -10,13 +10,13 @@
 
             <br />
 
-            <div class="comment" id="comment-{{comment.id}}">
-                {% avatar comment.user 40 40 class="comment-avatar" %}
+            <div class="comment" id="comment-{{animalsubcomment.id}}">
+                {% avatar animalsubcomment.user 40 40 class="comment-avatar" %}
                 <div class="comment-inner">
                     <div class="comment-username">{{animalsubcomment.user.username}}</div>
                     <div class="comment-body">{{animalsubcomment.body|urlizetrunc:60|linebreaks}}</div>
                     <div class="comment-meta">
-                        <div data-timestamp="{{comment.created_at|date:'c'}}">{{animalsubcomment.created_at|date:'r'}}</div>
+                        <div data-timestamp="{{animalsubcomment.created_at|date:'c'}}">{{animalsubcomment.created_at|date:'r'}}</div>
                     </div>
                     <div class="my-3">
                         <form method="post" action="">
