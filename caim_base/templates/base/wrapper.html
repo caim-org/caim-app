@@ -55,7 +55,7 @@
                 {% avatar request.user 30 30 class="avatar" %}
                 {{request.user.username}}
               </a>
-              <ul class="dropdown-menu dropdown-menu-end">
+              <ul class="dropdown-menu dropdown-menu-end" id="userMenu">
                 <li><a class="dropdown-item" href="/user/{{request.user.username}}">My Profile</a></li>
                 <li><a class="dropdown-item" href="/browse?shortlist=on">My Shortlist</a></li>
                 <li><a class="dropdown-item" href="#" onclick="return todo()">My Saved Searches</a></li>
@@ -106,6 +106,21 @@
       {% csrf_token %}
     </div>
     {% include './tags.html' %}
+    <script>
+      $(document).ready(function(){ 
+        // If small or medium screen, need to swap the hamburger menu around
+        var isMediumOrSmaller = window.innerWidth < 992;
+        if (isMediumOrSmaller){
+          var innerMenu = $('#userMenu');
+          if (innerMenu.size()>0){
+            var outerMenu = innerMenu.parent().closest('ul');
+            outerMenu.html(innerMenu.html());
+            outerMenu.find('li').toggleClass('nav-item');
+            outerMenu.find('a').toggleClass('nav-link');
+          }
+        }
+      });
+    </script>
 
   </body>
 </html>
