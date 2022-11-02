@@ -3,7 +3,23 @@
 
 
 {% block content %}
-<div class="bg-dark mb-4 context-bar">
+<style>
+  .filter-button{
+    border-bottom: 1px solid #ddd;
+    padding: 8px;
+    text-align: center !important;
+    z-index: 100; 
+    display: block;
+  }
+  @media (min-width: 768px) {
+    .collapse.dont-collapse-sm {
+      display: block;
+      height: auto !important;
+      visibility: visible;
+    }
+  }
+</style>
+<div class="bg-dark context-bar">
   <div class="container">
     <div class="row">
       <div class="col-md-6 py-2 text-center text-md-start">
@@ -40,10 +56,16 @@
     </div>
   </div>
 </div>
-
+<div class="container mb-3">
+  <div class="row d-md-none">
+    <a class="filter-button" data-bs-toggle="collapse" href="#searchFilters" role="button">
+    Show filters
+    </a>
+  </div>
+</div>
 <div class="container">
   <div class="row">
-    <div class="col-md-3 mb-3">
+    <div class="col-md-3 mb-3 collapse dont-collapse-sm" id="searchFilters">
       <div class="card sticky-top" style="top:80px;">
         <div class="card-body">
           <form action="/browse" method="get">
@@ -140,7 +162,7 @@
               </div>
               {% endif %}
             </div>
-            <div>
+            <div class="text-center">
               <input type="submit" class="btn btn-primary" value="Update filters" />
             </div>
           </form>
@@ -156,6 +178,16 @@
     </div>
   </div>
 </div>
+
+<script>
+  var myCollapsible = document.getElementById('searchFilters')
+  myCollapsible.addEventListener('show.bs.collapse', function () {
+    $('.filter-button').html('Hide filters');
+  });
+  myCollapsible.addEventListener('hidden.bs.collapse', function () {
+    $('.filter-button').html('Show filters');
+  });
+</script>
 
 
 {% endblock %}
