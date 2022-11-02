@@ -55,17 +55,14 @@ $(document).ready(function () {
         var replyForm = `
         <form method="post" id="reply-form${buttonID}" class="reply-form" onsubmit="submitForm(event)">
             <input type="hidden" name="comment_id" value="${buttonID}">
-
-            <div class="comment-inner">
-                <textarea rows="2" name="body" spellcheck="false" required></textarea>
-                <input type="submit" class="btn btn-primary reply-button" value="Reply">
-            </div>
+                <textarea rows="3" name="body" required></textarea>
+                <input type="submit" class="btn btn-primary reply-button" value="Add your reply">
         </form>`;
 
         // display/append the form under the exact comment
         var formInstance = document.getElementById('reply-form' + buttonID)
         if (!formInstance) {
-            $('#comment-meta' + buttonID).after(replyForm);
+            $('#comment-' + buttonID + ' .sub-comments').append(replyForm);
         }
     });
 });

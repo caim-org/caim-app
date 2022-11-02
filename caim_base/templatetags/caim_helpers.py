@@ -53,3 +53,13 @@ def image_resize(value, resize):
 def json_dumps(value):
     print(value)
     return json.dumps(value)
+
+
+@register.filter
+def can_be_edited_by(obj, user):
+    return obj.can_be_edited_by(user)
+
+
+@register.filter
+def can_be_deleted_by(obj, user):
+    return obj.can_be_deleted_by(user)

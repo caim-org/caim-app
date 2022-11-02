@@ -11,7 +11,7 @@
             <br />
 
             <div class="comment" id="comment-{{comment.id}}">
-                {% avatar comment.user 40 40 class="comment-avatar" %}
+                {% avatar comment.user 40 40 class="comment-avatar avatar" %}
                 <div class="comment-inner">
                     <div class="comment-username">{{comment.user.username}}</div>
                     <div class="comment-body">{{comment.body|urlizetrunc:60|linebreaks}}</div>

@@ -14,7 +14,7 @@
             {% csrf_token %}
 
                 <div class="comment" id="comment-{{animalsubcomment.id}}">
-                    {% avatar animalsubcomment.user 40 40 class="comment-avatar" %}
+                    {% avatar animalsubcomment.user 40 40 class="comment-avatar avatar" %}
                     <div class="comment-inner">
                         <div class="comment-username">{{animalsubcomment.user.username}}</div>
                         <div class="comment-body">

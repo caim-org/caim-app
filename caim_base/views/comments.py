@@ -98,18 +98,18 @@ class CreateSubComment(LoginRequiredMixin, CreateView):
     fields = ["body"]
 
     def form_valid(self, form):
-        is_ajax =  self.request.headers.get('x-requested-with') == 'XMLHttpRequest'
-        if is_ajax():
-            comment_id = self.request.POST.get('comment_id')
+        is_ajax = self.request.headers.get("x-requested-with") == "XMLHttpRequest"
+        if is_ajax:
+            comment_id = self.request.POST.get("comment_id")
             comment = AnimalComment.objects.get(pk=comment_id)
             form.instance.comment = comment
             form.instance.user = self.request.user
-            form.instance.body = self.request.POST.get('body')
+            form.instance.body = self.request.POST.get("body")
         return super(CreateSubComment, self).form_valid(form)
 
     def get_success_url(self):
-        comment = AnimalComment.objects.get(pk=self.kwargs['comment_id'])
-        return reverse_lazy('animal', kwargs={'animal_id': comment.animal.id})
+        comment = AnimalComment.objects.get(pk=self.kwargs["comment_id"])
+        return reverse_lazy("animal", kwargs={"animal_id": comment.animal.id})
 
 
 class SubCommentEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -123,20 +123,20 @@ class SubCommentEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return True
         else:
             return False
-            
+
 
 class SubCommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = AnimalSubComment
-    template_name = 'comments/delete_reply.html'
+    template_name = "comments/delete_reply.html"
     fields = []
 
     def test_func(self):
         reply = self.get_object()
-        if  reply.can_be_deleted_by(self.request.user):
+        if reply.can_be_deleted_by(self.request.user):
             return True
         else:
             return False
 
     def get_success_url(self):
         reply = self.get_object()
-        return reverse_lazy('animal', kwargs={'animal_id': reply.comment.animal.id})
+        return reverse_lazy("animal", kwargs={"animal_id": reply.comment.animal.id})
