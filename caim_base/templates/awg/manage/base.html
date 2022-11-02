@@ -4,12 +4,12 @@
   <div class="bg-dark context-bar">
     <div class="container">
       <div class="row">
-        <div class="col-md-6 py-3">
+        <div class="col-md-6 py-3 text-center text-md-start">
           {% block contextBack %}
             <a href="{{ awg.get_absolute_url }}">&laquo; View organization profile</a>
           {% endblock %}
         </div>
-        <div class="col-md-6 pt-2 text-end d-none d-md-block">
+        <div class="col-md-6 py-2 text-center text-md-end d-bottom-mobile">
           {% block contextOptions %}
 
           {% endblock %}
