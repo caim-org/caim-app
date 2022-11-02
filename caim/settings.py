@@ -184,6 +184,7 @@ IMAGE_RESIZE_CDN = os.getenv("IMAGE_RESIZE_CDN", None)
 
 # Avatar
 AVATAR_GRAVATAR_DEFAULT = "mp"
+AVATAR_DEFAULT_URL = "/static/default_avatar.jpg"
 
 if DEBUG:
     LOGGING = {
