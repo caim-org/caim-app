@@ -11,6 +11,8 @@
 
 body {
     font-family: 'Poppins', sans-serif;
+    /* For context bar */
+    margin-bottom: 70px;
 }
 
 h1,
@@ -117,6 +119,17 @@ input.text {
 
 .context-bar .btn {
     margin-top: 3px;
+}
+
+@media (max-width: 768px) {
+    .d-bottom-mobile {
+        position: fixed;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+        background: black;
+        z-index: 100;
+    }
 }
 
 .avatar {
@@ -230,27 +243,27 @@ legend {
 }
 
 .reply {
-  border: 0;
-  color: #37CABA;
+    border: 0;
+    color: #37CABA;
 }
 
 .reply-form {
-  width: 60%;
+    width: 60%;
 }
 
 .reply-button {
-  font-size: 9pt;
-  padding: 0.335rem 1rem;
+    font-size: 9pt;
+    padding: 0.335rem 1rem;
 }
 
 .sub-comments {
-  font-size: 9pt;
+    font-size: 9pt;
 }
 
 .replies {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 9px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 9px;
 }
 
 

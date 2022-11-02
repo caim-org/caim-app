@@ -19,7 +19,7 @@
 <div class="bg-dark context-bar">
   <div class="container">
     <div class="row">
-      <div class="col-md-6 py-3">
+      <div class="col-md-6 py-2 text-center text-md-start">
         <p class="text-light my-0">
           {% if request.GET.zip %}
           <a href="/browse{% modify_qs %}">&laquo; Back to results</a>
@@ -28,16 +28,18 @@
           {% endif %}
         </p>
       </div>
-      <div class="col-md-6 pt-2 text-end d-none d-md-block">
-        <a href="#" onclick="todo()" class="btn btn-secondary">Foster this {{ animal.animal_type | lower }}</a>
-        &nbsp;
-        {% if isShortlisted %}
-        <a href="#" onclick="toggleShortlistLarge(this, {{ animal.id }});return false;" class="btn btn-primary"><i
-            class="bi-heart-fill"></i> Added to shortlist</a>
-        {% else %}
-        <a href="#" onclick="toggleShortlistLarge(this, {{ animal.id }});return false;" class="btn btn-secondary"><i
-            class="bi-heart"></i> Add to shortlist</a>
-        {% endif %}
+      <div class="col-md-6 text-end d-bottom-mobile">
+        <div class="d-flex py-2 justify-content-center justify-content-md-end align-items-center">
+          <a href="#" onclick="todo()" class="btn btn-secondary">Foster this {{ animal.animal_type | lower }}</a>
+          &nbsp;
+          {% if isShortlisted %}
+          <a href="#" onclick="toggleShortlistLarge(this, {{ animal.id }});return false;" class="btn btn-primary"><i
+              class="bi-heart-fill"></i> Shortlisted</a>
+          {% else %}
+          <a href="#" onclick="toggleShortlistLarge(this, {{ animal.id }});return false;" class="btn btn-secondary"><i
+              class="bi-heart"></i> Add to shortlist</a>
+          {% endif %}
+        </div>
       </div>
     </div>
   </div>

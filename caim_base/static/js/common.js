@@ -46,12 +46,12 @@ $('[data-timestamp]').each(function (idx, el) {
     el.text(fmt.format(dte));
 });
 
-$( document ).ready(function() {
-   // click event on the reply buttons
-    $('.reply').click(function(button){
+$(document).ready(function () {
+    // click event on the reply buttons
+    $('.reply').click(function (button) {
         let buttonID = button.target.id;
 
-            // Reply form element
+        // Reply form element
         var replyForm = `
         <form method="post" id="reply-form${buttonID}" class="reply-form" onsubmit="submitForm(event)">
             <input type="hidden" name="comment_id" value="${buttonID}">
@@ -63,14 +63,14 @@ $( document ).ready(function() {
         </form>`;
 
         // display/append the form under the exact comment
-        var formInstance = document.getElementById('reply-form'+buttonID)
-        if(!formInstance) {
-            $('#comment-meta'+buttonID).after(replyForm);
+        var formInstance = document.getElementById('reply-form' + buttonID)
+        if (!formInstance) {
+            $('#comment-meta' + buttonID).after(replyForm);
         }
     });
 });
 
-function submitForm(event){
+function submitForm(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const formProps = Object.fromEntries(formData);
@@ -84,7 +84,7 @@ function submitForm(event){
             'comment_id': commentID
         },
         headers: csrfHeaders(),
-        success: function(response){
+        success: function (response) {
             window.location.reload();
         },
     });
@@ -121,7 +121,7 @@ function toggleShortlistLarge(el, animalId) {
     $(el).toggleClass('btn-primary').toggleClass('btn-secondary');
     var isSet = !wasSet;
     if (isSet) {
-        $(el).html('<i class="bi-heart-fill"></i> Added to shortlist');
+        $(el).html('<i class="bi-heart-fill"></i> Shortlisted');
     } else {
         $(el).html('<i class="bi-heart"></i> Add to shortlist');
     }

@@ -6,8 +6,8 @@
 <div class="bg-dark mb-4 context-bar">
   <div class="container">
     <div class="row">
-      <div class="col-md-6 py-3">
-        <p class="text-light my-0">Showing {{ paginator.count }} dogs 
+      <div class="col-md-6 py-2 text-center text-md-start">
+        <p class="text-light mt-2 mb-1">Showing {{ paginator.count }} dogs 
           {% if search.zip %}
             within
             {% if search.radius %}{{search.radius}} miles{% else %}any distance{% endif %}
@@ -15,8 +15,8 @@
           {% endif %}
         </p>
       </div>
-      <div class="col-md-6 pt-2 text-end d-none d-md-block">
-        <div class="d-flex justify-content-end align-items-center">
+      <div class="col-md-6 text-end d-bottom-mobile">
+        <div class="d-flex py-2 justify-content-center justify-content-md-end align-items-center">
         <a href="#" onclick="saveSearch()" class="btn btn-secondary">Save search</a>
 
         {% if savedSearches %}
