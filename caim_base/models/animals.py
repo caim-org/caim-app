@@ -231,6 +231,26 @@ class AnimalComment(models.Model):
     def can_be_edited_by(self, user):
         return self.user == user or user.is_staff
 
+    def get_sub_comments(self):
+        return  AnimalSubComment.objects.filter(comment=self.id)
+
+
+class AnimalSubComment(models.Model):
+    comment = models.ForeignKey(AnimalComment, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    body = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    edited_at = models.DateTimeField(blank=True, null=True)  
+
+    def can_be_deleted_by(self, user):
+        return self.can_be_edited_by(user)
+
+    def can_be_edited_by(self, user):
+        return self.user == user or user.is_staff
+    
+    def get_absolute_url(self):
+        return full_url(f"/animal/{self.comment.animal.id}#comments")
+
 
 class SavedSearch(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

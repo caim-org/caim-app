@@ -3,8 +3,9 @@ import logging
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from leaflet.admin import LeafletGeoAdmin
+from setuptools import Command
 
-from .models.animals import Breed, Animal, Awg, AnimalComment, AnimalImage
+from .models.animals import Breed, Animal, Awg, AnimalComment, AnimalSubComment, AnimalImage
 from .models.awg import AwgMember
 from .admin_widgets import AdminImageMixin
 
@@ -41,8 +42,14 @@ class AwgAdmin(LeafletGeoAdmin, admin.ModelAdmin):
     search_fields = ["name"]
     list_filter = ["status", "state", "city"]
 
+class SubCommentInline(admin.TabularInline):
+    model = AnimalSubComment
+
+
+class CommentAdmin(admin.ModelAdmin):
+    inlines = [SubCommentInline]
 
 admin.site.register(Breed)
 admin.site.register(Animal, AnimalAdmin)
 admin.site.register(Awg, AwgAdmin)
-admin.site.register(AnimalComment)
+admin.site.register(AnimalComment, CommentAdmin)

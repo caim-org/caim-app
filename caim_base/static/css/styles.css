@@ -229,6 +229,31 @@ legend {
     font-size: small;
 }
 
+.reply {
+  border: 0;
+  color: #37CABA;
+}
+
+.reply-form {
+  width: 60%;
+}
+
+.reply-button {
+  font-size: 9pt;
+  padding: 0.335rem 1rem;
+}
+
+.sub-comments {
+  font-size: 9pt;
+}
+
+.replies {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 9px;
+}
+
+
 @media (min-width: 768px) {
     .comment .comment-meta {
         display: flex;
