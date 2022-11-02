@@ -1,4 +1,5 @@
 {% load avatar_tags %}
+{% load caim_helpers %}
 
 {% if not user.is_authenticated %}
     <p class="text-center">
@@ -16,40 +17,47 @@
     {% for comment in comments %}
 
         <div class="comment" id="comment-{{comment.id}}">
-        {% avatar comment.user 40 40 class="comment-avatar avatar" %}
-        
-        <div class="comment-inner">
-            <div class="comment-username">{{comment.user.username}}</div>
-            <div class="comment-body">{{comment.body|urlizetrunc:60|linebreaks}}</div>
-            <div class="comment-meta" id="comment-meta{{comment.id}}">
-                <div>
-                    <span data-timestamp="{{comment.created_at|date:'c'}}">
-                        {{comment.created_at|date:'r'}}[{{comment.edited_at}}]
-                    </span>
-                    {% if comment.edited_at %}(edited){% endif %}
-                </div>
-                <div>
-                <button href="" id="{{comment.id}}" class="reply">Reply</button>|
-                    {% if comment.can_be_edited %}<a href="/comments/{{comment.id}}/edit">Edit comment</a>{% endif %} |
-                    {% if comment.can_be_deleted %}<a href="/comments/{{comment.id}}/delete">Delete comment</a>{% endif %}
+            {% avatar comment.user 40 40 class="comment-avatar avatar" %}
+            <div class="comment-inner">
+                <div class="comment-username">{{comment.user.username}}</div>
+                <div class="comment-body">{{comment.body|urlizetrunc:60|linebreaks}}</div>
+                <div class="comment-meta">
+                    <div>
+                        <span data-timestamp="{{comment.created_at|date:'c'}}">
+                            {{comment.created_at|date:'r'}}[{{comment.edited_at}}]
+                        </span>
+                        {% if comment.edited_at %}(edited){% endif %}
+                    </div>
+                    <div>
+                        <a href="#comments" id="{{comment.id}}" class="reply">Reply</a>
+                        {% if comment|can_be_edited_by:request.user %}| <a href="/comments/{{comment.id}}/edit">Edit comment</a>{% endif %}
+                        {% if comment|can_be_deleted_by:request.user %}| <a href="/comments/{{comment.id}}/delete">Delete comment</a>{% endif %}
+                    </div>
                 </div>
             </div>
             <div class="sub-comments">
-                {% if comment.get_sub_comments %}
-                    {% for sub_comment in comment.get_sub_comments %}
-                        <div class="replies">
-                            <span> <strong> {{ sub_comment.user.username }} </strong> | {{ sub_comment.created_at }} </span>
-                            <span>{{ sub_comment.body }} </span>
-
-                            <span>
-                                {% if comment.can_be_edited %}<a href="/reply/{{sub_comment.id}}/edit">Edit</a>{% endif %}  | 
-                                {% if comment.can_be_deleted %}<a href="/reply/{{sub_comment.id}}/delete">Delete</a>{% endif %}            
-                            </span>
+                {% for sub_comment in comment.get_sub_comments %}
+                    <div class="comment" id="sub_comment-{{sub_comment.id}}">
+                        {% avatar sub_comment.user 40 40 class="comment-avatar avatar" %}
+                        <div class="comment-inner">
+                            <div class="comment-username">{{sub_comment.user.username}}</div>
+                            <div class="comment-body">{{sub_comment.body|urlizetrunc:60|linebreaks}}</div>
+                            <div class="comment-meta">
+                                <div>
+                                    <span data-timestamp="{{sub_comment.created_at|date:'c'}}">
+                                        {{sub_comment.created_at|date:'r'}}[{{sub_comment.edited_at}}]
+                                    </span>
+                                    {% if sub_comment.edited_at %}(edited){% endif %}
+                                </div>
+                                <div>
+                                    {% if sub_comment|can_be_edited_by:request.user %}<a href="/reply/{{sub_comment.id}}/edit">Edit reply</a> |{% endif %} 
+                                    {% if sub_comment|can_be_deleted_by:request.user %}<a href="/reply/{{sub_comment.id}}/delete">Delete reply</a>{% endif %}   
+                                </div>
+                            </div>    
                         </div>
-                    {% endfor %}
-                {% endif %}
+                    </div>
+                {% endfor %}
             </div>
-        </div>
         </div>
     {% endfor %}
 

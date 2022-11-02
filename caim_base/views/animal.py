@@ -31,9 +31,6 @@ def view(request, animal_id):
         .order_by("created_at")
         .all()
     )
-    for comment in comments:
-        comment.can_be_edited = comment.can_be_edited_by(request.user)
-        comment.can_be_deleted = comment.can_be_deleted_by(request.user)
 
     context = {
         "animal": animal,
