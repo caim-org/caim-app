@@ -10,9 +10,9 @@ from ..models.geo import ZipCode
 
 def parse_radius(args):
     if not args.get("zip"):
-        return "any"
+        return None
     if "radius" not in args:
-        return 50
+        return None  # Temp change to default to any not 50
     if args["radius"] == "any":
         return None
     return int(args["radius"])
