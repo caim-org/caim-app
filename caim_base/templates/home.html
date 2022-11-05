@@ -1,32 +1,33 @@
 {% extends "base/wrapper.html" %}
 
+{% load static %}
+
+
 {% block content %}
 
 <div class="bg-dark">
   <div class="container">
     <div class="row">
-      <div class="col-md-6 pt-5">
-
-        <p class="fs-1 text-light mt-5 mb-3">
-          Find and foster dogs at risk, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
+      
+      <div class="col-md-6 offset-md-1 order-md-last pt-3 pb-5">
+        <img style="max-width:100%" src="{% static 'img/richard-brutyo-xvYxGcwFvuE-unsplash.png' %}" alt="" />
+      </div>
+      <div class="col-md-5 pb-4">
+        <p class="fs-1 text-light mt-0 mt-md-5 mb-4">
+          Browse animals that are in need of a foster home
         </p>
-        <div class="grid">
-          <form class="form-inline" action="/browse" method="get">
-            <div class="row">
-              <div class="col-sm-8 mt-3">
+        <form class="form-inline" action="/browse" method="get">
+          <div class="d-flex">
+              <div class="px-1">
                 <input name="zip" pattern="[0-9]{5}"
                   required type="text" class="fs-4 form-control text"
                   placeholder="ZIP code" />
               </div>
-              <div class="col-sm-4 mt-3">
-                <input class="btn btn-primary px-5 d-block fs-4" type="submit" value="Find dogs" />
+              <div class="px-1">
+                <input class="btn btn-primary px-5 d-block fs-4" type="submit" value="Search" />
               </div>
-            </div>
-          </form>
-        </div>
-      </div>
-      <div class="col-md-6 hero-mia">
-        <!-- Woof -->
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -35,12 +36,29 @@
 
 
 <div class="container mt-5">
-  <h3 class="mb-3">Launching 2022</h3>
+  <h3 class="mb-3">We’re officially testing our platform!</h3>
   <p>
-    We’re building a platform that empowers shelters, rescues and volunteer transporters across the United States to
-    quickly identify who’s over capacity, who has space to take in new animals and who can help transport our furry
-    friends to their new home.
+    We’re officially testing our platform with rescue partners in certain counties in TX, NM and CO. This is a closed testing group to help us perfect our platform and get it ready for people across the US to use. By becoming a test partner you play a pivotal role in ensuring our platform is working well and truly gives rescues the functionality they need to be able to rescue more animals. 
   </p>
+  <p>  
+    Here’s a list of our test counties: 
+  </p>
+  <ul>
+    <li>Colorado counties: El Paso, Teller, Elbert, Douglas, Jefferson, Denver, Arapahoe</li>
+    <li>Texas counties: Potter, Randall, Hale, Armstrong</li>
+    <li>New Mexico county: Valencia</li>
+  </ul>
+
+  <h3 class="mb-3">Info for people interested in fostering</h3>
+  <p>
+    If you live in one of the counties listed above in Texas or Colorado and are willing to become one of our first fosters, you can complete the foster <a href="https://forms.gle/dstF1D7sd8hyhcdJA">application here</a>. The shelter we’re testing with in New Mexico doesn’t have a foster program thus we’re waiting to bring on fosters there until we have a broader roll out. 
+  </p><p>
+  If you don’t live in one of the counties listed but want to become a life-saving foster in your area, please <a href="https://www.caim.org/foster">sign up here</a> and we’ll notify you as soon as we’re live in your city. 
+  </p><p>
+  If you’d like to learn more about fostering, check out our fostering <a href="https://www.caim.org/foster">FAQs here</a>. 
+  </p>
+  <h3 class="mb-3">Info for shelters / rescues</h3>
+  <p>If you’re a shelter or rescue that’s interested in using Caim, please complete <a href="https://forms.gle/aCRpFeU86WHyUdVY6">this form</a>.</p>
 </div>
 
 

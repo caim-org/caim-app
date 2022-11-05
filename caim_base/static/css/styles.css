@@ -11,8 +11,11 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    /* For context bar */
-    margin-bottom: 70px;
+    margin-bottom: 00px;
+}
+
+footer {
+    margin-top: 70px;
 }
 
 h1,
