@@ -55,6 +55,9 @@ def add_member(request, awg_id):
         if not (canEditProfile or canManageAnimals or canManageMembers):
             raise BadRequest("Must have at least 1 permission")
 
+        # Lowercase to avoid case sensitivity
+        email = email.lower()
+
         try:
             user = User.objects.get(email=email)
         except User.DoesNotExist:
