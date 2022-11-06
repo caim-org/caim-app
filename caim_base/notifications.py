@@ -12,7 +12,6 @@ def notify_new_awg_application(awg):
 
 def notify_animal_comment(comment):
     # AWG staff
-    # @todo add parent comment author
     animal = comment.animal
     awg = animal.awg
     members = awg.awgmember_set.all()
@@ -21,6 +20,21 @@ def notify_animal_comment(comment):
         template_name="new_animal_comment",
         recipient_list=emails,
         context={"awg": awg, "animal": animal, "comment": comment},
+        from_email="notifications@caim.org",
+    )
+
+
+def notify_animal_comment_reply(subcomment):
+    comment = subcomment.comment
+    animal = comment.animal
+    subcomments = comment.get_sub_comments()
+    emails = [str(subcomment.user.email) for subcomment in subcomments]
+    emails.append(str(comment.user.email))
+    emails = list(set(emails))
+    send_templated_mail(
+        template_name="new_animal_comment_reply",
+        recipient_list=emails,
+        context={"animal": animal},
         from_email="notifications@caim.org",
     )
 

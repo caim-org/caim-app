@@ -189,23 +189,23 @@ AVATAR_DEFAULT_URL = "/static/default_avatar.jpg"
 if DEBUG:
     LOGGING = {
         "version": 1,
-        "filters": {
-            "require_debug_true": {
-                "()": "django.utils.log.RequireDebugTrue",
-            }
-        },
+        "disable_existing_loggers": False,
+        "filters": {},
         "handlers": {
             "console": {
                 "level": "DEBUG",
-                "filters": ["require_debug_true"],
                 "class": "logging.StreamHandler",
             }
         },
+        "root": {
+            "handlers": ["console"],
+            "level": "DEBUG",
+        },
         "loggers": {
-            "django.db.backends": {
-                "level": "DEBUG",
-                "handlers": ["console"],
-            }
+            # "django.db.backends": {
+            #    "level": "DEBUG",
+            #    "handlers": ["console"],
+            # }
         },
     }
 

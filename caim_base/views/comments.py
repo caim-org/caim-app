@@ -10,7 +10,7 @@ from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 
-from ..notifications import notify_animal_comment
+from ..notifications import notify_animal_comment, notify_animal_comment_reply
 
 
 @login_required()
@@ -105,6 +105,7 @@ class CreateSubComment(LoginRequiredMixin, CreateView):
             form.instance.comment = comment
             form.instance.user = self.request.user
             form.instance.body = self.request.POST.get("body")
+            notify_animal_comment_reply(form.instance)
         return super(CreateSubComment, self).form_valid(form)
 
     def get_success_url(self):
