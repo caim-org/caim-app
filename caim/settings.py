@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.gis",
+    "csvexport",
     "leaflet",
     "sorl.thumbnail",  # Only needed for local dev - prod used imagekit.io
     "crispy_forms",
