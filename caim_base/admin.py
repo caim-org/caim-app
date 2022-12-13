@@ -31,6 +31,7 @@ class AnimalImageInline(AdminImageMixin, admin.StackedInline):
 
 
 class AnimalAdmin(AdminImageMixin, admin.ModelAdmin):
+    actions = [csvexport]
     inlines = (AnimalImageInline,)
     list_display = (
         "name",
