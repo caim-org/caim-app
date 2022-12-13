@@ -50,7 +50,7 @@ class Animal(models.Model):
 
     # @todo these ranges need to be animal type specific
     class AnimalAge(models.TextChoices):
-        BABY = "BABY", "Puppy (< 1 year)"
+        BABY = "BABY", "Baby (< 1 year)"
         YOUNG = "YOUNG", "Young (1-3 years)"
         ADULT = "ADULT", "Adult (3-8 years)"
         SENIOR = "SENIOR", "Senior (8+ years)"
@@ -232,7 +232,7 @@ class AnimalComment(models.Model):
         return self.user == user or user.is_staff
 
     def get_sub_comments(self):
-        return  AnimalSubComment.objects.filter(comment=self.id)
+        return AnimalSubComment.objects.filter(comment=self.id)
 
 
 class AnimalSubComment(models.Model):
@@ -240,14 +240,14 @@ class AnimalSubComment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     body = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
-    edited_at = models.DateTimeField(blank=True, null=True)  
+    edited_at = models.DateTimeField(blank=True, null=True)
 
     def can_be_deleted_by(self, user):
         return self.can_be_edited_by(user)
 
     def can_be_edited_by(self, user):
         return self.user == user or user.is_staff
-    
+
     def get_absolute_url(self):
         return full_url(f"/animal/{self.comment.animal.id}#comments")
 

@@ -23,7 +23,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-6 py-2 text-center text-md-start">
-        <p class="text-light mt-2 mb-1">Showing {{ paginator.count }} dogs 
+        <p class="text-light mt-2 mb-1">Showing {{ paginator.count }} {{animalType}}{{paginator.count|pluralize}} 
           {% if search.zip %}
             within
             {% if search.radius %}{{search.radius}} miles{% else %}any distance{% endif %}
@@ -83,10 +83,10 @@
               Age
               <select class="form-select" name="age">
                 <option {% if not search.age %}selected{% endif %} value="">Any age</option>
-                <option {% if search.age == 'baby' %}selected{% endif %} value="baby">Puppy/Kitten</option>
-                <option {% if search.age == 'young' %}selected{% endif %} value="young">Young</option>
-                <option {% if search.age == 'adult' %}selected{% endif %} value="adult">Adult</option>
-                <option {% if search.age == 'senior' %}selected{% endif %} value="senior">Senior</option>
+                <option {% if search.age == 'baby' %}selected{% endif %} value="baby">Baby (< 1 year)</option>
+                <option {% if search.age == 'young' %}selected{% endif %} value="young">Young (1-3 years)</option>
+                <option {% if search.age == 'adult' %}selected{% endif %} value="adult">Adult (3-8 years)</option>
+                <option {% if search.age == 'senior' %}selected{% endif %} value="senior">Senior (8+ years)</option>
               </select>
             </div>
             <div class="filter">

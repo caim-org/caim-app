@@ -13,7 +13,7 @@ from .models.geo import ZipCode
 
 def query_animals(
     user,
-    animal_type=AnimalType.DOG,
+    animal_type=None,
     zip=None,
     radius=None,
     age=None,
@@ -31,9 +31,10 @@ def query_animals(
     hide_unpublished_awgs=True,
     published_since=None,
 ):
-    query = Animal.objects.filter(animal_type=animal_type).prefetch_related(
-        "primary_breed", "secondary_breed", "awg"
-    )
+    query = Animal.objects.prefetch_related("primary_breed", "secondary_breed", "awg")
+
+    if animal_type:
+        query = query.filter(animal_type=animal_type)
 
     if hide_unpublished_animals:
         query = query.filter(is_published=True)
