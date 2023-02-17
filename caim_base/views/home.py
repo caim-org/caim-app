@@ -1,13 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import redirect
 
 
 def index(request):
-    return render(
-        request,
-        "home.html",
-        {
-            "pageTitle": "Home",
-            "navbarDark": True,
-            "bodyClasses": "page-narrow",
-        },
-    )
+    return redirect('https://caim.org/')
+    # return render(
+    #     request,
+    #     "home.html",
+    #     {
+    #         "pageTitle": "Home",
+    #         "navbarDark": True,
+    #         "bodyClasses": "page-narrow",
+    #     },
+    # )
