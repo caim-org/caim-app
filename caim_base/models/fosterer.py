@@ -97,60 +97,113 @@ class FostererProfile(models.Model):
     zip_code = models.CharField(max_length=16, blank=True, null=True, default=None)
     type_of_animals = ChoiceArrayField(
         models.CharField(max_length=32, choices=TypeOfAnimals.choices), 
-        blank=True, null=True, default=None
+        blank=True, null=True, default=None,
+        verbose_name='Which type of animal(s) are you wanting to foster?'
     )
     category_of_animals = ChoiceArrayField(
         models.CharField(max_length=32, choices=CategoryOfAnimals.choices), 
-        blank=True, null=True, default=None
+        blank=True, null=True, default=None,
+        verbose_name='Please check any / all that you\'re interested in fostering?'
     )
     behavioural_attributes = ChoiceArrayField(
         models.CharField(max_length=32, choices=BehaviouralAttributes.choices), 
-        blank=True, null=True, default=None
+        blank=True, null=True, default=None,
+        verbose_name='Please check any of the requirements you have for a foster'
     )
     timeframe = models.CharField(
         choices=Timeframe.choices,
         max_length=32, blank=True, null=True, default=None, 
+        verbose_name='Please let us know which timeframe you\'re available for fostering'
     )
-    timeframe_other = models.TextField(blank=True, null=True, default=None)
-    num_existing_pets = models.IntegerField(blank=True, null=True, default=None)
-    existing_pets_details = models.TextField(blank=True, null=True, default=None)
-    experience_description = models.TextField(blank=True, null=True, default=None)
+    timeframe_other = models.TextField(
+        blank=True, null=True, default=None,
+        verbose_name="If 'other', please give details"
+    )
+    num_existing_pets = models.IntegerField(
+        blank=True, null=True, default=None,
+        verbose_name='How many pets do you currently have in your home?'
+    )
+    existing_pets_details = models.TextField(
+        blank=True, null=True, default=None,
+        verbose_name='Please give details of your existing pets'
+    )
+    experience_description = models.TextField(
+        blank=True, null=True, default=None,
+        verbose_name='Please describe your experience with animals (personal pets, training, interactions, etc.)'
+    )
     experience_categories = ChoiceArrayField(
         models.CharField(max_length=32, choices=ExperienceCategories.choices), 
-        blank=True, null=True, default=None
+        blank=True, null=True, default=None,
+        verbose_name='Do you have experience with any of the following? Check all that apply.'
     )
-    experience_given_up_pet = models.TextField(blank=True, null=True, default=None)
-    reference_1 = models.TextField(blank=True, null=True, default=None)
-    reference_2 = models.TextField(blank=True, null=True, default=None)
-    reference_3 = models.TextField(blank=True, null=True, default=None)
-    people_at_home = models.TextField(blank=True, null=True, default=None)
+    experience_given_up_pet = models.TextField(
+        blank=True, null=True, default=None,
+        verbose_name='Have you ever given a pet up? If so, please describe the situation.'
+    )
+    reference_1 = models.TextField(
+        blank=True, null=True, default=None,
+        verbose_name='Reference #1'
+    )
+    reference_2 = models.TextField(
+        blank=True, null=True, default=None,
+        verbose_name='Reference #2'
+    )
+    reference_3 = models.TextField(
+        blank=True, null=True, default=None,
+        verbose_name='Reference #3'
+    )
+    people_at_home = models.TextField(
+        blank=True, null=True, default=None,
+        verbose_name='Please list how many people live in your home and their ages'
+    )
     yard_type = models.CharField(
         choices=YardTypes.choices,
-        max_length=32, blank=True, null=True, default=None, 
+        max_length=32, blank=True, null=True, default=None,
+        verbose_name='Describe your yard'
     )
     yard_fence_over_5ft = models.CharField(
         choices=YesNo.choices,
-        max_length=32, blank=True, null=True, default=None, 
+        max_length=32, blank=True, null=True, default=None,
+        verbose_name='If your yard is fully fenced, is it all over 5 feet tall?'
     )
     rent_own = models.CharField(
         choices=RentOwn.choices,
-        max_length=32, blank=True, null=True, default=None, 
+        max_length=32, blank=True, null=True, default=None,
+        verbose_name='Do you rent or own?'
     )
-    rent_restrictions = models.TextField(blank=True, null=True, default=None)
+    rent_restrictions = models.TextField(
+        blank=True, null=True, default=None,
+        verbose_name='If you rent, please describe any pet restrictions that are in place.'
+    )
     rent_ok_foster_pets = models.CharField(
         choices=YesNo.choices,
-        max_length=32, blank=True, null=True, default=None, 
+        max_length=32, blank=True, null=True, default=None,
+        verbose_name='If you rent, is your landlord ok with you having foster pets?',
     )
-    hours_alone_description = models.TextField(blank=True, null=True, default=None)
-    hours_alone_location = models.TextField(blank=True, null=True, default=None)
-    sleep_location = models.TextField(blank=True, null=True, default=None)
-    other_info = models.TextField(blank=True, null=True, default=None)
+    hours_alone_description = models.TextField(
+        blank=True, null=True, default=None,
+        verbose_name='How many hours / day will your foster animal be left alone?'
+    )
+    hours_alone_location = models.TextField(
+        blank=True, null=True, default=None,
+        verbose_name='Where will your foster animal be when they\'re left alone?'
+    )
+    sleep_location = models.TextField(
+        blank=True, null=True, default=None,
+        verbose_name='Where will your foster animal sleep?'
+    )
+    other_info = models.TextField(
+        blank=True, null=True, default=None,
+        verbose_name='Is there anything else you want us / rescues to know?'
+    )
     ever_been_convicted_abuse = models.CharField(
         choices=YesNo.choices,
         max_length=32, blank=True, null=True, default=None, 
+        verbose_name='Have you or a family / household member ever been convicted of an animal related crime (animal abuse, neglect, abandonment, etc.)?'
     )
     agree_share_details = models.CharField(
         choices=YesNo.choices,
         max_length=32, blank=True, null=True, default=None, 
+        verbose_name='Do you agree that we can share the details you\'ve provided with rescues in your area?'
     )
 

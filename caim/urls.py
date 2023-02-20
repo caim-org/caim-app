@@ -25,6 +25,7 @@ from caim_base.views import (
     browse,
     comments,
     user_profile,
+    fosterer_profile,
     awg,
     saved_search,
     saved_search_email_notifications,
@@ -40,6 +41,7 @@ urlpatterns = [
         user_profile.my_organizations,
         name="user_profile_my_organizations",
     ),
+    path("fosterer", fosterer_profile.edit),
     path("register", auth.register_view, name="register"),
     path("login", auth.login_view, name="login"),
     path(
