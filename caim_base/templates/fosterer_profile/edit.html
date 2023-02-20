@@ -1,5 +1,4 @@
 {% extends 'base/wrapper.html' %}
-{% load avatar_tags %}
 {% load crispy_forms_tags %}
 
 {% block content %}
@@ -8,7 +7,7 @@
     <div class="row justify-content-md-center">
       <div class="col-md-8">
         <div class="container py-5">
-          <h3>Your fosterer profile</h3>
+          <h3>Your Fosterer Profile: Page {{ stageNumber }} of 6</h3>
           {% if messages %}
         <ul class="messages">
             {% for message in messages %}

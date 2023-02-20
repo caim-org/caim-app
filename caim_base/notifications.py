@@ -38,6 +38,13 @@ def notify_animal_comment_reply(subcomment):
         from_email="notifications@caim.org",
     )
 
-
 def notify_animal_published(animal):
     pass
+
+def notify_new_fosterer_profile(fosterer):
+    send_templated_mail(
+        template_name="new_fosterer_profile",
+        recipient_list=["hello@caim.org"],
+        context={"fosterer": fosterer},
+        from_email="notifications@caim.org",
+    )

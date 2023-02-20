@@ -112,7 +112,7 @@ class FostererProfile(models.Model):
     )
     timeframe = models.CharField(
         choices=Timeframe.choices,
-        max_length=32, blank=True, null=True, default=None, 
+        max_length=32, blank=False, null=True, default=None, 
         verbose_name='Please let us know which timeframe you\'re available for fostering'
     )
     timeframe_other = models.TextField(
@@ -158,17 +158,17 @@ class FostererProfile(models.Model):
     )
     yard_type = models.CharField(
         choices=YardTypes.choices,
-        max_length=32, blank=True, null=True, default=None,
+        max_length=32, blank=False, null=True, default=None,
         verbose_name='Describe your yard'
     )
     yard_fence_over_5ft = models.CharField(
         choices=YesNo.choices,
-        max_length=32, blank=True, null=True, default=None,
+        max_length=32, blank=False, null=True, default=None,
         verbose_name='If your yard is fully fenced, is it all over 5 feet tall?'
     )
     rent_own = models.CharField(
         choices=RentOwn.choices,
-        max_length=32, blank=True, null=True, default=None,
+        max_length=32, blank=False, null=True, default=None,
         verbose_name='Do you rent or own?'
     )
     rent_restrictions = models.TextField(
@@ -177,7 +177,7 @@ class FostererProfile(models.Model):
     )
     rent_ok_foster_pets = models.CharField(
         choices=YesNo.choices,
-        max_length=32, blank=True, null=True, default=None,
+        max_length=32, blank=False, null=True, default=None,
         verbose_name='If you rent, is your landlord ok with you having foster pets?',
     )
     hours_alone_description = models.TextField(
@@ -198,12 +198,13 @@ class FostererProfile(models.Model):
     )
     ever_been_convicted_abuse = models.CharField(
         choices=YesNo.choices,
-        max_length=32, blank=True, null=True, default=None, 
+        max_length=32, blank=False, null=True, default=None, 
         verbose_name='Have you or a family / household member ever been convicted of an animal related crime (animal abuse, neglect, abandonment, etc.)?'
     )
     agree_share_details = models.CharField(
         choices=YesNo.choices,
-        max_length=32, blank=True, null=True, default=None, 
+        max_length=32, blank=False, null=True, default=None, 
         verbose_name='Do you agree that we can share the details you\'ve provided with rescues in your area?'
     )
+    is_complete = models.BooleanField(default=False)
 

@@ -41,7 +41,8 @@ urlpatterns = [
         user_profile.my_organizations,
         name="user_profile_my_organizations",
     ),
-    path("fosterer", fosterer_profile.edit),
+    path("fosterer/<stage_id>", fosterer_profile.edit),
+    path("fosterer", fosterer_profile.start),
     path("register", auth.register_view, name="register"),
     path("login", auth.login_view, name="login"),
     path(

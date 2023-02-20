@@ -18,6 +18,11 @@ footer {
     margin-top: 70px;
 }
 
+main {
+    min-height: calc(100vh - 220px); 
+    display: block;
+}
+
 h1,
 h2,
 h3,
