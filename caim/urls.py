@@ -30,6 +30,7 @@ from caim_base.views import (
     saved_search,
     saved_search_email_notifications,
 )
+from caim_base.views.utils import user_csv_download
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -101,6 +102,7 @@ urlpatterns = [
         name="awg_update_member",
     ),
     path("organization/<awg_id>", awg.view, name="awg"),
+    path("utils/users-csv", user_csv_download.view, name="user_csv_download"),
 ]
 
 if settings.DEBUG:
