@@ -16,6 +16,7 @@ from .models.animals import (
     User,
 )
 from .models.awg import AwgMember
+from .models.fosterer import FostererProfile
 from .admin_widgets import AdminImageMixin
 
 
@@ -72,6 +73,7 @@ admin.site.register(Breed)
 admin.site.register(Animal, AnimalAdmin)
 admin.site.register(Awg, AwgAdmin)
 admin.site.register(AnimalComment, CommentAdmin)
+admin.site.register(FostererProfile)
 
 # Replace the user admin so we can override things
 admin.site.unregister(User)

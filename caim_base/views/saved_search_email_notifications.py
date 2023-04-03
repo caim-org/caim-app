@@ -66,6 +66,10 @@ def check_new_animals_send_email(saved_search):
 def send_saved_search_email_notifications(request):
     saved_searches = SavedSearch.objects.all()
 
+    print(
+        f"Starting checking saved searches. {len(saved_searches)} saved searches found."
+    )
+
     for saved_search in saved_searches:
         print(f"{saved_search.name} #{saved_search.id}: Processing")
         if saved_search.is_ready_to_check():
@@ -73,5 +77,7 @@ def send_saved_search_email_notifications(request):
             check_new_animals_send_email(saved_search)
         else:
             print("Skipping as not ready to check")
+
+    print("Checked all saved searches.")
 
     return JsonResponse({"ok": True})

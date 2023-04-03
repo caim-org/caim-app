@@ -25,10 +25,12 @@ from caim_base.views import (
     browse,
     comments,
     user_profile,
+    fosterer_profile,
     awg,
     saved_search,
     saved_search_email_notifications,
 )
+from caim_base.views.utils import user_csv_download
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -40,6 +42,8 @@ urlpatterns = [
         user_profile.my_organizations,
         name="user_profile_my_organizations",
     ),
+    path("fosterer/<stage_id>", fosterer_profile.edit),
+    path("fosterer", fosterer_profile.start),
     path("register", auth.register_view, name="register"),
     path("login", auth.login_view, name="login"),
     path(
@@ -98,6 +102,7 @@ urlpatterns = [
         name="awg_update_member",
     ),
     path("organization/<awg_id>", awg.view, name="awg"),
+    path("utils/users-csv", user_csv_download.view, name="user_csv_download"),
 ]
 
 if settings.DEBUG:
