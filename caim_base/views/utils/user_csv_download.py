@@ -27,6 +27,7 @@ def view(request):
             "HasAWGMembership",
             "AWG_Ein",
             "AWG_Name",
+            "AWG_Type",
         ]
     )
 
@@ -62,6 +63,7 @@ def view(request):
                         "TRUE",
                         awg_membership.awg.company_ein,
                         awg_membership.awg.name,
+                        awg_membership.awg.awg_type,
                     ]
                 )
         else:
