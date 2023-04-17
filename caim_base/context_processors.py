@@ -4,4 +4,5 @@ from django.conf import settings
 def global_template_variables(request):
     return {
         "isProduction": settings.PRODUCTION,
+        "googleTagManagerId": settings.GOOGLE_TAG_MANAGER_ID,
     }
