@@ -73,8 +73,10 @@
             <div class="filter">
               Animal Type
               <select class="form-select" name="animal_type">
-                <option {% if search.animal_type == 'DOG' %}selected{% endif %} value="DOG">Dog</option>
-                <option {% if search.animal_type == 'CAT' %}selected{% endif %} value="CAT">Cat</option>
+                <option value="" {% if not search.animal_type%}selected{% endif %}>Any Animal Type</option>
+                {% for at in animal_types.items %}
+                <option value="{{at.0}}" {% if at.0 == search.animal_type %}selected{% endif %}>{{at.1}}</option>
+                {% endfor %}
               </select>
             </div>
             <div class="filter">
