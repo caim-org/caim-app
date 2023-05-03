@@ -1,12 +1,13 @@
-from django.core.exceptions import BadRequest, PermissionDenied
-from django.http import Http404
-from django.shortcuts import render, redirect
 from django import forms
-from django.core import validators
-from ..models.user import User, UserProfile
-
-from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
+from django.core.validators import RegexValidator
+from django.http import Http404
+from django.shortcuts import redirect, render
+from django.views.decorators.http import require_http_methods
+
+from ..forms import zip_validator
+from ..models.user import User, UserProfile
 
 
 class UserProfileForm(forms.Form):
@@ -16,7 +17,7 @@ class UserProfileForm(forms.Form):
         max_length=30,
         required=True,
         validators=[
-            validators.RegexValidator(
+            RegexValidator(
                 r"^[\w.@+-]+$",
                 (
                     "Enter a valid username. "
@@ -27,6 +28,7 @@ class UserProfileForm(forms.Form):
             ),
         ],
     )
+    zip_code = forms.CharField(label="ZIP Code", validators=[zip_validator])
     description = forms.CharField(
         label="Introduction",
         help_text="Tell us about yourself. This will be visible publicly.",

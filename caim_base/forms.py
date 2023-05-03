@@ -1,21 +1,22 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.core.validators import RegexValidator
+from django.core.exceptions import ValidationError
+from django.db.models import Q
 
 from .models.awg import User
+from .models.geo import ZipCode
+
+
+def zip_validator(zip_code: str):
+    if not ZipCode.objects.filter(Q(zip_code=zip_code)).exists():
+        raise ValidationError("Invalid US zip code")
 
 
 class NewUserForm(UserCreationForm):
     email = forms.EmailField()
     first_name = forms.CharField(widget=forms.TextInput(attrs={"autofocus": ""}))
     last_name = forms.CharField()
-    zip_code = forms.CharField(
-        validators=[
-            RegexValidator(
-                regex=r"^\b\d{5}(-\d{4})?\b$", message="Please enter a valid ZIP code."
-            )
-        ]
-    )
+    zip_code = forms.CharField(validators=[zip_validator])
 
     class Meta:
         model = User
