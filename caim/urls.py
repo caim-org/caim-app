@@ -13,23 +13,15 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from caim_base.views import (
-    home,
-    shortlist,
-    auth,
-    animal,
-    browse,
-    comments,
-    user_profile,
-    fosterer_profile,
-    awg,
-    saved_search,
-    saved_search_email_notifications,
-)
+from django.contrib import admin
+from django.urls import include, path
+
+from caim_base.views import (animal, auth, awg, browse, comments,
+                             fosterer_profile, home, saved_search,
+                             saved_search_email_notifications, shortlist,
+                             user_profile)
 from caim_base.views.utils import user_csv_download
 
 urlpatterns = [
@@ -65,7 +57,7 @@ urlpatterns = [
     path("reply/<int:pk>/edit", comments.SubCommentEditView.as_view()),
     path("reply/<int:pk>/delete", comments.SubCommentDeleteView.as_view()),
     path("user/<username>", user_profile.view),
-    path("user/<username>/edit", user_profile.edit),
+    path("user/<username>/edit", user_profile.edit, name="user_edit"),
     path("organization/apply", awg.create, name="awg_create"),
     path("organization/<awg_id>/edit", awg.edit, name="awg_edit"),
     path("organization/<awg_id>/animals", awg.list_animals, name="awg_list_animals"),

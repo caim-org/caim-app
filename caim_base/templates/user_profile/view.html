@@ -1,37 +1,60 @@
-{% extends 'base/wrapper.html' %}
+{% extends "base/wrapper.html" %}
 {% load avatar_tags %}
-
 {% block content %}
-<div class="bg-dark context-bar">
+  <div class="bg-dark context-bar">
     <div class="container">
-      <div class="row">
-        <div class="col-md-6 py-3 d-none d-md-block">
-            <p class="text-light my-0">
-              &nbsp;
-            </p>
-          </div>
-        <div class="col-md-6 py-2 text-center text-md-end d-bottom-mobile">
-            {% if user == request.user %}
-                <a href="/user/{{ user.username }}/edit" class="btn btn-secondary">Edit profile</a>
-                <a href="{% url 'avatar_change' %}" class="btn btn-secondary">Change profile image</a>
-            {% endif %}
+      <div class="d-flex justify-content-center justify-content-sm-end">
+        <div class="text-center text-md-end d-flex flex-column flex-sm-row gap-2 py-2">
+          {% if user == request.user %}
+            <a href="{% url "user_edit" user.username %}" class="btn btn-secondary">Edit profile</a>
+            <a href="{% url 'avatar_change' %}" class="btn btn-secondary">Change profile image</a>
+          {% endif %}
         </div>
       </div>
     </div>
   </div>
-  
-<div class="container">
+  <div class="container">
     <div class="row justify-content-md-center">
       <div class="col-md-8">
         <div class="container py-5">
-            <h3>
-                {% avatar user 80 80 class="avatar" %}
-                {{ user.username }}
-            </h3>
-            <div>
-                {{ user_profile.description | default:"No description available" | urlizetrunc:60 | linebreaks}}
+          <div class="d-flex align-items-center mb-4">
+            <div class="me-3">{% avatar user 80 80 class="avatar" %}</div>
+            <h3>{{ user.username }}</h3>
+          </div>
+          <div class="container d-grid gap-2">
+            <div class="row">
+              <div class="col-12 col-md-3">Name:</div>
+              <div class="col-12 col-md-9">
+                {% if user.first_name and user.last_name %}
+                  <div>{{ user.first_name }} {{ user.last_name }}</div>
+                {% else %}
+                  <div class="text-muted">None provided</div>
+                {% endif %}
+              </div>
             </div>
+            <div class="row">
+              <div class="col-12 col-md-3">ZIP Code:</div>
+              <div class="col-12 col-md-9">
+                {% if user_profile.zip_code %}
+                  <div>{{ user_profile.zip_code }}</div>
+                {% else %}
+                  <div class="text-muted">None provided</div>
+                {% endif %}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-md-3">Introduction:</div>
+              <div class="col-12 col-md-9">
+                {% if user_profile.description %}
+                  <div>{{ user_profile.description | urlizetrunc:60 | linebreaks }}</div>
+                {% else %}
+                  <div class="text-muted">None provided</div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-{% endblock %}
+  </div>
+{% endblock content %}
