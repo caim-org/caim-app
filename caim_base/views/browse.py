@@ -27,12 +27,16 @@ def parse_euth_date(args):
 
 
 def view(request):
-    if request.GET.get("type") == "cat":
+    if request.GET.get("animal_type") == "CAT":
         animal_type = AnimalType.CAT
-    else:
+    elif request.GET.get("animal_type") == "DOG":
         animal_type = AnimalType.DOG
+    else:
+        animal_type = None
 
-    breeds = Breed.objects.filter(animal_type=animal_type).all()
+    breeds = Breed.objects.all()
+    if animal_type:
+        breeds = breeds.filter(animal_type=animal_type)
 
     search = {
         "animal_type": animal_type,
@@ -77,6 +81,7 @@ def view(request):
         "shortlistAnimalIds": shortlist_animal_ids,
         "paginator": paginator,
         "savedSearches": saved_searches,
-        "animalType": animal_type.lower(),
+        "animal_type": animal_type,
+        "animal_types": dict(AnimalType.choices),
     }
     return render(request, "browse.html", context)
