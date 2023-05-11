@@ -23,26 +23,6 @@
           </div>
           <div class="container d-grid gap-2">
             <div class="row">
-              <div class="col-12 col-md-3">Name:</div>
-              <div class="col-12 col-md-9">
-                {% if user.first_name and user.last_name %}
-                  <div>{{ user.first_name }} {{ user.last_name }}</div>
-                {% else %}
-                  <div class="text-muted">None provided</div>
-                {% endif %}
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-12 col-md-3">ZIP Code:</div>
-              <div class="col-12 col-md-9">
-                {% if user_profile.zip_code %}
-                  <div>{{ user_profile.zip_code }}</div>
-                {% else %}
-                  <div class="text-muted">None provided</div>
-                {% endif %}
-              </div>
-            </div>
-            <div class="row">
               <div class="col-12 col-md-3">Introduction:</div>
               <div class="col-12 col-md-9">
                 {% if user_profile.description %}
