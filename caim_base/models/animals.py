@@ -16,8 +16,8 @@ logger = logging.getLogger(__name__)
 
 
 class AnimalType(models.TextChoices):
-    DOG = "DOG", "Dog"
-    CAT = "CAT", "Cat"
+    DOG = "DOG", "dog"
+    CAT = "CAT", "cat"
 
 
 class Breed(models.Model):
