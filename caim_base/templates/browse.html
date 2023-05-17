@@ -23,7 +23,12 @@
   <div class="container">
     <div class="row">
       <div class="col-md-6 py-2 text-center text-md-start">
-        <p class="text-light mt-2 mb-1">Showing {{ paginator.count }} {{animal_type}}{{paginator.count|pluralize}} 
+        <p class="text-light mt-2 mb-1">Showing {{ paginator.count }} 
+          {% if animal_type %}
+            {{animal_type.lower}}{{paginator.count|pluralize}} 
+          {% else %}
+            animals
+          {% endif %}
           {% if search.zip %}
             within
             {% if search.radius %}{{search.radius}} miles{% else %}any distance{% endif %}
