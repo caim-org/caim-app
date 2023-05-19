@@ -5,6 +5,7 @@ from django.db.models import Q
 
 from .models.awg import User
 from .models.geo import ZipCode
+from .states import form_states
 
 
 def zip_validator(zip_code: str):
@@ -16,6 +17,8 @@ class NewUserForm(UserCreationForm):
     email = forms.EmailField()
     first_name = forms.CharField(widget=forms.TextInput(attrs={"autofocus": ""}))
     last_name = forms.CharField()
+    city = forms.CharField(max_length=32)
+    state = forms.ChoiceField(choices=form_states.items())
     zip_code = forms.CharField(validators=[zip_validator])
 
     class Meta:
@@ -23,6 +26,8 @@ class NewUserForm(UserCreationForm):
         fields = (
             "first_name",
             "last_name",
+            "city",
+            "state",
             "zip_code",
             "username",
             "email",

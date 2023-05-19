@@ -43,7 +43,9 @@ def register_view(request):
         if form.is_valid():
             user = form.save()
             zip_code = form.cleaned_data.get("zip_code")
-            user_profile = UserProfile(user=user, zip_code=zip_code)
+            city = form.cleaned_data.get("city")
+            state = form.cleaned_data.get("state")
+            user_profile = UserProfile(user=user, zip_code=zip_code, city=city, state=state)
             user_profile.save()
             login(request, user)
             messages.success(request, "Registration successful.")

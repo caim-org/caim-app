@@ -22,7 +22,7 @@ admin.site.unregister(User)
 
 class UserProfileInline(admin.StackedInline):
     model = UserProfile
-    fields = ("zip_code", "description")
+    fields = ("city", "state", "zip_code", "description")
 
 
 @admin.register(User)
