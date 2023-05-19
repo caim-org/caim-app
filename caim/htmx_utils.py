@@ -34,7 +34,7 @@ def for_htmx(
         def _view(request, *args, **kwargs):
             resp = view(request, *args, **kwargs)
             if request.htmx:
-                if if_hx_target is None or request.target == if_hx_target:
+                if if_hx_target is None or request.htmx.target == if_hx_target:
                     blocks_to_use = use_block
                     if not hasattr(resp, "render"):
                         if not resp.content and any(
