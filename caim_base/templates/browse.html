@@ -90,7 +90,12 @@
                 Any Animal Type
                 </option>
                 {% for at in animal_types.items %}
-                <option value="{{at.1}}" {% if at.1 == search.animal_type %}selected{% endif %}>{{at.1}}</option>
+                <option
+                  value="{{at.1.lower}}"
+                  {% if at.1.lower == search.animal_type.lower %}selected{% endif %}
+                >
+                {{at.1.lower}}
+                </option>
                 {% endfor %}
               </select>
             </div>
