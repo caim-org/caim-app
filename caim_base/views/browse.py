@@ -1,15 +1,10 @@
 from logging import getLogger
 
-from django.contrib.gis.db.models.functions import Distance
 from django.core.paginator import Paginator
 from django.shortcuts import render
-from django.template.response import TemplateResponse
-
-from caim.htmx_utils import for_htmx
 
 from ..animal_search import query_animals
 from ..models.animals import AnimalShortList, AnimalType, Breed, SavedSearch
-from ..models.geo import ZipCode
 
 logger = getLogger(__name__)
 
@@ -32,7 +27,6 @@ def parse_euth_date(args):
     return None
 
 
-@for_htmx(use_block="breeds_dropdown")
 def view(request):
 
     if request.htmx:
@@ -50,17 +44,6 @@ def view(request):
     breeds = Breed.objects.all()
     if animal_type:
         breeds = breeds.filter(animal_type=animal_type)
-
-    if request.htmx and request.htmx.target == "breeds_dropdown":
-        # return early, just need context to render the breeds dropdown
-        context = {
-            "base_template": base_template,
-            "breeds": breeds,
-            "pageTitle": "Browse animals",
-            "animal_type": animal_type,
-            "animal_types": dict(AnimalType.choices),
-        }
-        return TemplateResponse(request, "browse.html", context)
 
     search = {
         "animal_type": animal_type,
@@ -109,4 +92,4 @@ def view(request):
         "animal_type": animal_type,
         "animal_types": dict(AnimalType.choices),
     }
-    return TemplateResponse(request, "browse.html", context)
+    return render(request, "browse.html", context)

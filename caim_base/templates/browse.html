@@ -81,6 +81,7 @@
                 class="form-select"
                 name="animal_type"
                 hx-target="#breeds_dropdown"
+                hx-select="#breeds_dropdown"
                 hx-get="/browse"
                 {% if not isProduction %}
                 hx-ext="debug"
@@ -99,7 +100,6 @@
                 {% endfor %}
               </select>
             </div>
-            {% block breeds_dropdown %}
             <div id="breeds_dropdown" class="filter">
               Breed
               <select class="form-select" name="breed">
@@ -109,7 +109,6 @@
                 {% endfor %}
               </select>
             </div>
-            {% endblock %}
             <div class="filter">
               Age
               <select class="form-select" name="age">
