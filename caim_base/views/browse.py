@@ -29,11 +29,6 @@ def parse_euth_date(args):
 
 def view(request):
 
-    if request.htmx:
-        base_template = "base/partial_render.html"
-    else:
-        base_template = "base/wrapper.html"
-
     if request.GET.get("animal_type") == "cat":
         animal_type = AnimalType.CAT
     elif request.GET.get("animal_type") == "dog":
@@ -81,7 +76,6 @@ def view(request):
     animals = paginator.page(current_page)
 
     context = {
-        "base_template": base_template,
         "animals": animals,
         "search": search,
         "breeds": breeds,
