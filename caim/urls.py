@@ -18,8 +18,8 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
-from caim_base.views import (animal, auth, awg, browse, comments,
-                             fosterer_profile, home, saved_search,
+from caim_base.views import (account_details, animal, auth, awg, browse,
+                             comments, fosterer_profile, home, saved_search,
                              saved_search_email_notifications, shortlist,
                              user_profile)
 from caim_base.views.utils import user_csv_download
@@ -56,6 +56,8 @@ urlpatterns = [
     path("comments/<int:comment_id>/reply", comments.CreateSubComment.as_view()),
     path("reply/<int:pk>/edit", comments.SubCommentEditView.as_view()),
     path("reply/<int:pk>/delete", comments.SubCommentDeleteView.as_view()),
+    path("user/details", account_details.view, name="account_details"),
+    path("user/details/edit", account_details.edit, name="account_details_edit"),
     path("user/<username>", user_profile.view),
     path("user/<username>/edit", user_profile.edit, name="user_edit"),
     path("organization/apply", awg.create, name="awg_create"),
