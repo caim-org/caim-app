@@ -14,18 +14,20 @@ function saveSearch() {
     }
     const params = new URLSearchParams(location.search);
 
+    console.log("animal_type:")
+    console.log(params.get('animal_type'))
+
     $.ajax({
         url: '/api/saved-search/add',
         type: 'post',
         data: {
-            'animal_type': 'dog',
+            'animal_type': params.get('animal_type'),
             'zip': params.get('zip'),
             'radius': params.get('radius') || 50,
             'age': params.get('age'),
             'size': params.get('size'),
             'sex': params.get('sex'),
             'breed': params.get('breed'),
-
             'euth_date_within_days': params.get('euth_date'),
             'goodwith_cats': params.has('goodwith_cats') || null,
             'goodwith_dogs': params.has('goodwith_dogs') || null,
