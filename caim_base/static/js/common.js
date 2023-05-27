@@ -14,9 +14,6 @@ function saveSearch() {
     }
     const params = new URLSearchParams(location.search);
 
-    console.log("animal_type:")
-    console.log(params.get('animal_type'))
-
     $.ajax({
         url: '/api/saved-search/add',
         type: 'post',
