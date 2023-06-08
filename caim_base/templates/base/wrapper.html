@@ -42,9 +42,13 @@
       });
     </script>
     {% endif %}
+    <script src="{% static 'htmx.min.js' %}" defer></script>
+    {% if not isProduction %}
+    <script src="https://unpkg.com/htmx.org/dist/ext/debug.js"></script>
+    {% endif %}
   </head>
 
-  <body class="{{ bodyClasses }}">
+  <body class="{{ bodyClasses }}" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
     <nav class="navbar navbar-expand-lg {% if navbarDark %}navbar-dark bg-dark{% else %}navbar-light bg-light{% endif %}">
       <div class="container">
         <a class="navbar-brand" href="/">
@@ -98,7 +102,7 @@
       </ul>
       {% endif %}
       -->
-    <main>
+    <main id="main">
     {% block content %}
     {% endblock %}
     </main>

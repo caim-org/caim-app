@@ -1,18 +1,21 @@
-from django.core.exceptions import BadRequest
-from django.http import JsonResponse
-from ..models.animals import SavedSearch, Breed
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 
+from ..models.animals import AnimalType, Breed, SavedSearch
+
+
 # Calculate the default name label for a given saved search config
-# This is just to give an initial sensible name for the search, but the user can change it later
+# This is just to give an initial sensible name for the search, but the user
+# can change it later
 def calculate_saved_search_name(search):
     parts = []
 
     if search["breed"]:
-        parts.append(search["breed"].capitalize() + " dogs")
-    else:
-        parts.append("Dogs")
+        parts.append(search["breed"].capitalize())
+
+    if search["animal_type"]:
+        parts.append(AnimalType.pluralize(search["animal_type"]).lower())
 
     if search["zip_code"]:
         if search["radius"] == "any":

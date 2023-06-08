@@ -23,7 +23,12 @@
   <div class="container">
     <div class="row">
       <div class="col-md-6 py-2 text-center text-md-start">
-        <p class="text-light mt-2 mb-1">Showing {{ paginator.count }} {{animal_type}}{{paginator.count|pluralize}} 
+        <p class="text-light mt-2 mb-1">Showing {{ paginator.count }} 
+          {% if animal_type %}
+            {{animal_type.lower}}{{paginator.count|pluralize}} 
+          {% else %}
+            animals
+          {% endif %}
           {% if search.zip %}
             within
             {% if search.radius %}{{search.radius}} miles{% else %}any distance{% endif %}
@@ -72,14 +77,30 @@
             <input type="hidden" name="zip" value="{{search.zip|default:''}}" />
             <div class="filter">
               Animal Type
-              <select class="form-select" name="animal_type">
-                <option value="" {% if not search.animal_type%}selected{% endif %}>Any Animal Type</option>
+              <select
+                class="form-select"
+                name="animal_type"
+                hx-target="#breeds_dropdown"
+                hx-select="#breeds_dropdown"
+                hx-get="/browse"
+                {% if not isProduction %}
+                hx-ext="debug"
+                {% endif %}
+              >
+                <option value="" {% if not search.animal_type%}selected{% endif %}>
+                Any Animal Type
+                </option>
                 {% for at in animal_types.items %}
-                <option value="{{at.0}}" {% if at.0 == search.animal_type %}selected{% endif %}>{{at.1}}</option>
+                <option
+                  value="{{at.1.lower}}"
+                  {% if at.1.lower == search.animal_type.lower %}selected{% endif %}
+                >
+                {{at.1.lower}}
+                </option>
                 {% endfor %}
               </select>
             </div>
-            <div class="filter">
+            <div id="breeds_dropdown" class="filter">
               Breed
               <select class="form-select" name="breed">
                 <option value="" {% if not search.breed %}selected{% endif %}>Any breed</option>

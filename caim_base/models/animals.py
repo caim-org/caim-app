@@ -19,6 +19,15 @@ class AnimalType(models.TextChoices):
     DOG = "DOG", "Dog"
     CAT = "CAT", "Cat"
 
+    @classmethod
+    def pluralize(cls, animal_type: str) -> str:
+        if animal_type.upper() == cls.DOG:
+            return "Dogs"
+        elif animal_type.upper() == cls.CAT:
+            return "Cats"
+        else:
+            raise ValueError(f'unknown AnimalType {animal_type}')
+
 
 class Breed(models.Model):
     name = models.CharField(max_length=100)
