@@ -1,8 +1,10 @@
-from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
-from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
+from django.shortcuts import redirect, render
+
 from ..forms import NewUserForm
+from ..models import UserProfile
 
 
 def login_view(request):
@@ -24,6 +26,7 @@ def login_view(request):
             messages.error(request, "Invalid username or password.")
     else:
         form = AuthenticationForm()
+
     return render(
         request=request,
         template_name="auth/login.html",
@@ -39,6 +42,11 @@ def register_view(request):
         form = NewUserForm(request.POST)
         if form.is_valid():
             user = form.save()
+            zip_code = form.cleaned_data.get("zip_code")
+            city = form.cleaned_data.get("city")
+            state = form.cleaned_data.get("state")
+            user_profile = UserProfile(user=user, zip_code=zip_code, city=city, state=state)
+            user_profile.save()
             login(request, user)
             messages.success(request, "Registration successful.")
             return redirect(request.GET.get("next", "home"))
