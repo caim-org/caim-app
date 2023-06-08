@@ -15,6 +15,8 @@ RUN set -ex \
 
 COPY . /app
 
+RUN python /app/manage.py collectstatic && python /app/manage.py migrate
+
 EXPOSE 8000
 
 CMD ["gunicorn", "--bind", ":8000", "--workers", "2", "caim.wsgi:application"]
