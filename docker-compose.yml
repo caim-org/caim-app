@@ -2,6 +2,7 @@ version: '3.7'
 services:
   postgres:
     image: postgis/postgis:14-3.3
+    platform: linux/amd64
     restart: always
     environment:
       - POSTGRES_USER=postgres
