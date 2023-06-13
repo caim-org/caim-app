@@ -1,0 +1,76 @@
+<div>
+  <div>
+    <h1>{{ fosterer.firstname }} {{ fosterer.lastname }}</h1>
+    <div class="d-flex flex-column gap-3">
+      <p>{{ fosterer.email }}</p>
+      <p>{{ fosterer.phone }}</p>
+      <p>
+        {{ fosterer.street_address }}
+        {{ fosterer.city }}
+        {{ fosterer.state }}
+        {{ fosterer.zip_code }}
+      </p>
+    </div>
+    <hr />
+    <p>
+      <strong>Willing to foster:</strong>
+      <span>{{ animal_type_labels|join:", " }}</span>
+    </p>
+    <p>
+      <strong>Category of animals:</strong>
+      <span>{{ category_of_animals_labels|join:", "|lower|title }}</span>
+    </p>
+    <p>
+      <strong>Behavioral attributes:</strong>
+      <p>{{ behaviour_labels|join:", " }}</p>
+    </p>
+    <p>
+      <strong>Timeframe:</strong>
+      <span>{{ fosterer.get_timeframe_display }}</span>
+    </p>
+    {% if fosterer.timeframe_other %}
+      <p>
+        <strong>Details:</strong>
+        <span>{{ fosterer.timeframe_other }}</span>
+      </p>
+    {% endif %}
+    <p>
+      <strong>Number of existing pets:</strong>
+      <span>{{ fosterer.num_existing_pets }}</span>
+    </p>
+    <p>
+      <strong>Existing pet details:</strong>
+      <span>{{ fosterer.existing_pets_details }}</span>
+    </p>
+    <p>
+      <strong>Experience description:</strong>
+      <span>{{ fosterer.experience_description }}</span>
+    </p>
+    <p>
+      <strong>Experience categories</strong>
+      <span>{{ experience_categories_labels|join:", " }}</span>
+    </p>
+    <p>
+      <strong>Experience with giving up a pet:</strong>
+      <span>{{ fosterer.experience_given_up_pet|title }}</span>
+    </p>
+    {% if fosterer.reference_1 %}
+      <p>
+        <strong>Reference 1:</strong>
+        <p>{{ fosterer.reference_1 }}</p>
+      </p>
+    {% endif %}
+    {% if fosterer.reference_2 %}
+      <p>
+        <strong>Reference 2:</strong>
+        <p>{{ fosterer.reference_2 }}</p>
+      </p>
+    {% endif %}
+    {% if fosterer.reference_3 %}
+      <p>
+        <strong>Reference 3:</strong>
+        <p>{{ fosterer.reference_3 }}</p>
+      </p>
+    {% endif %}
+  </div>
+</div>
