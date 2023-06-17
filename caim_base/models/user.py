@@ -15,5 +15,13 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     description = models.TextField(blank=True)
     city = models.CharField(_("city"), max_length=32, blank=True)
-    state = models.CharField(_("state"), max_length=2, blank=True, null=True, choices=states.items(), default=None)
+    state = models.CharField(
+        _("state"),
+        max_length=2,
+        blank=True,
+        null=True,
+        choices=states.items(),
+        default=None,
+    )
     zip_code = models.CharField(_("ZIP code"), max_length=10, blank=True)
+    salesforce_id = models.CharField(max_length=32, null=True)
