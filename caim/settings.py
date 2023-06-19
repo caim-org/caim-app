@@ -10,8 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
+import sys
 from glob import glob
 from pathlib import Path
+
 from django.contrib.messages import constants as messages
 
 PRODUCTION = os.getenv("PRODUCTION", "0") == "1"
@@ -269,7 +271,7 @@ if SALESFORCE_ENABLED:
     SALESFORCE_PASSWORD = os.getenv("SALESFORCE_PASSWORD")
     SALESFORCE_SECURITY_TOKEN = os.getenv("SALESFORCE_SECURITY_TOKEN")
 
-
+    
 if sys.platform == 'darwin':
     import subprocess
     try:
