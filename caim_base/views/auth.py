@@ -43,18 +43,17 @@ def register_view(request):
     if request.method == "POST":
         form = NewUserForm(request.POST)
         if form.is_valid():
-
-            if settings.SALESFORCE_ENABLED:
-                salesforce.create_contact(form)
-
-                return
-            
             user = form.save()
             zip_code = form.cleaned_data.get("zip_code")
             city = form.cleaned_data.get("city")
             state = form.cleaned_data.get("state")
             user_profile = UserProfile(user=user, zip_code=zip_code, city=city, state=state)
             user_profile.save()
+
+            # create contact in salesforce
+            if settings.SALESFORCE_ENABLED:
+                salesforce.create_contact(user_profile, form)
+
             login(request, user)
             messages.success(request, "Registration successful.")
             return redirect(request.GET.get("next", "home"))
