@@ -88,12 +88,12 @@ def edit(request, username):
         user_profile.save()
 
     if request.method == "POST":
-        print('AASADFASDF')
-
         form = UserProfileForm(request.POST)
 
         if form.is_valid():
             user.username = form.cleaned_data["username"]
+            user.first_name = form.cleaned_data["first_name"]
+            user.last_name = form.cleaned_data["last_name"]
             user.save()
 
             user_profile.description = form.cleaned_data["description"]
