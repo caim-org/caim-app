@@ -10,8 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
+import sys
 from glob import glob
 from pathlib import Path
+
 from django.contrib.messages import constants as messages
 
 PRODUCTION = os.getenv("PRODUCTION", "0") == "1"
@@ -260,3 +262,13 @@ if PRODUCTION:
     GOOGLE_TAG_MANAGER_ID = "GTM-52CTCWP"
 else:
     GOOGLE_TAG_MANAGER_ID = "GTM-NT67CZJ"
+
+
+if sys.platform == 'darwin':
+    import subprocess
+    try:
+        brew_prefix = subprocess.check_output(["brew", "--prefix"]).decode("utf-8").strip()
+        GDAL_LIBRARY_PATH = f'{brew_prefix}/opt/gdal/lib/libgdal.dylib'
+        GEOS_LIBRARY_PATH = f'{brew_prefix}/opt/geos/lib/libgeos_c.dylib'
+    except subprocess.CalledProcessError:
+        pass # brew not installed, assume libraries are in default location
