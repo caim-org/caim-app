@@ -23,6 +23,7 @@ from caim_base.views import (account_details, animal, auth, awg, browse,
                              saved_search_email_notifications, shortlist,
                              user_profile)
 from caim_base.views.utils import user_csv_download
+from django.views.generic.base import TemplateView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -102,3 +103,16 @@ urlpatterns = [
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += [
+        path(
+            "robots.txt",
+            TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),
+        ),
+    ]
+else:
+    urlpatterns += [
+        path(
+            "robots.txt",
+            TemplateView.as_view(template_name="prod_robots.txt", content_type="text/plain"),
+        ),
+    ]

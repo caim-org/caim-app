@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /browse
+Disallow: /animal
+Disallow: /organization
