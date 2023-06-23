@@ -182,7 +182,7 @@ class FostererProfile(models.Model):
     )
     hours_alone_description = models.TextField(
         blank=True, null=True, default=None,
-        verbose_name='How many hours / day will your foster animal be left alone?'
+        verbose_name='How many hours per day will your foster animal be left alone?'
     )
     hours_alone_location = models.TextField(
         blank=True, null=True, default=None,
