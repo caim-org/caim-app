@@ -117,9 +117,9 @@ function toggleShortlistLarge(el, animalId) {
     $(el).toggleClass('btn-primary').toggleClass('btn-secondary');
     var isSet = !wasSet;
     if (isSet) {
-        $(el).html('<i class="bi-heart-fill"></i> Favorited');
+        $(el).html('<i class="bi-heart-fill"></i> Shortlisted');
     } else {
-        $(el).html('<i class="bi-heart"></i> Add to favorites');
+        $(el).html('<i class="bi-heart"></i> Add to shortlist');
     }
     setShortlist(animalId, isSet);
 }
