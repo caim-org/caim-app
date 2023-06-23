@@ -133,19 +133,19 @@ class Animal(models.Model):
         max_length=10,
         choices=AnimalBehaviourGrade.choices,
         default=AnimalBehaviourGrade.NOT_TESTED,
-        verbose_name="Behavior with dogs",
+        verbose_name="Behavour with dogs",
     )
     behaviour_cats = models.CharField(
         max_length=10,
         choices=AnimalBehaviourGrade.choices,
         default=AnimalBehaviourGrade.NOT_TESTED,
-        verbose_name="Behavior with cats",
+        verbose_name="Behavour with cats",
     )
     behaviour_kids = models.CharField(
         max_length=10,
         choices=AnimalBehaviourGrade.choices,
         default=AnimalBehaviourGrade.NOT_TESTED,
-        verbose_name="Behavior with kids",
+        verbose_name="Behavour with kids",
     )
     is_euth_listed = models.BooleanField(verbose_name="Is scheduled for euthanasia")
     euth_date = models.DateField(
