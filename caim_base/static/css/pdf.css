@@ -1,0 +1,8 @@
+.pre-wrap {
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.section div {
+  margin-bottom: 0.5em;
+}
