@@ -1,9 +1,11 @@
 import io
+import os
 from unicodedata import category
 
 from click import style
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Fieldset, Layout, Submit
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.forms import ModelForm, RadioSelect
@@ -416,9 +418,8 @@ def download_fosterer_profile(request: HttpRequest, fosterer_id: int) -> HttpRes
     pdf_string = render_to_string("fosterer_profile/pdf.html", context, request)
     pdf_file = HTML(string=pdf_string).write_pdf(stylesheets=[
         CSS(string="@page { size: letter portrait; margin: 1cm }"),
-        # CSS(url="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"),
-        # CSS(url="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"),
-        # CSS(url="https://fonts.googleapis.com/css2?family=Poppins&display=swap"),
+        CSS(filename=os.path.join(settings.STATIC_ROOT, 'css/normalize.css')),
+        CSS(filename=os.path.join(settings.STATIC_ROOT, 'css/pdf.css')),
     ])
 
     response = HttpResponse(pdf_file, content_type="application/pdf")
