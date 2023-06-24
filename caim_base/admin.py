@@ -1,29 +1,38 @@
-import logging
-
-from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from leaflet.admin import LeafletGeoAdmin
-from setuptools import Command
 from csvexport.actions import csvexport
+from django.contrib import admin
+from leaflet.admin import LeafletGeoAdmin
 
+from .admin_widgets import AdminImageMixin
 from .models.animals import (
-    Breed,
     Animal,
-    Awg,
     AnimalComment,
-    AnimalSubComment,
     AnimalImage,
+    AnimalSubComment,
+    Awg,
+    Breed,
     User,
 )
 from .models.awg import AwgMember
 from .models.fosterer import FostererProfile
-from .admin_widgets import AdminImageMixin
+from .models.user import UserProfile
+
+# Unregister the user admin so we can user our own
+admin.site.unregister(User)
 
 
+class UserProfileInline(admin.StackedInline):
+    model = UserProfile
+    fields = ("city", "state", "zip_code", "description")
+
+
+@admin.register(User)
 class UserAdmin(admin.ModelAdmin):
     actions = [csvexport]
     list_display = ("email", "first_name", "last_name")
     list_filter = ("is_staff", "is_superuser")
+    inlines = [
+        UserProfileInline,
+    ]
 
 
 class AnimalImageInline(AdminImageMixin, admin.StackedInline):
@@ -75,6 +84,3 @@ admin.site.register(Awg, AwgAdmin)
 admin.site.register(AnimalComment, CommentAdmin)
 admin.site.register(FostererProfile)
 
-# Replace the user admin so we can override things
-admin.site.unregister(User)
-admin.site.register(User, UserAdmin)

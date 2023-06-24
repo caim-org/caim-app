@@ -42,9 +42,13 @@
       });
     </script>
     {% endif %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/htmx/1.9.2/htmx.min.js"></script>
+    {% if not isProduction %}
+    <script src="https://unpkg.com/htmx.org/dist/ext/debug.js"></script>
+    {% endif %}
   </head>
 
-  <body class="{{ bodyClasses }}">
+  <body class="{{ bodyClasses }}" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
     <nav class="navbar navbar-expand-lg {% if navbarDark %}navbar-dark bg-dark{% else %}navbar-light bg-light{% endif %}">
       <div class="container">
         <a class="navbar-brand" href="/">
@@ -73,11 +77,13 @@
               </a>
               <ul class="dropdown-menu dropdown-menu-end" id="userMenu">
                 <li><a class="dropdown-item" href="/user/{{request.user.username}}">My Profile</a></li>
-                <li><a class="dropdown-item" href="/browse?shortlist=on">My Shortlist</a></li>
+                <li><a class="dropdown-item" href="/browse?shortlist=on">My Favorites</a></li>
                 <li><a class="dropdown-item" href="#" onclick="return todo()">My Saved Searches</a></li>
                 <li><a class="dropdown-item" href="/my-organizations">My Organizations</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="/user/{{request.user.username}}/edit">Edit Profile</a></li>
+                <li><a class="dropdown-item" href="{% url "account_details" %}">Account Details</a></li>
+                {% comment %} This link is redundant, there's an edit button under the profile page {% endcomment %}
+                {% comment %} <li><a class="dropdown-item" href="/user/{{request.user.username}}/edit">Edit Profile</a></li> {% endcomment %}
                 <li><a class="dropdown-item" href="#" onclick="return todo();">Notification Settings</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="/logout">Logout</a></li>
@@ -98,7 +104,7 @@
       </ul>
       {% endif %}
       -->
-    <main>
+    <main id="main">
     {% block content %}
     {% endblock %}
     </main>

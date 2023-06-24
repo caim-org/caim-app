@@ -42,7 +42,7 @@ class FostererProfileStage1Form(ModelForm):
                 "state",
                 "zip_code",
             ),
-            Submit("submit", "Next page", css_class="button"),
+            Submit("submit", "Save and continue", css_class="button"),
         )
 
     class Meta:
@@ -87,7 +87,7 @@ class FostererProfileStage2Form(ModelForm):
                 "timeframe_other"
             ),
             Submit("submit_prev", "&laquo; Previous page", css_class="btn btn-secondary"),
-            Submit("submit", "Next page &raquo;", css_class="btn btn-primary"),
+            Submit("submit", "Save and continue &raquo;", css_class="btn btn-primary"),
         )
 
     class Meta:
@@ -127,7 +127,7 @@ class FostererProfileStage3Form(ModelForm):
                 "experience_given_up_pet",
             ),
             Submit("submit_prev", "&laquo; Previous page", css_class="btn btn-secondary"),
-            Submit("submit", "Next page &raquo;", css_class="btn btn-primary"),
+            Submit("submit", "Save and continue &raquo;", css_class="btn btn-primary"),
         )
 
     class Meta:
@@ -163,7 +163,7 @@ class FostererProfileStage4Form(ModelForm):
                 "reference_3",
             ),
             Submit("submit_prev", "&laquo; Previous page", css_class="btn btn-secondary"),
-            Submit("submit", "Next page &raquo;", css_class="btn btn-primary"),
+            Submit("submit", "Save and continue &raquo;", css_class="btn btn-primary"),
         )
 
     class Meta:
@@ -202,7 +202,7 @@ class FostererProfileStage5Form(ModelForm):
                 "sleep_location"
             ),
             Submit("submit_prev", "&laquo; Previous page", css_class="btn btn-secondary"),
-            Submit("submit", "Next page &raquo;", css_class="btn btn-primary"),
+            Submit("submit", "Save and continue &raquo;", css_class="btn btn-primary"),
         )
 
     class Meta:
@@ -250,7 +250,7 @@ class FostererProfileStage6Form(ModelForm):
                 "agree_share_details",
             ),
             Submit("submit_prev", "&laquo; Previous page", css_class="btn btn-secondary"),
-            Submit("submit", "Next page &raquo;", css_class="btn btn-primary"),
+            Submit("submit", "Save and continue &raquo;", css_class="btn btn-primary"),
         )
     class Meta:
         model = FostererProfile

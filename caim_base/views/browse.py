@@ -1,11 +1,12 @@
-from django.shortcuts import render
+from logging import getLogger
+
 from django.core.paginator import Paginator
-from django.contrib.gis.db.models.functions import Distance
+from django.shortcuts import render
 
 from ..animal_search import query_animals
+from ..models.animals import AnimalShortList, AnimalType, Breed, SavedSearch
 
-from ..models.animals import Breed, AnimalType, AnimalShortList, SavedSearch
-from ..models.geo import ZipCode
+logger = getLogger(__name__)
 
 
 def parse_radius(args):
@@ -27,9 +28,10 @@ def parse_euth_date(args):
 
 
 def view(request):
-    if request.GET.get("animal_type") == "CAT":
+
+    if request.GET.get("animal_type") == "cat":
         animal_type = AnimalType.CAT
-    elif request.GET.get("animal_type") == "DOG":
+    elif request.GET.get("animal_type") == "dog":
         animal_type = AnimalType.DOG
     else:
         animal_type = None

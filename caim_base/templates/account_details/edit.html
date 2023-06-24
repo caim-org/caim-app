@@ -1,0 +1,30 @@
+{% extends "base/wrapper.html" %}
+{% load avatar_tags %}
+{% load crispy_forms_tags %}
+{% block content %}
+  <div class="bg-dark context-bar">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 py-3 text-center text-md-start">
+          <p class="text-light my-0">
+            <a href="{% url "account_details" %}">« Back to account details</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row justify-content-md-center">
+      <div class="col-md-8">
+        <div class="container py-5">
+          <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button class="btn btn-primary" type="submit">Save</button>
+            <a href="{% url "account_details" %}" class="btn btn-secondary">Cancel</a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
