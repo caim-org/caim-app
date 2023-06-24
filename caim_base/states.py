@@ -51,3 +51,5 @@ states = {
     "WV": "West Virginia",
     "WY": "Wyoming",
 }
+
+form_states = {"": "", **states} # add empty label

@@ -19,6 +19,15 @@ class AnimalType(models.TextChoices):
     DOG = "DOG", "Dog"
     CAT = "CAT", "Cat"
 
+    @classmethod
+    def pluralize(cls, animal_type: str) -> str:
+        if animal_type.upper() == cls.DOG:
+            return "Dogs"
+        elif animal_type.upper() == cls.CAT:
+            return "Cats"
+        else:
+            raise ValueError(f'unknown AnimalType {animal_type}')
+
 
 class Breed(models.Model):
     name = models.CharField(max_length=100)
@@ -124,19 +133,19 @@ class Animal(models.Model):
         max_length=10,
         choices=AnimalBehaviourGrade.choices,
         default=AnimalBehaviourGrade.NOT_TESTED,
-        verbose_name="Behavour with dogs",
+        verbose_name="Behavior with dogs",
     )
     behaviour_cats = models.CharField(
         max_length=10,
         choices=AnimalBehaviourGrade.choices,
         default=AnimalBehaviourGrade.NOT_TESTED,
-        verbose_name="Behavour with cats",
+        verbose_name="Behavior with cats",
     )
     behaviour_kids = models.CharField(
         max_length=10,
         choices=AnimalBehaviourGrade.choices,
         default=AnimalBehaviourGrade.NOT_TESTED,
-        verbose_name="Behavour with kids",
+        verbose_name="Behavior with kids",
     )
     is_euth_listed = models.BooleanField(verbose_name="Is scheduled for euthanasia")
     euth_date = models.DateField(

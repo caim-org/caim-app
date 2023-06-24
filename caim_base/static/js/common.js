@@ -18,14 +18,13 @@ function saveSearch() {
         url: '/api/saved-search/add',
         type: 'post',
         data: {
-            'animal_type': 'dog',
+            'animal_type': params.get('animal_type'),
             'zip': params.get('zip'),
             'radius': params.get('radius') || 50,
             'age': params.get('age'),
             'size': params.get('size'),
             'sex': params.get('sex'),
             'breed': params.get('breed'),
-
             'euth_date_within_days': params.get('euth_date'),
             'goodwith_cats': params.has('goodwith_cats') || null,
             'goodwith_dogs': params.has('goodwith_dogs') || null,
@@ -118,9 +117,9 @@ function toggleShortlistLarge(el, animalId) {
     $(el).toggleClass('btn-primary').toggleClass('btn-secondary');
     var isSet = !wasSet;
     if (isSet) {
-        $(el).html('<i class="bi-heart-fill"></i> Shortlisted');
+        $(el).html('<i class="bi-heart-fill"></i> Favorited');
     } else {
-        $(el).html('<i class="bi-heart"></i> Add to shortlist');
+        $(el).html('<i class="bi-heart"></i> Add to favorites');
     }
     setShortlist(animalId, isSet);
 }

@@ -1,0 +1,80 @@
+{% extends "base/wrapper.html" %}
+{% load caim_helpers %}
+{% load avatar_tags %}
+{% block content %}
+  <div>
+    <div class="bg-dark context-bar">
+      <div class="container">
+        <div class="d-flex justify-content-center justify-content-sm-end">
+          <div class="text-center text-md-end d-flex flex-column flex-sm-row gap-2 py-2">
+            <a href="{% url "account_details_edit" %}" class="btn btn-secondary ">Edit Details</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row justify-content-md-center">
+        <div class="col-md-8">
+          <div class="container py-5">
+            <div class="d-flex align-items-center mb-4">
+              <div class="me-3">{% avatar user 80 80 class="avatar" %}</div>
+              <h3>{{ user.username }}</h3>
+            </div>
+            <div class="container d-grid gap-4">
+              <div class="row">
+                <div class="col-12 col-md-3">First name:</div>
+                <div class="col-12 col-md-9">
+                  {% if user.first_name %}
+                    <div>{{ user.first_name }}</div>
+                  {% else %}
+                    <div class="text-muted">None provided</div>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-md-3">Last name:</div>
+                <div class="col-12 col-md-9">
+                  {% if user.last_name %}
+                    <div>{{ user.last_name }}</div>
+                  {% else %}
+                    <div class="text-muted">None provided</div>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-md-3">City:</div>
+                <div class="col-12 col-md-9">
+                  {% if user_profile.city %}
+                    <div>{{ user_profile.city }}</div>
+                  {% else %}
+                    <div class="text-muted">None provided</div>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-md-3">State:</div>
+                <div class="col-12 col-md-9">
+                  {% if user_profile.state %}
+                    <div>{{ user_profile.state }}</div>
+                  {% else %}
+                    <div class="text-muted">None provided</div>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-md-3">ZIP code:</div>
+                <div class="col-12 col-md-9">
+                  {% if user_profile.zip_code %}
+                    <div>{{ user_profile.zip_code }}</div>
+                  {% else %}
+                    <div class="text-muted">None provided</div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
