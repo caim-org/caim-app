@@ -374,21 +374,20 @@ def edit(request, stage_id):
         },
     )
 
-# TODO: check permissions
-# @login_required()
+@login_required()
 def download_fosterer_profile(request: HttpRequest, fosterer_id: int) -> HttpResponse:
-    # user = request.user
-    # try:
-    #     awg = Awg.objects.get(id=user.id)
-    # except Awg.DoesNotExist:
-    #     raise Http404("Not found")
+    user = request.user
+    try:
+        awg = Awg.objects.get(id=user.id)
+    except Awg.DoesNotExist as e:
+        raise Http404("Not found") from e
 
-    # if (
-    #     not awg.status == "PUBLISHED"
-    #     and not awg.user_is_member_of_awg(request.user)
-    #     and not request.user.is_staff
-    # ):
-    #     return redirect("/")
+    if (
+        not awg.status == "PUBLISHED"
+        and not awg.user_is_member_of_awg(request.user)
+        and not request.user.is_staff
+    ):
+        return redirect("/")
 
     fosterer = FostererProfile.objects.get(pk=fosterer_id)
     animal_type_labels = []
