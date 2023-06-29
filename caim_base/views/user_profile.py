@@ -29,11 +29,6 @@ class UserProfileForm(forms.Form):
             ),
         ],
     )
-    first_name = forms.CharField(label="First name")
-    last_name = forms.CharField(label="Last name")
-    city = forms.CharField(label="City", max_length=32)
-    state = forms.ChoiceField(choices=form_states.items())
-    zip_code = forms.CharField(label="ZIP Code", validators=[zip_validator])
     description = forms.CharField(
         label="Introduction",
         help_text="Tell us about yourself. This will be visible publicly.",
@@ -98,12 +93,7 @@ def edit(request, username):
     else:
         form = UserProfileForm(
             initial={
-                "first_name": user.first_name,
-                "last_name": user.last_name,
                 "username": user.username,
-                "city": user_profile.city,
-                "state": user_profile.state,
-                "zip_code": user_profile.zip_code,
                 "description": user_profile.description
             }
         )
