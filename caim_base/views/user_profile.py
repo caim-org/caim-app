@@ -87,19 +87,10 @@ def edit(request, username):
 
         if form.is_valid():
             user.username = form.cleaned_data["username"]
-            user.first_name = form.cleaned_data["first_name"]
-            user.last_name = form.cleaned_data["last_name"]
             user.save()
 
             user_profile.description = form.cleaned_data["description"]
             user_profile.save()
-
-            # create or update salesforce contact
-            if settings.SALESFORCE_ENABLED:
-                if user_profile.salesforce_id is not None:
-                    salesforce.update_contact(user_profile.salesforce_id, form)
-                else:
-                    salesforce.create_contact(user_profile, form)
 
             return redirect(f"/user/{user.username}")
     else:
