@@ -2,9 +2,11 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import redirect, render
+from django.conf import settings
 
 from ..forms import NewUserForm
 from ..models import UserProfile
+from ..utils import salesforce
 
 
 def login_view(request):
@@ -47,6 +49,11 @@ def register_view(request):
             state = form.cleaned_data.get("state")
             user_profile = UserProfile(user=user, zip_code=zip_code, city=city, state=state)
             user_profile.save()
+
+            # create contact in salesforce
+            if settings.SALESFORCE_ENABLED:
+                salesforce.create_contact(user_profile, form)
+
             login(request, user)
             messages.success(request, "Registration successful.")
             return redirect(request.GET.get("next", "home"))

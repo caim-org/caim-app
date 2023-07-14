@@ -264,6 +264,14 @@ else:
     GOOGLE_TAG_MANAGER_ID = "GTM-NT67CZJ"
 
 
+SALESFORCE_ENABLED = os.getenv("SALESFORCE_ENABLED", "0") == "1"
+
+if SALESFORCE_ENABLED:
+    SALESFORCE_USERNAME = os.getenv("SALESFORCE_USERNAME")
+    SALESFORCE_PASSWORD = os.getenv("SALESFORCE_PASSWORD")
+    SALESFORCE_SECURITY_TOKEN = os.getenv("SALESFORCE_SECURITY_TOKEN")
+
+    
 if sys.platform == 'darwin':
     import subprocess
     try:

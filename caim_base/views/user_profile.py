@@ -5,10 +5,12 @@ from django.core.validators import RegexValidator
 from django.http import Http404
 from django.shortcuts import redirect, render
 from django.views.decorators.http import require_http_methods
+from django.conf import settings
 
 from ..forms import zip_validator
 from ..models.user import User, UserProfile
 from ..states import form_states
+from ..utils import salesforce
 
 
 class UserProfileForm(forms.Form):
@@ -82,6 +84,7 @@ def edit(request, username):
 
     if request.method == "POST":
         form = UserProfileForm(request.POST)
+
         if form.is_valid():
             user.username = form.cleaned_data["username"]
             user.save()
