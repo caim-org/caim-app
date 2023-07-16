@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.forms import ModelForm, RadioSelect
 from django.http import Http404, HttpRequest, HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.views.decorators.http import require_http_methods
 from weasyprint import CSS, HTML
@@ -387,7 +387,8 @@ def download_fosterer_profile(request: HttpRequest, fosterer_id: int) -> HttpRes
     if not awg.status == "PUBLISHED":
         raise PermissionDenied("Your AWG is not published")
 
-    fosterer: FostererProfile = FostererProfile.objects.get(pk=fosterer_id)
+
+    fosterer: FostererProfile = get_object_or_404(FostererProfile, pk=fosterer_id)
     animal_type_labels = []
     if fosterer.type_of_animals:
         animal_type_labels = [fosterer.TypeOfAnimals(animal_type).label for animal_type in fosterer.type_of_animals]
