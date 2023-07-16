@@ -4,10 +4,12 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django.views.decorators.http import require_http_methods
+from django.conf import settings
 
 from ..forms import zip_validator
 from ..models.user import UserProfile
 from ..states import form_states
+from ..utils import salesforce
 
 
 class UserDetailsForm(forms.Form):
@@ -53,6 +55,13 @@ def edit(request: HttpRequest) -> HttpResponse:
             user_profile.state = form.cleaned_data["state"]
             user_profile.zip_code = form.cleaned_data["zip_code"]
             user_profile.save()
+
+            # create or update salesforce contact
+            if settings.SALESFORCE_ENABLED:
+                if user_profile.salesforce_id is not None:
+                    salesforce.update_contact(user_profile.salesforce_id, form)
+                else:
+                    salesforce.create_contact(user_profile, form)
 
             return redirect("account_details")
 
