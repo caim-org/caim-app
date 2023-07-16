@@ -8,6 +8,7 @@ from crispy_forms.layout import Fieldset, Layout, Submit
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from django.forms import ModelForm, RadioSelect
 from django.http import Http404, HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
@@ -15,7 +16,7 @@ from django.template.loader import render_to_string
 from django.views.decorators.http import require_http_methods
 from weasyprint import CSS, HTML
 
-from caim_base.models.awg import Awg
+from caim_base.models.awg import Awg, AwgMember
 
 from ..models.fosterer import FostererProfile, User
 from ..notifications import notify_new_fosterer_profile
@@ -377,19 +378,16 @@ def edit(request, stage_id):
 @login_required()
 def download_fosterer_profile(request: HttpRequest, fosterer_id: int) -> HttpResponse:
     user = request.user
-    try:
-        awg = Awg.objects.get(id=user.id)
-    except Awg.DoesNotExist as e:
-        raise Http404("Not found") from e
+    awg_member: AwgMember = AwgMember.objects.filter(user=user).first()
+    if not awg_member:
+        raise PermissionDenied("You are not a member of an AWG")
 
-    if (
-        not awg.status == "PUBLISHED"
-        and not awg.user_is_member_of_awg(request.user)
-        and not request.user.is_staff
-    ):
-        return redirect("/")
+    awg: Awg = awg_member.awg
 
-    fosterer = FostererProfile.objects.get(pk=fosterer_id)
+    if not awg.status == "PUBLISHED":
+        raise PermissionDenied("Your AWG is not published")
+
+    fosterer: FostererProfile = FostererProfile.objects.get(pk=fosterer_id)
     animal_type_labels = []
     if fosterer.type_of_animals:
         animal_type_labels = [fosterer.TypeOfAnimals(animal_type).label for animal_type in fosterer.type_of_animals]
