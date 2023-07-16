@@ -1,3 +1,14 @@
+.pdf {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .pre-wrap {
   overflow-wrap: break-word;
   white-space: pre-wrap;
@@ -5,4 +16,9 @@
 
 .section div {
   margin-bottom: 0.5em;
+}
+
+.logo {
+  margin-top: 0.5em;
+  width: 100px;
 }
