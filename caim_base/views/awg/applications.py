@@ -29,7 +29,7 @@ def list_applications(request, awg_id):
         "awg": awg,
         "applications": query_applications_for_awg(awg),
     }
-    context = check_awg_user_permissions_update_context(request, awg, ["MANAGE_ANIMALS"], context)
+    context = check_awg_user_permissions_update_context(request, awg, ["MANAGE_APPLICATIONS"], context)
     return render(request, "awg/manage/applications/list.html", context)
 
 
@@ -62,7 +62,7 @@ def update_application(request, awg_id, application_id):
         "awg": awg,
         "applications": query_applications_for_awg(awg),
     }
-    context = check_awg_user_permissions_update_context(request, awg, ["MANAGE_ANIMALS"], context)
+    context = check_awg_user_permissions_update_context(request, awg, ["MANAGE_APPLICATIONS"], context)
     return render(request, "awg/manage/applications/list.html", context)
 
 
@@ -70,7 +70,7 @@ def update_application(request, awg_id, application_id):
 @require_http_methods(["GET"])
 def update_application_status_modal(request, awg_id, application_id, status):
     awg = get_object_or_404(Awg, pk=awg_id)
-    _ = check_awg_user_permissions_update_context(request, awg, ["MANAGE_ANIMALS"])
+    _ = check_awg_user_permissions_update_context(request, awg, ["MANAGE_APPLICATIONS"])
     application: FosterApplication = get_object_or_404(FosterApplication, id=application_id, animal__awg=awg)
 
     templates = {
