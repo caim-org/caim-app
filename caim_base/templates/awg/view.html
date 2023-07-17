@@ -1,39 +1,6 @@
-{% extends 'base/wrapper.html' %}
-{% load caim_helpers %}
+{% extends 'awg/manage/base.html' %}
 
-{% block content %}
-  <div class="bg-dark context-bar">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6 py-3 d-none d-md-block">&nbsp;</div>
-        <div class="col-md-6 py-2 text-center text-md-end d-bottom-mobile">
-          {% if currentUserPermissions %}
-            <div class="dropdown">
-              <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Manage organization</button>
-              <ul class="dropdown-menu">
-                {% if 'EDIT_PROFILE' in currentUserPermissions %}
-                  <li>
-                    <a class="dropdown-item" href="{{ awg.get_absolute_url }}/edit">Edit organization profile</a>
-                  </li>
-                {% endif %}
-                {% if 'MANAGE_ANIMALS' in currentUserPermissions %}
-                  <li>
-                    <a class="dropdown-item" href="{{ awg.get_absolute_url }}/animals">Manage animals</a>
-                  </li>
-                {% endif %}
-                {% if 'MANAGE_MEMBERS' in currentUserPermissions %}
-                  <li>
-                    <a class="dropdown-item" href="{{ awg.get_absolute_url }}/members">Manage admins</a>
-                  </li>
-                {% endif %}
-              </ul>
-            </div>
-          {% endif %}
-        </div>
-      </div>
-    </div>
-  </div>
-  <br />
+{% block innerContent %}
   <div class="container">
     <div class="row">
       <div class="col-md-8">
