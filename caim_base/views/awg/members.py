@@ -1,48 +1,35 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import PermissionDenied, BadRequest
 from django.http import Http404
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
+from caim_base.views.awg.user_permissions import check_awg_user_permissions_update_context
 
 from ...models.awg import Awg, User, AwgMember
-
-
-def check_awg_user_permissions(request, awg_id):
-    try:
-        awg = Awg.objects.get(id=awg_id)
-    except Awg.DoesNotExist:
-        raise Http404("Awg not found")
-
-    current_user_permissions = awg.get_permissions_for_user(request.user)
-    if not "MANAGE_MEMBERS" in current_user_permissions:
-        raise PermissionDenied(
-            "User does not have permission to manage members for this AWG"
-        )
-    return awg, current_user_permissions
-
 
 @login_required()
 @require_http_methods(["GET"])
 def list_members(request, awg_id):
-    awg, current_user_permissions = check_awg_user_permissions(request, awg_id)
+    awg = get_object_or_404(Awg, pk=awg_id)
 
     members = awg.awgmember_set.all()
 
     context = {
         "awg": awg,
         "pageTitle": f"{awg.name} | Manage members",
-        "currentUserPermissions": current_user_permissions,
         "members": members,
     }
+    context = check_awg_user_permissions_update_context(request, awg, ["MANAGE_MEMBERS"], context)
     return render(request, "awg/manage/members/list.html", context)
 
 
 @login_required()
 @require_http_methods(["POST"])
 def add_member(request, awg_id):
-    awg, current_user_permissions = check_awg_user_permissions(request, awg_id)
+    awg = get_object_or_404(Awg, pk=awg_id)
+    _ = check_awg_user_permissions_update_context(request, awg, ["MANAGE_MEMBERS"])
 
     try:
         email = request.POST.get("email")
@@ -85,7 +72,8 @@ def add_member(request, awg_id):
 @login_required()
 @require_http_methods(["POST"])
 def update_member(request, awg_id):
-    awg, current_user_permissions = check_awg_user_permissions(request, awg_id)
+    awg = get_object_or_404(Awg, pk=awg_id)
+    _ = check_awg_user_permissions_update_context(request, awg, ["MANAGE_MEMBERS"])
     member_id = request.POST["membershipId"]
     action = request.POST["action"]
 

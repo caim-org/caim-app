@@ -32,6 +32,11 @@
                     <a class="dropdown-item" href="{{ awg.get_absolute_url }}/members">Manage admins</a>
                   </li>
                 {% endif %}
+                {% if 'MANAGE_APPLICATIONS' in currentUserPermissions %}
+                  <li>
+                    <a class="dropdown-item" href="{{ awg.get_absolute_url }}/applications">Manage applications</a>
+                  </li>
+                {% endif %}
               </ul>
             </div>
           {% endif %}

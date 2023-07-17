@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import PermissionDenied, BadRequest
 from django.http import Http404
 from django.core.paginator import Paginator
@@ -16,25 +16,13 @@ from ...models.awg import Awg
 from ...animal_search import query_animals
 from ...animal_petfinder_import import import_animal_from_petfinder, ImportAnimalError
 
-
-def check_awg_user_permissions(request, awg_id):
-    try:
-        awg = Awg.objects.get(id=awg_id)
-    except Awg.DoesNotExist:
-        raise Http404("Awg not found")
-
-    current_user_permissions = awg.get_permissions_for_user(request.user)
-    if not "MANAGE_ANIMALS" in current_user_permissions:
-        raise PermissionDenied(
-            "User does not have permission to manage animals for this AWG"
-        )
-    return awg, current_user_permissions
+from caim_base.views.awg.user_permissions import check_awg_user_permissions_update_context
 
 
 @login_required()
 @require_http_methods(["GET"])
 def list_animals(request, awg_id):
-    awg, current_user_permissions = check_awg_user_permissions(request, awg_id)
+    awg = get_object_or_404(Awg, pk=awg_id)
 
     # @todo pagination
     current_page = 1
@@ -53,17 +41,17 @@ def list_animals(request, awg_id):
     context = {
         "awg": awg,
         "pageTitle": f"{awg.name} | Manage animals",
-        "currentUserPermissions": current_user_permissions,
         "animals": animals,
         "paginator": paginator,
     }
+    context = check_awg_user_permissions_update_context(request, awg, ["MANAGE_ANIMALS"], context)
     return render(request, "awg/manage/animals/list.html", context)
 
 
 @login_required()
 @require_http_methods(["POST"])
 def publish_animal(request, awg_id, animal_id):
-    awg, current_user_permissions = check_awg_user_permissions(request, awg_id)
+    awg = get_object_or_404(Awg, pk=awg_id)
 
     try:
         animal = Animal.objects.get(id=animal_id, awg_id=awg_id)
@@ -176,7 +164,7 @@ class AwgAnimalForm(ModelForm):
 @login_required()
 @require_http_methods(["POST", "GET"])
 def edit_animal(request, awg_id, animal_id):
-    awg, current_user_permissions = check_awg_user_permissions(request, awg_id)
+    awg = get_object_or_404(Awg, pk=awg_id)
 
     try:
         animal = Animal.objects.get(id=animal_id, awg_id=awg_id)
@@ -199,16 +187,16 @@ def edit_animal(request, awg_id, animal_id):
     context = {
         "awg": awg,
         "pageTitle": f"{awg.name} | Edit animal",
-        "currentUserPermissions": current_user_permissions,
         "form": form,
         "animal": animal,
         "photos": photos,
     }
+    context = check_awg_user_permissions_update_context(request, awg, ["MANAGE_ANIMALS"], context)
     return render(request, "awg/manage/animals/edit.html", context)
 
 
 def add_animal(request, awg_id):
-    awg, current_user_permissions = check_awg_user_permissions(request, awg_id)
+    awg = get_object_or_404(Awg, pk=awg_id)
 
     if request.POST:
         form = AwgAnimalForm(request.POST, submit_label="Add animal")
@@ -226,16 +214,16 @@ def add_animal(request, awg_id):
     context = {
         "awg": awg,
         "pageTitle": f"{awg.name} | Edit animal",
-        "currentUserPermissions": current_user_permissions,
         "form": form,
     }
+    context = check_awg_user_permissions_update_context(request, awg, ["MANAGE_ANIMALS"], context)
     return render(request, "awg/manage/animals/add.html", context)
 
 
 @login_required()
 @require_http_methods(["POST"])
 def animal_photos(request, awg_id, animal_id):
-    awg, current_user_permissions = check_awg_user_permissions(request, awg_id)
+    awg = get_object_or_404(Awg, pk=awg_id)
 
     try:
         animal = Animal.objects.get(id=animal_id, awg_id=awg_id)
@@ -301,7 +289,7 @@ class ImportURLForm(forms.Form):
 @login_required()
 @require_http_methods(["GET", "POST"])
 def import_animal(request, awg_id):
-    awg, current_user_permissions = check_awg_user_permissions(request, awg_id)
+    awg = get_object_or_404(Awg, pk=awg_id)
 
     if request.POST:
         form = ImportURLForm(request.POST)
