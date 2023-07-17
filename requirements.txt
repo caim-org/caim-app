@@ -11,6 +11,7 @@ Django==4.1
 django-admin-csvexport==1.11
 django-appconf==1.0.5
 django-avatar==7.0.0
+django-browser-reload==1.9.0
 django-crispy-forms==1.14.0
 django-htmx==1.14.0
 django-leaflet==0.28.3
