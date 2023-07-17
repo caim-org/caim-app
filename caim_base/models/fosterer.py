@@ -3,6 +3,8 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.postgres.fields import ArrayField
 from phonenumber_field.modelfields import PhoneNumberField
+from typing import List, Optional
+from caim_base.models.animals import Animal
 
 from ..states import states
 
@@ -208,3 +210,50 @@ class FostererProfile(models.Model):
     )
     is_complete = models.BooleanField(default=False)
 
+def __str__(self) -> str:
+    return f"{self.firstname} {self.lastname}"
+
+def query_fostererprofiles(
+    behavioural_attributes: Optional[List[str]] = None,
+    is_complete=True,
+    sort: Optional[str | List[str]] = ["firstname" , "lastname"],
+) -> models.QuerySet:
+    """
+      Query fosterer profiles with preferred defaults  
+    """
+
+    query = FostererProfile.objects.all()
+
+    
+    if behavioural_attributes:
+        query = query.filter(behavioural_attributes__contains=behavioural_attributes)
+
+    if is_complete:
+        query = query.filter(is_complete=True)
+
+    if sort is not None:
+        if isinstance(sort, list):
+            for s in sort:
+                query = query.order_by(s)
+        else:
+            query = query.order_by(sort)
+
+    return query
+
+
+class FosterApplication(models.Model):
+    
+    class FosterApplicationStatus(models.TextChoices):
+        ACCEPTED = "ACCEPTED", "Accepted"
+        REJECTED = "REJECTED", "Rejected"
+        PENDING = "PENDING", "Pending"
+
+    fosterer = models.ForeignKey(FostererProfile, on_delete=models.CASCADE, related_name="applications")
+    animal = models.ForeignKey(Animal, on_delete=models.CASCADE, related_name="applications")
+    status = models.CharField(max_length=32, choices=FosterApplicationStatus.choices)
+    reject_reason = models.TextField(max_length=65516, null=True, blank=True)
+    submitted_on = models.DateField(auto_now_add=True)
+    updated_on = models.DateField(auto_now=True)
+    
+    def __str__(self) -> str:
+        return f"Application for {self.animal} by {self.fosterer}"
