@@ -13,8 +13,12 @@ from caim_base.views.awg.user_permissions import \
     check_awg_user_permissions_update_context
 
 
-def query_applications_for_awg(awg: Awg, order_by: Optional[Tuple[str]] = None) -> QuerySet:
+def query_applications_for_awg(
+    awg: Awg, order_by: Optional[Tuple[str]] = None, status: Optional[str] = None
+) -> QuerySet:
     applications = FosterApplication.objects.select_related("animal").filter(animal__awg=awg)
+    if status:
+        applications = applications.filter(status=status)
     if order_by is None:
         order_by = ("-submitted_on", "fosterer__lastname", "fosterer__firstname")
     applications = applications.order_by(*order_by)
@@ -25,9 +29,13 @@ def query_applications_for_awg(awg: Awg, order_by: Optional[Tuple[str]] = None) 
 @require_http_methods(["GET"])
 def list_applications(request, awg_id):
     awg = get_object_or_404(Awg, pk=awg_id)
+    filters = {"status": request.GET.get("status", None)}
+    applications = query_applications_for_awg(awg, **filters)
     context = {
+        "filters": filters,
         "awg": awg,
-        "applications": query_applications_for_awg(awg),
+        "applications": applications,
+        "application_status_options": [c[0] for c in FosterApplication.FosterApplicationStatus.choices],
     }
     context = check_awg_user_permissions_update_context(request, awg, ["MANAGE_APPLICATIONS"], context)
     return render(request, "awg/manage/applications/list.html", context)

@@ -5,75 +5,117 @@
 <div class="row">
   <h2>Foster Applications</h2>
 </div>
-<div class="row" id="awg-applications-cards">
-  {% for app in applications %}
-  <div class="col-md-4 p-2">
-    <div class="card" style="text-align: center;">
-      <div class='card-title'>
-        {% if app.status == app.FosterApplicationStatus.PENDING %}
-        <div class="btn btn-warning">{{ app.status.title }}</div>
-        {% elif app.status == app.FosterApplicationStatus.ACCEPTED %}
-        <div class="btn btn-success">{{ app.status.title }}</div>
-        {% elif app.status == app.FosterApplicationStatus.REJECTED %}
-        <div class="btn btn-danger">{{ app.status.title }}</div>
-        {% else %}
-        <div class="btn btn-info">{{ app.status.title }}</div>
-        {% endif %}
-        <div>Applied on {{ app.submitted_on }}</div>
-      </div>
+<div class="container mb-3">
+  <div class="row d-md-none">
+    <a class="filter-button" data-bs-toggle="collapse" href="#searchFilters" role="button">
+    Show filters
+    </a>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-3" id="searchFilters">
+    <div class="card sticky-top" style="top:80px;">
       <div class="card-body">
-        <h4>{{ app.fosterer.firstname }} {{ app.fosterer.lastname }}</h4>
-        <div>{{ app.fosterer.city }}, {{ app.fosterer.state }}</div>
-
-        {% if app.fosterer.rent_own == app.fosterer.RentOwn.RENT %}
-        <div>Rents Home</div>
-        {% elif app.fosterer.rent_own == app.fosterer.RentOwn.OWN%}
-        <div>Owns Home</div>
-        {% endif %}
-
-        {% if app.fosterer.num_existing_pets > 1 %}
-        <div>Pets: Yes</div>
-        {% else %}
-        <div>Pets: No</div>
-        {% endif %}
-        <a href="/fosterer/{{ app.fosterer.id }}/pdf">download profile</a>
-      </div>
-      <div class="card-body">
-          <img
-            style="background-color: #eee"
-            src="{{ app.animal.primary_photo.url|image_resize:'75x75 crop' }}"
-          >
-          <div>{{ app.animal }}</div>
-          <a href="/animal/{{ app.animal.id }}">see profile</a>
-      </div>
-      <div class="card-footer">
-        {% if app.status == app.FosterApplicationStatus.PENDING %}
-        <button
-          class="btn btn-primary"
-          hx-get="/organization/{{ awg.id }}/applications/{{ app.id }}/modal/{{ app.FosterApplicationStatus.ACCEPTED }}"
-          hx-target="#awg-applications-modal"
-          _="on htmx:afterOnLoad wait 10ms then add .show to #modal then add .show to #modal-backdrop"
-        >Accept</button>
-        <button
-          class="btn btn-secondary"
-          hx-get="/organization/{{ awg.id }}/applications/{{ app.id }}/modal/{{ app.FosterApplicationStatus.REJECTED }}"
-          hx-target="#awg-applications-modal"
-          _="on htmx:afterOnLoad wait 10ms then add .show to #modal then add .show to #modal-backdrop"
-        >Reject</button>
-        {% else %}
-        <a
-          class='btn'
-          hx-get="/organization/{{ awg.id }}/applications/{{ app.id }}/modal/{{ app.FosterApplicationStatus.PENDING }}"
-          hx-target="#awg-applications-modal"
-          _="on htmx:afterOnLoad wait 10ms then add .show to #modal then add .show to #modal-backdrop"
-        >Reset to Pending</a>
-        {% endif %}
+        <form action="/organization/{{ awg.id }}/applications" method="get">
+          <div class="text-center">
+            <input type="submit" class="btn btn-primary" value="Update filters" />
+          </div>
+        <hr>
+        <div class="filter">
+          Application Status
+          <select class="form-select" name="status">
+            <option
+              value=""
+              {% if not filters.status %}selected{% endif %}
+            >
+            Any Status
+            </option>
+            {% for status_option in application_status_options %}
+            <option
+              value="{{ status_option }}"
+              {% if filters.status == status_option %}selected{% endif %}
+            >
+            {{ status_option | title }}
+            </option>
+            {% endfor %}
+          </select>
+        </div>
+        </form>
       </div>
     </div>
   </div>
-  {% empty %}
-  <p>No Applications</p>
-  {% endfor %}
+  <div class="col-md-9">
+    <div class="row" id="awg-applications-cards">
+      {% for app in applications %}
+      <div class="col-md-4 p-2">
+        <div class="card" style="text-align: center;">
+          <div class='card-title'>
+            {% if app.status == app.FosterApplicationStatus.PENDING %}
+            <div class="btn btn-warning">{{ app.status.title }}</div>
+            {% elif app.status == app.FosterApplicationStatus.ACCEPTED %}
+            <div class="btn btn-success">{{ app.status.title }}</div>
+            {% elif app.status == app.FosterApplicationStatus.REJECTED %}
+            <div class="btn btn-danger">{{ app.status.title }}</div>
+            {% else %}
+            <div class="btn btn-info">{{ app.status.title }}</div>
+            {% endif %}
+            <div>Applied on {{ app.submitted_on }}</div>
+          </div>
+          <div class="card-body">
+            <h4>{{ app.fosterer.firstname }} {{ app.fosterer.lastname }}</h4>
+            <div>{{ app.fosterer.city }}, {{ app.fosterer.state }}</div>
+
+            {% if app.fosterer.rent_own == app.fosterer.RentOwn.RENT %}
+            <div>Rents Home</div>
+            {% elif app.fosterer.rent_own == app.fosterer.RentOwn.OWN%}
+            <div>Owns Home</div>
+            {% endif %}
+
+            {% if app.fosterer.num_existing_pets > 1 %}
+            <div>Pets: Yes</div>
+            {% else %}
+            <div>Pets: No</div>
+            {% endif %}
+            <a href="/fosterer/{{ app.fosterer.id }}/pdf">download profile</a>
+          </div>
+          <div class="card-body">
+              <img
+                style="background-color: #eee"
+                src="{{ app.animal.primary_photo.url|image_resize:'75x75 crop' }}"
+              >
+              <div>{{ app.animal }}</div>
+              <a href="/animal/{{ app.animal.id }}">see profile</a>
+          </div>
+          <div class="card-footer">
+            {% if app.status == app.FosterApplicationStatus.PENDING %}
+            <button
+              class="btn btn-primary"
+              hx-get="/organization/{{ awg.id }}/applications/{{ app.id }}/modal/{{ app.FosterApplicationStatus.ACCEPTED }}"
+              hx-target="#awg-applications-modal"
+              _="on htmx:afterOnLoad wait 10ms then add .show to #modal then add .show to #modal-backdrop"
+            >Accept</button>
+            <button
+              class="btn btn-secondary"
+              hx-get="/organization/{{ awg.id }}/applications/{{ app.id }}/modal/{{ app.FosterApplicationStatus.REJECTED }}"
+              hx-target="#awg-applications-modal"
+              _="on htmx:afterOnLoad wait 10ms then add .show to #modal then add .show to #modal-backdrop"
+            >Reject</button>
+            {% else %}
+            <a
+              class='btn'
+              hx-get="/organization/{{ awg.id }}/applications/{{ app.id }}/modal/{{ app.FosterApplicationStatus.PENDING }}"
+              hx-target="#awg-applications-modal"
+              _="on htmx:afterOnLoad wait 10ms then add .show to #modal then add .show to #modal-backdrop"
+            >Reset to Pending</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <p>No Applications</p>
+      {% endfor %}
+    </div>
+  </div>
 </div>
 <div id="awg-applications-modal"></div>
 {% endblock %}
