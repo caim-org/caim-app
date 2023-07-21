@@ -76,6 +76,9 @@ parse_params() {
 
 
 safety_check() {
+    BRANCH=$(git rev-parse --abbrev-ref HEAD | tr -d '[:space:]')
+    REPO_DIR=$(git rev-parse --show-toplevel | tr -d '[:space:]')
+    COMMIT=$(git rev-parse HEAD | tr -d '[:space:]')
     # check we're on the right branch
     if [[ ( "${BRANCH}" != "main" ) && ( ${environment} == "prod" ) ]]; then
         die "${RED}Can only deploy main to prod! Submit a PR and checkout main branch.${NOFORMAT}"
