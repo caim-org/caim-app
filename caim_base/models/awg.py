@@ -112,6 +112,7 @@ class Awg(models.Model):
             ret.append("EDIT_PROFILE")
             ret.append("MANAGE_ANIMALS")
             ret.append("MANAGE_MEMBERS")
+            ret.append("MANAGE_APPLICATIONS")
         # Look for AWGMember for this user and AWG
         member = self.awgmember_set.filter(user=user).first()
         if member:
@@ -121,6 +122,8 @@ class Awg(models.Model):
                 ret.append("MANAGE_ANIMALS")
             if member.canManageMembers:
                 ret.append("MANAGE_MEMBERS")
+            if member.canManageApplications:
+                ret.append("MANAGE_APPLICATIONS")
         return ret
 
     def get_absolute_url(self):
@@ -151,6 +154,7 @@ class AwgMember(models.Model):
     canEditProfile = models.BooleanField(default=False)
     canManageAnimals = models.BooleanField(default=False)
     canManageMembers = models.BooleanField(default=False)
+    canManageApplications = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

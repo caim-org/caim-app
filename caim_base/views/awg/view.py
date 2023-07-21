@@ -1,24 +1,20 @@
-from django.shortcuts import render, redirect
-from django.http import Http404
 from django.core.paginator import Paginator
+from django.http import Http404
+from django.shortcuts import get_object_or_404, redirect, render
 
+from caim_base.views.awg.user_permissions import \
+    check_awg_user_permissions_update_context
+
+from ...animal_search import query_animals
 from ...models.animals import AnimalShortList
 from ...models.awg import Awg
-from ...animal_search import query_animals
 
 
 def view(request, awg_id):
-    try:
-        awg = Awg.objects.get(id=awg_id)
-    except Awg.DoesNotExist:
-        raise Http404("Awg not found")
+    awg = get_object_or_404(Awg, pk=awg_id)
 
     # If not published AND current user is not a staff member, redirect
-    if (
-        not awg.status == "PUBLISHED"
-        and not awg.user_is_member_of_awg(request.user)
-        and not request.user.is_staff
-    ):
+    if not awg.status == "PUBLISHED" and not awg.user_is_member_of_awg(request.user) and not request.user.is_staff:
         return redirect("/")
 
     current_page = request.GET.get("page", 1)
@@ -36,14 +32,13 @@ def view(request, awg_id):
     else:
         shortlist_animal_ids = []
 
-    current_user_permissions = awg.get_permissions_for_user(request.user)
-
     context = {
         "awg": awg,
         "pageTitle": f"{awg.name}",
         "animals": animals,
         "paginator": paginator,
         "shortlistAnimalIds": shortlist_animal_ids,
-        "currentUserPermissions": current_user_permissions,
     }
+    context = check_awg_user_permissions_update_context(request, awg, None, context)
+
     return render(request, "awg/view.html", context)

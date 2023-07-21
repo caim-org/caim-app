@@ -17,6 +17,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
+from django.views.generic.base import TemplateView
 
 
 from caim_base.views import (account_details, animal, auth, awg, browse,
@@ -24,7 +25,6 @@ from caim_base.views import (account_details, animal, auth, awg, browse,
                              saved_search_email_notifications, shortlist,
                              user_profile)
 from caim_base.views.utils import user_csv_download
-from django.views.generic.base import TemplateView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -41,9 +41,7 @@ urlpatterns = [
     path("fosterer/<fosterer_id>/pdf", fosterer_profile.download_fosterer_profile),
     path("register", auth.register_view, name="register"),
     path("login", auth.login_view, name="login"),
-    path(
-        "login/", auth.login_view, name="login_with_slash"
-    ),  # @todo fix trailing slash issues
+    path("login/", auth.login_view, name="login_with_slash"),  # @todo fix trailing slash issues
     path("logout", auth.logout_view, name="logout"),
     path("api/shortlist", shortlist.api, name="shortlist_api"),
     path("api/saved-search/add", saved_search.add, name="saved_search_add"),
@@ -99,7 +97,19 @@ urlpatterns = [
         name="awg_update_member",
     ),
     path("organization/<awg_id>", awg.view, name="awg"),
+    path("organization/<awg_id>/applications", awg.list_applications, name="awg_list_applications"),
+    path(
+        "organization/<awg_id>/applications/<application_id>",
+        awg.update_application,
+        name="awg_update_application",
+    ),
+    path(
+        "organization/<awg_id>/applications/<application_id>/modal/<status>",
+        awg.update_application_status_modal,
+        name="awg_update_application_status_modal",
+    ),
     path("utils/users-csv", user_csv_download.view, name="user_csv_download"),
+    path("__reload__/", include("django_browser_reload.urls")),
 ]
 
 if settings.DEBUG:
