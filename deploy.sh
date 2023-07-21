@@ -75,12 +75,28 @@ parse_params() {
 }
 
 
+safety_check() {
+    # check we're on the right branch
+    if [[ ( "${BRANCH}" != "main" ) && ( ${ENV} == "prod" ) ]]; then
+        die "${RED}Can only deploy main to prod! Submit a PR and checkout main branch.${NOFORMAT}"
+    fi
+    # check if local repository is in the right state for deployment - clean & fully synced.
+    git status --short ${REPO_DIR} | grep . >/dev/null && die "${RED}ERROR${NOFORMAT}: current repo is dirty. can only deploy clean, fully synced repos"
+    git ls-remote --heads | grep ${BRANCH} >/dev/null || die "${RED}ERROR${NOFORMAT}: your current branch does not exist on the remote origin!. Cannot deploy."
+    git fetch
+    git status -sb | grep -E -- "origin.*ahead" 1>/dev/null && die "${RED}ERROR${NOFORMAT}: your current repository is ahead of the remote origin! Cannot deploy until all changes are pushed."
+    git status -sb | grep -E -- "origin.*behind" 1>/dev/null && die "${RED}ERROR${NOFORMAT}: your current repository is behind the remote origin! Cannot deploy until all changes are pulled."
+}
+
+
 ###########################
 # Actual Script Execution #
 ###########################
 
 parse_params "$@"
 setup_colors
+
+safety_check
 
 msg "${ORANGE}deploying to caim-app-${environment}!${NOFORMAT}!"
 sleep 5
