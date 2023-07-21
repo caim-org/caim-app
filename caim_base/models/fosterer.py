@@ -9,11 +9,6 @@ from reportlab.lib.pagesizes import letter
 from reportlab.pdfbase.pdfmetrics import stringWidth
 from reportlab.pdfgen import canvas
 
-# from caim_base.utils import (draw_pdf_checkbox, draw_pdf_choices,
-#                              draw_pdf_divider, draw_pdf_field, draw_pdf_header,
-#                              draw_pdf_label, draw_pdf_long_field,
-#                              draw_pdf_page_num, draw_pdf_title, font_name,
-#                              header_font_name, init_pdf)
 from typing import List, Optional
 from caim_base.models.animals import Animal
 
