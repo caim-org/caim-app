@@ -77,7 +77,7 @@ parse_params() {
 
 safety_check() {
     # check we're on the right branch
-    if [[ ( "${BRANCH}" != "main" ) && ( ${ENV} == "prod" ) ]]; then
+    if [[ ( "${BRANCH}" != "main" ) && ( ${environment} == "prod" ) ]]; then
         die "${RED}Can only deploy main to prod! Submit a PR and checkout main branch.${NOFORMAT}"
     fi
     # check if local repository is in the right state for deployment - clean & fully synced.
