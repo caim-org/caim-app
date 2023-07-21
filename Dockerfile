@@ -9,7 +9,7 @@ WORKDIR /app
 
 RUN set -ex \
     && apk add --no-cache geos gdal\
-    && apk add --no-cache --virtual .build-deps postgresql-dev build-base zlib-dev jpeg-dev gcc musl-dev \
+    && apk add --no-cache --virtual .build-deps postgresql-dev build-base zlib-dev jpeg-dev gcc musl-dev pango\
     && pip install --no-cache-dir --upgrade -r /app/requirements.txt\
     && apk del .build-deps
 
