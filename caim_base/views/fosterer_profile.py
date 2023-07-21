@@ -1,15 +1,26 @@
-from django.shortcuts import render, redirect
-from django.views.decorators.http import require_http_methods
-from django.contrib.auth.decorators import login_required
-from django.forms import ModelForm, RadioSelect
-from django.contrib import messages
-from django.http import Http404
+import io
+import os
+from unicodedata import category
 
+from click import style
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset, Submit
+from crispy_forms.layout import Fieldset, Layout, Submit
+from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
+from django.forms import ModelForm, RadioSelect
+from django.http import Http404, HttpRequest, HttpResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.template.loader import render_to_string
+from django.views.decorators.http import require_http_methods
+from weasyprint import CSS, HTML
 
-from ..models.fosterer import FostererProfile
+from caim_base.models.awg import Awg, AwgMember
+
+from ..models.fosterer import FostererProfile, User
 from ..notifications import notify_new_fosterer_profile
+
 
 class FostererProfileStage1Form(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -325,7 +336,7 @@ def edit(request, stage_id):
             request,
             "fosterer_profile/complete.html",
             {
-                "user": user, 
+                "user": user,
                 "pageTitle": "Foster application complete",
             },
         )
@@ -357,9 +368,58 @@ def edit(request, stage_id):
         request,
         "fosterer_profile/edit.html",
         {
-            "user": user, 
-            "form": form, 
+            "user": user,
+            "form": form,
             "pageTitle": "Edit your fosterer profile",
             "stageNumber": stage_number,
         },
     )
+
+@login_required()
+def download_fosterer_profile(request: HttpRequest, fosterer_id: int) -> HttpResponse:
+    user = request.user
+    awg_member: AwgMember = AwgMember.objects.filter(user=user).first()
+    if not awg_member:
+        raise PermissionDenied("You are not a member of an AWG")
+
+    awg: Awg = awg_member.awg
+
+    if not awg.status == "PUBLISHED":
+        raise PermissionDenied("Your AWG is not published")
+
+
+    fosterer: FostererProfile = get_object_or_404(FostererProfile, pk=fosterer_id)
+    animal_type_labels = []
+    if fosterer.type_of_animals:
+        animal_type_labels = [fosterer.TypeOfAnimals(animal_type).label for animal_type in fosterer.type_of_animals]
+
+    category_of_animals_labels = []
+    if fosterer.category_of_animals:
+        category_of_animals_labels = [fosterer.CategoryOfAnimals(category).label for category in fosterer.category_of_animals]
+
+    behaviour_labels = []
+    if fosterer.behavioural_attributes:
+        behaviour_labels = [fosterer.BehaviouralAttributes(behaviour).label for behaviour in fosterer.behavioural_attributes]
+
+    experience_categories_labels = []
+    if fosterer.experience_categories:
+        experience_categories_labels = [fosterer.ExperienceCategories(experience).label for experience in fosterer.experience_categories]
+
+    context = {
+        "fosterer": fosterer,
+        "animal_type_labels": animal_type_labels,
+        "category_of_animals_labels": category_of_animals_labels,
+        "behaviour_labels": behaviour_labels,
+        "experience_categories_labels": experience_categories_labels,
+    }
+
+    pdf_string = render_to_string("fosterer_profile/pdf.html", context, request)
+    pdf_file = HTML(string=pdf_string).write_pdf(stylesheets=[
+        CSS(string="@page { size: letter portrait; margin: 1cm }"),
+        CSS(filename=os.path.join(settings.STATIC_ROOT, 'css/normalize.css')),
+        CSS(filename=os.path.join(settings.STATIC_ROOT, 'css/pdf.css')),
+    ])
+
+    response = HttpResponse(pdf_file, content_type="application/pdf")
+    response["Content-Disposition"] = f"filename=fosterer-profile-{fosterer_id}.pdf"
+    return response

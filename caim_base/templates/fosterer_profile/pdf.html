@@ -1,0 +1,220 @@
+<div class="pdf">
+  <div class="header">
+    <h2>Foster Application</h2>
+    <div class="logo">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 371.57 127.23">
+        <defs>
+        <style>
+          .cls-1,
+          .cls-2 {
+              fill-rule: evenodd;
+          }
+
+          .cls-2 {
+              fill: #36c9b8;
+          }
+        </style>
+        </defs>
+        <g id="Layer_2" data-name="Layer 2">
+        <g id="Layer_1-2" data-name="Layer 1">
+        <path class="cls-1" d="M176.39,94.43A28.1,28.1,0,0,0,196,87l-4.66-5a21.56,21.56,0,0,1-14.66,5.35c-11.88,0-21.54-8.49-21.54-21.18S164.75,45,176.63,45a21.64,21.64,0,0,1,14.66,5.47L196,45.32a28.62,28.62,0,0,0-19.56-7.45c-15.48,0-28.75,11.06-28.75,28.28s13.27,28.28,28.75,28.28Z" />
+        <path class="cls-1" d="M250.34,39V49.51c-4.08-7.33-12.46-11.64-21.65-11.64-15.25,0-27.59,11.75-27.59,28.28s12.46,28.4,27.59,28.4c9.08,0,17.57-4.31,21.65-11.76v10.6h7.44V39ZM229.27,87.45c-11.41,0-20.72-9.31-20.72-21.42A20.69,20.69,0,0,1,229.27,45a20.91,20.91,0,0,1,21.07,21.41C250.34,79,240.56,87.45,229.27,87.45Z" />
+        <polygon class="cls-1" points="267.6 93.39 275.05 93.39 275.05 39.03 267.6 39.03 267.6 93.39" />
+        <path class="cls-1" d="M271.32,29.22c3.26,0,5.82-2.21,5.82-5.24s-2.56-5.35-5.82-5.35a5.49,5.49,0,0,0-5.7,5.35A5.48,5.48,0,0,0,271.32,29.22Z" />
+        <path class="cls-1" d="M350,37.87c-6.64,0-16.06,2.21-20,13-3-8.38-10.24-13-19.09-13-8,0-15.83,3.72-18.62,10.94V39h-7.45V93.39h7.45V63.24c.23-13,8.61-18.16,17.34-18.16s14.9,6.41,14.9,17V93.39h7.33V65.22l.12.47c-.82-13.27,6.63-20.72,16.87-20.61,9,0,15.25,6.52,15.25,17V93.39h7.45V61.73c0-15-8.38-23.86-21.53-23.86Z" />
+        <path class="cls-2" d="M72,14.42A56.06,56.06,0,1,1,32.38,30.84,55.87,55.87,0,0,1,72,14.42ZM107.47,35a50.13,50.13,0,1,0,14.69,35.45A50,50,0,0,0,107.47,35Z" />
+        <path class="cls-2" d="M56.05,15.12A56.06,56.06,0,1,1,16.42,31.54,55.91,55.91,0,0,1,56.05,15.12Zm35.46,20.6A50.13,50.13,0,1,0,106.2,71.18,50,50,0,0,0,91.51,35.72Z" />
+        <path class="cls-2" d="M64.1,0A56,56,0,1,1,24.46,16.42,55.83,55.83,0,0,1,64.1,0ZM99.56,20.59a50.17,50.17,0,1,0,14.68,35.46A50,50,0,0,0,99.56,20.59Z" />
+        </g>
+        </g>
+      </svg>
+    </div>
+  </div>
+  <hr />
+  <div>
+    <div class="section">
+      <p>
+        <strong>Name:&nbsp;</strong>{{ fosterer.firstname }} {{ fosterer.lastname }}
+      </p>
+      <p>
+        <strong>Email:&nbsp;</strong>{{ fosterer.email }}
+      </p>
+      <p>
+        <strong>Phone number:&nbsp;</strong>{{ fosterer.phone }}
+      </p>
+      <p>
+        <strong>Address:&nbsp;</strong>
+        <span>
+          {{ fosterer.street_address }},
+          {{ fosterer.city }},
+          {{ fosterer.state }}
+          {{ fosterer.zip_code }}
+        </span>
+      </p>
+    </div>
+    <div class="section">
+      <p>
+        <strong>Animal-related crime conviction:</strong>
+      </p>
+      <p>{{ fosterer.get_ever_been_convicted_abuse_display }}</p>
+    </div>
+    <div class="section">
+      <p>
+        <strong>Willing to foster:</strong>
+      </p>
+      {% for label in animal_type_labels %}<div class="label-list">{{ label }}</div>{% endfor %}
+    </div>
+    <div class="section">
+      <p>
+        <strong>Category of animals:</strong>
+      </p>
+      {% for label in category_of_animals_labels %}<div class="label-list">{{ label }}</div>{% endfor %}
+    </div>
+    {% if behaviour_labels %}
+      <div class="section">
+        <p>
+          <strong>Behavioral needs:</strong>
+        </p>
+        {% for label in behaviour_labels %}<div class="label-list">{{ label }}</div>{% endfor %}
+      </div>
+    {% endif %}
+    <div class="section">
+      <p>
+        <strong>Timeframe:</strong>
+      </p>
+      {% if fosterer.timeframe_other %}
+        <p class="pre-wrap">{{ fosterer.timeframe_other }}</p>
+      {% else %}
+        <p>{{ fosterer.timeframe }}</p>
+      {% endif %}
+    </div>
+    <div class="section">
+      <p>
+        <strong>Number of existing pets:</strong>
+      </p>
+      <p>{{ fosterer.num_existing_pets }}</p>
+    </div>
+    <div class="section">
+      <p>
+        <strong>Existing pet details:</strong>
+      </p>
+      <p class="pre-wrap">{{ fosterer.existing_pets_details }}</p>
+    </div>
+    <div class="section">
+      <p>
+        <strong>Experience description:</strong>
+      </p>
+      <p>{{ fosterer.experience_description }}</p>
+    </div>
+    <div class="section">
+      <p>
+        <strong>Experience categories</strong>
+      </p>
+      {% for label in experience_categories_labels %}<div class="label-list">{{ label }}</div>{% endfor %}
+    </div>
+    {% if fosterer.experience_given_up_pet %}
+      <div class="section">
+        <p>
+          <strong>Experience with giving up a pet:</strong>
+        </p>
+        <p>{{ fosterer.experience_given_up_pet }}</p>
+      </div>
+    {% endif %}
+    {% if fosterer.reference_1 %}
+      <div class="section">
+        <p>
+          <strong>Reference 1:</strong>
+        </p>
+        <p class="pre-wrap">{{ fosterer.reference_1 }}</p>
+      </div>
+    {% endif %}
+    {% if fosterer.reference_2 %}
+      <div class="section">
+        <p>
+          <strong>Reference 2:</strong>
+        </p>
+        <p class="pre-wrap">{{ fosterer.reference_2 }}</p>
+      </div>
+    {% endif %}
+    {% if fosterer.reference_3 %}
+      <div class="section">
+        <p>
+          <strong>Reference 3:</strong>
+        </p>
+        <p class="pre-wrap">{{ fosterer.reference_3 }}</p>
+      </div>
+    {% endif %}
+    {% if fosterer.people_at_home %}
+      <div class="section">
+        <p>
+          <strong>People at home:</strong>
+        </p>
+        <p class="pre-wrap">{{ fosterer.people_at_home }}</p>
+      </div>
+    {% endif %}
+    <div class="section">
+      <p>
+        <strong>Yard type:</strong>
+      </p>
+      <p>{{ fosterer.get_yard_type_display }}</p>
+    </div>
+    {% if fosterer.yard_fence_over_5ft %}
+      <div class="section">
+        <p>
+          <strong>Yard fence over 5ft:</strong>
+        </p>
+        <p>{{ fosterer.yard_fence_over_5ft|lower|title }}</p>
+      </div>
+    {% endif %}
+    <div class="section">
+      <p>
+        <strong>Rent or own:</strong>
+      </p>
+      <p>{{ fosterer.get_rent_own_display }}</p>
+    </div>
+    {% if fosterer.rent_restrictions %}
+      <div class="section">
+        <p>
+          <strong>Rent restrictions:</strong>
+        </p>
+        <p class="pre-wrap">{{ fosterer.rent_restrictions }}</p>
+      </div>
+    {% endif %}
+    {% if fosterer.rent_ok_foster_pets %}
+      <div class="section">
+        <p>
+          <strong>Ok to foster pets:</strong>
+        </p>
+        <p>{{ fosterer.rent_ok_foster_pets|lower|title }}</p>
+      </div>
+    {% endif %}
+    <div class="section">
+      <p>
+        <strong>Hours per day left alone:</strong>
+      </p>
+      <p class="pre-wrap">{{ fosterer.hours_alone_description }}</p>
+    </div>
+    {% if fosterer.hours_alone_location %}
+      <div class="section">
+        <p>
+          <strong>Location when left alone:</strong>
+        </p>
+        <p class="pre-wrap">{{ fosterer.hours_alone_location }}</p>
+      </div>
+    {% endif %}
+    <div class="section">
+      <p>
+        <strong>Sleeping location:</strong>
+      </p>
+      <p class="pre-wrap">{{ fosterer.sleep_location }}</p>
+    </div>
+    {% if fosterer.other_info %}
+      <div class="section">
+        <p>
+          <strong>Other info:</strong>
+        </p>
+        <p class="pre-wrap">{{ fosterer.other_info }}</p>
+      </div>
+    {% endif %}
+  </div>
+</div>

@@ -1,8 +1,19 @@
-from django.db import models
+import io
+
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.postgres.fields import ArrayField
+from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfbase.pdfmetrics import stringWidth
+from reportlab.pdfgen import canvas
+
+from caim_base.utils import (draw_pdf_checkbox, draw_pdf_choices,
+                             draw_pdf_divider, draw_pdf_field, draw_pdf_header,
+                             draw_pdf_label, draw_pdf_long_field,
+                             draw_pdf_page_num, draw_pdf_title, font_name,
+                             header_font_name, init_pdf)
 from typing import List, Optional
 from caim_base.models.animals import Animal
 
@@ -59,7 +70,7 @@ class FostererProfile(models.Model):
         OTHER = "OTHER", "Other (please specify)"
 
     class ExperienceCategories(models.TextChoices):
-        HOUSE_POTTY = "YES", "House / potty training"
+        HOUSE_POTTY = "HOUSE_POTTY", "House / potty training"
         CRATE = "CRATE", "Crate training"
         LEASH_WALKING = "LEASH_WALKING", "Challenges with leash / walking"
         JUMPING = "JUMPING", "Jumping"
@@ -79,7 +90,7 @@ class FostererProfile(models.Model):
         UNFENCED = "UNFENCED", "Unfenced yard"
         PARTIALLY_FENCED = "PARTIALLY_FENCED", "Partially fenced yard"
         FULLY_FENCED = "FULLY_FENCED", "Fully fenced yard"
-    
+
     class RentOwn(models.TextChoices):
         RENT = "RENT", "Rent"
         OWN = "OWN", "Own"
@@ -98,23 +109,23 @@ class FostererProfile(models.Model):
     state = models.CharField(max_length=2, blank=True, null=True, choices=states.items(), default=None)
     zip_code = models.CharField(max_length=16, blank=True, null=True, default=None)
     type_of_animals = ChoiceArrayField(
-        models.CharField(max_length=32, choices=TypeOfAnimals.choices), 
+        models.CharField(max_length=32, choices=TypeOfAnimals.choices),
         blank=True, null=True, default=None,
         verbose_name='Which type of animal(s) are you wanting to foster?'
     )
     category_of_animals = ChoiceArrayField(
-        models.CharField(max_length=32, choices=CategoryOfAnimals.choices), 
+        models.CharField(max_length=32, choices=CategoryOfAnimals.choices),
         blank=True, null=True, default=None,
         verbose_name='Please check any / all that you\'re interested in fostering?'
     )
     behavioural_attributes = ChoiceArrayField(
-        models.CharField(max_length=32, choices=BehaviouralAttributes.choices), 
+        models.CharField(max_length=32, choices=BehaviouralAttributes.choices),
         blank=True, null=True, default=None,
         verbose_name='Please check any of the requirements you have for a foster'
     )
     timeframe = models.CharField(
         choices=Timeframe.choices,
-        max_length=32, blank=False, null=True, default=None, 
+        max_length=32, blank=False, null=True, default=None,
         verbose_name='Please let us know which timeframe you\'re available for fostering'
     )
     timeframe_other = models.TextField(
@@ -134,7 +145,7 @@ class FostererProfile(models.Model):
         verbose_name='Please describe your experience with animals (personal pets, training, interactions, etc.)'
     )
     experience_categories = ChoiceArrayField(
-        models.CharField(max_length=32, choices=ExperienceCategories.choices), 
+        models.CharField(max_length=32, choices=ExperienceCategories.choices),
         blank=True, null=True, default=None,
         verbose_name='Do you have experience with any of the following? Check all that apply.'
     )
@@ -200,12 +211,12 @@ class FostererProfile(models.Model):
     )
     ever_been_convicted_abuse = models.CharField(
         choices=YesNo.choices,
-        max_length=32, blank=False, null=True, default=None, 
+        max_length=32, blank=False, null=True, default=None,
         verbose_name='Have you or a family / household member ever been convicted of an animal related crime (animal abuse, neglect, abandonment, etc.)?'
     )
     agree_share_details = models.CharField(
         choices=YesNo.choices,
-        max_length=32, blank=False, null=True, default=None, 
+        max_length=32, blank=False, null=True, default=None,
         verbose_name='Do you agree that we can share the details you\'ve provided with rescues in your area?'
     )
     is_complete = models.BooleanField(default=False)

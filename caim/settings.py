@@ -32,6 +32,9 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = os.getenv("DEBUG", "0") == "1"
 ALLOWED_HOSTS = ["*"]
 
+APP_DIR = os.path.join(BASE_DIR, "caim_base")
+STATIC_ROOT = os.getenv("STATIC_ROOT", os.path.join(APP_DIR, "static"))
+
 # Cant use x-forwarded-host with cloudfront and apprunner
 # so we do it via env vars
 # USE_X_FORWARDED_HOST = True

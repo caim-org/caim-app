@@ -19,6 +19,7 @@ from django.contrib import admin
 from django.urls import include, path
 from django.views.generic.base import TemplateView
 
+
 from caim_base.views import (account_details, animal, auth, awg, browse,
                              comments, fosterer_profile, home, saved_search,
                              saved_search_email_notifications, shortlist,
@@ -37,6 +38,7 @@ urlpatterns = [
     ),
     path("fosterer/<stage_id>", fosterer_profile.edit),
     path("fosterer", fosterer_profile.start),
+    path("fosterer/<fosterer_id>/pdf", fosterer_profile.download_fosterer_profile),
     path("register", auth.register_view, name="register"),
     path("login", auth.login_view, name="login"),
     path("login/", auth.login_view, name="login_with_slash"),  # @todo fix trailing slash issues
