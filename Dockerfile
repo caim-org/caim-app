@@ -38,4 +38,6 @@ COPY . /app
 
 EXPOSE 8000
 
-CMD ["gunicorn", "--bind", ":8000", "--workers", "2", "--log-level", "debug", "caim.wsgi:application"]
+# use the debug log level if you're having issues with startup. Gunicorn may sometimes hide errors
+# CMD ["gunicorn", "--bind", ":8000", "--workers", "2", "--log-level", "debug", "caim.wsgi:application"]
+CMD ["gunicorn", "--bind", ":8000", "--workers", "2", "caim.wsgi:application"]
