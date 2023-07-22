@@ -8,7 +8,12 @@ COPY ./requirements.txt /app/requirements.txt
 WORKDIR /app
 
 RUN set -ex \
-    && apk add --no-cache geos gdal\
+    && apk add --no-cache \
+        geos\
+        gdal\
+        pango-dev\
+        cairo-dev\
+        gdk-pixbuf\
     && apk add --no-cache --virtual .build-deps\
         postgresql-dev\
         build-base\
@@ -16,8 +21,7 @@ RUN set -ex \
         jpeg-dev\
         gcc\
         musl-dev\
-        # <weasyprint dependencies>
-        pango\
+        libffi-dev\
         py3-pillow\
         py3-cffi\
         py3-brotli\
@@ -27,8 +31,6 @@ RUN set -ex \
         jpeg-dev\
         openjpeg-dev\
         g++\
-        libffi-dev\
-        # </weasyprint dependencies>
     && pip install --no-cache-dir --upgrade -r /app/requirements.txt\
     && apk del .build-deps
 
