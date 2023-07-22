@@ -87,8 +87,8 @@ safety_check() {
     git status --short ${REPO_DIR} | grep . >/dev/null && die "${RED}ERROR${NOFORMAT}: current repo is dirty. can only deploy clean, fully synced repos"
     git ls-remote --heads | grep ${BRANCH} >/dev/null || die "${RED}ERROR${NOFORMAT}: your current branch does not exist on the remote origin!. Cannot deploy."
     git fetch
-    git status -sb | grep -E -- "origin.*ahead" 1>/dev/null && die "${RED}ERROR${NOFORMAT}: your current repository is ahead of the remote origin! Cannot deploy until all changes are pushed."
-    git status -sb | grep -E -- "origin.*behind" 1>/dev/null && die "${RED}ERROR${NOFORMAT}: your current repository is behind the remote origin! Cannot deploy until all changes are pulled."
+    git status -sb | grep -E -- "origin.*ahead" 2>/dev/null && die "${RED}ERROR${NOFORMAT}: your current repository is ahead of the remote origin! Cannot deploy until all changes are pushed."
+    git status -sb | grep -E -- "origin.*behind" 2>/dev/null && die "${RED}ERROR${NOFORMAT}: your current repository is behind the remote origin! Cannot deploy until all changes are pulled."
 }
 
 
