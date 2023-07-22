@@ -105,8 +105,9 @@ setup_colors
 msg "${ORANGE}deploying to caim-app-${environment}!${NOFORMAT}!"
 sleep 5
 AWS_PROFILE=caim aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 324366619902.dkr.ecr.us-east-1.amazonaws.com
-docker buildx build --platform linux/amd64 -t 324366619902.dkr.ecr.us-east-1.amazonaws.com/caim-app-staging:latest --push .
+docker buildx build --platform linux/amd64 -t 324366619902.dkr.ecr.us-east-1.amazonaws.com/caim-app-${environment}:latest --push .
 msg "${ORANGE} Applying database migrations to caim-app-${environment}!${NOFORMAT}!"
 source ${environment}.env || die "Cannot find environment file ${environment}.env, no database migrations..."
 sleep 5
 python manage.py migrate
+python manage.py collectstatic --no-input
