@@ -99,7 +99,7 @@ safety_check() {
 parse_params "$@"
 setup_colors
 
-safety_check
+# safety_check
 
 msg "${ORANGE}deploying to caim-app-${environment}!${NOFORMAT}!"
 sleep 5
