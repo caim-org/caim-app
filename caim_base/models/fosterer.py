@@ -9,7 +9,7 @@ from reportlab.lib.pagesizes import letter
 from reportlab.pdfbase.pdfmetrics import stringWidth
 from reportlab.pdfgen import canvas
 
-from typing import List, Optional
+from typing import List, Optional, Union
 from caim_base.models.animals import Animal
 
 from ..states import states
@@ -222,7 +222,7 @@ def __str__(self) -> str:
 def query_fostererprofiles(
     behavioural_attributes: Optional[List[str]] = None,
     is_complete=True,
-    sort: Optional[str | List[str]] = ["firstname" , "lastname"],
+    sort: Optional[Union[str, List[str]]] = ["firstname" , "lastname"],
 ) -> models.QuerySet:
     """
       Query fosterer profiles with preferred defaults  
