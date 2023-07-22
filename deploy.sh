@@ -99,6 +99,7 @@ safety_check() {
 parse_params "$@"
 setup_colors
 
+# the script is dying at the last line of safety check w/ no error idk why right now. This works on my other repos...
 # safety_check
 
 msg "${ORANGE}deploying to caim-app-${environment}!${NOFORMAT}!"
