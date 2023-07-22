@@ -17,4 +17,4 @@ COPY . /app
 
 EXPOSE 8000
 
-CMD ["gunicorn", "--bind", ":8000", "--workers", "2", "--loglevel", "debug", "caim.wsgi:application"]
+CMD ["gunicorn", "--bind", ":8000", "--workers", "2", "--log-level", "debug", "caim.wsgi:application"]
