@@ -9,7 +9,26 @@ WORKDIR /app
 
 RUN set -ex \
     && apk add --no-cache geos gdal\
-    && apk add --no-cache --virtual .build-deps postgresql-dev build-base zlib-dev jpeg-dev gcc musl-dev pango\
+    && apk add --no-cache --virtual .build-deps\
+        postgresql-dev\
+        build-base\
+        zlib-dev\
+        jpeg-dev\
+        gcc\
+        musl-dev\
+        # <weasyprint dependencies>
+        pango\
+        py3-pillow\
+        py3-cffi\
+        py3-brotli\
+        python3-dev\
+        py3-pip\
+        zlib-dev\
+        jpeg-dev\
+        openjpeg-dev\
+        g++\
+        libffi-dev\
+        # </weasyprint dependencies>
     && pip install --no-cache-dir --upgrade -r /app/requirements.txt\
     && apk del .build-deps
 
