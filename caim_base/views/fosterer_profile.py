@@ -24,7 +24,29 @@ from ..notifications import notify_new_fosterer_profile
 
 class FostererProfileStage1Form(ModelForm):
     def __init__(self, *args, **kwargs):
+
+        # patch user and profile info into "initial" to prefill fields
+        initial_args = kwargs.get('initial', {})
+
+        user_profile = None
+        user = None
+
+        fosterer_profile = kwargs.get('instance')
+        if fosterer_profile:
+            user = fosterer_profile.user
+            user_profile = user.userprofile
+
+        if user_profile is not None:
+            initial_args['firstname'] = user.first_name
+            initial_args['lastname'] = user.last_name
+            initial_args['city'] = user_profile.city
+            initial_args['state'] = user_profile.state
+            initial_args['zip_code'] = user_profile.zip_code
+
+            kwargs['initial'] = initial_args
+
         super().__init__(*args, **kwargs)
+
 
         for field in self.Meta.required:
             if field in self.fields:
