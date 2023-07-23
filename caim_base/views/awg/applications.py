@@ -69,6 +69,7 @@ def update_application(request, awg_id, application_id):
     context = {
         "awg": awg,
         "applications": query_applications_for_awg(awg),
+        "application_status_options": [c[0] for c in FosterApplication.FosterApplicationStatus.choices],
     }
     context = check_awg_user_permissions_update_context(request, awg, ["MANAGE_APPLICATIONS"], context)
     return render(request, "awg/manage/applications/list.html", context)
