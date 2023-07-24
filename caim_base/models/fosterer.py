@@ -36,11 +36,60 @@ class ChoiceArrayField(ArrayField):
         return super(ArrayField, self).formfield(**defaults)
 
 
-class FostererProfile(models.Model):
+class TypeOfAnimals(models.TextChoices):
+    DOGS = "DOGS", "Dogs"
+    CATS = "CATS", "Cats"
 
-    class TypeOfAnimals(models.TextChoices):
-        DOGS = "DOGS", "Dogs"
-        CATS = "CATS", "Cats"
+
+class YesNo(models.TextChoices):
+    YES = "YES", "Yes"
+    NO = "NO", "No"
+
+
+class ExistingPetDetail(models.Model):
+    name = models.CharField(max_length=64, blank=True, null=True, default=None)
+    type_of_animals = ChoiceArrayField(
+        models.CharField(max_length=32, choices=TypeOfAnimals.choices),
+        blank=True, null=True, default=None,
+        verbose_name='Animal Type'
+    )
+    breed = models.CharField(max_length=64, blank=True, null=True, default=None)
+    sex = models.CharField(max_length=6, choices=(('Male', 'Male'), ('Female', 'Female')))
+    age = models.PositiveIntegerField()
+    weight_lbs = models.PositiveIntegerField()
+    spayed_neutered = models.CharField(
+        choices=YesNo.choices,
+        max_length=32, blank=False, null=True, default=None,
+        verbose_name='Spayed or Neutered?'
+    )
+    up_to_date_shots = models.CharField(
+        choices=YesNo.choices,
+        max_length=32, blank=False, null=True, default=None,
+        verbose_name='Up to date on their shots?'
+    )
+    quirks = models.TextField(max_length=1024, blank=True, null=True, default=None, verbose_name='Any quirks?')
+
+    fosterer_profile = models.ForeignKey('FostererProfile', on_delete=models.CASCADE, related_name='existing_pets')
+
+
+class ReferenceDetail(models.Model):
+    fosterer_profile = models.ForeignKey(FostererProfile, on_delete=models.CASCADE, related_name='references')
+    first_name = models.CharField(max_length=64)
+    last_name = models.CharField(max_length=64)
+    email = models.EmailField()
+    phone = models.CharField(max_length=20)
+    relation = models.CharField(max_length=128)
+
+
+class PersonInHomeDetail(models.Model):
+    fosterer_profile = models.ForeignKey(FostererProfile, on_delete=models.CASCADE, related_name='people_in_home')
+    name = models.CharField(max_length=128)
+    relation = models.CharField(max_length=128, blank=True, null=True, default=None)
+    age = models.IntegerField()
+    email = models.EmailField(blank=True, null=True, default=None)
+
+
+class FostererProfile(models.Model):
 
     class CategoryOfAnimals(models.TextChoices):
         ADULT_FEMALE = "ADULT_FEMALE", "Adult female"
@@ -49,20 +98,28 @@ class FostererProfile(models.Model):
         MOTHER_WITH_BABIES = "MOTHER_WITH_BABIES", "Mom with nursing babies"
         BABIES = "BABIES", "Puppies / kittens"
         PIT_BULLY_BREEDS = "PIT_BULLY_BREEDS", "Pit and/or Bully breeds"
+        SHEPARD_OR_MALINOIS = "SHEPARD_OR_MALINOIS", "German Shepherd and/or Malinois breeds"
+
+    class DogSize(models.TextChoices):
+        SMALL = "SMALL", "Small (5 – 20 lbs)"
+        MEDIUM = "MEDIUM", "Medium (21 – 50 lbs)"
+        LARGE = "LARGE", "Large (50+ lbs)"
 
     class BehaviouralAttributes(models.TextChoices):
         GOOD_WITH_DOGS = "GOOD_WITH_DOGS", "Good with dogs"
         GOOD_WITH_CATS = "GOOD_WITH_CATS", "Good with cats"
         GOOD_WITH_KIDS = "GOOD_WITH_KIDS", "Good with children"
-        NO_MEDICAL_ISSUES = "NO_MEDICAL_ISSUES", "No medical issues"
-        NO_SPECIAL_NEEDS = "NO_SPECIAL_NEEDS", "No special needs"
-        NO_BEHAVIOURAL_NEEDS = "NO_BEHAVIOURAL_NEEDS", "No behavioral issues"
+
+    class BehaviouralIssueChoices(models.TextChoices):
+        YES = "YES", "Yes"
+        MINOR = "MINOR", "Not severe behavioral issues, but open to minor behavioral challenges."
+        NO = "NO", "No"
 
     class Timeframe(models.TextChoices):
         MAX_2_WEEKS = "MAX_2_WEEKS", "Up to 2 weeks"
         MAX_3_MONTHS = "MAX_3_MONTHS", "Up to 3 months"
         ANY_DURATION = "ANY_DURATION", "Any duration"
-        OTHER = "OTHER", "Other (please specify)"
+        #OTHER = "OTHER", "Other (please specify)"
 
     class ExperienceCategories(models.TextChoices):
         HOUSE_POTTY = "HOUSE_POTTY", "House / potty training"
@@ -90,13 +147,10 @@ class FostererProfile(models.Model):
         RENT = "RENT", "Rent"
         OWN = "OWN", "Own"
 
-    class YesNo(models.TextChoices):
-        YES = "YES", "Yes"
-        NO = "NO", "No"
-
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     firstname = models.CharField(blank=True, null=True, max_length=64, default=None)
     lastname = models.CharField(blank=True, null=True, max_length=64, default=None)
+    age = models.IntegerField(blank=True, null=True, default=None)
     email = models.EmailField(blank=True, null=True, max_length=255, default=None)
     phone = PhoneNumberField(blank=True, null=True, default=None)
     street_address = models.CharField(blank=True, null=True, max_length=244, default=None)
@@ -111,29 +165,45 @@ class FostererProfile(models.Model):
     category_of_animals = ChoiceArrayField(
         models.CharField(max_length=32, choices=CategoryOfAnimals.choices),
         blank=True, null=True, default=None,
-        verbose_name='Please check any / all that you\'re interested in fostering?'
+        verbose_name='Please check any / all that you\'re interested in fostering.'
+    )
+    dog_size = ChoiceArrayField(
+        models.CharField(max_length=32, choices=DogSize.choices),
+        blank=True, null=True, default=None,
+        verbose_name='Please check any / all that you\'re interested in fostering.'
     )
     behavioural_attributes = ChoiceArrayField(
         models.CharField(max_length=32, choices=BehaviouralAttributes.choices),
         blank=True, null=True, default=None,
         verbose_name='Please check any of the requirements you have for a foster'
     )
+    medical_issues = models.CharField(
+        choices=YesNo.choices,
+        max_length=32, blank=False, null=True, default=None,
+        verbose_name='Would you be willing to foster an animal with medical issues?'
+    )
+    special_needs = models.CharField(
+        choices=YesNo.choices,
+        max_length=32, blank=False, null=True, default=None,
+        verbose_name='Would you be willing to foster an animal with special needs?'
+    )
+    behavioral_issues = models.CharField(
+        choices=BehaviouralIssueChoices.choices,
+        max_length=32, blank=False, null=True, default=None,
+        verbose_name='Would you be willing to foster an animal with behavioral issues?'
+    )
     timeframe = models.CharField(
         choices=Timeframe.choices,
         max_length=32, blank=False, null=True, default=None,
         verbose_name='Please let us know which timeframe you\'re available for fostering'
     )
-    timeframe_other = models.TextField(
-        blank=True, null=True, default=None,
-        verbose_name="If 'other', please give details"
-    )
     num_existing_pets = models.IntegerField(
         blank=True, null=True, default=None,
         verbose_name='How many pets do you currently have in your home?'
     )
-    existing_pets_details = models.TextField(
+    experience_given_up_pet = models.TextField(
         blank=True, null=True, default=None,
-        verbose_name='Please give details of your existing pets'
+        verbose_name='Have you ever given a pet up? If so, please describe the situation.'
     )
     experience_description = models.TextField(
         blank=True, null=True, default=None,
@@ -144,25 +214,22 @@ class FostererProfile(models.Model):
         blank=True, null=True, default=None,
         verbose_name='Do you have experience with any of the following? Check all that apply.'
     )
-    experience_given_up_pet = models.TextField(
-        blank=True, null=True, default=None,
-        verbose_name='Have you ever given a pet up? If so, please describe the situation.'
+    people_at_home = models.IntegerField(default=1, verbose_name='How many people live in your home, including yourself?'
     )
-    reference_1 = models.TextField(
-        blank=True, null=True, default=None,
-        verbose_name='Reference #1'
+    all_in_agreement = models.CharField(
+        choices=YesNo.choices,
+        max_length=32, blank=False, null=True, default=None,
+        verbose_name='Are all members of your household in agreement about fostering?'
     )
-    reference_2 = models.TextField(
-        blank=True, null=True, default=None,
-        verbose_name='Reference #2'
+    pet_allergies = models.CharField(
+        choices=YesNo.choices,
+        max_length=32, blank=False, null=True, default=None,
+        verbose_name='Does anyone in your home have pet allergies?'
     )
-    reference_3 = models.TextField(
-        blank=True, null=True, default=None,
-        verbose_name='Reference #3'
-    )
-    people_at_home = models.TextField(
-        blank=True, null=True, default=None,
-        verbose_name='Please list how many people live in your home and their ages'
+    stairs = models.CharField(
+        choices=YesNo.choices,
+        max_length=32, blank=False, null=True, default=None,
+        verbose_name='Do you have stairs that a dog would have to walk daily?'
     )
     yard_type = models.CharField(
         choices=YardTypes.choices,
@@ -183,11 +250,11 @@ class FostererProfile(models.Model):
         blank=True, null=True, default=None,
         verbose_name='If you rent, please describe any pet restrictions that are in place.'
     )
-    rent_ok_foster_pets = models.CharField(
-        choices=YesNo.choices,
-        max_length=32, blank=False, null=True, default=None,
-        verbose_name='If you rent, is your landlord ok with you having foster pets?',
-    )
+    #rent_ok_foster_pets = models.CharField(
+        #choices=YesNo.choices,
+        #max_length=32, blank=False, null=True, default=None,
+        #verbose_name='If you rent, is your landlord ok with you having foster pets?',
+    #)
     hours_alone_description = models.TextField(
         blank=True, null=True, default=None,
         verbose_name='How many hours per day will your foster animal be left alone?'

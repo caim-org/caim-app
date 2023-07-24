@@ -29,7 +29,6 @@ class FostererProfileStage1Form(ModelForm):
         initial_args = kwargs.get('initial', {})
 
         user_profile = None
-        user = None
 
         fosterer_profile = kwargs.get('instance')
         if fosterer_profile:
@@ -58,6 +57,7 @@ class FostererProfileStage1Form(ModelForm):
                 "About you",
                 "firstname",
                 "lastname",
+                "age",
                 "email",
                 "phone",
                 "street_address",
@@ -73,6 +73,7 @@ class FostererProfileStage1Form(ModelForm):
         fields = [
             "firstname",
             "lastname",
+            "age",
             "email",
             "phone",
             "street_address",
