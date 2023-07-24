@@ -4,6 +4,8 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
+from django.core.validators import MinLengthValidator
+
 from phonenumber_field.modelfields import PhoneNumberField
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfbase.pdfmetrics import stringWidth
@@ -73,20 +75,32 @@ class ExistingPetDetail(models.Model):
 
 
 class ReferenceDetail(models.Model):
-    fosterer_profile = models.ForeignKey(FostererProfile, on_delete=models.CASCADE, related_name='references')
+    fosterer_profile = models.ForeignKey('FostererProfile', on_delete=models.CASCADE, related_name='references')
     first_name = models.CharField(max_length=64)
     last_name = models.CharField(max_length=64)
     email = models.EmailField()
-    phone = models.CharField(max_length=20)
+    phone = PhoneNumberField(blank=True, null=True, default=None)
     relation = models.CharField(max_length=128)
 
 
 class PersonInHomeDetail(models.Model):
-    fosterer_profile = models.ForeignKey(FostererProfile, on_delete=models.CASCADE, related_name='people_in_home')
+    fosterer_profile = models.ForeignKey('FostererProfile', on_delete=models.CASCADE, related_name='people_in_home')
     name = models.CharField(max_length=128)
     relation = models.CharField(max_length=128, blank=True, null=True, default=None)
     age = models.IntegerField()
     email = models.EmailField(blank=True, null=True, default=None)
+
+
+class LandlordContact(models.Model):
+    fosterer_profile = models.OneToOneField(
+        'FostererProfile',
+        on_delete=models.CASCADE,
+        related_name='landlord_contact'
+    )
+    first_name = models.CharField(max_length=64)
+    last_name = models.CharField(max_length=128)
+    email = models.EmailField(blank=True, null=True)
+    phone = PhoneNumberField(blank=True, null=True, default=None)
 
 
 class FostererProfile(models.Model):
@@ -250,18 +264,13 @@ class FostererProfile(models.Model):
         blank=True, null=True, default=None,
         verbose_name='If you rent, please describe any pet restrictions that are in place.'
     )
-    #rent_ok_foster_pets = models.CharField(
-        #choices=YesNo.choices,
-        #max_length=32, blank=False, null=True, default=None,
-        #verbose_name='If you rent, is your landlord ok with you having foster pets?',
-    #)
     hours_alone_description = models.TextField(
         blank=True, null=True, default=None,
         verbose_name='How many hours per day will your foster animal be left alone?'
     )
     hours_alone_location = models.TextField(
         blank=True, null=True, default=None,
-        verbose_name='Where will your foster animal be when they\'re left alone?'
+        verbose_name='Where will your foster animal be kept when you\'re not home?'
     )
     sleep_location = models.TextField(
         blank=True, null=True, default=None,
@@ -279,7 +288,12 @@ class FostererProfile(models.Model):
     agree_share_details = models.CharField(
         choices=YesNo.choices,
         max_length=32, blank=False, null=True, default=None,
-        verbose_name='Do you agree that we can share the details you\'ve provided with rescues in your area?'
+        verbose_name='Do you agree that we can share the details you\'ve provided with rescues?'
+    )
+    agree_social_media = models.CharField(
+        choices=YesNo.choices,
+        max_length=32, blank=False, null=True, default=None,
+        verbose_name='Do you agree to help promote your foster animal on social media and/or by attending adoption events and public outings?'
     )
     is_complete = models.BooleanField(default=False)
 
