@@ -109,10 +109,6 @@ class FostererProfileStage2Form(ModelForm):
                 "category_of_animals",
                 "behavioural_attributes",
                 "timeframe",
-                "timeframe_other",
-            ),
-            Submit(
-                "submit_prev", "&laquo; Previous page", css_class="btn btn-secondary"
             ),
             Submit("submit", "Save and continue &raquo;", css_class="btn btn-primary"),
         )
@@ -124,7 +120,6 @@ class FostererProfileStage2Form(ModelForm):
             "category_of_animals",
             "behavioural_attributes",
             "timeframe",
-            "timeframe_other",
         ]
         required = (
             "type_of_animals",
@@ -149,7 +144,6 @@ class FostererProfileStage3Form(ModelForm):
             Fieldset(
                 "Pet Experience",
                 "num_existing_pets",
-                "existing_pets_details",
                 "experience_description",
                 "experience_categories",
                 "experience_given_up_pet",
@@ -164,14 +158,12 @@ class FostererProfileStage3Form(ModelForm):
         model = FostererProfile
         fields = [
             "num_existing_pets",
-            "existing_pets_details",
             "experience_description",
             "experience_categories",
             "experience_given_up_pet",
         ]
         required = (
             "num_existing_pets",
-            "existing_pets_details",
             "experience_description",
             "experience_categories",
         )
@@ -189,9 +181,6 @@ class FostererProfileStage4Form(ModelForm):
         self.helper.layout = Layout(
             Fieldset(
                 "References",
-                "reference_1",
-                "reference_2",
-                "reference_3",
             ),
             Submit(
                 "submit_prev", "&laquo; Previous page", css_class="btn btn-secondary"
@@ -202,14 +191,8 @@ class FostererProfileStage4Form(ModelForm):
     class Meta:
         model = FostererProfile
         fields = [
-            "reference_1",
-            "reference_2",
-            "reference_3",
         ]
         required = (
-            "reference_1",
-            "reference_2",
-            "reference_3",
         )
 
 
@@ -230,7 +213,6 @@ class FostererProfileStage5Form(ModelForm):
                 "yard_fence_over_5ft",
                 "rent_own",
                 "rent_restrictions",
-                "rent_ok_foster_pets",
                 "hours_alone_description",
                 "hours_alone_location",
                 "sleep_location",
@@ -249,7 +231,6 @@ class FostererProfileStage5Form(ModelForm):
             "yard_fence_over_5ft",
             "rent_own",
             "rent_restrictions",
-            "rent_ok_foster_pets",
             "hours_alone_description",
             "hours_alone_location",
             "sleep_location",
@@ -266,7 +247,6 @@ class FostererProfileStage5Form(ModelForm):
             "yard_type": RadioSelect(),
             "yard_fence_over_5ft": RadioSelect(),
             "rent_own": RadioSelect(),
-            "rent_ok_foster_pets": RadioSelect(),
         }
 
 
