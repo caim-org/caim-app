@@ -62,6 +62,10 @@ def register_view(request):
         messages.error(request, "Unsuccessful registration. Invalid information.")
     else:
         form = NewUserForm()
+
+    if request.user.is_authenticated:
+        return redirect("home")
+
     return render(
         request=request,
         template_name="auth/register.html",
