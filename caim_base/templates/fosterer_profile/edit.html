@@ -16,10 +16,33 @@
         </ul>
         {% endif %}
           <div>
-            {% crispy form %}
+            {% if stage_id == 'pet-experience' %}
+                <legend>Pet Experience</legend>
+                {{ form.num_existing_pets|as_crispy_field }}
+                {{ formset.management_form }}
+                {% for pet_form in existing_pet_detail_formset %}
+                    <div class="pet-detail" style="margin-left: 2em;">
+                        <legend>Pet #{{ forloop.counter }} Details</legend>
+                        {% crispy pet_form %}
+                        <br>
+                    </div>
+                {% endfor %}
+                {% for field in form %}
+                    {% if not field.name == 'num_existing_pets' %}
+                        {{ field|as_crispy_field }}
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                {% crispy form %}
+            {% endif %}
           </div>
         </div>
       </div>
     </div>
+    <script>
+        document.querySelector('#num_existing_pets').addEventListener('change', function() {
+            this.form.submit();
+        });
+    </script>
   </div>
 {% endblock %}

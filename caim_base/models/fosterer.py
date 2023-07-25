@@ -184,7 +184,7 @@ class FostererProfile(models.Model):
     dog_size = ChoiceArrayField(
         models.CharField(max_length=32, choices=DogSize.choices),
         blank=True, null=True, default=None,
-        verbose_name='Please check any / all that you\'re interested in fostering.'
+        verbose_name='If you’re interested in fostering dogs, do you have a preference about size?'
     )
     behavioural_attributes = ChoiceArrayField(
         models.CharField(max_length=32, choices=BehaviouralAttributes.choices),
