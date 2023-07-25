@@ -15,8 +15,8 @@ from ..utils import salesforce
 
 class UserProfileForm(forms.Form):
     username = forms.CharField(
-        label="Username",
-        help_text="Your individual username as you want it to appear on the site. This will be visible publicly.",
+        label="Display name",
+        help_text="Your individual username as you want it to appear on the site. This will be visible publicly and may not contain spaces.",
         max_length=30,
         required=True,
         validators=[
