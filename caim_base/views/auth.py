@@ -1,8 +1,8 @@
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import redirect, render
-from django.conf import settings
 
 from ..forms import NewUserForm
 from ..models import UserProfile
@@ -22,12 +22,14 @@ def login_view(request):
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}.")
                 return redirect(request.GET.get("next", "home"))
-            else:
-                messages.error(request, "Invalid username or password.")
+            messages.error(request, "Invalid username or password.")
         else:
             messages.error(request, "Invalid username or password.")
     else:
         form = AuthenticationForm()
+
+    if request.user.is_authenticated:
+        return redirect("home")
 
     return render(
         request=request,
