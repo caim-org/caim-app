@@ -167,6 +167,10 @@ class FostererProfileStage3Form(ModelForm):
             if field in self.fields:
                 self.fields[field].required = True
 
+        self.fields['num_existing_pets'].widget.attrs.update({
+            'id': 'num_existing_pets',
+        })
+
         self.helper = FormHelper()
         self.helper.layout = Layout(
             Fieldset(
