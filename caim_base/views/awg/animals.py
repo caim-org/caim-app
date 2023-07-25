@@ -1,22 +1,23 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.core.exceptions import PermissionDenied, BadRequest
-from django.http import Http404
-from django.core.paginator import Paginator
-from django.forms import ModelForm, DateInput
-from django.contrib import messages
-from django.views.decorators.http import require_http_methods
-from django.contrib.auth.decorators import login_required
-from django import forms
-
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset, Submit
+from crispy_forms.layout import Fieldset, Layout, Submit
+from django import forms
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import BadRequest, PermissionDenied
+from django.core.paginator import Paginator
+from django.forms import DateInput, ModelForm
+from django.http import Http404
+from django.shortcuts import get_object_or_404, redirect, render
+from django.views.decorators.http import require_http_methods
 
+from caim_base.views.awg.user_permissions import \
+    check_awg_user_permissions_update_context
+
+from ...animal_petfinder_import import (ImportAnimalError,
+                                        import_animal_from_petfinder)
+from ...animal_search import query_animals
 from ...models.animals import Animal, AnimalImage
 from ...models.awg import Awg
-from ...animal_search import query_animals
-from ...animal_petfinder_import import import_animal_from_petfinder, ImportAnimalError
-
-from caim_base.views.awg.user_permissions import check_awg_user_permissions_update_context
 
 
 @login_required()
@@ -104,7 +105,7 @@ class AwgAnimalForm(ModelForm):
                 "description",
             ),
             Fieldset(
-                "Behavour",
+                "Behavior",
                 "behaviour_dogs",
                 "behaviour_cats",
                 "behaviour_kids",

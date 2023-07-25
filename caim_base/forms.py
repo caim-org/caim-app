@@ -35,13 +35,13 @@ class NewUserForm(UserCreationForm):
             "password2",
         )
         labels = {
-            "username": "Display name",
+            "username": "Username",
             "first_name": "First name",
             "last_name": "Last name",
             "zip_code": "ZIP code",
         }
         help_texts = {
-            "username": "Your name as you want it to appear on the site. "
+            "username": "Your individual username as you want it to appear on the site. "
             + "This will be visible publicly.",
             "email": "Your email address so we can contact you. "
             + "This will not be visible publicly.",
