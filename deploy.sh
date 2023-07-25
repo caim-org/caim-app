@@ -102,6 +102,8 @@ setup_colors
 # the script is dying at the last line of safety check w/ no error idk why right now. This works on my other repos...
 # safety_check
 
+die "this script is not ready yet"
+
 msg "${ORANGE}deploying to caim-app-${environment}!${NOFORMAT}!"
 sleep 5
 AWS_PROFILE=caim aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 324366619902.dkr.ecr.us-east-1.amazonaws.com

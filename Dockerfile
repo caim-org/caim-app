@@ -14,6 +14,11 @@ RUN set -ex \
         pango-dev\
         cairo-dev\
         gdk-pixbuf\
+        fontconfig\
+        ttf-freefont\
+        font-noto\
+        font-noto-cjk\
+        font-noto-extra\
     && apk add --no-cache --virtual .build-deps\
         postgresql-dev\
         build-base\
