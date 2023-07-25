@@ -9,7 +9,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.forms import ModelForm, RadioSelect
+from django.forms import ModelForm, RadioSelect, formset_factory
 from django.http import Http404, HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
@@ -20,6 +20,27 @@ from caim_base.models.awg import Awg, AwgMember
 
 from ..models.fosterer import FostererProfile, User
 from ..notifications import notify_new_fosterer_profile
+
+from django import forms
+from ..models import ExistingPetDetail
+
+class ExistingPetDetailForm(forms.ModelForm):
+    class Meta:
+        model = ExistingPetDetail
+        fields = [
+            'name',
+            'type_of_animals',
+            'breed',
+            'sex',
+            'age',
+            'weight_lbs',
+            'spayed_neutered',
+            'up_to_date_shots',
+            'quirks'
+        ]
+
+# create 5 copies of form. 
+ExistingPetDetailFormSet = formset_factory(ExistingPetDetailForm, extra=5)
 
 
 class FostererProfileStage1Form(ModelForm):
@@ -106,8 +127,12 @@ class FostererProfileStage2Form(ModelForm):
                 "Animal preferences",
                 "type_of_animals",
                 "category_of_animals",
+                "dog_size",
                 "behavioural_attributes",
-                "timeframe",
+                "medical_issues",
+                "special_needs",
+                "behavioral_issues",
+                "timeframe"
             ),
             Submit("submit_prev", "&laquo; Previous page", css_class="btn btn-secondary"),
             Submit("submit", "Save and continue &raquo;", css_class="btn btn-primary"),
@@ -118,7 +143,11 @@ class FostererProfileStage2Form(ModelForm):
         fields = [
             "type_of_animals",
             "category_of_animals",
+            "dog_size",
             "behavioural_attributes",
+            "medical_issues",
+            "special_needs",
+            "behavioral_issues",
             "timeframe",
         ]
         required = (
@@ -357,6 +386,12 @@ def edit(request, stage_id):
     prev_stage = stage['prev']
 
     if request.method == "POST":
+
+        existing_pet_detail_formset = ExistingPetDetailFormSet(request.POST)
+        if existing_pet_detail_formset.is_valid():
+            for detail_form in existing_pet_detail_formset:
+                detail_form.save()
+
         form = form_class(request.POST, instance=fosterer_profile)
         if form.is_valid():
             fosterer_profile = form.save()
@@ -369,6 +404,7 @@ def edit(request, stage_id):
             messages.error(request, "Please correct form errors")
     else:
         form = form_class(instance=fosterer_profile)
+        existing_pet_detail_formset = ExistingPetDetailFormSet()
 
     return render(
         request,
@@ -376,8 +412,10 @@ def edit(request, stage_id):
         {
             "user": user,
             "form": form,
+            "existing_pet_detail_formset": existing_pet_detail_formset,
             "pageTitle": "Edit your fosterer profile",
             "stageNumber": stage_number,
+            "stage_id": stage_id,
         },
     )
 
@@ -392,7 +430,6 @@ def download_fosterer_profile(request: HttpRequest, fosterer_id: int) -> HttpRes
 
     if not awg.status == "PUBLISHED":
         raise PermissionDenied("Your AWG is not published")
-
 
     fosterer: FostererProfile = get_object_or_404(FostererProfile, pk=fosterer_id)
     animal_type_labels = []
