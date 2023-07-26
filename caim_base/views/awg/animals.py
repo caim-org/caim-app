@@ -105,7 +105,7 @@ class AwgAnimalForm(ModelForm):
                 "description",
             ),
             Fieldset(
-                "Behavior",
+                "Behaviour",
                 "behaviour_dogs",
                 "behaviour_cats",
                 "behaviour_kids",
