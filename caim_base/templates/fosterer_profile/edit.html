@@ -16,6 +16,7 @@
         </ul>
         {% endif %}
           <div>
+
             {% if stage_id == 'pet-experience' %}
                 <form method="post">
                 {% csrf_token %}
@@ -74,6 +75,27 @@
                     });
                 </script>
             <!-- end pet experience-->
+
+            {% elif stage_id == 'references' %}
+                <legend>References</legend>
+                <p class="small">
+                    If you have pets, we require that at least one of your references be your vet so we can verify that your animals are fixed and up to date on their shots.
+                </p>
+                <form method="post">
+                    {% csrf_token %}
+                    <div id="reference-detail-section">
+                        {% for ref_form in reference_detail_formset %}
+                            <div class="ref-detail">
+                                <legend>Reference #{{ forloop.counter }} Details</legend>
+                                {% crispy ref_form %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <a href="/fosterer/pet-experience" name="submit_prev" class="btn btn-primary btn btn-secondary" id="submit-id-submit_prev">
+                    « Previous page
+                    </a>
+                    <input type="submit" name="submit" value="Save and continue &raquo;" class="btn btn-primary" />
+                </form>
 
             {% else %}
                 {% crispy form %}

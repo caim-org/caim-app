@@ -22,7 +22,7 @@ from ..models.fosterer import FostererProfile, User
 from ..notifications import notify_new_fosterer_profile
 
 from django import forms
-from ..models import ExistingPetDetail
+from ..models import ExistingPetDetail, ReferenceDetail
 
 class ExistingPetDetailForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -46,6 +46,25 @@ class ExistingPetDetailForm(forms.ModelForm):
 
 # create 5 copies of form. 
 ExistingPetDetailFormSet = formset_factory(ExistingPetDetailForm, extra=5)
+
+
+class ReferenceDetailForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+
+    class Meta:
+        model = ReferenceDetail
+        fields = [
+            'first_name',
+            'last_name',
+            'email',
+            'phone',
+            'relation',
+        ]
+
+ReferenceDetailFormSet = formset_factory(ReferenceDetailForm, extra=3)
 
 
 class FostererProfileStage1Form(ModelForm):
@@ -402,6 +421,11 @@ def edit(request, stage_id):
             for detail_form in existing_pet_detail_formset:
                 detail_form.save()
 
+        reference_detail_formset = ReferenceDetailFormSet()
+        if reference_detail_formset.is_valid():
+            for detail_form in reference_detail_formset:
+                detail_form.save()
+
         form = form_class(request.POST, instance=fosterer_profile)
         if form.is_valid():
             fosterer_profile = form.save()
@@ -415,6 +439,7 @@ def edit(request, stage_id):
     else:
         form = form_class(instance=fosterer_profile)
         existing_pet_detail_formset = ExistingPetDetailFormSet()
+        reference_detail_formset = ReferenceDetailFormSet()
 
     return render(
         request,
@@ -423,6 +448,7 @@ def edit(request, stage_id):
             "user": user,
             "form": form,
             "existing_pet_detail_formset": existing_pet_detail_formset,
+            "reference_detail_formset": reference_detail_formset,
             "pageTitle": "Edit your fosterer profile",
             "stageNumber": stage_number,
             "stage_id": stage_id,
