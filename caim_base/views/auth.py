@@ -5,7 +5,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import redirect, render
 
 from ..forms import NewUserForm
-from ..models import UserProfile
+from ..models import UserProfile, FostererProfile
 from ..utils import salesforce
 
 
@@ -64,7 +64,7 @@ def register_view(request):
         form = NewUserForm()
 
     if request.user.is_authenticated:
-        return redirect("home")
+        return redirect("register_success")
 
     return render(
         request=request,
@@ -74,6 +74,21 @@ def register_view(request):
             "pageTitle": "Register",
         },
     )
+
+
+def register_success(request):
+    ''' Afer signup propmt user to fill foster profile or view AWG info'''
+    fosterer_profile = FostererProfile(user=request.user)
+
+    print(fosterer_profile)
+
+    if fosterer_profile is None or not fosterer_profile.is_complete:
+        return render(
+            request=request,
+            template_name="auth/register_success.html",
+        )
+    else:
+        return redirect("home")
 
 
 def logout_view(request):

@@ -40,6 +40,7 @@ urlpatterns = [
     path("fosterer", fosterer_profile.start),
     path("fosterer/<fosterer_id>/pdf", fosterer_profile.download_fosterer_profile),
     path("register", auth.register_view, name="register"),
+    path("register/success", auth.register_success, name="register_success"),
     path("login", auth.login_view, name="login"),
     path("login/", auth.login_view, name="login_with_slash"),  # @todo fix trailing slash issues
     path("logout", auth.logout_view, name="logout"),
