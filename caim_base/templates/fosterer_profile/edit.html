@@ -17,42 +17,46 @@
         {% endif %}
           <div>
             {% if stage_id == 'pet-experience' %}
-                <legend>Pet Experience</legend>
+                <form method="post">
+                <legend>Number of Pets</legend>
                 {{ form.num_existing_pets|as_crispy_field }}
                 {{ formset.management_form }}
                 <div id="pet-detail-section">
                     {% for pet_form in existing_pet_detail_formset %}
                         <div class="pet-detail">
                             <legend>Pet #{{ forloop.counter }} Details</legend>
-                            {% crispy pet_form %}
                         </div>
                     {% endfor %}
                 </div>
-				{% if existing_pet_detail_formset %}
-				    <legend>Other Information</legend>
-				{% endif %}
+                <legend>Pet Experience</legend>
                 {% for field in form %}
                     {% if not field.name == 'num_existing_pets' %}
                         {{ field|as_crispy_field }}
                     {% endif %}
                 {% endfor %}
-				<script>
-					window.addEventListener('DOMContentLoaded', (event) => {
-						var petDetailSection = document.getElementById('pet-detail-section');
-						var petDetails = petDetailSection.getElementsByClassName('pet-detail');
-						for (var i = 0; i < petDetails.length; i++) {
-							petDetails[i].style.display = "none";
-						}
-						document.getElementById('num_existing_pets').addEventListener('change', function(){
-							var numPets = this.value;
-							if (numPets > 5) numPets = 5;
-							for (var i = 0; i < petDetails.length; i++) {
-								petDetails[i].style.display = (i < numPets) ? "block" : "none";
-							}
-						});
-					});
-				</script>
+                <a href="/fosterer/animal-preferences" name="submit_prev" class="btn btn-primary btn btn-secondary" id="submit-id-submit_prev">
+                « Previous page
+                </a>
+                <input type="submit" name="submit" value="Save and continue &raquo;" class="btn btn-primary" />
 
+                </form>
+                <script>
+                    window.addEventListener('DOMContentLoaded', (event) => {
+                        var petDetailSection = document.getElementById('pet-detail-section');
+                        var petDetails = petDetailSection.getElementsByClassName('pet-detail');
+                        for (var i = 0; i < petDetails.length; i++) {
+                            petDetails[i].style.display = "none";
+                        }
+                        document.getElementById('num_existing_pets').addEventListener('change', function(){
+                            var numPets = this.value;
+                            if (numPets > 5) numPets = 5;
+                            for (var i = 0; i < petDetails.length; i++) {
+                                petDetails[i].style.display = (i < numPets) ? "block" : "none";
+                            }
+                        });
+                    });
+                </script>
+            <!-- end pet experience-->
 
             {% else %}
                 {% crispy form %}

@@ -25,6 +25,11 @@ from django import forms
 from ..models import ExistingPetDetail
 
 class ExistingPetDetailForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+
     class Meta:
         model = ExistingPetDetail
         fields = [
@@ -177,23 +182,24 @@ class FostererProfileStage3Form(ModelForm):
             Fieldset(
                 "Pet Experience",
                 "num_existing_pets",
+                "experience_given_up_pet",
                 "experience_description",
                 "experience_categories",
-                "experience_given_up_pet",
             ),
             Submit(
                 "submit_prev", "&laquo; Previous page", css_class="btn btn-secondary"
             ),
             Submit("submit", "Save and continue &raquo;", css_class="btn btn-primary"),
         )
+        self.helper = FormHelper(self)
 
     class Meta:
         model = FostererProfile
         fields = [
             "num_existing_pets",
+            "experience_given_up_pet",
             "experience_description",
             "experience_categories",
-            "experience_given_up_pet",
         ]
         required = (
             "num_existing_pets",
