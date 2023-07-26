@@ -1,16 +1,17 @@
 import logging
-from datetime import datetime
 import urllib
+from datetime import datetime
 
 from django.contrib.auth import get_user_model
-from django.db import models
 from django.contrib.gis.db.models import PointField
 from django.core.exceptions import ValidationError
+from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
+
 from ..states import states
 from ..utils import full_url
-from .user import User
 from .geo import ZipCode
+from .user import User
 
 logger = logging.getLogger(__name__)
 
@@ -42,7 +43,7 @@ class Awg(models.Model):
         default=None,
         blank=True,
         null=True,
-        verbose_name="Organisation type",
+        verbose_name="Organization type",
     )
 
     has_501c3_tax_exemption = models.BooleanField(

@@ -1,19 +1,45 @@
-from django.shortcuts import render
-from django.http import Http404
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Fieldset, Layout, Submit
+from django import forms
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
 from django.forms import ModelForm
-from django.core.exceptions import PermissionDenied
-
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset, Submit
+from django.http import Http404
+from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
-from django.contrib.auth.decorators import login_required
 
 from ...models.awg import Awg, AwgMember
 from ...notifications import notify_new_awg_application
 
 
 class AwgForm(ModelForm):
+    website_url = forms.URLField(
+        label="Website URL",
+        required=True,
+        widget=forms.TextInput(attrs={"type": "text"}),
+    )
+    facebook_url = forms.URLField(
+        label="Facebook URL",
+        required=False,
+        widget=forms.TextInput(attrs={"type": "text"}),
+    )
+    instagram_url = forms.URLField(
+        label="Instagram URL",
+        required=False,
+        widget=forms.TextInput(attrs={"type": "text"}),
+    )
+    twitter_url = forms.URLField(
+        label="Twitter URL",
+        required=False,
+        widget=forms.TextInput(attrs={"type": "text"}),
+    )
+    tiktok_url = forms.URLField(
+        label="TikTok URL",
+        required=False,
+        widget=forms.TextInput(attrs={"type": "text"}),
+    )
+
     def __init__(self, *args, **kwargs):
         submit_label = kwargs.pop("submit_label", "Update organization profile")
         super().__init__(*args, **kwargs)
@@ -95,7 +121,7 @@ class AwgForm(ModelForm):
             "workwith_dogs": "We work with Dogs",
             "workwith_cats": "We work with Cats",
             "workwith_other": "We work with other animals",
-            "is_exact_location_shown": "Should we show your exact location (zip and map) publically?",
+            "is_exact_location_shown": "Should we show your exact location (zip and map) publicly?",
             "has_501c3_tax_exemption": "We are a 501c3 tax exempt charity",
             "email": "Contact email address",
             "phone": "Contact phone number",

@@ -1,11 +1,11 @@
 from django import forms
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.core.validators import RegexValidator
 from django.http import Http404
 from django.shortcuts import redirect, render
 from django.views.decorators.http import require_http_methods
-from django.conf import settings
 
 from ..forms import zip_validator
 from ..models.user import User, UserProfile
@@ -16,7 +16,7 @@ from ..utils import salesforce
 class UserProfileForm(forms.Form):
     username = forms.CharField(
         label="Display name",
-        help_text="Your name as you want it to appear on the site. This will be visible publicly.",
+        help_text="Your individual username as you want it to appear on the site. This will be visible publicly and may not contain spaces.",
         max_length=30,
         required=True,
         validators=[
