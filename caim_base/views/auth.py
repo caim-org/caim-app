@@ -5,7 +5,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import redirect, render
 
 from ..forms import NewUserForm
-from ..models import UserProfile
+from ..models import UserProfile, FostererProfile
 from ..utils import salesforce
 
 
@@ -49,7 +49,9 @@ def register_view(request):
             zip_code = form.cleaned_data.get("zip_code")
             city = form.cleaned_data.get("city")
             state = form.cleaned_data.get("state")
-            user_profile = UserProfile(user=user, zip_code=zip_code, city=city, state=state)
+            user_profile = UserProfile(
+                user=user, zip_code=zip_code, city=city, state=state
+            )
             user_profile.save()
 
             # create contact in salesforce
@@ -58,13 +60,13 @@ def register_view(request):
 
             login(request, user)
             messages.success(request, "Registration successful.")
-            return redirect(request.GET.get("next", "home"))
+            return redirect(request.GET.get("next", "register_success"))
         messages.error(request, "Unsuccessful registration. Invalid information.")
     else:
         form = NewUserForm()
 
     if request.user.is_authenticated:
-        return redirect("home")
+        return redirect("register_success")
 
     return render(
         request=request,
@@ -74,6 +76,19 @@ def register_view(request):
             "pageTitle": "Register",
         },
     )
+
+
+def register_success(request):
+    """Afer signup propmt user to fill foster profile or view AWG info"""
+    fosterer_profile = FostererProfile(user=request.user)
+
+    if fosterer_profile is None or not fosterer_profile.is_complete:
+        return render(
+            request=request,
+            template_name="auth/register_success.html",
+        )
+    else:
+        return redirect("home")
 
 
 def logout_view(request):
