@@ -15,7 +15,7 @@ from ..models.animals import Animal
 
 @login_required()
 @require_http_methods(["POST", "GET"])
-def application(request, stage_id):
+def application(request):
     user = request.user
 
     # check if person has completed fosterer profile. if not send to fill.
@@ -24,12 +24,10 @@ def application(request, stage_id):
     except FostererProfile.DoesNotExist:
         return redirect('/fosterer')
 
-    if not forster_profile.is_complete:
+    if not fosterer_profile.is_complete:
         return redirect('/fosterer')
 
     if request.method == "POST":
-        form = form_class(request.POST, instance=fosterer_profile)
-
         animal_id = request.POST.get('animal_id')
 
         try:
@@ -37,14 +35,33 @@ def application(request, stage_id):
         except Animal.DoesNotExist:
             raise Http404("No Animal matches the given query.")
 
+        # check if application exists already
+        try:
+            existing_application = FosterApplication.objects.get(fosterer=fosterer_profile, animal=animal)
+            return render(
+                request,
+                "foster_application/exists.html",
+                {
+                    "user": user,
+                    "pageTitle": "Foster application already exists",
+                },
+            )
+        except FosterApplication.DoesNotExist:
+            pass
+
         application = FosterApplication(
-                fosterer=foster_profile, animal=animal, status='Pending', reject_reason=None)
+                fosterer=fosterer_profile, animal=animal, status='Pending', reject_reason=None)
 
-        fosterer_application.save();
+        application.save();
 
-        # TODO check foster application for animal does not already exist and notify
-        # TODO indicate to user success on application
-        return redirect('/fosterer')
+        return render(
+            request,
+            "foster_application/complete.html",
+            {
+                "user": user,
+                "pageTitle": "Foster application complete",
+            },
+        )
 
     else:
         #GET method expects animal_id in query string
@@ -53,11 +70,11 @@ def application(request, stage_id):
 
     return render(
         request,
-        "fosterer_profile/application.html",
+        "foster_application/application.html",
         {
             "user": user,
-            "animal": user,
-            "foster_profile": foster_profile,
+            "animal": animal,
+            "fosterer_profile": fosterer_profile,
             "pageTitle": "Foster Application",
         },
     )

@@ -337,7 +337,7 @@ def edit(request, stage_id):
             "fosterer_profile/complete.html",
             {
                 "user": user,
-                "pageTitle": "Foster application complete",
+                "pageTitle": "Fosterer profile complete",
             },
         )
 
