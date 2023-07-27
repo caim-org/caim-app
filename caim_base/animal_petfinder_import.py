@@ -74,17 +74,20 @@ def map_sex(v):
     return None
 
 
-def lookup_breed(pfbreed):
-    return animals.Breed.objects.filter(slug=pfbreed["slug"]).first()
+def lookup_breed(pfbreed, is_primary):
+    breed = animals.Breed.objects.filter(slug=pfbreed["slug"]).first()
+    if not breed and is_primary:
+        breed = animals.Breed.objects.filter(slug="unknown-dog").first()
+    return breed
 
 
 def create_animal_from_petfinder_data(awg, data):
     primary_breed = None
     secondary_breed = None
     if "primary_breed" in data and data["primary_breed"]:
-        primary_breed = lookup_breed(data["primary_breed"])
+        primary_breed = lookup_breed(data["primary_breed"], True)
     if "secondary_breed" in data and data["secondary_breed"]:
-        secondary_breed = lookup_breed(data["primary_breed"])
+        secondary_breed = lookup_breed(data["primary_breed"], False)
 
     animal = animals.Animal(
         name=clean_text(data["name"]),
@@ -160,7 +163,10 @@ def import_animal_from_petfinder(awg, url):
     except Exception as e:
         print(e)
         if e.__class__.__name__ == "IntegrityError":
-            raise ImportAnimalError("An animal with this petfinder ID already exists.")
+            error_message = "We had a problem putting this animal in our database."
+            if 'petfinder_id' in e.__str__():
+                error_message = "An animal with this PetFinder ID already exists."
+            raise ImportAnimalError(error_message)
         else:
             raise ImportAnimalError("Could not create animal. Please check URL.")
 

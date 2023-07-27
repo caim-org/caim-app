@@ -299,6 +299,8 @@ def import_animal(request, awg_id):
                 url = request.POST["url"].strip()
                 animal = import_animal_from_petfinder(awg, url)
                 messages.success(request, "Animal imported")
+                if animal.primary_breed.name == "Unknown":
+                    messages.warning(request, "Primary Animal breed is unknown, please update it below.")
                 return redirect(f"{awg.get_absolute_url()}/animals/{animal.id}")
             except ImportAnimalError as e:
                 messages.error(request, str(e))
