@@ -1,0 +1,49 @@
+{% extends 'base/wrapper.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container">
+  <div class="row justify-content-md-center">
+    <div class="col-md-8">
+      <div class="container py-5">
+        {% if messages %}
+        <ul class="messages">
+          {% for message in messages %}
+          {% endfor %}
+        </ul>
+        {% endif %}
+        <div>
+          <form method="post">
+            <div class="form-group">
+              <label for="name">Email</label>
+              <input type="text" class="form-control" id="field_name1" value="{{ foster_application.email }}" readonly>
+            </div>
+            <div class="form-group">
+              <label for="name">First Name</label>
+              <input type="text" class="form-control" id="field_name1" value="{{ foster_application.firstname }}" readonly>
+            </div>
+            <div class="form-group">
+              <label for="name">Last Name</label>
+              <input type="text" class="form-control" id="field_name1" value="{{ foster_application.lastname }}" readonly>
+            </div>
+            <div class="form-group">
+              <label for="name">City</label>
+              <input type="text" class="form-control" id="field_name1" value="{{ foster_application.city }}" readonly>
+            </div>
+            <div class="form-group">
+              <label for="name">State</label>
+              <input type="text" class="form-control" id="field_name1" value="{{ foster_application.state }}" readonly>
+            </div>
+            <div class="form-group">
+              <label for="name">Name of Animal</label>
+              <input type="text" class="form-control" id="field_name1" value="{{ animal.name }}" readonly>
+            </div>
+            <input type="hidden" id="animal_id" name="animal_id" value="{{ animal.id }}">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
