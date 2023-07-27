@@ -49,7 +49,9 @@ def register_view(request):
             zip_code = form.cleaned_data.get("zip_code")
             city = form.cleaned_data.get("city")
             state = form.cleaned_data.get("state")
-            user_profile = UserProfile(user=user, zip_code=zip_code, city=city, state=state)
+            user_profile = UserProfile(
+                user=user, zip_code=zip_code, city=city, state=state
+            )
             user_profile.save()
 
             # create contact in salesforce
@@ -58,7 +60,7 @@ def register_view(request):
 
             login(request, user)
             messages.success(request, "Registration successful.")
-            return redirect(request.GET.get("next", "home"))
+            return redirect(request.GET.get("next", "register_success"))
         messages.error(request, "Unsuccessful registration. Invalid information.")
     else:
         form = NewUserForm()
@@ -77,10 +79,8 @@ def register_view(request):
 
 
 def register_success(request):
-    ''' Afer signup propmt user to fill foster profile or view AWG info'''
+    """Afer signup propmt user to fill foster profile or view AWG info"""
     fosterer_profile = FostererProfile(user=request.user)
-
-    print(fosterer_profile)
 
     if fosterer_profile is None or not fosterer_profile.is_complete:
         return render(
