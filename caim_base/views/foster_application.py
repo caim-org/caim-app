@@ -13,6 +13,7 @@ from django.views.decorators.http import require_http_methods
 from ..models.fosterer import FostererProfile, FosterApplication
 from ..models.animals import Animal
 
+
 @login_required()
 @require_http_methods(["POST", "GET"])
 def application(request):
@@ -22,13 +23,13 @@ def application(request):
     try:
         fosterer_profile = FostererProfile.objects.get(user=user)
     except FostererProfile.DoesNotExist:
-        return redirect('/fosterer')
+        return redirect("/fosterer")
 
     if not fosterer_profile.is_complete:
-        return redirect('/fosterer')
+        return redirect("/fosterer")
 
     if request.method == "POST":
-        animal_id = request.POST.get('animal_id')
+        animal_id = request.POST.get("animal_id")
 
         try:
             animal = Animal.objects.get(pk=animal_id)
@@ -37,7 +38,9 @@ def application(request):
 
         # check if application exists already
         try:
-            existing_application = FosterApplication.objects.get(fosterer=fosterer_profile, animal=animal)
+            existing_application = FosterApplication.objects.get(
+                fosterer=fosterer_profile, animal=animal
+            )
             return render(
                 request,
                 "foster_application/exists.html",
@@ -50,9 +53,13 @@ def application(request):
             pass
 
         application = FosterApplication(
-                fosterer=fosterer_profile, animal=animal, status='Pending', reject_reason=None)
+            fosterer=fosterer_profile,
+            animal=animal,
+            status="Pending",
+            reject_reason=None,
+        )
 
-        application.save();
+        application.save()
 
         return render(
             request,
@@ -64,8 +71,8 @@ def application(request):
         )
 
     else:
-        #GET method expects animal_id in query string
-        animal_id = request.GET.get('animal_id', None)
+        # GET method expects animal_id in query string
+        animal_id = request.GET.get("animal_id", None)
         animal = get_object_or_404(Animal, pk=animal_id)
 
     return render(
