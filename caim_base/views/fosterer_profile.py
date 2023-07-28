@@ -69,6 +69,7 @@ class FostererProfileStage1Form(ModelForm):
             "zip_code",
         )
 
+
 class FostererProfileStage2Form(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -85,9 +86,11 @@ class FostererProfileStage2Form(ModelForm):
                 "category_of_animals",
                 "behavioural_attributes",
                 "timeframe",
-                "timeframe_other"
+                "timeframe_other",
             ),
-            Submit("submit_prev", "&laquo; Previous page", css_class="btn btn-secondary"),
+            Submit(
+                "submit_prev", "&laquo; Previous page", css_class="btn btn-secondary"
+            ),
             Submit("submit", "Save and continue &raquo;", css_class="btn btn-primary"),
         )
 
@@ -109,6 +112,7 @@ class FostererProfileStage2Form(ModelForm):
             "timeframe": RadioSelect(),
         }
 
+
 class FostererProfileStage3Form(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -127,7 +131,9 @@ class FostererProfileStage3Form(ModelForm):
                 "experience_categories",
                 "experience_given_up_pet",
             ),
-            Submit("submit_prev", "&laquo; Previous page", css_class="btn btn-secondary"),
+            Submit(
+                "submit_prev", "&laquo; Previous page", css_class="btn btn-secondary"
+            ),
             Submit("submit", "Save and continue &raquo;", css_class="btn btn-primary"),
         )
 
@@ -147,6 +153,7 @@ class FostererProfileStage3Form(ModelForm):
             "experience_categories",
         )
 
+
 class FostererProfileStage4Form(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -163,7 +170,9 @@ class FostererProfileStage4Form(ModelForm):
                 "reference_2",
                 "reference_3",
             ),
-            Submit("submit_prev", "&laquo; Previous page", css_class="btn btn-secondary"),
+            Submit(
+                "submit_prev", "&laquo; Previous page", css_class="btn btn-secondary"
+            ),
             Submit("submit", "Save and continue &raquo;", css_class="btn btn-primary"),
         )
 
@@ -179,6 +188,7 @@ class FostererProfileStage4Form(ModelForm):
             "reference_2",
             "reference_3",
         )
+
 
 class FostererProfileStage5Form(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -200,9 +210,11 @@ class FostererProfileStage5Form(ModelForm):
                 "rent_ok_foster_pets",
                 "hours_alone_description",
                 "hours_alone_location",
-                "sleep_location"
+                "sleep_location",
             ),
-            Submit("submit_prev", "&laquo; Previous page", css_class="btn btn-secondary"),
+            Submit(
+                "submit_prev", "&laquo; Previous page", css_class="btn btn-secondary"
+            ),
             Submit("submit", "Save and continue &raquo;", css_class="btn btn-primary"),
         )
 
@@ -234,6 +246,7 @@ class FostererProfileStage5Form(ModelForm):
             "rent_ok_foster_pets": RadioSelect(),
         }
 
+
 class FostererProfileStage6Form(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -250,9 +263,12 @@ class FostererProfileStage6Form(ModelForm):
                 "ever_been_convicted_abuse",
                 "agree_share_details",
             ),
-            Submit("submit_prev", "&laquo; Previous page", css_class="btn btn-secondary"),
+            Submit(
+                "submit_prev", "&laquo; Previous page", css_class="btn btn-secondary"
+            ),
             Submit("submit", "Save and continue &raquo;", css_class="btn btn-primary"),
         )
+
     class Meta:
         model = FostererProfile
         fields = [
@@ -269,49 +285,52 @@ class FostererProfileStage6Form(ModelForm):
             "agree_share_details": RadioSelect(),
         }
 
+
 STAGES = {
     "about-you": {
-        "number":1,
+        "number": 1,
         "form_class": FostererProfileStage1Form,
         "next": "animal-preferences",
         "prev": None,
     },
     "animal-preferences": {
-        "number":2,
+        "number": 2,
         "form_class": FostererProfileStage2Form,
         "next": "pet-experience",
         "prev": "about-you",
     },
     "pet-experience": {
-        "number":3,
+        "number": 3,
         "form_class": FostererProfileStage3Form,
         "next": "references",
         "prev": "animal-preferences",
     },
     "references": {
-        "number":4,
+        "number": 4,
         "form_class": FostererProfileStage4Form,
         "next": "household-details",
         "prev": "pet-experience",
     },
     "household-details": {
-        "number":5,
+        "number": 5,
         "form_class": FostererProfileStage5Form,
         "next": "final-thoughts",
         "prev": "references",
     },
     "final-thoughts": {
-        "number":6,
+        "number": 6,
         "form_class": FostererProfileStage6Form,
         "next": "complete",
         "prev": "household-details",
-    }
+    },
 }
+
 
 @login_required()
 @require_http_methods(["GET"])
 def start(request):
-    return redirect('/fosterer/about-you')
+    return redirect("/fosterer/about-you")
+
 
 @login_required()
 @require_http_methods(["POST", "GET"])
@@ -326,7 +345,7 @@ def edit(request, stage_id):
         fosterer_profile.email = user.email
         fosterer_profile.save()
 
-    if stage_id=='complete':
+    if stage_id == "complete":
         if not fosterer_profile.is_complete:
             # @todo check if all fields done
             fosterer_profile.is_complete = True
@@ -337,7 +356,7 @@ def edit(request, stage_id):
             "fosterer_profile/complete.html",
             {
                 "user": user,
-                "pageTitle": "Foster application complete",
+                "pageTitle": "Fosterer profile complete",
             },
         )
 
@@ -345,16 +364,16 @@ def edit(request, stage_id):
         raise Http404("Stage not found")
 
     stage = STAGES[stage_id]
-    stage_number = stage['number']
-    form_class = stage['form_class']
-    next_stage = stage['next']
-    prev_stage = stage['prev']
+    stage_number = stage["number"]
+    form_class = stage["form_class"]
+    next_stage = stage["next"]
+    prev_stage = stage["prev"]
 
     if request.method == "POST":
         form = form_class(request.POST, instance=fosterer_profile)
         if form.is_valid():
             fosterer_profile = form.save()
-            is_previous = 'submit_prev' in request.POST
+            is_previous = "submit_prev" in request.POST
             if is_previous:
                 return redirect(f"/fosterer/{prev_stage}")
             else:
@@ -375,6 +394,7 @@ def edit(request, stage_id):
         },
     )
 
+
 @login_required()
 def download_fosterer_profile(request: HttpRequest, fosterer_id: int) -> HttpResponse:
     user = request.user
@@ -387,23 +407,34 @@ def download_fosterer_profile(request: HttpRequest, fosterer_id: int) -> HttpRes
     if not awg.status == "PUBLISHED":
         raise PermissionDenied("Your AWG is not published")
 
-
     fosterer: FostererProfile = get_object_or_404(FostererProfile, pk=fosterer_id)
     animal_type_labels = []
     if fosterer.type_of_animals:
-        animal_type_labels = [fosterer.TypeOfAnimals(animal_type).label for animal_type in fosterer.type_of_animals]
+        animal_type_labels = [
+            fosterer.TypeOfAnimals(animal_type).label
+            for animal_type in fosterer.type_of_animals
+        ]
 
     category_of_animals_labels = []
     if fosterer.category_of_animals:
-        category_of_animals_labels = [fosterer.CategoryOfAnimals(category).label for category in fosterer.category_of_animals]
+        category_of_animals_labels = [
+            fosterer.CategoryOfAnimals(category).label
+            for category in fosterer.category_of_animals
+        ]
 
     behaviour_labels = []
     if fosterer.behavioural_attributes:
-        behaviour_labels = [fosterer.BehaviouralAttributes(behaviour).label for behaviour in fosterer.behavioural_attributes]
+        behaviour_labels = [
+            fosterer.BehaviouralAttributes(behaviour).label
+            for behaviour in fosterer.behavioural_attributes
+        ]
 
     experience_categories_labels = []
     if fosterer.experience_categories:
-        experience_categories_labels = [fosterer.ExperienceCategories(experience).label for experience in fosterer.experience_categories]
+        experience_categories_labels = [
+            fosterer.ExperienceCategories(experience).label
+            for experience in fosterer.experience_categories
+        ]
 
     context = {
         "fosterer": fosterer,
@@ -414,11 +445,13 @@ def download_fosterer_profile(request: HttpRequest, fosterer_id: int) -> HttpRes
     }
 
     pdf_string = render_to_string("fosterer_profile/pdf.html", context, request)
-    pdf_file = HTML(string=pdf_string).write_pdf(stylesheets=[
-        CSS(string="@page { size: letter portrait; margin: 1cm }"),
-        CSS(filename=os.path.join(settings.STATIC_ROOT, 'css/normalize.css')),
-        CSS(filename=os.path.join(settings.STATIC_ROOT, 'css/pdf.css')),
-    ])
+    pdf_file = HTML(string=pdf_string).write_pdf(
+        stylesheets=[
+            CSS(string="@page { size: letter portrait; margin: 1cm }"),
+            CSS(filename=os.path.join(settings.STATIC_ROOT, "css/normalize.css")),
+            CSS(filename=os.path.join(settings.STATIC_ROOT, "css/pdf.css")),
+        ]
+    )
 
     response = HttpResponse(pdf_file, content_type="application/pdf")
     response["Content-Disposition"] = f"filename=fosterer-profile-{fosterer_id}.pdf"

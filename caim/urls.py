@@ -21,7 +21,7 @@ from django.views.generic.base import TemplateView
 
 
 from caim_base.views import (account_details, animal, auth, awg, browse,
-                             comments, fosterer_profile, home, saved_search,
+                             comments, fosterer_profile, foster_application, home, saved_search,
                              saved_search_email_notifications, shortlist,
                              user_profile)
 from caim_base.views.utils import user_csv_download
@@ -39,6 +39,7 @@ urlpatterns = [
     path("fosterer/<stage_id>", fosterer_profile.edit),
     path("fosterer", fosterer_profile.start),
     path("fosterer/<fosterer_id>/pdf", fosterer_profile.download_fosterer_profile),
+    path("foster/application", foster_application.application),
     path("register", auth.register_view, name="register"),
     path("register/success", auth.register_success, name="register_success"),
     path("login", auth.login_view, name="login"),
