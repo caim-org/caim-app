@@ -89,9 +89,16 @@ def create_animal_from_petfinder_data(awg, data):
     if "secondary_breed" in data and data["secondary_breed"]:
         secondary_breed = lookup_breed(data["primary_breed"], False)
 
+    animal_size = map_size(data["size"].lower())
+
+    animal_type=animals.AnimalType.DOG
+    if data["type"].get("name") == 'Cat':
+        animal_type = animals.AnimalType.CAT
+        animal_size = animals.Animal.AnimalSize.S
+
     animal = animals.Animal(
         name=clean_text(data["name"]),
-        animal_type=animals.AnimalType.DOG,
+        animal_type=animal_type,
         primary_breed=primary_breed,
         secondary_breed=secondary_breed,
         petfinder_id=data["id"],
@@ -99,7 +106,7 @@ def create_animal_from_petfinder_data(awg, data):
         is_mixed_breed=data["is_mixed_breed"],
         is_unknown_breed=data.get("is_unknown_breed", False),
         sex=map_sex(data["sex"]),
-        size=map_size(data["size"].lower()),
+        size=animal_size,
         age=map_age(data["age"].lower()),
         special_needs=clean_text(data.get("special_needs_notes", "") or ""),
         description=clean_text(data.get("description", "") or ""),
