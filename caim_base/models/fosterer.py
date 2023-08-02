@@ -478,7 +478,7 @@ class FosterApplication(models.Model):
     animal = models.ForeignKey(Animal, on_delete=models.CASCADE, related_name="applications")
     status = models.CharField(max_length=32, choices=Statuses.choices)
     reject_reason = models.CharField(
-        max_length=32, choices=RejectionReasons.choices, default=RejectionReasons.OTHER.value
+        max_length=32, choices=RejectionReasons.choices, null=True
     )
     reject_reason_detail = models.TextField(max_length=65516, null=True, blank=True)
     submitted_on = models.DateField(auto_now_add=True)
