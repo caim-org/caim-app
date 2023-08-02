@@ -274,7 +274,7 @@ class FostererProfileStage5Form(ModelForm):
         self.helper.layout = Layout(
                 Fieldset(
                     "Household Details",
-                    "people_at_home",
+                    "num_people_in_home",
                     "yard_type",
                     "yard_fence_over_5ft",
                     "rent_own",
@@ -292,7 +292,7 @@ class FostererProfileStage5Form(ModelForm):
     class Meta:
         model = FostererProfile
         fields = [
-                "people_at_home",
+                "num_people_in_home",
                 "yard_type",
                 "yard_fence_over_5ft",
                 "rent_own",
@@ -302,7 +302,7 @@ class FostererProfileStage5Form(ModelForm):
                 "sleep_location",
                 ]
         required = (
-                "people_at_home",
+                "num_people_in_home",
                 "yard_type",
                 "rent_own",
                 "hours_alone_description",

@@ -243,10 +243,19 @@ class FostererProfile(models.Model):
         verbose_name='Reference #3'
     )
     # This is old "people at home" and is simply to preserve existing data.
-    # Unused going forward as this info will come from associated `PersonInHomeDetail`.
+    # Unused in the future this info should come from associated `PersonInHomeDetail`.
     people_at_home = models.TextField(
         blank=True, null=True, default=None,
         verbose_name='Please list how many people live in your home and their ages (legacy)'
+    )
+    num_people_in_home = models.IntegerField(
+        blank=True, null=True, default=None,
+        verbose_name='How many people live in your home, including yourself?' 
+    )
+    # TODO user Personinhomedetail
+    people_in_home_detail = models.TextField(
+        blank=True, null=True, default=None,
+        verbose_name='Please list the following details for each person in your home, excluding yourself: Name, Relation, Age, Email address.'
     )
     all_in_agreement = models.CharField(
         choices=YesNo.choices,
