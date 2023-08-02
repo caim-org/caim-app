@@ -52,7 +52,8 @@ class FostererExistingPetDetail(models.Model):
     name = models.CharField(max_length=64, blank=True, null=True)
     type_of_animals = ChoiceArrayField(
         models.CharField(max_length=32, choices=TypeOfAnimals.choices, blank=True, null=True),
-        verbose_name='Animal Type'
+        verbose_name='Animal Type',
+		null=True 
     )
     breed = models.CharField(max_length=64, blank=True, null=True)
     sex = models.CharField(max_length=6, choices=(('Male', 'Male'), ('Female', 'Female')), blank=True, null=True)

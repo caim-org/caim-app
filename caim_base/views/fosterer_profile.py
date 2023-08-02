@@ -10,6 +10,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.forms import ModelForm, RadioSelect, formset_factory
+from django.forms.models import model_to_dict
 from django.http import Http404, HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
@@ -22,14 +23,19 @@ from ..models.fosterer import FostererProfile, User
 from ..notifications import notify_new_fosterer_profile
 
 from django import forms
-#from ..models import ExistingPetDetail, ReferenceDetail
-from ..models import FostererExistingPetDetail, FostererReferenceDetail
+from ..models import FostererExistingPetDetail, FostererReferenceDetail, TypeOfAnimals
 
 class ExistingPetDetailForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_tag = False
+
+    type_of_animals = forms.MultipleChoiceField(
+            choices=TypeOfAnimals.choices,
+            required=False,
+            widget=forms.CheckboxSelectMultiple
+            )
 
     class Meta:
         model = FostererExistingPetDetail
@@ -44,9 +50,6 @@ class ExistingPetDetailForm(forms.ModelForm):
                 'up_to_date_shots',
                 'quirks'
                 ]
-
-# create 5 copies of form. 
-ExistingPetDetailFormSet = formset_factory(ExistingPetDetailForm, extra=5)
 
 
 class ReferenceDetailForm(forms.ModelForm):
@@ -64,8 +67,12 @@ class ReferenceDetailForm(forms.ModelForm):
                 'phone',
                 'relation',
                 ]
-
-ReferenceDetailFormSet = formset_factory(ReferenceDetailForm, extra=3)
+        required = (
+                "first_name",
+                "last_name",
+                "email",
+                "relation",
+                )
 
 
 class FostererProfileStage1Form(ModelForm):
@@ -432,55 +439,111 @@ def edit(request, stage_id):
     prev_stage = stage["prev"]
 
     if request.method == "POST":
-
-        #if stage_id == 'pet-experience':
-            #existing_pet_detail_formset = ExistingPetDetailFormSet(request.POST, prefix='existingpetdetail')
-            #if existing_pet_detail_formset.is_valid():
-                #pet_details = existing_pet_detail_formset.save(commit=False)
-
-                #for detail in pet_details:
-                    #detail.fosterer_profile = fosterer_profile
-                    #detail.save()
-            #else:
-                #messages.error(request, "Please correct form errors")
-
-        reference_detail_formset = ReferenceDetailFormSet()
-        if reference_detail_formset.is_valid():
-            for detail_form in reference_detail_formset:
-                detail_form.save()
+        ExistingPetDetailFormSet = formset_factory(ExistingPetDetailForm, extra=3)
+        ReferenceDetailFormSet = formset_factory(ReferenceDetailForm, extra=3, min_num=3, validate_min=True)
 
         form = form_class(request.POST, instance=fosterer_profile)
+        existing_pet_detail_formset = ExistingPetDetailFormSet(request.POST, prefix='existingpetdetail')
+        reference_detail_formset = ReferenceDetailFormSet(request.POST, prefix='referencedetail')
 
-        if form.is_valid():
-            has_errors = False
+        formsets_are_valid = True
 
-            fosterer_profile = form.save()
+        if stage_id == 'pet-experience':
+            if not existing_pet_detail_formset.is_valid():
+                formsets_are_valid = False
+
+        if stage_id == 'references':
+            if not reference_detail_formset.is_valid():
+                formsets_are_valid = False
+
+        form_is_valid = form.is_valid()
+
+        if form_is_valid and formsets_are_valid:
+            form.save()
 
             if stage_id == 'pet-experience':
-                existing_pet_detail_formset = ExistingPetDetailFormSet(request.POST, prefix='existingpetdetail')
-                if existing_pet_detail_formset.is_valid():
-                    pet_details = existing_pet_detail_formset.save(commit=False)
+                # limit to 3 saved existing pets (for now). do not duplicate
+                existing_pet_details = FostererExistingPetDetail.objects.filter(fosterer_profile=fosterer_profile).order_by('id')
 
-                    for detail in pet_details:
-                        detail.fosterer_profile = fosterer_profile
-                        detail.save()
-                else:
-                    has_errors = True
-                    messages.error(request, "Please correct form errors")
+                for index, detail_form in enumerate(existing_pet_detail_formset):
+                    if detail_form.is_valid():
+                        detail_data = detail_form.cleaned_data
+                        if index < len(existing_pet_details):
+                            existing_detail = existing_pet_details[index]
+                            existing_detail.name = detail_data.get('name')
+                            existing_detail.type_of_animals = detail_data.get('type_of_animals')
+                            existing_detail.breed = detail_data.get('breed')
+                            existing_detail.sex = detail_data.get('sex')
+                            existing_detail.age = detail_data.get('age')
+                            existing_detail.weight_lbs = detail_data.get('weight_lbs')
+                            existing_detail.spayed_neutered = detail_data.get('spayed_neutered')
+                            existing_detail.up_to_date_shots = detail_data.get('up_to_date_shots')
+                            existing_detail.quirks = detail_data.get('quirks')
+                            existing_detail.save()
+                        else:
+                            FostererExistingPetDetail.objects.create(
+                                    fosterer_profile=fosterer_profile,
+                                    name=detail_data.get('name'),
+                                    type_of_animals=detail_data.get('type_of_animals'),
+                                    breed=detail_data.get('breed'),
+                                    sex=detail_data.get('sex'),
+                                    age=detail_data.get('age'),
+                                    weight_lbs=detail_data.get('weight_lbs'),
+                                    spayed_neutered=detail_data.get('spayed_neutered'),
+                                    up_to_date_shots=detail_data.get('up_to_date_shots'),
+                                    quirks=detail_data.get('quirks')
+                                    )
 
-            if not has_errors:
-                is_previous = "submit_prev" in request.POST
-                if is_previous:
-                    return redirect(f"/fosterer/{prev_stage}")
-                else:
-                    return redirect(f"/fosterer/{next_stage}")
+            if stage_id == 'references':
+                existing_references = FostererReferenceDetail.objects.filter(fosterer_profile=fosterer_profile).order_by('id')
+
+                for index, detail_form in enumerate(reference_detail_formset):
+                    # do not attempt to save empty forms
+                    if detail_form.is_valid() and detail_form.has_changed():
+                        detail_data = detail_form.cleaned_data
+                        if index < len(existing_references):
+                            existing_detail = existing_references[index]
+                            existing_detail.first_name = detail_data.get('first_name')
+                            existing_detail.last_name = detail_data.get('last_name')
+                            existing_detail.email = detail_data.get('email')
+                            existing_detail.phone = detail_data.get('phone')
+                            existing_detail.relation = detail_data.get('relation')
+                            existing_detail.save()
+                        else:
+                            FostererReferenceDetail.objects.create(
+                                    fosterer_profile=fosterer_profile,
+                                    first_name=detail_data.get('first_name'),
+                                    last_name=detail_data.get('last_name'),
+                                    email=detail_data.get('email'),
+                                    phone=detail_data.get('phone'),
+                                    relation=detail_data.get('relation')
+                                    )
+
+            is_previous = "submit_prev" in request.POST
+            if is_previous:
+                return redirect(f"/fosterer/{prev_stage}")
+            else:
+                return redirect(f"/fosterer/{next_stage}")
 
         else:
             messages.error(request, "Please correct form errors")
     else:
         form = form_class(instance=fosterer_profile)
-        existing_pet_detail_formset = ExistingPetDetailFormSet(prefix='existingpetdetail')
-        reference_detail_formset = ReferenceDetailFormSet(prefix='referencedetail')
+
+        existing_pets = FostererExistingPetDetail.objects.filter(fosterer_profile=fosterer_profile)
+        num_existing_pets = existing_pets.count()
+        extra_forms_needed = max(0, 3 - num_existing_pets)
+        ExistingPetDetailFormSet = formset_factory(ExistingPetDetailForm, extra=extra_forms_needed)
+        existing_pet_data = [model_to_dict(pet) for pet in existing_pets]
+        existing_pet_detail_formset = ExistingPetDetailFormSet(prefix='existingpetdetail', initial=existing_pet_data)
+
+        references = FostererReferenceDetail.objects.filter(fosterer_profile=fosterer_profile)
+        num_references = references.count()
+        extra_forms_needed = max(0, 3 - num_references)
+        ReferenceDetailFormSet = formset_factory(ReferenceDetailForm, extra=extra_forms_needed, min_num=3, validate_min=True)
+        references_data = [model_to_dict(person) for person in references]
+        reference_detail_formset = ReferenceDetailFormSet(prefix='referencedetail', initial=references_data)
+
 
     return render(
             request,

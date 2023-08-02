@@ -22,7 +22,7 @@
                 {% csrf_token %}
                 <legend>Number of Pets</legend>
                 {{ form.num_existing_pets|as_crispy_field }}
-                {{ formset.management_form }}
+                {{ existing_pet_detail_formset.management_form }}
                 <div id="pet-detail-section">
                     {% for pet_form in existing_pet_detail_formset %}
                         <div class="pet-detail">
@@ -53,6 +53,7 @@
                 <form method="post">
                     {% csrf_token %}
                     <div id="reference-detail-section">
+                        {{ reference_detail_formset.management_form }}
                         {% for ref_form in reference_detail_formset %}
                             <div class="ref-detail">
                                 <legend>Reference #{{ forloop.counter }} Details</legend>
