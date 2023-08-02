@@ -3,77 +3,113 @@
 
 {% block content %}
 
-  <div class="container">
-    <div class="row justify-content-md-center">
-      <div class="col-md-8">
-        <div class="container py-5">
+<div class="container">
+  <div class="row justify-content-md-center">
+    <div class="col-md-8">
+      <div class="container py-5">
           <h3>Your Fosterer Profile: Page {{ stageNumber }} of 6</h3>
           {% if messages %}
-        <ul class="messages">
+          <ul class="messages">
             {% for message in messages %}
             <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
             {% endfor %}
-        </ul>
-        {% endif %}
-          <div>
-
-            {% if stage_id == 'pet-experience' %}
-                <form method="post">
-                {% csrf_token %}
-                <legend>Number of Pets</legend>
-                {{ form.num_existing_pets|as_crispy_field }}
-                {{ existing_pet_detail_formset.management_form }}
-                <div id="pet-detail-section">
-                    {% for pet_form in existing_pet_detail_formset %}
-                        <div class="pet-detail">
-                            <legend>Pet #{{ forloop.counter }} Details</legend>
-                            {% crispy pet_form %}
-                        </div>
-                    {% endfor %}
-                </div>
-                <legend>Pet Experience</legend>
-                {% for field in form %}
-                    {% if not field.name == 'num_existing_pets' %}
-                        {{ field|as_crispy_field }}
-                    {% endif %}
-                {% endfor %}
-                <a href="/fosterer/animal-preferences" name="submit_prev" class="btn btn-primary btn btn-secondary" id="submit-id-submit_prev">
+          </ul>
+          {% endif %}
+        <div>
+          {% if stage_id == 'animal-preferences' %}
+            <legend>Animal Preferences</legend>
+            <form method="post">
+              {% csrf_token %}
+              {% for field in form %}
+                {{ field|as_crispy_field }}
+              {% endfor %}
+              <a href="/fosterer/about-you" name="submit_prev" class="btn btn-primary btn btn-secondary" id="submit-id-submit_prev">
                 « Previous page
-                </a>
-                <input type="submit" name="submit" value="Save and continue &raquo;" class="btn btn-primary" />
+              </a>
+              <input type="submit" name="submit" value="Save and continue &raquo;" class="btn btn-primary" />
+            </form>
 
-                </form>
-            <!-- end pet experience-->
+          {% elif stage_id == 'pet-experience' %}
+          <form method="post">
+            {% csrf_token %}
+            <legend>Number of Pets</legend>
+            {{ form.num_existing_pets|as_crispy_field }}
+            {{ existing_pet_detail_formset.management_form }}
+            <div id="pet-detail-section">
+              {% for pet_form in existing_pet_detail_formset %}
+              <div class="pet-detail">
+                <legend>Pet #{{ forloop.counter }} Details</legend>
+                {% crispy pet_form %}
+              </div>
+              {% endfor %}
+            </div>
+            <legend>Pet Experience</legend>
+            {% for field in form %}
+              {% if not field.name == 'num_existing_pets' %}
+                {{ field|as_crispy_field }}
+              {% endif %}
+            {% endfor %}
+            <a href="/fosterer/animal-preferences" name="submit_prev" class="btn btn-primary btn btn-secondary" id="submit-id-submit_prev">
+              « Previous page
+            </a>
+            <input type="submit" name="submit" value="Save and continue &raquo;" class="btn btn-primary" />
 
-            {% elif stage_id == 'references' %}
-                <legend>References</legend>
-                <p class="small">
-                    If you have pets, we require that at least one of your references be your vet so we can verify that your animals are fixed and up to date on their shots.
-                </p>
-                <form method="post">
-                    {% csrf_token %}
-                    <div id="reference-detail-section">
-                        {{ reference_detail_formset.management_form }}
-                        {% for ref_form in reference_detail_formset %}
-                            <div class="ref-detail">
-                                <legend>Reference #{{ forloop.counter }} Details</legend>
-                                {% crispy ref_form %}
-                            </div>
-                        {% endfor %}
-                    </div>
-                    <a href="/fosterer/pet-experience" name="submit_prev" class="btn btn-primary btn btn-secondary" id="submit-id-submit_prev">
-                    « Previous page
-                    </a>
-                    <input type="submit" name="submit" value="Save and continue &raquo;" class="btn btn-primary" />
-                </form>
+          </form>
 
-            {% else %}
-                {% crispy form %}
-            {% endif %}
+          {% elif stage_id == 'references' %}
+          <legend>References</legend>
+          <p class="small">
+          If you have pets, we require that at least one of your references be your vet so we can verify that your animals are fixed and up to date on their shots.
+          </p>
+          <form method="post">
+            {% csrf_token %}
+            <div id="reference-detail-section">
+              {{ reference_detail_formset.management_form }}
+              {% for ref_form in reference_detail_formset %}
+              <div class="ref-detail">
+                <legend>Reference #{{ forloop.counter }} Details</legend>
+                {% crispy ref_form %}
+              </div>
+              {% endfor %}
+            </div>
+            <a href="/fosterer/pet-experience" name="submit_prev" class="btn btn-primary btn btn-secondary" id="submit-id-submit_prev">
+              « Previous page
+            </a>
+            <input type="submit" name="submit" value="Save and continue &raquo;" class="btn btn-primary" />
+          </form>
 
-          </div>
+          {% elif stage_id == 'household-details' %}
+          <legend>Household Details</legend>
+          <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+              {{ field|as_crispy_field }}
+            {% endfor %}
+            <a href="/fosterer/references" name="submit_prev" class="btn btn-primary btn btn-secondary" id="submit-id-submit_prev">
+              « Previous page
+            </a>
+            <input type="submit" name="submit" value="Save and continue &raquo;" class="btn btn-primary" />
+          </form>
+
+          {% elif stage_id == 'final-thoughts' %}
+          <legend>Final Thoughts</legend>
+          <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+            {{ field|as_crispy_field }}
+            {% endfor %}
+            <a href="/fosterer/household-details" name="submit_prev" class="btn btn-primary btn btn-secondary" id="submit-id-submit_prev">
+              « Previous page
+            </a>
+            <input type="submit" name="submit" value="Save and continue &raquo;" class="btn btn-primary" />
+          </form>
+
+        {% else %}
+        {% crispy form %}
+        {% endif %}
+
         </div>
       </div>
     </div>
   </div>
-{% endblock %}
+  {% endblock %}

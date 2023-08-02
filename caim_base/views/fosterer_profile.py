@@ -275,6 +275,7 @@ class FostererProfileStage5Form(ModelForm):
                 Fieldset(
                     "Household Details",
                     "num_people_in_home",
+                    "people_in_home_detail",
                     "yard_type",
                     "yard_fence_over_5ft",
                     "rent_own",
@@ -293,10 +294,12 @@ class FostererProfileStage5Form(ModelForm):
         model = FostererProfile
         fields = [
                 "num_people_in_home",
+                "people_in_home_detail",
                 "yard_type",
                 "yard_fence_over_5ft",
                 "rent_own",
                 "rent_restrictions",
+                "landlord_contact_text",
                 "hours_alone_description",
                 "hours_alone_location",
                 "sleep_location",
@@ -331,6 +334,7 @@ class FostererProfileStage6Form(ModelForm):
                     "other_info",
                     "ever_been_convicted_abuse",
                     "agree_share_details",
+                    'agree_social_media',
                     ),
                 Submit(
                     "submit_prev", "&laquo; Previous page", css_class="btn btn-secondary"
@@ -344,14 +348,17 @@ class FostererProfileStage6Form(ModelForm):
                 "other_info",
                 "ever_been_convicted_abuse",
                 "agree_share_details",
+                "agree_social_media",
                 ]
         required = (
                 "ever_been_convicted_abuse",
                 "agree_share_details",
+                "agree_social_media",
                 )
         widgets = {
                 "ever_been_convicted_abuse": RadioSelect(),
                 "agree_share_details": RadioSelect(),
+                "agree_social_media": RadioSelect(),
                 }
 
 

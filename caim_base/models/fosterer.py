@@ -90,7 +90,7 @@ class FostererPersonInHomeDetail(models.Model):
     age = models.IntegerField()
     email = models.EmailField(blank=True, null=True, default=None)
 
-
+# NOTE model not currently in use.
 class FostererLandlordContact(models.Model):
     fosterer_profile = models.OneToOneField(
         'FostererProfile',
@@ -252,7 +252,7 @@ class FostererProfile(models.Model):
         blank=True, null=True, default=None,
         verbose_name='How many people live in your home, including yourself?' 
     )
-    # TODO user Personinhomedetail
+    # TODO use Personinhomedetail
     people_in_home_detail = models.TextField(
         blank=True, null=True, default=None,
         verbose_name='Please list the following details for each person in your home, excluding yourself: Name, Relation, Age, Email address.'
@@ -290,6 +290,10 @@ class FostererProfile(models.Model):
     rent_restrictions = models.TextField(
         blank=True, null=True, default=None,
         verbose_name='If you rent, please describe any pet restrictions that are in place.'
+    )
+    landlord_contact_text = models.TextField(
+        blank=True, null=True, default=None,
+        verbose_name='If you rent, please provide your landlord’s name and contact information (email and/or phone). We will contact them to confirm that you have approval to foster.'
     )
     hours_alone_description = models.TextField(
         blank=True, null=True, default=None,
