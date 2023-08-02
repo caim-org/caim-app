@@ -30,7 +30,7 @@
             <hr>
             <form action="/organization/{{ awg.id }}/applications/{{ app.id }}" , method="post">
               {% csrf_token %}
-              <input class="d-none" name="status" type="text" value="{{ app.FosterApplicationStatus.PENDING | title }}"
+              <input class="d-none" name="status" type="text" value="{{ app.Statuses.PENDING | title }}"
                 readonly>
               <div class="input-group">
                 <input type="submit" class="btn btn-primary" value="Confirm">
