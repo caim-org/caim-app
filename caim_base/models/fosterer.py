@@ -228,7 +228,25 @@ class FostererProfile(models.Model):
         blank=True, null=True, default=None,
         verbose_name='Do you have experience with any of the following? Check all that apply.'
     )
-    people_at_home = models.IntegerField(default=1, verbose_name='How many people live in your home, including yourself?'
+    # These references are not used and simply to preserve existing data.
+    # going forward associated `ReferenceDetail` holds this information. 
+    reference_1 = models.TextField(
+        blank=True, null=True, default=None,
+        verbose_name='Reference #1'
+    )
+    reference_2 = models.TextField(
+        blank=True, null=True, default=None,
+        verbose_name='Reference #2'
+    )
+    reference_3 = models.TextField(
+        blank=True, null=True, default=None,
+        verbose_name='Reference #3'
+    )
+    # This is old "people at home" and is simply to preserve existing data.
+    # Unused going forward as this info will come from associated `PersonInHomeDetail`.
+    people_at_home = models.TextField(
+        blank=True, null=True, default=None,
+        verbose_name='Please list how many people live in your home and their ages (legacy)'
     )
     all_in_agreement = models.CharField(
         choices=YesNo.choices,
