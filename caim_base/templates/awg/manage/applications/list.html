@@ -77,7 +77,7 @@
             {% else %}
             <div>Pets: No</div>
             {% endif %}
-            <a href="/fosterer/{{ app.fosterer.id }}/pdf">download profile</a>
+            <a href="/fosterer/{{ app.fosterer.id }}/pdf">View Profile</a>
           </div>
           <div class="card-body">
               <img
@@ -85,7 +85,7 @@
                 src="{{ app.animal.primary_photo.url|image_resize:'75x75 crop' }}"
               >
               <div>{{ app.animal }}</div>
-              <a href="/animal/{{ app.animal.id }}">see profile</a>
+              <a href="/animal/{{ app.animal.id }}">View Profile</a>
           </div>
           <div class="card-footer">
             {% if app.status == app.Statuses.PENDING %}
