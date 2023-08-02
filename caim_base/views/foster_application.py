@@ -56,7 +56,7 @@ def application(request):
             fosterer=fosterer_profile,
             animal=animal,
             status="Pending",
-            reject_reason=None,
+            reject_reason_detail=None,
         )
 
         application.save()

@@ -51,11 +51,11 @@
       <div class="col-md-4 p-2">
         <div class="card" style="text-align: center;">
           <div class='card-title'>
-            {% if app.status == app.FosterApplicationStatus.PENDING %}
+            {% if app.status == app.Statuses.PENDING %}
             <button type="button" class="btn btn-warning fs-7" style="pointer-events: none;">{{ app.status.title }}</button>
-            {% elif app.status == app.FosterApplicationStatus.ACCEPTED %}
+            {% elif app.status == app.Statuses.ACCEPTED %}
             <button type="button" class="btn btn-success fs-7" style="pointer-events: none;">{{ app.status.title }}</button>
-            {% elif app.status == app.FosterApplicationStatus.REJECTED %}
+            {% elif app.status == app.Statuses.REJECTED %}
             <button type="button" class="btn btn-danger fs-7" style="pointer-events: none;">{{ app.status.title }}</button>
             {% else %}
             <button type="button" class="btn btn-info fs-7" style="pointer-events: none;">{{ app.status.title }}</button>
@@ -88,16 +88,16 @@
               <a href="/animal/{{ app.animal.id }}">see profile</a>
           </div>
           <div class="card-footer">
-            {% if app.status == app.FosterApplicationStatus.PENDING %}
+            {% if app.status == app.Statuses.PENDING %}
             <button
               class="btn btn-primary"
-              hx-get="/organization/{{ awg.id }}/applications/{{ app.id }}/modal/{{ app.FosterApplicationStatus.ACCEPTED }}"
+              hx-get="/organization/{{ awg.id }}/applications/{{ app.id }}/modal/{{ app.Statuses.ACCEPTED }}"
               hx-target="#awg-applications-modal"
               _="on htmx:afterOnLoad wait 10ms then add .show to #modal then add .show to #modal-backdrop"
             >Accept</button>
             <button
               class="btn btn-secondary"
-              hx-get="/organization/{{ awg.id }}/applications/{{ app.id }}/modal/{{ app.FosterApplicationStatus.REJECTED }}"
+              hx-get="/organization/{{ awg.id }}/applications/{{ app.id }}/modal/{{ app.Statuses.REJECTED }}"
               hx-target="#awg-applications-modal"
               _="on htmx:afterOnLoad wait 10ms then add .show to #modal then add .show to #modal-backdrop"
             >Reject</button>
@@ -105,7 +105,7 @@
             <!--
             <a
               class='btn'
-              hx-get="/organization/{{ awg.id }}/applications/{{ app.id }}/modal/{{ app.FosterApplicationStatus.PENDING }}"
+              hx-get="/organization/{{ awg.id }}/applications/{{ app.id }}/modal/{{ app.Statuses.PENDING }}"
               hx-target="#awg-applications-modal"
               _="on htmx:afterOnLoad wait 10ms then add .show to #modal then add .show to #modal-backdrop"
             >Reset to Pending</a>

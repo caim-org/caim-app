@@ -268,9 +268,10 @@ def fake_foster_application(animal: Animal, foster_profile: FostererProfile) -> 
     application = FosterApplication()
     application.animal = animal
     application.fosterer = foster_profile
-    application.status = choice([choice[0] for choice in application.FosterApplicationStatus.choices])
-    if application.status == application.FosterApplicationStatus.REJECTED:
-        application.reject_reason = fake.text(1000)
+    application.status = choice([choice[0] for choice in application.Statuses.choices])
+    if application.status == application.Statuses.REJECTED:
+        application.reject_reason = choice([choice[0] for choice in application.RejectionReasons.choices])
+        application.reject_reason_detail = fake.text(1000)
     application.full_clean()
     return application
 

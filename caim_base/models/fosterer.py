@@ -1,4 +1,5 @@
 import io
+from typing import List, Optional, Union
 
 from django import forms
 from django.contrib.auth import get_user_model
@@ -9,12 +10,12 @@ from reportlab.lib.pagesizes import letter
 from reportlab.pdfbase.pdfmetrics import stringWidth
 from reportlab.pdfgen import canvas
 
-from typing import List, Optional, Union
 from caim_base.models.animals import Animal
 
 from ..states import states
 
 User = get_user_model()
+
 
 class ChoiceArrayField(ArrayField):
     """
@@ -25,9 +26,9 @@ class ChoiceArrayField(ArrayField):
 
     def formfield(self, **kwargs):
         defaults = {
-            'widget': forms.CheckboxSelectMultiple,
-            'form_class': forms.MultipleChoiceField,
-            'choices': self.base_field.choices,
+            "widget": forms.CheckboxSelectMultiple,
+            "form_class": forms.MultipleChoiceField,
+            "choices": self.base_field.choices,
         }
         defaults.update(kwargs)
         # Skip our parent's formfield implementation completely as we don't
@@ -37,7 +38,6 @@ class ChoiceArrayField(ArrayField):
 
 
 class FostererProfile(models.Model):
-
     class TypeOfAnimals(models.TextChoices):
         DOGS = "DOGS", "Dogs"
         CATS = "CATS", "Cats"
@@ -105,132 +105,149 @@ class FostererProfile(models.Model):
     zip_code = models.CharField(max_length=16, blank=True, null=True, default=None)
     type_of_animals = ChoiceArrayField(
         models.CharField(max_length=32, choices=TypeOfAnimals.choices),
-        blank=True, null=True, default=None,
-        verbose_name='Which type of animal(s) are you wanting to foster?'
+        blank=True,
+        null=True,
+        default=None,
+        verbose_name="Which type of animal(s) are you wanting to foster?",
     )
     category_of_animals = ChoiceArrayField(
         models.CharField(max_length=32, choices=CategoryOfAnimals.choices),
-        blank=True, null=True, default=None,
-        verbose_name='Please check any / all that you\'re interested in fostering?'
+        blank=True,
+        null=True,
+        default=None,
+        verbose_name="Please check any / all that you're interested in fostering?",
     )
     behavioural_attributes = ChoiceArrayField(
         models.CharField(max_length=32, choices=BehaviouralAttributes.choices),
-        blank=True, null=True, default=None,
-        verbose_name='Please check any of the requirements you have for a foster'
+        blank=True,
+        null=True,
+        default=None,
+        verbose_name="Please check any of the requirements you have for a foster",
     )
     timeframe = models.CharField(
         choices=Timeframe.choices,
-        max_length=32, blank=False, null=True, default=None,
-        verbose_name='Please let us know which timeframe you\'re available for fostering'
+        max_length=32,
+        blank=False,
+        null=True,
+        default=None,
+        verbose_name="Please let us know which timeframe you're available for fostering",
     )
     timeframe_other = models.TextField(
-        blank=True, null=True, default=None,
-        verbose_name="If 'other', please give details"
+        blank=True, null=True, default=None, verbose_name="If 'other', please give details"
     )
     num_existing_pets = models.IntegerField(
-        blank=True, null=True, default=None,
-        verbose_name='How many pets do you currently have in your home?'
+        blank=True, null=True, default=None, verbose_name="How many pets do you currently have in your home?"
     )
     existing_pets_details = models.TextField(
-        blank=True, null=True, default=None,
-        verbose_name='Please give details of your existing pets'
+        blank=True, null=True, default=None, verbose_name="Please give details of your existing pets"
     )
     experience_description = models.TextField(
-        blank=True, null=True, default=None,
-        verbose_name='Please describe your experience with animals (personal pets, training, interactions, etc.)'
+        blank=True,
+        null=True,
+        default=None,
+        verbose_name="Please describe your experience with animals (personal pets, training, interactions, etc.)",
     )
     experience_categories = ChoiceArrayField(
         models.CharField(max_length=32, choices=ExperienceCategories.choices),
-        blank=True, null=True, default=None,
-        verbose_name='Do you have experience with any of the following? Check all that apply.'
+        blank=True,
+        null=True,
+        default=None,
+        verbose_name="Do you have experience with any of the following? Check all that apply.",
     )
     experience_given_up_pet = models.TextField(
-        blank=True, null=True, default=None,
-        verbose_name='Have you ever given a pet up? If so, please describe the situation.'
+        blank=True,
+        null=True,
+        default=None,
+        verbose_name="Have you ever given a pet up? If so, please describe the situation.",
     )
-    reference_1 = models.TextField(
-        blank=True, null=True, default=None,
-        verbose_name='Reference #1'
-    )
-    reference_2 = models.TextField(
-        blank=True, null=True, default=None,
-        verbose_name='Reference #2'
-    )
-    reference_3 = models.TextField(
-        blank=True, null=True, default=None,
-        verbose_name='Reference #3'
-    )
+    reference_1 = models.TextField(blank=True, null=True, default=None, verbose_name="Reference #1")
+    reference_2 = models.TextField(blank=True, null=True, default=None, verbose_name="Reference #2")
+    reference_3 = models.TextField(blank=True, null=True, default=None, verbose_name="Reference #3")
     people_at_home = models.TextField(
-        blank=True, null=True, default=None,
-        verbose_name='Please list how many people live in your home and their ages'
+        blank=True, null=True, default=None, verbose_name="Please list how many people live in your home and their ages"
     )
     yard_type = models.CharField(
         choices=YardTypes.choices,
-        max_length=32, blank=False, null=True, default=None,
-        verbose_name='Describe your yard'
+        max_length=32,
+        blank=False,
+        null=True,
+        default=None,
+        verbose_name="Describe your yard",
     )
     yard_fence_over_5ft = models.CharField(
         choices=YesNo.choices,
-        max_length=32, blank=False, null=True, default=None,
-        verbose_name='If your yard is fully fenced, is it all over 5 feet tall?'
+        max_length=32,
+        blank=False,
+        null=True,
+        default=None,
+        verbose_name="If your yard is fully fenced, is it all over 5 feet tall?",
     )
     rent_own = models.CharField(
-        choices=RentOwn.choices,
-        max_length=32, blank=False, null=True, default=None,
-        verbose_name='Do you rent or own?'
+        choices=RentOwn.choices, max_length=32, blank=False, null=True, default=None, verbose_name="Do you rent or own?"
     )
     rent_restrictions = models.TextField(
-        blank=True, null=True, default=None,
-        verbose_name='If you rent, please describe any pet restrictions that are in place.'
+        blank=True,
+        null=True,
+        default=None,
+        verbose_name="If you rent, please describe any pet restrictions that are in place.",
     )
     rent_ok_foster_pets = models.CharField(
         choices=YesNo.choices,
-        max_length=32, blank=False, null=True, default=None,
-        verbose_name='If you rent, is your landlord ok with you having foster pets?',
+        max_length=32,
+        blank=False,
+        null=True,
+        default=None,
+        verbose_name="If you rent, is your landlord ok with you having foster pets?",
     )
     hours_alone_description = models.TextField(
-        blank=True, null=True, default=None,
-        verbose_name='How many hours per day will your foster animal be left alone?'
+        blank=True,
+        null=True,
+        default=None,
+        verbose_name="How many hours per day will your foster animal be left alone?",
     )
     hours_alone_location = models.TextField(
-        blank=True, null=True, default=None,
-        verbose_name='Where will your foster animal be when they\'re left alone?'
+        blank=True, null=True, default=None, verbose_name="Where will your foster animal be when they're left alone?"
     )
     sleep_location = models.TextField(
-        blank=True, null=True, default=None,
-        verbose_name='Where will your foster animal sleep?'
+        blank=True, null=True, default=None, verbose_name="Where will your foster animal sleep?"
     )
     other_info = models.TextField(
-        blank=True, null=True, default=None,
-        verbose_name='Is there anything else you want us / rescues to know?'
+        blank=True, null=True, default=None, verbose_name="Is there anything else you want us / rescues to know?"
     )
     ever_been_convicted_abuse = models.CharField(
         choices=YesNo.choices,
-        max_length=32, blank=False, null=True, default=None,
-        verbose_name='Have you or a family / household member ever been convicted of an animal related crime (animal abuse, neglect, abandonment, etc.)?'
+        max_length=32,
+        blank=False,
+        null=True,
+        default=None,
+        verbose_name="Have you or a family / household member ever been convicted of an animal related crime (animal abuse, neglect, abandonment, etc.)?",
     )
     agree_share_details = models.CharField(
         choices=YesNo.choices,
-        max_length=32, blank=False, null=True, default=None,
-        verbose_name='Do you agree that we can share the details you\'ve provided with rescues in your area?'
+        max_length=32,
+        blank=False,
+        null=True,
+        default=None,
+        verbose_name="Do you agree that we can share the details you've provided with rescues in your area?",
     )
     is_complete = models.BooleanField(default=False)
+
 
 def __str__(self) -> str:
     return f"{self.firstname} {self.lastname}"
 
+
 def query_fostererprofiles(
     behavioural_attributes: Optional[List[str]] = None,
     is_complete=True,
-    sort: Optional[Union[str, List[str]]] = ["firstname" , "lastname"],
+    sort: Optional[Union[str, List[str]]] = ["firstname", "lastname"],
 ) -> models.QuerySet:
     """
-      Query fosterer profiles with preferred defaults  
+    Query fosterer profiles with preferred defaults
     """
 
     query = FostererProfile.objects.all()
 
-    
     if behavioural_attributes:
         query = query.filter(behavioural_attributes__contains=behavioural_attributes)
 
@@ -248,18 +265,30 @@ def query_fostererprofiles(
 
 
 class FosterApplication(models.Model):
-    
-    class FosterApplicationStatus(models.TextChoices):
+    class Statuses(models.TextChoices):
         ACCEPTED = "ACCEPTED", "Accepted"
         REJECTED = "REJECTED", "Rejected"
         PENDING = "PENDING", "Pending"
 
+    class RejectionReasons(models.TextChoices):
+        UNSUITABLE = "UNSUITABLE", "Not suitable for the animal requested, and not willing to consider alternative"
+        UNRELIABLE = "UNRELIABLE", "Concerns about fosterer reliability/commitment"
+        PROPERTY = "PROPERTY", "Concerns with home and/or yard situation"
+        HUMAN_ROOMMATES = "HUMAN_ROOMMATES", "Concerns with the people in the home"
+        PET_ROOMMATES = "PET_ROOMMATES", "Concerns with the other pets in the home"
+        NO_LANDLORD_APPROVAL = "NO_LANDLORD_APPROVAL", "Landlord has not approved fostering"
+        LIED = "LIED", "Lied on Application"
+        OTHER = "OTHER", "Other"
+
     fosterer = models.ForeignKey(FostererProfile, on_delete=models.CASCADE, related_name="applications")
     animal = models.ForeignKey(Animal, on_delete=models.CASCADE, related_name="applications")
-    status = models.CharField(max_length=32, choices=FosterApplicationStatus.choices)
-    reject_reason = models.TextField(max_length=65516, null=True, blank=True)
+    status = models.CharField(max_length=32, choices=Statuses.choices)
+    reject_reason = models.CharField(
+        max_length=32, choices=RejectionReasons.choices, default=RejectionReasons.OTHER.value
+    )
+    reject_reason_detail = models.TextField(max_length=65516, null=True, blank=True)
     submitted_on = models.DateField(auto_now_add=True)
     updated_on = models.DateField(auto_now=True)
-    
+
     def __str__(self) -> str:
         return f"Application for {self.animal} by {self.fosterer}"

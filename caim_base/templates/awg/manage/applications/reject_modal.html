@@ -32,12 +32,31 @@
             {% csrf_token %}
               <input class="d-none" name="status" type="text" value="{{ app.FosterApplicationStatus.REJECTED | title }}" readonly>
               <div class="row" style="height: 50%;">
-                <div class="input-group" style="height: 100%;">
-                    <textarea name='reject_reason' class="form-control" aria-label="Rejection Reason"></textarea>
+              <div>Select the reason for rejection</div>
+                <div class="input-group" style="height: 25%;">
+                  <select class="form-control row" name="reject_reason">
+                    <option
+                      value=""
+                    >
+                    Select
+                    </option>
+                    {% for rr in reject_reasons %}
+                    <option
+                      value="{{ rr.0 }}"
+                    >
+                    {{ rr.1 }}
+                    </option>
+                    {% endfor %}
+                  </select>
                 </div>
-              </div>
-              <div class="row">
-                <div class="form-text" id=""">Please give a rejection reason</div>
+                <div class="input-group" style="height: 75%;">
+                  <textarea
+                    name='reject_reason_detail'
+                    class="form-control row"
+                    aria-label="Rejection Reason"
+                    placeholder="Please describe anything else you would like us to know"
+                  ></textarea>
+                </div>
               </div>
               <div class="input-group">
                 <input type="submit" class="btn btn-primary" value="Confirm">
