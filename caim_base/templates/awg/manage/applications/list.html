@@ -4,6 +4,7 @@
 {% block innerContent %}
 <div class="row">
   <h2>Foster Applications</h2>
+  <div>Here's a list of all of your foster applicants. You can view, approve, reject or download each application.</div>
 </div>
 <div class="container mb-3">
   <div class="row d-md-none">
@@ -51,13 +52,13 @@
         <div class="card" style="text-align: center;">
           <div class='card-title'>
             {% if app.status == app.FosterApplicationStatus.PENDING %}
-            <div class="btn btn-warning">{{ app.status.title }}</div>
+            <button type="button" class="btn btn-warning fs-7" style="pointer-events: none;">{{ app.status.title }}</button>
             {% elif app.status == app.FosterApplicationStatus.ACCEPTED %}
-            <div class="btn btn-success">{{ app.status.title }}</div>
+            <button type="button" class="btn btn-success fs-7" style="pointer-events: none;">{{ app.status.title }}</button>
             {% elif app.status == app.FosterApplicationStatus.REJECTED %}
-            <div class="btn btn-danger">{{ app.status.title }}</div>
+            <button type="button" class="btn btn-danger fs-7" style="pointer-events: none;">{{ app.status.title }}</button>
             {% else %}
-            <div class="btn btn-info">{{ app.status.title }}</div>
+            <button type="button" class="btn btn-info fs-7" style="pointer-events: none;">{{ app.status.title }}</button>
             {% endif %}
             <div>Applied on {{ app.submitted_on }}</div>
           </div>
@@ -101,12 +102,14 @@
               _="on htmx:afterOnLoad wait 10ms then add .show to #modal then add .show to #modal-backdrop"
             >Reject</button>
             {% else %}
+            <!--
             <a
               class='btn'
               hx-get="/organization/{{ awg.id }}/applications/{{ app.id }}/modal/{{ app.FosterApplicationStatus.PENDING }}"
               hx-target="#awg-applications-modal"
               _="on htmx:afterOnLoad wait 10ms then add .show to #modal then add .show to #modal-backdrop"
             >Reset to Pending</a>
+            -->
             {% endif %}
           </div>
         </div>
