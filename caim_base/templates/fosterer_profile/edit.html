@@ -43,37 +43,6 @@
                 <input type="submit" name="submit" value="Save and continue &raquo;" class="btn btn-primary" />
 
                 </form>
-                <script>
-                    window.addEventListener('DOMContentLoaded', (event) => {
-                        var petDetailSection = document.getElementById('pet-detail-section');
-                        var petDetails = petDetailSection.getElementsByClassName('pet-detail');
-                        for (var i = 0; i < petDetails.length; i++) {
-                            petDetails[i].style.display = "none";
-                        }
-                        document.getElementById('num_existing_pets').addEventListener('change', function(){
-                            event.preventDefault();
-                            var numPets = this.value;
-                            if (numPets > 5) numPets = 5;
-                            for (var i = 0; i < petDetails.length; i++) {
-                                petDetails[i].style.display = (i < numPets) ? "block" : "none";
-                            }
-                            setTimeout(() => {
-                                if (petDetails.length > 0 && numPets > 0) {
-                                    var firstInput = petDetails[0].querySelector('input[type=text]');
-                                    if (firstInput) {
-                                        firstInput.focus();
-                                    }
-                                }
-                                else {
-                                    var textarea = document.querySelector('textarea[name=experience_given_up_pet]');
-                                    if(textarea){
-                                        textarea.focus();
-                                    }
-                                }
-                            }, 0);
-                        });
-                    });
-                </script>
             <!-- end pet experience-->
 
             {% elif stage_id == 'references' %}

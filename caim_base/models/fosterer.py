@@ -48,33 +48,32 @@ class YesNo(models.TextChoices):
     NO = "NO", "No"
 
 
-class ExistingPetDetail(models.Model):
-    name = models.CharField(max_length=64, blank=True, null=True, default=None)
+class FostererExistingPetDetail(models.Model):
+    name = models.CharField(max_length=64, blank=True, null=True)
     type_of_animals = ChoiceArrayField(
-        models.CharField(max_length=32, choices=TypeOfAnimals.choices),
-        blank=True, null=True, default=None,
+        models.CharField(max_length=32, choices=TypeOfAnimals.choices, blank=True, null=True),
         verbose_name='Animal Type'
     )
-    breed = models.CharField(max_length=64, blank=True, null=True, default=None)
-    sex = models.CharField(max_length=6, choices=(('Male', 'Male'), ('Female', 'Female')))
-    age = models.PositiveIntegerField()
-    weight_lbs = models.PositiveIntegerField()
+    breed = models.CharField(max_length=64, blank=True, null=True)
+    sex = models.CharField(max_length=6, choices=(('Male', 'Male'), ('Female', 'Female')), blank=True, null=True)
+    age = models.PositiveIntegerField(blank=True, null=True)
+    weight_lbs = models.PositiveIntegerField(blank=True, null=True)
     spayed_neutered = models.CharField(
         choices=YesNo.choices,
-        max_length=32, blank=False, null=True, default=None,
+        max_length=32, blank=True, null=True,
         verbose_name='Spayed or Neutered?'
     )
     up_to_date_shots = models.CharField(
         choices=YesNo.choices,
-        max_length=32, blank=False, null=True, default=None,
+        max_length=32, blank=True, null=True,
         verbose_name='Up to date on their shots?'
     )
-    quirks = models.TextField(max_length=1024, blank=True, null=True, default=None, verbose_name='Any quirks?')
+    quirks = models.TextField(max_length=1024, blank=True, null=True, verbose_name='Any quirks?')
 
     fosterer_profile = models.ForeignKey('FostererProfile', on_delete=models.CASCADE, related_name='existing_pets')
 
 
-class ReferenceDetail(models.Model):
+class FostererReferenceDetail(models.Model):
     fosterer_profile = models.ForeignKey('FostererProfile', on_delete=models.CASCADE, related_name='references')
     first_name = models.CharField(max_length=64)
     last_name = models.CharField(max_length=64)
@@ -83,7 +82,7 @@ class ReferenceDetail(models.Model):
     relation = models.CharField(max_length=128)
 
 
-class PersonInHomeDetail(models.Model):
+class FostererPersonInHomeDetail(models.Model):
     fosterer_profile = models.ForeignKey('FostererProfile', on_delete=models.CASCADE, related_name='people_in_home')
     name = models.CharField(max_length=128)
     relation = models.CharField(max_length=128, blank=True, null=True, default=None)
@@ -91,7 +90,7 @@ class PersonInHomeDetail(models.Model):
     email = models.EmailField(blank=True, null=True, default=None)
 
 
-class LandlordContact(models.Model):
+class FostererLandlordContact(models.Model):
     fosterer_profile = models.OneToOneField(
         'FostererProfile',
         on_delete=models.CASCADE,
