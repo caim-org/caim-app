@@ -62,7 +62,8 @@ def update_application(request, awg_id, application_id):
                 status=400,
             )
         application.status = new_status.upper()
-    application.reject_reason_detail = request.POST.get("reject_reason")
+    application.reject_reason = request.POST.get("reject_reason")
+    application.reject_reason_detail = request.POST.get("reject_reason_detail")
     application.save()
 
     current_user_permissions = awg.get_permissions_for_user(request.user)

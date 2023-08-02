@@ -1,3 +1,4 @@
+{% load static %}
 {% load caim_helpers %}
 <div id="modal-backdrop" class="modal-backdrop fade show" style="display:block;"></div>
 <div id="modal" class="modal fade show" tabindex="-1" style="display:block;">
@@ -5,36 +6,39 @@
     <div class="modal-content">
       <div class="modal-header">
         <div class="container-fluid" style="height: 100%;">
-            <h2 class="modal-title">Reject Application?</h2>
+            <img
+              class="mx-auto d-block"
+              src="{% static 'img/thinking.svg' %}"
+            >
+            <div class="fs-3 text-center">Are you sure you want to reject this application?</div>
         </div>
       </div>
       <div class="modal-body">
         <div class="container-fluid">
           <div class="row">
-            <div class="col">
-              <h3 class="row">Applicant</h3>
+            <div class="col text-start">
+              <h4 class="row">Applicant</h4>
               <div class="row">{{ app.fosterer.firstname }} {{ app.fosterer.lastname }}</div>
               <div>{{ app.fosterer.city }}, {{ app.fosterer.state }}</div>
             </div>
-            <div class="col">
-              <h3 class="row">Animal</h3>
-              <div class="row">
+            <div class="col text-end">
+              <h4 class="row justify-content-end">Animal</h4>
+              <div class="row justify-content-center">
                 <img
-                  class="col"
-                  style="background-color: #eee"
+                  class="row"
+                  style="background-color: #eee; clip-path: circle()"
                   src="{{ app.animal.primary_photo.url|image_resize:'75x75 crop' }}"
                 >
-                <div class="col">{{ app.animal.name}}</div>
+                <div class="row justify-content-center">{{ app.animal.name}}</div>
               </div>
             </div>
-            <hr>
             <form action="/organization/{{ awg.id }}/applications/{{ app.id }}", method="post" style="height: 100%;">
             {% csrf_token %}
-              <input class="d-none" name="status" type="text" value="{{ app.FosterApplicationStatus.REJECTED | title }}" readonly>
-              <div class="row" style="height: 50%;">
+              <input class="d-none" name="status" type="text" value="{{ app.Statuses.REJECTED | title }}" readonly>
+              <div class="row justify-content-start align-content-start text-start" style="height: 50%;">
               <div>Select the reason for rejection</div>
                 <div class="input-group" style="height: 25%;">
-                  <select class="form-control row" name="reject_reason">
+                  <select class="form-control" name="reject_reason">
                     <option
                       value=""
                     >
@@ -58,15 +62,17 @@
                   ></textarea>
                 </div>
               </div>
-              <div class="input-group">
-                <input type="submit" class="btn btn-primary" value="Confirm">
+              <div class="row justify-content-center align-content-center">
+                <div class="input-group">
+                  <div class="col text-center">
+                    <input type="submit" class="btn btn-primary" value="Confirm">
+                  </div>
+                </div>
               </div>
             </form>
+        	  <button type="button" class="btn btn-link" onclick="closeModal('awg-applications-modal')">cancel</button>
         	</div>
       	</div>
-    	</div>
-    	<div class="modal-footer">
-    	  <button type="button" class="btn btn-secondary" onclick="closeModal('awg-applications-modal')">Close</button>
     	</div>
     </div>
   </div>
