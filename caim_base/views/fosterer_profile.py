@@ -610,7 +610,7 @@ def download_fosterer_profile(request: HttpRequest, fosterer_id: int) -> HttpRes
     animal_type_labels = []
     if fosterer.type_of_animals:
         animal_type_labels = [
-            fosterer.TypeOfAnimals(animal_type).label
+            TypeOfAnimals(animal_type).label
             for animal_type in fosterer.type_of_animals
         ]
 
