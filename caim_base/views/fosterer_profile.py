@@ -25,6 +25,7 @@ from ..notifications import notify_new_fosterer_profile
 from django import forms
 from ..models import FostererExistingPetDetail, FostererReferenceDetail, TypeOfAnimals
 
+
 class ExistingPetDetailForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -32,24 +33,24 @@ class ExistingPetDetailForm(forms.ModelForm):
         self.helper.form_tag = False
 
     type_of_animals = forms.MultipleChoiceField(
-            choices=TypeOfAnimals.choices,
-            required=False,
-            widget=forms.CheckboxSelectMultiple
-            )
+        choices=TypeOfAnimals.choices,
+        required=False,
+        widget=forms.CheckboxSelectMultiple,
+    )
 
     class Meta:
         model = FostererExistingPetDetail
         fields = [
-                'name',
-                'type_of_animals',
-                'breed',
-                'sex',
-                'age',
-                'weight_lbs',
-                'spayed_neutered',
-                'up_to_date_shots',
-                'quirks'
-                ]
+            "name",
+            "type_of_animals",
+            "breed",
+            "sex",
+            "age",
+            "weight_lbs",
+            "spayed_neutered",
+            "up_to_date_shots",
+            "quirks",
+        ]
 
 
 class ReferenceDetailForm(forms.ModelForm):
@@ -61,44 +62,43 @@ class ReferenceDetailForm(forms.ModelForm):
     class Meta:
         model = FostererReferenceDetail
         fields = [
-                'first_name',
-                'last_name',
-                'email',
-                'phone',
-                'relation',
-                ]
+            "first_name",
+            "last_name",
+            "email",
+            "phone",
+            "relation",
+        ]
         required = (
-                "first_name",
-                "last_name",
-                "email",
-                "relation",
-                )
+            "first_name",
+            "last_name",
+            "email",
+            "relation",
+        )
 
 
 class FostererProfileStage1Form(ModelForm):
     def __init__(self, *args, **kwargs):
 
         # patch user and profile info into "initial" to prefill fields
-        initial_args = kwargs.get('initial', {})
+        initial_args = kwargs.get("initial", {})
 
         user_profile = None
 
-        fosterer_profile = kwargs.get('instance')
+        fosterer_profile = kwargs.get("instance")
         if fosterer_profile:
             user = fosterer_profile.user
             user_profile = user.userprofile
 
         if user_profile is not None:
-            initial_args['firstname'] = user.first_name
-            initial_args['lastname'] = user.last_name
-            initial_args['city'] = user_profile.city
-            initial_args['state'] = user_profile.state
-            initial_args['zip_code'] = user_profile.zip_code
+            initial_args["firstname"] = user.first_name
+            initial_args["lastname"] = user.last_name
+            initial_args["city"] = user_profile.city
+            initial_args["state"] = user_profile.state
+            initial_args["zip_code"] = user_profile.zip_code
 
-            kwargs['initial'] = initial_args
+            kwargs["initial"] = initial_args
 
         super().__init__(*args, **kwargs)
-
 
         for field in self.Meta.required:
             if field in self.fields:
@@ -106,24 +106,8 @@ class FostererProfileStage1Form(ModelForm):
 
         self.helper = FormHelper()
         self.helper.layout = Layout(
-                Fieldset(
-                    "About you",
-                    "firstname",
-                    "lastname",
-                    "age",
-                    "email",
-                    "phone",
-                    "street_address",
-                    "city",
-                    "state",
-                    "zip_code",
-                    ),
-                Submit("submit", "Save and continue", css_class="button"),
-                )
-
-    class Meta:
-        model = FostererProfile
-        fields = [
+            Fieldset(
+                "About you",
                 "firstname",
                 "lastname",
                 "age",
@@ -133,17 +117,33 @@ class FostererProfileStage1Form(ModelForm):
                 "city",
                 "state",
                 "zip_code",
-                ]
+            ),
+            Submit("submit", "Save and continue", css_class="button"),
+        )
+
+    class Meta:
+        model = FostererProfile
+        fields = [
+            "firstname",
+            "lastname",
+            "age",
+            "email",
+            "phone",
+            "street_address",
+            "city",
+            "state",
+            "zip_code",
+        ]
         required = (
-                "firstname",
-                "lastname",
-                "email",
-                "phone",
-                "street_address",
-                "city",
-                "state",
-                "zip_code",
-                )
+            "firstname",
+            "lastname",
+            "email",
+            "phone",
+            "street_address",
+            "city",
+            "state",
+            "zip_code",
+        )
 
 
 class FostererProfileStage2Form(ModelForm):
@@ -156,23 +156,8 @@ class FostererProfileStage2Form(ModelForm):
 
         self.helper = FormHelper()
         self.helper.layout = Layout(
-                Fieldset(
-                    "Animal preferences",
-                    "type_of_animals",
-                    "category_of_animals",
-                    "dog_size",
-                    "behavioural_attributes",
-                    "medical_issues",
-                    "special_needs",
-                    "behavioral_issues",
-                    "timeframe"
-                    ),
-                Submit("submit", "Save and continue &raquo;", css_class="btn btn-primary"),
-                )
-
-    class Meta:
-        model = FostererProfile
-        fields = [
+            Fieldset(
+                "Animal preferences",
                 "type_of_animals",
                 "category_of_animals",
                 "dog_size",
@@ -181,15 +166,30 @@ class FostererProfileStage2Form(ModelForm):
                 "special_needs",
                 "behavioral_issues",
                 "timeframe",
-                ]
+            ),
+            Submit("submit", "Save and continue &raquo;", css_class="btn btn-primary"),
+        )
+
+    class Meta:
+        model = FostererProfile
+        fields = [
+            "type_of_animals",
+            "category_of_animals",
+            "dog_size",
+            "behavioural_attributes",
+            "medical_issues",
+            "special_needs",
+            "behavioral_issues",
+            "timeframe",
+        ]
         required = (
-                "type_of_animals",
-                "category_of_animals",
-                "timeframe",
-                )
+            "type_of_animals",
+            "category_of_animals",
+            "timeframe",
+        )
         widgets = {
-                "timeframe": RadioSelect(),
-                }
+            "timeframe": RadioSelect(),
+        }
 
 
 class FostererProfileStage3Form(ModelForm):
@@ -200,39 +200,41 @@ class FostererProfileStage3Form(ModelForm):
             if field in self.fields:
                 self.fields[field].required = True
 
-        self.fields['num_existing_pets'].widget.attrs.update({
-            'id': 'num_existing_pets',
-            })
+        self.fields["num_existing_pets"].widget.attrs.update(
+            {
+                "id": "num_existing_pets",
+            }
+        )
 
         self.helper = FormHelper()
         self.helper.layout = Layout(
-                Fieldset(
-                    "Pet Experience",
-                    "num_existing_pets",
-                    "experience_given_up_pet",
-                    "experience_description",
-                    "experience_categories",
-                    ),
-                Submit(
-                    "submit_prev", "&laquo; Previous page", css_class="btn btn-secondary"
-                    ),
-                Submit("submit", "Save and continue &raquo;", css_class="btn btn-primary"),
-                )
+            Fieldset(
+                "Pet Experience",
+                "num_existing_pets",
+                "experience_given_up_pet",
+                "experience_description",
+                "experience_categories",
+            ),
+            Submit(
+                "submit_prev", "&laquo; Previous page", css_class="btn btn-secondary"
+            ),
+            Submit("submit", "Save and continue &raquo;", css_class="btn btn-primary"),
+        )
         self.helper = FormHelper(self)
 
     class Meta:
         model = FostererProfile
         fields = [
-                "num_existing_pets",
-                "experience_given_up_pet",
-                "experience_description",
-                "experience_categories",
-                ]
+            "num_existing_pets",
+            "experience_given_up_pet",
+            "experience_description",
+            "experience_categories",
+        ]
         required = (
-                "num_existing_pets",
-                "experience_description",
-                "experience_categories",
-                )
+            "num_existing_pets",
+            "experience_description",
+            "experience_categories",
+        )
 
 
 class FostererProfileStage4Form(ModelForm):
@@ -245,21 +247,19 @@ class FostererProfileStage4Form(ModelForm):
 
         self.helper = FormHelper()
         self.helper.layout = Layout(
-                Fieldset(
-                    "References",
-                    ),
-                Submit(
-                    "submit_prev", "&laquo; Previous page", css_class="btn btn-secondary"
-                    ),
-                Submit("submit", "Save and continue &raquo;", css_class="btn btn-primary"),
-                )
+            Fieldset(
+                "References",
+            ),
+            Submit(
+                "submit_prev", "&laquo; Previous page", css_class="btn btn-secondary"
+            ),
+            Submit("submit", "Save and continue &raquo;", css_class="btn btn-primary"),
+        )
 
     class Meta:
         model = FostererProfile
-        fields = [
-                ]
-        required = (
-                )
+        fields = []
+        required = ()
 
 
 class FostererProfileStage5Form(ModelForm):
@@ -272,51 +272,51 @@ class FostererProfileStage5Form(ModelForm):
 
         self.helper = FormHelper()
         self.helper.layout = Layout(
-                Fieldset(
-                    "Household Details",
-                    "num_people_in_home",
-                    "people_in_home_detail",
-                    "yard_type",
-                    "yard_fence_over_5ft",
-                    "rent_own",
-                    "rent_restrictions",
-                    "hours_alone_description",
-                    "hours_alone_location",
-                    "sleep_location",
-                    ),
-                Submit(
-                    "submit_prev", "&laquo; Previous page", css_class="btn btn-secondary"
-                    ),
-                Submit("submit", "Save and continue &raquo;", css_class="btn btn-primary"),
-                )
-
-    class Meta:
-        model = FostererProfile
-        fields = [
+            Fieldset(
+                "Household Details",
                 "num_people_in_home",
                 "people_in_home_detail",
                 "yard_type",
                 "yard_fence_over_5ft",
                 "rent_own",
                 "rent_restrictions",
-                "landlord_contact_text",
                 "hours_alone_description",
                 "hours_alone_location",
                 "sleep_location",
-                ]
+            ),
+            Submit(
+                "submit_prev", "&laquo; Previous page", css_class="btn btn-secondary"
+            ),
+            Submit("submit", "Save and continue &raquo;", css_class="btn btn-primary"),
+        )
+
+    class Meta:
+        model = FostererProfile
+        fields = [
+            "num_people_in_home",
+            "people_in_home_detail",
+            "yard_type",
+            "yard_fence_over_5ft",
+            "rent_own",
+            "rent_restrictions",
+            "landlord_contact_text",
+            "hours_alone_description",
+            "hours_alone_location",
+            "sleep_location",
+        ]
         required = (
-                "num_people_in_home",
-                "yard_type",
-                "rent_own",
-                "hours_alone_description",
-                "hours_alone_location",
-                "sleep_location",
-                )
+            "num_people_in_home",
+            "yard_type",
+            "rent_own",
+            "hours_alone_description",
+            "hours_alone_location",
+            "sleep_location",
+        )
         widgets = {
-                "yard_type": RadioSelect(),
-                "yard_fence_over_5ft": RadioSelect(),
-                "rent_own": RadioSelect(),
-                }
+            "yard_type": RadioSelect(),
+            "yard_fence_over_5ft": RadioSelect(),
+            "rent_own": RadioSelect(),
+        }
 
 
 class FostererProfileStage6Form(ModelForm):
@@ -329,77 +329,77 @@ class FostererProfileStage6Form(ModelForm):
 
         self.helper = FormHelper()
         self.helper.layout = Layout(
-                Fieldset(
-                    "Final thoughts",
-                    "other_info",
-                    "ever_been_convicted_abuse",
-                    "agree_share_details",
-                    'agree_social_media',
-                    ),
-                Submit(
-                    "submit_prev", "&laquo; Previous page", css_class="btn btn-secondary"
-                    ),
-                Submit("submit", "Save and continue &raquo;", css_class="btn btn-primary"),
-                )
-
-    class Meta:
-        model = FostererProfile
-        fields = [
+            Fieldset(
+                "Final thoughts",
                 "other_info",
                 "ever_been_convicted_abuse",
                 "agree_share_details",
                 "agree_social_media",
-                ]
+            ),
+            Submit(
+                "submit_prev", "&laquo; Previous page", css_class="btn btn-secondary"
+            ),
+            Submit("submit", "Save and continue &raquo;", css_class="btn btn-primary"),
+        )
+
+    class Meta:
+        model = FostererProfile
+        fields = [
+            "other_info",
+            "ever_been_convicted_abuse",
+            "agree_share_details",
+            "agree_social_media",
+        ]
         required = (
-                "ever_been_convicted_abuse",
-                "agree_share_details",
-                "agree_social_media",
-                )
+            "ever_been_convicted_abuse",
+            "agree_share_details",
+            "agree_social_media",
+        )
         widgets = {
-                "ever_been_convicted_abuse": RadioSelect(),
-                "agree_share_details": RadioSelect(),
-                "agree_social_media": RadioSelect(),
-                }
+            "ever_been_convicted_abuse": RadioSelect(),
+            "agree_share_details": RadioSelect(),
+            "agree_social_media": RadioSelect(),
+        }
 
 
 STAGES = {
-        "about-you": {
-            "number": 1,
-            "form_class": FostererProfileStage1Form,
-            "next": "animal-preferences",
-            "prev": None,
-            },
-        "animal-preferences": {
-            "number": 2,
-            "form_class": FostererProfileStage2Form,
-            "next": "pet-experience",
-            "prev": "about-you",
-            },
-        "pet-experience": {
-            "number": 3,
-            "form_class": FostererProfileStage3Form,
-            "next": "references",
-            "prev": "animal-preferences",
-            },
-        "references": {
-            "number": 4,
-            "form_class": FostererProfileStage4Form,
-            "next": "household-details",
-            "prev": "pet-experience",
-            },
-        "household-details": {
-            "number": 5,
-            "form_class": FostererProfileStage5Form,
-            "next": "final-thoughts",
-            "prev": "references",
-            },
-        "final-thoughts": {
-            "number": 6,
-            "form_class": FostererProfileStage6Form,
-            "next": "complete",
-            "prev": "household-details",
-            },
-        }
+    "about-you": {
+        "number": 1,
+        "form_class": FostererProfileStage1Form,
+        "next": "animal-preferences",
+        "prev": None,
+    },
+    "animal-preferences": {
+        "number": 2,
+        "form_class": FostererProfileStage2Form,
+        "next": "pet-experience",
+        "prev": "about-you",
+    },
+    "pet-experience": {
+        "number": 3,
+        "form_class": FostererProfileStage3Form,
+        "next": "references",
+        "prev": "animal-preferences",
+    },
+    "references": {
+        "number": 4,
+        "form_class": FostererProfileStage4Form,
+        "next": "household-details",
+        "prev": "pet-experience",
+    },
+    "household-details": {
+        "number": 5,
+        "form_class": FostererProfileStage5Form,
+        "next": "final-thoughts",
+        "prev": "references",
+    },
+    "final-thoughts": {
+        "number": 6,
+        "form_class": FostererProfileStage6Form,
+        "next": "complete",
+        "prev": "household-details",
+    },
+}
 
 
 @login_required()
@@ -428,13 +428,13 @@ def edit(request, stage_id):
             fosterer_profile.save()
             notify_new_fosterer_profile(fosterer_profile)
         return render(
-                request,
-                "fosterer_profile/complete.html",
-                {
-                    "user": user,
-                    "pageTitle": "Fosterer profile complete",
-                    },
-                )
+            request,
+            "fosterer_profile/complete.html",
+            {
+                "user": user,
+                "pageTitle": "Fosterer profile complete",
+            },
+        )
 
     if not stage_id in STAGES:
         raise Http404("Stage not found")
@@ -447,19 +447,25 @@ def edit(request, stage_id):
 
     if request.method == "POST":
         ExistingPetDetailFormSet = formset_factory(ExistingPetDetailForm, extra=3)
-        ReferenceDetailFormSet = formset_factory(ReferenceDetailForm, extra=3, min_num=3, validate_min=True)
+        ReferenceDetailFormSet = formset_factory(
+            ReferenceDetailForm, extra=3, min_num=3, validate_min=True
+        )
 
         form = form_class(request.POST, instance=fosterer_profile)
-        existing_pet_detail_formset = ExistingPetDetailFormSet(request.POST, prefix='existingpetdetail')
-        reference_detail_formset = ReferenceDetailFormSet(request.POST, prefix='referencedetail')
+        existing_pet_detail_formset = ExistingPetDetailFormSet(
+            request.POST, prefix="existingpetdetail"
+        )
+        reference_detail_formset = ReferenceDetailFormSet(
+            request.POST, prefix="referencedetail"
+        )
 
         formsets_are_valid = True
 
-        if stage_id == 'pet-experience':
+        if stage_id == "pet-experience":
             if not existing_pet_detail_formset.is_valid():
                 formsets_are_valid = False
 
-        if stage_id == 'references':
+        if stage_id == "references":
             if not reference_detail_formset.is_valid():
                 formsets_are_valid = False
 
@@ -468,41 +474,51 @@ def edit(request, stage_id):
         if form_is_valid and formsets_are_valid:
             form.save()
 
-            if stage_id == 'pet-experience':
+            if stage_id == "pet-experience":
                 # limit to 3 saved existing pets (for now). do not duplicate
-                existing_pet_details = FostererExistingPetDetail.objects.filter(fosterer_profile=fosterer_profile).order_by('id')
+                existing_pet_details = FostererExistingPetDetail.objects.filter(
+                    fosterer_profile=fosterer_profile
+                ).order_by("id")
 
                 for index, detail_form in enumerate(existing_pet_detail_formset):
                     if detail_form.is_valid():
                         detail_data = detail_form.cleaned_data
                         if index < len(existing_pet_details):
                             existing_detail = existing_pet_details[index]
-                            existing_detail.name = detail_data.get('name')
-                            existing_detail.type_of_animals = detail_data.get('type_of_animals')
-                            existing_detail.breed = detail_data.get('breed')
-                            existing_detail.sex = detail_data.get('sex')
-                            existing_detail.age = detail_data.get('age')
-                            existing_detail.weight_lbs = detail_data.get('weight_lbs')
-                            existing_detail.spayed_neutered = detail_data.get('spayed_neutered')
-                            existing_detail.up_to_date_shots = detail_data.get('up_to_date_shots')
-                            existing_detail.quirks = detail_data.get('quirks')
+                            existing_detail.name = detail_data.get("name")
+                            existing_detail.type_of_animals = detail_data.get(
+                                "type_of_animals"
+                            )
+                            existing_detail.breed = detail_data.get("breed")
+                            existing_detail.sex = detail_data.get("sex")
+                            existing_detail.age = detail_data.get("age")
+                            existing_detail.weight_lbs = detail_data.get("weight_lbs")
+                            existing_detail.spayed_neutered = detail_data.get(
+                                "spayed_neutered"
+                            )
+                            existing_detail.up_to_date_shots = detail_data.get(
+                                "up_to_date_shots"
+                            )
+                            existing_detail.quirks = detail_data.get("quirks")
                             existing_detail.save()
                         else:
                             FostererExistingPetDetail.objects.create(
-                                    fosterer_profile=fosterer_profile,
-                                    name=detail_data.get('name'),
-                                    type_of_animals=detail_data.get('type_of_animals'),
-                                    breed=detail_data.get('breed'),
-                                    sex=detail_data.get('sex'),
-                                    age=detail_data.get('age'),
-                                    weight_lbs=detail_data.get('weight_lbs'),
-                                    spayed_neutered=detail_data.get('spayed_neutered'),
-                                    up_to_date_shots=detail_data.get('up_to_date_shots'),
-                                    quirks=detail_data.get('quirks')
-                                    )
+                                fosterer_profile=fosterer_profile,
+                                name=detail_data.get("name"),
+                                type_of_animals=detail_data.get("type_of_animals"),
+                                breed=detail_data.get("breed"),
+                                sex=detail_data.get("sex"),
+                                age=detail_data.get("age"),
+                                weight_lbs=detail_data.get("weight_lbs"),
+                                spayed_neutered=detail_data.get("spayed_neutered"),
+                                up_to_date_shots=detail_data.get("up_to_date_shots"),
+                                quirks=detail_data.get("quirks"),
+                            )
 
-            if stage_id == 'references':
-                existing_references = FostererReferenceDetail.objects.filter(fosterer_profile=fosterer_profile).order_by('id')
+            if stage_id == "references":
+                existing_references = FostererReferenceDetail.objects.filter(
+                    fosterer_profile=fosterer_profile
+                ).order_by("id")
 
                 for index, detail_form in enumerate(reference_detail_formset):
                     # do not attempt to save empty forms
@@ -510,21 +526,21 @@ def edit(request, stage_id):
                         detail_data = detail_form.cleaned_data
                         if index < len(existing_references):
                             existing_detail = existing_references[index]
-                            existing_detail.first_name = detail_data.get('first_name')
-                            existing_detail.last_name = detail_data.get('last_name')
-                            existing_detail.email = detail_data.get('email')
-                            existing_detail.phone = detail_data.get('phone')
-                            existing_detail.relation = detail_data.get('relation')
+                            existing_detail.first_name = detail_data.get("first_name")
+                            existing_detail.last_name = detail_data.get("last_name")
+                            existing_detail.email = detail_data.get("email")
+                            existing_detail.phone = detail_data.get("phone")
+                            existing_detail.relation = detail_data.get("relation")
                             existing_detail.save()
                         else:
                             FostererReferenceDetail.objects.create(
-                                    fosterer_profile=fosterer_profile,
-                                    first_name=detail_data.get('first_name'),
-                                    last_name=detail_data.get('last_name'),
-                                    email=detail_data.get('email'),
-                                    phone=detail_data.get('phone'),
-                                    relation=detail_data.get('relation')
-                                    )
+                                fosterer_profile=fosterer_profile,
+                                first_name=detail_data.get("first_name"),
+                                last_name=detail_data.get("last_name"),
+                                email=detail_data.get("email"),
+                                phone=detail_data.get("phone"),
+                                relation=detail_data.get("relation"),
+                            )
 
             is_previous = "submit_prev" in request.POST
             if is_previous:
@@ -537,34 +553,45 @@ def edit(request, stage_id):
     else:
         form = form_class(instance=fosterer_profile)
 
-        existing_pets = FostererExistingPetDetail.objects.filter(fosterer_profile=fosterer_profile)
+        existing_pets = FostererExistingPetDetail.objects.filter(
+            fosterer_profile=fosterer_profile
+        )
         num_existing_pets = existing_pets.count()
         extra_forms_needed = max(0, 3 - num_existing_pets)
-        ExistingPetDetailFormSet = formset_factory(ExistingPetDetailForm, extra=extra_forms_needed)
+        ExistingPetDetailFormSet = formset_factory(
+            ExistingPetDetailForm, extra=extra_forms_needed
+        )
         existing_pet_data = [model_to_dict(pet) for pet in existing_pets]
-        existing_pet_detail_formset = ExistingPetDetailFormSet(prefix='existingpetdetail', initial=existing_pet_data)
+        existing_pet_detail_formset = ExistingPetDetailFormSet(
+            prefix="existingpetdetail", initial=existing_pet_data
+        )
 
-        references = FostererReferenceDetail.objects.filter(fosterer_profile=fosterer_profile)
+        references = FostererReferenceDetail.objects.filter(
+            fosterer_profile=fosterer_profile
+        )
         num_references = references.count()
         extra_forms_needed = max(0, 3 - num_references)
-        ReferenceDetailFormSet = formset_factory(ReferenceDetailForm, extra=extra_forms_needed, min_num=3, validate_min=True)
+        ReferenceDetailFormSet = formset_factory(
+            ReferenceDetailForm, extra=extra_forms_needed, min_num=3, validate_min=True
+        )
         references_data = [model_to_dict(person) for person in references]
-        reference_detail_formset = ReferenceDetailFormSet(prefix='referencedetail', initial=references_data)
-
+        reference_detail_formset = ReferenceDetailFormSet(
+            prefix="referencedetail", initial=references_data
+        )
 
     return render(
-            request,
-            "fosterer_profile/edit.html",
-            {
-                "user": user,
-                "form": form,
-                "existing_pet_detail_formset": existing_pet_detail_formset,
-                "reference_detail_formset": reference_detail_formset,
-                "pageTitle": "Edit your fosterer profile",
-                "stageNumber": stage_number,
-                "stage_id": stage_id,
-                },
-            )
+        request,
+        "fosterer_profile/edit.html",
+        {
+            "user": user,
+            "form": form,
+            "existing_pet_detail_formset": existing_pet_detail_formset,
+            "reference_detail_formset": reference_detail_formset,
+            "pageTitle": "Edit your fosterer profile",
+            "stageNumber": stage_number,
+            "stage_id": stage_id,
+        },
+    )
 
 
 @login_required()
@@ -583,47 +610,47 @@ def download_fosterer_profile(request: HttpRequest, fosterer_id: int) -> HttpRes
     animal_type_labels = []
     if fosterer.type_of_animals:
         animal_type_labels = [
-                fosterer.TypeOfAnimals(animal_type).label
-                for animal_type in fosterer.type_of_animals
-                ]
+            fosterer.TypeOfAnimals(animal_type).label
+            for animal_type in fosterer.type_of_animals
+        ]
 
     category_of_animals_labels = []
     if fosterer.category_of_animals:
         category_of_animals_labels = [
-                fosterer.CategoryOfAnimals(category).label
-                for category in fosterer.category_of_animals
-                ]
+            fosterer.CategoryOfAnimals(category).label
+            for category in fosterer.category_of_animals
+        ]
 
     behaviour_labels = []
     if fosterer.behavioural_attributes:
         behaviour_labels = [
-                fosterer.BehaviouralAttributes(behaviour).label
-                for behaviour in fosterer.behavioural_attributes
-                ]
+            fosterer.BehaviouralAttributes(behaviour).label
+            for behaviour in fosterer.behavioural_attributes
+        ]
 
     experience_categories_labels = []
     if fosterer.experience_categories:
         experience_categories_labels = [
-                fosterer.ExperienceCategories(experience).label
-                for experience in fosterer.experience_categories
-                ]
+            fosterer.ExperienceCategories(experience).label
+            for experience in fosterer.experience_categories
+        ]
 
     context = {
-            "fosterer": fosterer,
-            "animal_type_labels": animal_type_labels,
-            "category_of_animals_labels": category_of_animals_labels,
-            "behaviour_labels": behaviour_labels,
-            "experience_categories_labels": experience_categories_labels,
-            }
+        "fosterer": fosterer,
+        "animal_type_labels": animal_type_labels,
+        "category_of_animals_labels": category_of_animals_labels,
+        "behaviour_labels": behaviour_labels,
+        "experience_categories_labels": experience_categories_labels,
+    }
 
     pdf_string = render_to_string("fosterer_profile/pdf.html", context, request)
     pdf_file = HTML(string=pdf_string).write_pdf(
-            stylesheets=[
-                CSS(string="@page { size: letter portrait; margin: 1cm }"),
-                CSS(filename=os.path.join(settings.STATIC_ROOT, "css/normalize.css")),
-                CSS(filename=os.path.join(settings.STATIC_ROOT, "css/pdf.css")),
-                ]
-            )
+        stylesheets=[
+            CSS(string="@page { size: letter portrait; margin: 1cm }"),
+            CSS(filename=os.path.join(settings.STATIC_ROOT, "css/normalize.css")),
+            CSS(filename=os.path.join(settings.STATIC_ROOT, "css/pdf.css")),
+        ]
+    )
 
     response = HttpResponse(pdf_file, content_type="application/pdf")
     response["Content-Disposition"] = f"filename=fosterer-profile-{fosterer_id}.pdf"
