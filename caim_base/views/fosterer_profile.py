@@ -5,7 +5,7 @@ from unicodedata import category
 
 from click import style
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Fieldset, Layout, Submit
+from crispy_forms.layout import Fieldset, Layout, Submit, Field
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -109,7 +109,7 @@ class FostererProfileStage1Form(ModelForm):
         self.helper.layout = Layout(
             Fieldset(
                 "About you",
-                "firstname",
+                'firstname',
                 "lastname",
                 "age",
                 "email",
@@ -135,6 +135,10 @@ class FostererProfileStage1Form(ModelForm):
             "state",
             "zip_code",
         ]
+        labels = {
+            'firstname': 'First name',
+            'lastname': 'Last name',
+        }
         required = (
             "firstname",
             "lastname",
@@ -233,6 +237,7 @@ class FostererProfileStage3Form(ModelForm):
         ]
         required = (
             "num_existing_pets",
+            "experience_given_up_pet",
             "experience_description",
             "experience_categories",
         )
@@ -558,7 +563,7 @@ def edit(request, stage_id):
             fosterer_profile=fosterer_profile
         )
         num_existing_pets = existing_pets.count()
-        extra_forms_needed = max(0, 3 - num_existing_pets)
+        extra_forms_needed = max(0, 6 - num_existing_pets)
         ExistingPetDetailFormSet = formset_factory(
             ExistingPetDetailForm, extra=extra_forms_needed
         )
@@ -573,7 +578,7 @@ def edit(request, stage_id):
         num_references = references.count()
         extra_forms_needed = max(0, 3 - num_references)
         ReferenceDetailFormSet = formset_factory(
-            ReferenceDetailForm, extra=extra_forms_needed, min_num=3, validate_min=True
+            ReferenceDetailForm, extra=extra_forms_needed, validate_min=True
         )
         references_data = [model_to_dict(person) for person in references]
         reference_detail_formset = ReferenceDetailFormSet(

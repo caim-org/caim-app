@@ -67,7 +67,11 @@
               {{ reference_detail_formset.management_form }}
               {% for ref_form in reference_detail_formset %}
               <div class="ref-detail">
-                <legend>Reference #{{ forloop.counter }} Details</legend>
+                 {% if forloop.counter == 1 %}
+                    <legend>Reference #{{ forloop.counter }} - must be vet if you have an animal</legend>
+                  {% else %}
+                    <legend>Reference #{{ forloop.counter }} Details</legend>
+                  {% endif %}
                 {% crispy ref_form %}
               </div>
               {% endfor %}
