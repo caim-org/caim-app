@@ -1,4 +1,5 @@
 import io
+import logging
 import os
 from unicodedata import category
 
@@ -623,10 +624,12 @@ def download_fosterer_profile(request: HttpRequest, fosterer_id: int) -> HttpRes
 
     behaviour_labels = []
     if fosterer.behavioural_attributes:
-        behaviour_labels = [
-            fosterer.BehaviouralAttributes(behaviour).label
-            for behaviour in fosterer.behavioural_attributes
-        ]
+        for behaviour in fosterer.behavioural_attributes:
+            try:
+                fosterer.BehaviouralAttributes(behaviour)
+                behaviour_labels.append(fosterer.BehaviouralAttributes(behaviour).label)
+            except:
+                logging.warning("Could not find behavioral attribute: %s"  % behaviour)
 
     experience_categories_labels = []
     if fosterer.experience_categories:
