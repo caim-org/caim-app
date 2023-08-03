@@ -41,8 +41,8 @@ class NewUserForm(UserCreationForm):
             "zip_code": "ZIP code",
         }
         help_texts = {
-            "username": "Your name as you want it to appear on the site."
-            + "This will be visible publicly, and may not contain spaces.",
+            "username": "Your individual username as you want it to appear on the site."
+            + "This will be visible publicly, and may contain only letters, numbers, and @/./+/-/_ characters.",
             "email": "Your email address so we can contact you. "
             + "This will not be visible publicly.",
         }
