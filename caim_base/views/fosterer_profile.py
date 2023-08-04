@@ -24,7 +24,7 @@ from ..models.fosterer import FostererProfile, User
 from ..notifications import notify_new_fosterer_profile
 
 from django import forms
-from ..models import FostererExistingPetDetail, FostererReferenceDetail, TypeOfAnimals
+from ..models import FostererExistingPetDetail, FostererReferenceDetail, TypeOfAnimals, FostererPersonInHomeDetail
 
 
 class ExistingPetDetailForm(forms.ModelForm):
@@ -74,6 +74,24 @@ class ReferenceDetailForm(forms.ModelForm):
             "last_name",
             "email",
             "relation",
+        )
+
+
+class PersonInHomeDetailForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+
+    class Meta:
+        model = FostererPersonInHomeDetail
+        fields = [
+            "name",
+            "relation",
+            "age",
+            "email",
+        ]
+        required = (
         )
 
 
@@ -462,17 +480,24 @@ def edit(request, stage_id):
     prev_stage = stage["prev"]
 
     if request.method == "POST":
-        ExistingPetDetailFormSet = formset_factory(ExistingPetDetailForm, extra=3)
+        ExistingPetDetailFormSet = formset_factory(ExistingPetDetailForm, extra=6)
         ReferenceDetailFormSet = formset_factory(
             ReferenceDetailForm, extra=3, min_num=3, validate_min=True
         )
+        PersonInHomeDetailFormSet = formset_factory(
+            FostererPersonInHomeDetailDetailForm, extra=6, min_num=6, validate_min=True
+        )
 
         form = form_class(request.POST, instance=fosterer_profile)
+
         existing_pet_detail_formset = ExistingPetDetailFormSet(
             request.POST, prefix="existingpetdetail"
         )
         reference_detail_formset = ReferenceDetailFormSet(
             request.POST, prefix="referencedetail"
+        )
+        person_in_home_detail_formset = PersonInHomeDetail(
+            request.POST, prefix="personinhomedetail"
         )
 
         formsets_are_valid = True
@@ -483,6 +508,10 @@ def edit(request, stage_id):
 
         if stage_id == "references":
             if not reference_detail_formset.is_valid():
+                formsets_are_valid = False
+
+        if stage_id == "household-details":
+            if not person_in_home_detail_formset.is_valid():
                 formsets_are_valid = False
 
         form_is_valid = form.is_valid()
@@ -558,6 +587,30 @@ def edit(request, stage_id):
                                 relation=detail_data.get("relation"),
                             )
 
+            if stage_id == "household-detail":
+                existing_household_members = PersonInHomeDetail.objects.filter(
+                    fosterer_profile=fosterer_profile
+                ).order_by("id")
+
+                for index, detail_form in enumerate(person_in_home_detail_formset):
+                    if detail_form.is_valid() and detail_form.has_changed():
+                        detail_data = detail_form.cleaned_data
+                        if index < len(existing_references):
+                            existing_detail = existing_household_members[index]
+                            existing_detail.name = detail_data.get("name")
+                            existing_detail.relation = detail_data.get("relation")
+                            existing_detail.age = detail_data.get("age")
+                            existing_detail.email = detail_data.get("email")
+                            existing_detail.save()
+                        else:
+                            FostererReferenceDetail.objects.create(
+                                fosterer_profile=fosterer_profile,
+                                name=detail_data.get("name"),
+                                relation=detail_data.get("relation"),
+                                age=detail_data.get("age"),
+                                email=detail_data.get("email"),
+                            )
+
             is_previous = "submit_prev" in request.POST
             if is_previous:
                 return redirect(f"/fosterer/{prev_stage}")
@@ -596,6 +649,19 @@ def edit(request, stage_id):
             prefix="referencedetail", initial=references_data
         )
 
+        persons_in_home = FostererPersonInHomeDetail.objects.filter(
+            fosterer_profile=fosterer_profile
+        )
+        num_people = persons_in_home.count()
+        extra_forms_needed = max(0, 6 - num_references)
+        PersonInHomeDetailFormSet = formset_factory(
+            ReferencePersonInHomeDetail, extra=extra_forms_needed, validate_min=True
+        )
+        person_data = [model_to_dict(person) for person in persons_in_home]
+        person_in_home_detail_formset = PersonInHomeDetailFormSet(
+            prefix="personinhomedetail", initial=person_data
+        )
+
     return render(
         request,
         "fosterer_profile/edit.html",
@@ -604,6 +670,7 @@ def edit(request, stage_id):
             "form": form,
             "existing_pet_detail_formset": existing_pet_detail_formset,
             "reference_detail_formset": reference_detail_formset,
+            "person_in_home_detail_formset": person_in_home_detail_formset,
             "pageTitle": "Edit your fosterer profile",
             "stageNumber": stage_number,
             "stage_id": stage_id,
