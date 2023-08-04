@@ -86,8 +86,21 @@
           <legend>Household Details</legend>
           <form method="post">
             {% csrf_token %}
+            {{ form.num_people_in_home|as_crispy_field }}
+            {{ person_in_home_detail_formset.management_form }}
+            {% for person_form in person_in_home_detail_formset %}
+            <div id="person-in-home-detail-section">
+              <div class="person-detail">
+                <legend>Person in Home #{{ forloop.counter }} Details</legend>
+                {% crispy person_form %}
+              </div>
+            </div>
+            {% endfor %}
+            <legend>Other Household Details</legend>
             {% for field in form %}
-              {{ field|as_crispy_field }}
+              {% if not field.name == 'num_people_in_home' %}
+                {{ field|as_crispy_field }}
+              {% endif %}
             {% endfor %}
             <a href="/fosterer/references" name="submit_prev" class="btn btn-primary btn btn-secondary" id="submit-id-submit_prev">
               « Previous page

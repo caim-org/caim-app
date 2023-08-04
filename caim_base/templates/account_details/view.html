@@ -6,8 +6,11 @@
     <div class="bg-dark context-bar">
       <div class="container">
         <div class="d-flex justify-content-center justify-content-sm-end">
+          <div class="text-center text-md-end d-flex flex-column flex-sm-row gap-2 py-2 me-3">
+            <a href="{% url "fosterer_profile" %}" class="btn btn-secondary">Edit Fosterer Profile</a>
+          </div>
           <div class="text-center text-md-end d-flex flex-column flex-sm-row gap-2 py-2">
-            <a href="{% url "account_details_edit" %}" class="btn btn-secondary ">Edit Details</a>
+            <a href="{% url "account_details_edit" %}" class="btn btn-secondary">Edit Details</a>
           </div>
         </div>
       </div>
