@@ -12,7 +12,7 @@ from reportlab.pdfbase.pdfmetrics import stringWidth
 from reportlab.pdfgen import canvas
 
 from typing import List, Optional, Union
-from caim_base.models.animals import Animal
+from caim_base.models.animals import Animal, AnimalType
 
 from ..states import states
 
@@ -53,7 +53,7 @@ class FostererExistingPetDetail(models.Model):
     name = models.CharField(max_length=64, blank=True, null=True)
     type_of_animals = ChoiceArrayField(
         models.CharField(
-            max_length=32, choices=TypeOfAnimals.choices, blank=True, null=True
+            max_length=32, choices=AnimalType.choices, blank=True, null=True
         ),
         verbose_name="Animal Type",
         null=True,
@@ -97,7 +97,7 @@ class FostererReferenceDetail(models.Model):
     first_name = models.CharField(max_length=64)
     last_name = models.CharField(max_length=64)
     email = models.EmailField()
-    phone = PhoneNumberField(blank=True, null=True, default=None)
+    phone = PhoneNumberField(null=True, default=None)
     relation = models.CharField(max_length=128)
 
 
@@ -225,7 +225,7 @@ class FostererProfile(models.Model):
         blank=True,
         null=True,
         default=None,
-        verbose_name="Please check any of the requirements you have for a foster",
+        verbose_name="Please check any of the requirements you have for a foster animal.",
     )
     medical_issues = models.CharField(
         choices=YesNo.choices,
@@ -257,7 +257,7 @@ class FostererProfile(models.Model):
         blank=False,
         null=True,
         default=None,
-        verbose_name="Please let us know which timeframe you're available for fostering",
+        verbose_name="How long are you able to foster an animal for?",
     )
     num_existing_pets = models.IntegerField(
         blank=True,
@@ -282,7 +282,7 @@ class FostererProfile(models.Model):
         blank=True,
         null=True,
         default=None,
-        verbose_name="Do you have experience with any of the following? Check all that apply.",
+        verbose_name="Have you had experience with any of the following in animals you’ve owned or fostered?",
     )
     # These references are not used and simply to preserve existing data.
     # going forward associated `ReferenceDetail` holds this information.

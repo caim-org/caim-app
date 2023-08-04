@@ -24,7 +24,8 @@ from ..models.fosterer import FostererProfile, User
 from ..notifications import notify_new_fosterer_profile
 
 from django import forms
-from ..models import FostererExistingPetDetail, FostererReferenceDetail, TypeOfAnimals, FostererPersonInHomeDetail
+<<<<<<< HEAD
+from ..models import FostererExistingPetDetail, FostererReferenceDetail, FostererPersonInHomeDetail, TypeOfAnimals, AnimalType
 
 
 class ExistingPetDetailForm(forms.ModelForm):
@@ -34,9 +35,10 @@ class ExistingPetDetailForm(forms.ModelForm):
         self.helper.form_tag = False
 
     type_of_animals = forms.MultipleChoiceField(
-        choices=TypeOfAnimals.choices,
+        choices=AnimalType.choices,
         required=False,
         widget=forms.CheckboxSelectMultiple,
+        label="Type"
     )
 
     class Meta:
@@ -52,6 +54,9 @@ class ExistingPetDetailForm(forms.ModelForm):
             "up_to_date_shots",
             "quirks",
         ]
+        labels = {
+            'type_of_animals': 'Type',
+        }
 
 
 class ReferenceDetailForm(forms.ModelForm):
@@ -73,6 +78,7 @@ class ReferenceDetailForm(forms.ModelForm):
             "first_name",
             "last_name",
             "email",
+            "phone",
             "relation",
         )
 
@@ -162,6 +168,7 @@ class FostererProfileStage1Form(ModelForm):
             "lastname",
             "age",
             "email",
+            "age",
             "phone",
             "street_address",
             "city",
@@ -209,6 +216,8 @@ class FostererProfileStage2Form(ModelForm):
         required = (
             "type_of_animals",
             "category_of_animals",
+            "dog_size",
+            "behavioural_attributes",
             "timeframe",
         )
         widgets = {
