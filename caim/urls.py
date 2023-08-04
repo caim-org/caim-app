@@ -39,7 +39,7 @@ urlpatterns = [
         name="user_profile_my_organizations",
     ),
     path("fosterer/<stage_id>", fosterer_profile.edit),
-    path("fosterer", fosterer_profile.start),
+    path("fosterer", fosterer_profile.start, name="fosterer_profile"),
     path("fosterer/<fosterer_id>/pdf", fosterer_profile.download_fosterer_profile),
     path("foster/application", foster_application.application),
     path("register", auth.register_view, name="register"),
