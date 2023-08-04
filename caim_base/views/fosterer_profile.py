@@ -24,7 +24,6 @@ from ..models.fosterer import FostererProfile, User
 from ..notifications import notify_new_fosterer_profile
 
 from django import forms
-<<<<<<< HEAD
 from ..models import FostererExistingPetDetail, FostererReferenceDetail, FostererPersonInHomeDetail, TypeOfAnimals, AnimalType
 
 
