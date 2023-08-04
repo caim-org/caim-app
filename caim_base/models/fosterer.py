@@ -370,11 +370,12 @@ class FostererProfile(models.Model):
         default=None,
         verbose_name="If you rent, please describe any pet restrictions that are in place.",
     )
-    landlord_contact_text = models.TextField(
+    landlord_contact_text = models.CharField(
         blank=True,
         null=True,
+        max_length=128,
         default=None,
-        verbose_name="If you rent, please provide your landlord’s name and contact information (email and/or phone). We will contact them to confirm that you have approval to foster.",
+        verbose_name="If you rent, please provide your landlord’s contact information (email and/or phone). We will contact them to confirm that you have approval to foster.",
     )
     hours_alone_description = models.TextField(
         blank=True,
