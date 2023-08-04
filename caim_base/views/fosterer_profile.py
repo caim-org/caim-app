@@ -300,7 +300,6 @@ class FostererProfileStage5Form(ModelForm):
             Fieldset(
                 "Household Details",
                 "num_people_in_home",
-                "people_in_home_detail",
                 "all_in_agreement",
                 "pet_allergies",
                 "stairs",
@@ -322,7 +321,6 @@ class FostererProfileStage5Form(ModelForm):
         model = FostererProfile
         fields = [
             "num_people_in_home",
-            "people_in_home_detail",
             "all_in_agreement",
             "pet_allergies",
             "stairs",
@@ -485,7 +483,7 @@ def edit(request, stage_id):
             ReferenceDetailForm, extra=3, min_num=3, validate_min=True
         )
         PersonInHomeDetailFormSet = formset_factory(
-            FostererPersonInHomeDetailDetailForm, extra=6, min_num=6, validate_min=True
+            PersonInHomeDetailForm, extra=6, min_num=6
         )
 
         form = form_class(request.POST, instance=fosterer_profile)
@@ -496,7 +494,7 @@ def edit(request, stage_id):
         reference_detail_formset = ReferenceDetailFormSet(
             request.POST, prefix="referencedetail"
         )
-        person_in_home_detail_formset = PersonInHomeDetail(
+        person_in_home_detail_formset = PersonInHomeDetailFormSet(
             request.POST, prefix="personinhomedetail"
         )
 
@@ -587,15 +585,16 @@ def edit(request, stage_id):
                                 relation=detail_data.get("relation"),
                             )
 
-            if stage_id == "household-detail":
-                existing_household_members = PersonInHomeDetail.objects.filter(
+            # TODO handle these formsets in dedicated functions.
+            if stage_id == "household-details":
+                existing_household_members = FostererPersonInHomeDetail.objects.filter(
                     fosterer_profile=fosterer_profile
                 ).order_by("id")
 
                 for index, detail_form in enumerate(person_in_home_detail_formset):
                     if detail_form.is_valid() and detail_form.has_changed():
                         detail_data = detail_form.cleaned_data
-                        if index < len(existing_references):
+                        if index < len(existing_household_members):
                             existing_detail = existing_household_members[index]
                             existing_detail.name = detail_data.get("name")
                             existing_detail.relation = detail_data.get("relation")
@@ -603,7 +602,7 @@ def edit(request, stage_id):
                             existing_detail.email = detail_data.get("email")
                             existing_detail.save()
                         else:
-                            FostererReferenceDetail.objects.create(
+                            FostererPersonInHomeDetail.objects.create(
                                 fosterer_profile=fosterer_profile,
                                 name=detail_data.get("name"),
                                 relation=detail_data.get("relation"),
@@ -653,9 +652,9 @@ def edit(request, stage_id):
             fosterer_profile=fosterer_profile
         )
         num_people = persons_in_home.count()
-        extra_forms_needed = max(0, 6 - num_references)
+        extra_forms_needed = max(0, 6 - num_people)
         PersonInHomeDetailFormSet = formset_factory(
-            ReferencePersonInHomeDetail, extra=extra_forms_needed, validate_min=True
+            PersonInHomeDetailForm, extra=extra_forms_needed
         )
         person_data = [model_to_dict(person) for person in persons_in_home]
         person_in_home_detail_formset = PersonInHomeDetailFormSet(

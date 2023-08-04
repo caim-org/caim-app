@@ -105,9 +105,9 @@ class FostererPersonInHomeDetail(models.Model):
     fosterer_profile = models.ForeignKey(
         "FostererProfile", on_delete=models.CASCADE, related_name="people_in_home"
     )
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=128, blank=True, null=True, default=None)
     relation = models.CharField(max_length=128, blank=True, null=True, default=None)
-    age = models.IntegerField()
+    age = models.IntegerField(blank=True, null=True, default=None)
     email = models.EmailField(blank=True, null=True, default=None)
 
 
