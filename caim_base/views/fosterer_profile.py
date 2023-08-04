@@ -142,6 +142,7 @@ class FostererProfileStage1Form(ModelForm):
         required = (
             "firstname",
             "lastname",
+            "age",
             "email",
             "phone",
             "street_address",
@@ -282,6 +283,9 @@ class FostererProfileStage5Form(ModelForm):
                 "Household Details",
                 "num_people_in_home",
                 "people_in_home_detail",
+                "all_in_agreement",
+                "pet_allergies",
+                "stairs",
                 "yard_type",
                 "yard_fence_over_5ft",
                 "rent_own",
@@ -301,6 +305,9 @@ class FostererProfileStage5Form(ModelForm):
         fields = [
             "num_people_in_home",
             "people_in_home_detail",
+            "all_in_agreement",
+            "pet_allergies",
+            "stairs",
             "yard_type",
             "yard_fence_over_5ft",
             "rent_own",
@@ -312,6 +319,9 @@ class FostererProfileStage5Form(ModelForm):
         ]
         required = (
             "num_people_in_home",
+            "all_in_agreement",
+            "pet_allergies",
+            "stairs",
             "yard_type",
             "rent_own",
             "hours_alone_description",
@@ -481,7 +491,7 @@ def edit(request, stage_id):
             form.save()
 
             if stage_id == "pet-experience":
-                # limit to 3 saved existing pets (for now). do not duplicate
+                # limit to 6 saved existing pets (for now). do not duplicate
                 existing_pet_details = FostererExistingPetDetail.objects.filter(
                     fosterer_profile=fosterer_profile
                 ).order_by("id")
@@ -561,7 +571,8 @@ def edit(request, stage_id):
 
         existing_pets = FostererExistingPetDetail.objects.filter(
             fosterer_profile=fosterer_profile
-        )
+        ).order_by('id')
+
         num_existing_pets = existing_pets.count()
         extra_forms_needed = max(0, 6 - num_existing_pets)
         ExistingPetDetailFormSet = formset_factory(
