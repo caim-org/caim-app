@@ -33,6 +33,9 @@
           <form method="post">
             {% csrf_token %}
             <legend>Number of Pets</legend>
+          <p class="small">
+          We’ve provided space for you to add details about up to 6 pets. You only need to complete details for the # of animals in your home. If you have more than 6 animals, please email us at <a href="mailto:hello@caim.org">hello@caim.org</a>.
+          </p>
             {{ form.num_existing_pets|as_crispy_field }}
             {{ existing_pet_detail_formset.management_form }}
             <div id="pet-detail-section">
