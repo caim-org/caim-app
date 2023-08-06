@@ -1,11 +1,9 @@
-import io
 import logging
 import os
-from unicodedata import category
 
-from click import style
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Fieldset, Layout, Submit, Field
+from crispy_forms.layout import Fieldset, Layout, Submit
+from django import forms
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -16,15 +14,16 @@ from django.http import Http404, HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.views.decorators.http import require_http_methods
+from django.views.generic import detail
 from weasyprint import CSS, HTML
 
 from caim_base.models.awg import Awg, AwgMember
 
-from ..models.fosterer import FostererProfile, User
+from ..models import (FostererExistingPetDetail, FostererPersonInHomeDetail,
+                      FostererReferenceDetail, TypeOfAnimals)
+from ..models.fosterer import FostererProfile
+from ..models.user import UserProfile
 from ..notifications import notify_new_fosterer_profile
-
-from django import forms
-from ..models import FostererExistingPetDetail, FostererReferenceDetail, FostererPersonInHomeDetail, TypeOfAnimals, AnimalType
 
 
 class ExistingPetDetailForm(forms.ModelForm):
@@ -33,18 +32,11 @@ class ExistingPetDetailForm(forms.ModelForm):
         self.helper = FormHelper(self)
         self.helper.form_tag = False
 
-    type_of_animals = forms.MultipleChoiceField(
-        choices=AnimalType.choices,
-        required=False,
-        widget=forms.CheckboxSelectMultiple,
-        label="Type"
-    )
-
     class Meta:
         model = FostererExistingPetDetail
         fields = [
             "name",
-            "type_of_animals",
+            "type_of_animal",
             "breed",
             "sex",
             "age",
@@ -54,7 +46,7 @@ class ExistingPetDetailForm(forms.ModelForm):
             "quirks",
         ]
         labels = {
-            'type_of_animals': 'Type',
+            'type_of_animal': 'Type',
         }
 
 
@@ -108,19 +100,19 @@ class FostererProfileStage1Form(ModelForm):
 
         user_profile = None
 
-        fosterer_profile = kwargs.get("instance")
+        fosterer_profile: FostererProfile | None = kwargs.get("instance")
         if fosterer_profile:
             user = fosterer_profile.user
-            user_profile = user.userprofile
+            user_profile = UserProfile.objects.get(user=user)
 
-        if user_profile is not None:
-            initial_args["firstname"] = user.first_name
-            initial_args["lastname"] = user.last_name
-            initial_args["city"] = user_profile.city
-            initial_args["state"] = user_profile.state
-            initial_args["zip_code"] = user_profile.zip_code
+            if user_profile is not None:
+                initial_args["firstname"] = user.first_name
+                initial_args["lastname"] = user.last_name
+                initial_args["city"] = user_profile.city
+                initial_args["state"] = user_profile.state
+                initial_args["zip_code"] = user_profile.zip_code
 
-            kwargs["initial"] = initial_args
+                kwargs["initial"] = initial_args
 
         super().__init__(*args, **kwargs)
 
@@ -188,7 +180,7 @@ class FostererProfileStage2Form(ModelForm):
         self.helper.layout = Layout(
             Fieldset(
                 "Animal preferences",
-                "type_of_animals",
+                "s",
                 "category_of_animals",
                 "dog_size",
                 "behavioural_attributes",
@@ -536,8 +528,8 @@ def edit(request, stage_id):
                         if index < len(existing_pet_details):
                             existing_detail = existing_pet_details[index]
                             existing_detail.name = detail_data.get("name")
-                            existing_detail.type_of_animals = detail_data.get(
-                                "type_of_animals"
+                            existing_detail.type_of_animal = detail_data.get(
+                                "type_of_animal"
                             )
                             existing_detail.breed = detail_data.get("breed")
                             existing_detail.sex = detail_data.get("sex")
@@ -552,18 +544,30 @@ def edit(request, stage_id):
                             existing_detail.quirks = detail_data.get("quirks")
                             existing_detail.save()
                         else:
-                            FostererExistingPetDetail.objects.create(
-                                fosterer_profile=fosterer_profile,
-                                name=detail_data.get("name"),
-                                type_of_animals=detail_data.get("type_of_animals"),
-                                breed=detail_data.get("breed"),
-                                sex=detail_data.get("sex"),
-                                age=detail_data.get("age"),
-                                weight_lbs=detail_data.get("weight_lbs"),
-                                spayed_neutered=detail_data.get("spayed_neutered"),
-                                up_to_date_shots=detail_data.get("up_to_date_shots"),
-                                quirks=detail_data.get("quirks"),
-                            )
+                            fields = [
+                                "name",
+                                "type_of_animal",
+                                "breed",
+                                "sex",
+                                "age",
+                                "weight_lbs",
+                                "spayed_neutered",
+                                "up_to_date_shots",
+                                "quirks"
+                            ]
+                            if any(detail_data.get(field) for field in fields):
+                                FostererExistingPetDetail.objects.create(
+                                    fosterer_profile=fosterer_profile,
+                                    name=detail_data.get("name"),
+                                    type_of_animal=detail_data.get("type_of_animal"),
+                                    breed=detail_data.get("breed"),
+                                    sex=detail_data.get("sex"),
+                                    age=detail_data.get("age"),
+                                    weight_lbs=detail_data.get("weight_lbs"),
+                                    spayed_neutered=detail_data.get("spayed_neutered"),
+                                    up_to_date_shots=detail_data.get("up_to_date_shots"),
+                                    quirks=detail_data.get("quirks"),
+                                )
 
             if stage_id == "references":
                 existing_references = FostererReferenceDetail.objects.filter(
@@ -682,68 +686,3 @@ def edit(request, stage_id):
             "stage_id": stage_id,
         },
     )
-
-
-@login_required()
-def download_fosterer_profile(request: HttpRequest, fosterer_id: int) -> HttpResponse:
-    user = request.user
-    awg_member: AwgMember = AwgMember.objects.filter(user=user).first()
-    if not awg_member:
-        raise PermissionDenied("You are not a member of an AWG")
-
-    awg: Awg = awg_member.awg
-
-    if not awg.status == "PUBLISHED":
-        raise PermissionDenied("Your AWG is not published")
-
-    fosterer: FostererProfile = get_object_or_404(FostererProfile, pk=fosterer_id)
-    animal_type_labels = []
-    if fosterer.type_of_animals:
-        animal_type_labels = [
-            TypeOfAnimals(animal_type).label
-            for animal_type in fosterer.type_of_animals
-        ]
-
-    category_of_animals_labels = []
-    if fosterer.category_of_animals:
-        category_of_animals_labels = [
-            fosterer.CategoryOfAnimals(category).label
-            for category in fosterer.category_of_animals
-        ]
-
-    behaviour_labels = []
-    if fosterer.behavioural_attributes:
-        for behaviour in fosterer.behavioural_attributes:
-            try:
-                fosterer.BehaviouralAttributes(behaviour)
-                behaviour_labels.append(fosterer.BehaviouralAttributes(behaviour).label)
-            except:
-                logging.warning("Could not find behavioral attribute: %s"  % behaviour)
-
-    experience_categories_labels = []
-    if fosterer.experience_categories:
-        experience_categories_labels = [
-            fosterer.ExperienceCategories(experience).label
-            for experience in fosterer.experience_categories
-        ]
-
-    context = {
-        "fosterer": fosterer,
-        "animal_type_labels": animal_type_labels,
-        "category_of_animals_labels": category_of_animals_labels,
-        "behaviour_labels": behaviour_labels,
-        "experience_categories_labels": experience_categories_labels,
-    }
-
-    pdf_string = render_to_string("fosterer_profile/pdf.html", context, request)
-    pdf_file = HTML(string=pdf_string).write_pdf(
-        stylesheets=[
-            CSS(string="@page { size: letter portrait; margin: 1cm }"),
-            CSS(filename=os.path.join(settings.STATIC_ROOT, "css/normalize.css")),
-            CSS(filename=os.path.join(settings.STATIC_ROOT, "css/pdf.css")),
-        ]
-    )
-
-    response = HttpResponse(pdf_file, content_type="application/pdf")
-    response["Content-Disposition"] = f"filename=fosterer-profile-{fosterer_id}.pdf"
-    return response
