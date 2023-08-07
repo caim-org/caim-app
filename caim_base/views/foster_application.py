@@ -61,7 +61,7 @@ def application(request):
         application = FosterApplication(
             fosterer=fosterer_profile,
             animal=animal,
-            status="Pending",
+            status=FosterApplication.Statuses.PENDING,
             reject_reason_detail=None,
         )
 
