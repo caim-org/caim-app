@@ -55,6 +55,7 @@ def list_applications(request, awg_id):
 def update_application(request, awg_id, application_id):
     awg = get_object_or_404(Awg, pk=awg_id)
 
+    context = check_awg_user_permissions_update_context(request, awg, ["MANAGE_APPLICATIONS"])
     application: FosterApplication = get_object_or_404(FosterApplication, id=application_id, animal__awg=awg)
     new_status = request.POST.get("status")
     if new_status is not None:
@@ -75,13 +76,12 @@ def update_application(request, awg_id, application_id):
     application.reject_reason_detail = request.POST.get("reject_reason_detail")
     application.save()
 
-    current_user_permissions = awg.get_permissions_for_user(request.user)
     context = {
+        **context,
         "awg": awg,
         "applications": query_applications_for_awg(awg),
         "application_status_options": [c[0] for c in FosterApplication.Statuses.choices],
     }
-    context = check_awg_user_permissions_update_context(request, awg, ["MANAGE_APPLICATIONS"], context)
     return render(request, "awg/manage/applications/list.html", context)
 
 
@@ -89,7 +89,7 @@ def update_application(request, awg_id, application_id):
 @require_http_methods(["GET"])
 def update_application_status_modal(request, awg_id, application_id, status):
     awg = get_object_or_404(Awg, pk=awg_id)
-    _ = check_awg_user_permissions_update_context(request, awg, ["MANAGE_APPLICATIONS"])
+    context = check_awg_user_permissions_update_context(request, awg, ["MANAGE_APPLICATIONS"])
     application: FosterApplication = get_object_or_404(FosterApplication, id=application_id, animal__awg=awg)
 
     templates = {
@@ -100,6 +100,7 @@ def update_application_status_modal(request, awg_id, application_id, status):
     template = templates[status]
 
     context = {
+        **context,
         "awg": awg,
         "app": application,
         "reject_reasons": FosterApplication.RejectionReasons.choices,
