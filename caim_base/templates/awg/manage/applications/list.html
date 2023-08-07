@@ -88,7 +88,7 @@
               <a href="/animal/{{ app.animal.id }}">View Profile</a>
           </div>
           <div class="card-footer">
-            {% if app.status == app.Statuses.PENDING %}
+            {% if app.status == app.Statuses.PENDING and 'MANAGE_APPLICATIONS' in currentUserPermissions %}
             <button
               class="btn btn-primary"
               hx-get="/organization/{{ awg.id }}/applications/{{ app.id }}/modal/{{ app.Statuses.ACCEPTED }}"

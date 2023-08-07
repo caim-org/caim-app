@@ -27,6 +27,8 @@
       $('#modify-member-modal input[name=canEditProfile]').prop('checked', member.canEditProfile)
       $('#modify-member-modal input[name=canManageAnimals]').prop('checked', member.canManageAnimals)
       $('#modify-member-modal input[name=canManageMembers]').prop('checked', member.canManageMembers)
+      $('#modify-member-modal input[name=canManageApplications]').prop('checked', member.canManageApplications)
+      $('#modify-member-modal input[name=canViewApplications]').prop('checked', member.canViewApplications)
       modifyMemberModal.show()
     }
   </script>
@@ -59,6 +61,12 @@
                 {% if member.canManageMembers %}
                   <span class="badge bg-secondary">Manage members</span>
                 {% endif %}
+                {% if member.canManageApplications %}
+                  <span class="badge bg-secondary">Manage applications</span>
+                {% endif %}
+                {% if member.canViewApplications %}
+                  <span class="badge bg-secondary">View applications</span>
+                {% endif %}
               </td>
               <td>
                 <button class="btn btn-primary" onclick="showModifyMemberModal(this);return false;">Edit</button>
@@ -81,7 +89,7 @@
       <div class="card">
         <div class="card-body">
           <p>This page allows you to grant access to other users to edit and manage your organization's pages.</p>
-          <p>There are 3 permissions you can give a member:</p>
+          <p>Permissions you can give a member:</p>
           <ol>
             <li>
               <b>Edit listing:</b> User can edit the public infomation and text on the organizations profile page
@@ -91,6 +99,12 @@
             </li>
             <li>
               <b>Manage admins:</b> User can add, edit and remove other admins for this organisation
+            </li>
+            <li>
+              <b>Manage Applications:</b> User can view, and accept or reject foster applications to this organization's animals
+            </li>
+            <li>
+              <b>View Applications:</b> User can view foster applications to this organization's animals
             </li>
           </ol>
           <p>You can't remive the 'manage admins' permission from yourself.</p>
@@ -123,6 +137,12 @@
             <div>
               <label><input name="canManageMembers" type="checkbox" />&nbsp;Manage members</label>
             </div>
+            <div>
+              <label><input name="canManageApplications" type="checkbox" />&nbsp;Manage applications</label>
+            </div>
+            <div>
+              <label><input name="canViewApplications" type="checkbox" />&nbsp;View applications</label>
+            </div>
           </div>
           <div class="modal-footer">
             <button type="submit" name="action" class="btn btn-primary">Add member</button>
@@ -154,6 +174,12 @@
             </div>
             <div>
               <label><input name="canManageMembers" type="checkbox" />&nbsp;Manage members</label>
+            </div>
+            <div>
+              <label><input name="canManageApplications" type="checkbox" />&nbsp;Manage applications</label>
+            </div>
+            <div>
+              <label><input name="canViewApplications" type="checkbox" />&nbsp;View applications</label>
             </div>
           </div>
           <div class="modal-footer">
