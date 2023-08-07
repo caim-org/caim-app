@@ -180,7 +180,7 @@ class FostererProfileStage2Form(ModelForm):
         self.helper.layout = Layout(
             Fieldset(
                 "Animal preferences",
-                "s",
+                "type_of_animals",
                 "category_of_animals",
                 "dog_size",
                 "behavioural_attributes",
