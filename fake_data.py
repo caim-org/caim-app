@@ -333,3 +333,18 @@ def fake_user_in_awg():
     awgmembership.canManageMembers = True
     awgmembership.canManageApplications = True
     awgmembership.save()
+
+def fake_user_in_awg_appviewonly():
+    print("registering a fake user in an AWG that cannot manage applications, only view them")
+    print("username&pass: testawg_viewapps")
+    user = User.objects.create_user("testawg_viewapps", password="testawg_viewapps", email="testawg_viewapps@caim.org")
+    user.save()
+    awgmembership = AwgMember()
+    awgmembership.user = user
+    awgmembership.awg = choice(Awg.objects.all())
+    awgmembership.canEditProfile = True
+    awgmembership.canManageAnimals = True
+    awgmembership.canManageMembers = True
+    awgmembership.canManageApplications = False
+    awgmembership.canViewApplications = True
+    awgmembership.save()

@@ -17,6 +17,7 @@ from fake_data import (
     fake_user_didnothing,
     fake_staff_user,
     fake_user_in_awg,
+    fake_user_in_awg_appviewonly,
     fake_user_with_foster_profile_and_applications,
 )
 
@@ -44,4 +45,5 @@ fake_foster_applications()
 fake_user_didnothing()
 fake_staff_user()
 fake_user_in_awg()
+fake_user_in_awg_appviewonly()
 fake_user_with_foster_profile_and_applications()

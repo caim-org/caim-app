@@ -125,6 +125,8 @@ class Awg(models.Model):
                 ret.append("MANAGE_MEMBERS")
             if member.canManageApplications:
                 ret.append("MANAGE_APPLICATIONS")
+            if member.canViewApplications:
+                ret.append("VIEW_APPLICATIONS")
         return ret
 
     def get_absolute_url(self):
@@ -156,6 +158,7 @@ class AwgMember(models.Model):
     canManageAnimals = models.BooleanField(default=False)
     canManageMembers = models.BooleanField(default=False)
     canManageApplications = models.BooleanField(default=False)
+    canViewApplications = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -175,4 +178,6 @@ class AwgMember(models.Model):
             "canEditProfile": self.canEditProfile,
             "canManageAnimals": self.canManageAnimals,
             "canManageMembers": self.canManageMembers,
+            "canManageApplications": self.canManageApplications,
+            "canViewApplications": self.canViewApplications,
         }
