@@ -1,18 +1,17 @@
 import io
+from typing import List, Optional, Union
 
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.postgres.fields import ArrayField
-from django.db import models
 from django.core.validators import MinLengthValidator
-
+from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfbase.pdfmetrics import stringWidth
 from reportlab.pdfgen import canvas
 
-from typing import List, Optional, Union
-from caim_base.models.animals import Animal, AnimalType
+from caim_base.models.animals import Animal
 
 from ..states import states
 
@@ -51,13 +50,7 @@ class YesNo(models.TextChoices):
 
 class FostererExistingPetDetail(models.Model):
     name = models.CharField(max_length=64, blank=True, null=True)
-    type_of_animals = ChoiceArrayField(
-        models.CharField(
-            max_length=32, choices=AnimalType.choices, blank=True, null=True
-        ),
-        verbose_name="Animal Type",
-        null=True,
-    )
+    type_of_animal = models.CharField(max_length=64, blank=True, null=True)
     breed = models.CharField(max_length=64, blank=True, null=True)
     sex = models.CharField(
         max_length=6,

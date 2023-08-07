@@ -31,190 +31,316 @@
     </div>
   </div>
   <hr />
-  <div>
+  {% with animal=application.animal %}
     <div class="section">
       <p>
-        <strong>Name:&nbsp;</strong>{{ fosterer.firstname }} {{ fosterer.lastname }}
+        <strong>Name of Animal:&nbsp;</strong>{{ animal.name }}
       </p>
-      <p>
-        <strong>Email:&nbsp;</strong>{{ fosterer.email }}
-      </p>
-      <p>
-        <strong>Phone number:&nbsp;</strong>{{ fosterer.phone }}
-      </p>
-      <p>
-        <strong>Address:&nbsp;</strong>
-        <span>
-          {{ fosterer.street_address }},
-          {{ fosterer.city }},
-          {{ fosterer.state }}
-          {{ fosterer.zip_code }}
-        </span>
-      </p>
+    </div>
+  {% endwith %}
+  <hr />
+  {% with fosterer=application.fosterer %}
+    <div>
+      <div class="section">
+        <p>
+          <strong>Name:&nbsp;</strong>{{ fosterer.firstname }} {{ fosterer.lastname }}
+        </p>
+        <p>
+          <strong>Email:&nbsp;</strong>{{ fosterer.email }}
+        </p>
+        <p>
+          <strong>Phone number:&nbsp;</strong>{{ fosterer.phone }}
+        </p>
+        <p>
+          <strong>Address:&nbsp;</strong>
+          <span>
+            {{ fosterer.street_address }},
+            {{ fosterer.city }},
+            {{ fosterer.state }}
+            {{ fosterer.zip_code }}
+          </span>
+        </p>
+      </div>
+      <div class="section">
+        <p>
+          <strong>Which type of animal(s) are you wanting to foster?</strong>
+        </p>
+        {% for label in animal_type_labels %}<div class="label-list">{{ label }}</div>{% endfor %}
+      </div>
+      <div class="section">
+        <p>
+          <strong>Please check any / all that you're interested in fostering.</strong>
+        </p>
+        {% for label in category_of_animals_labels %}<div class="label-list">{{ label }}</div>{% endfor %}
+      </div>
+      {% if dog_size_labels %}
+        <div class="section">
+          <p>
+            <strong>If you’re interested in fostering dogs, do you have a preference about size?</strong>
+          </p>
+          {% for label in dog_size_labels %}<div class="label-list">{{ label }}</div>{% endfor %}
+        </div>
+      {% endif %}
+      {% if behaviour_labels %}
+        <div class="section">
+          <p>
+            <strong>Please check any of the requirements you have for a foster animal.</strong>
+          </p>
+          {% for label in behaviour_labels %}<div class="label-list">{{ label }}</div>{% endfor %}
+        </div>
+      {% endif %}
+      <div class="section">
+        <p>
+          <strong>Would you be willing to foster an animal with medical issues?</strong>
+        </p>
+        <p>{{ fosterer.get_medical_issues_display }}</p>
+      </div>
+      <div class="section">
+        <p>
+          <strong>Would you be willing to foster an animal with special needs?</strong>
+        </p>
+        <p>{{ fosterer.get_special_needs_display }}</p>
+      </div>
+      <div class="section">
+        <p>
+          <strong>Would you be willing to foster an animal with behavioral issues?</strong>
+        </p>
+        <p>{{ fosterer.get_behavioral_issues_display }}</p>
+      </div>
+      <div class="section">
+        <p>
+          <strong>How long are you able to foster an animal for?:</strong>
+        </p>
+        <p>{{ fosterer.get_timeframe_display }}</p>
+      </div>
+      <div class="section">
+        <p>
+          <strong>Number of existing pets:</strong>
+        </p>
+        <p>{{ fosterer.num_existing_pets }}</p>
+      </div>
+      <div class="section">
+        {% for e_animal in existing_animals %}
+          <div class="section">
+            <p>
+              <strong>Pet {{ forloop.counter }}</strong>
+            </p>
+            <p>
+              <i>Name:&nbsp;</i>{{ e_animal.name|default_if_none:"NO ANSWER" }}
+            </p>
+            <p>
+              <i>Type:&nbsp;</i>{{ e_animal.type_of_animal|default_if_none:"NO ANSWER" }}
+            </p>
+            <p>
+              <i>Breed:&nbsp;</i>{{ e_animal.breed|default_if_none:"NO ANSWER" }}
+            </p>
+            <p>
+              <i>Sex:&nbsp;</i>{{ e_animal.get_sex_display|default_if_none:"NO ANSWER" }}
+            </p>
+            <p>
+              <i>Age:&nbsp;</i>{{ e_animal.age|default_if_none:"NO ANSWER" }}
+            </p>
+            <p>
+              <i>Weight lbs:&nbsp;</i>{{ e_animal.weight_lbs|default_if_none:"NO ANSWER" }}
+            </p>
+            <p>
+              <i>Spayed or neutered?&nbsp;</i>{{ e_animal.get_spayed_neutered_display|default_if_none:"NO ANSWER" }}
+            </p>
+            <p>
+              <i>Up to date on their shots?&nbsp;</i>{{ e_animal.get_up_to_date_shots_display|default_if_none:"NO ANSWER" }}
+            </p>
+            <p>
+              <i>Any quirks?&nbsp;</i>{{ e_animal.quirks|default_if_none:"" }}
+            </p>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="section">
+        <p>
+          <strong>Have you ever given a pet up? If so, please describe the situation.</strong>
+        </p>
+        <p>{{ fosterer.experience_given_up_pet }}</p>
+      </div>
+      <div class="section">
+        <p>
+          <strong>Please describe your experience with animals (personal pets, training, interactions, etc.)</strong>
+        </p>
+        <p>{{ fosterer.experience_description }}</p>
+      </div>
+      <div class="section">
+        <p>
+          <strong>Have you had experience with any of the following in animals you’ve owned or fostered?</strong>
+        </p>
+        {% for label in experience_categories_labels %}<div class="label-list">{{ label }}</div>{% endfor %}
+      </div>
+      {% for reference in references %}
+        <div class="section">
+          <p>
+            <strong>Reference {{ forloop.counter }}:</strong>
+          </p>
+          <p>
+            <i>Name:&nbsp;</i>{{ reference.first_name }} {{ reference.last_name }}
+          </p>
+          <p>
+            <i>Email:&nbsp;</i>{{ reference.email }}
+          </p>
+          <p>
+            <i>Phone:&nbsp;</i>{{ reference.phone }}
+          </p>
+          <p>
+            <i>Relation:&nbsp;</i>{{ reference.relation }}
+          </p>
+        </div>
+      {% endfor %}
+      {% if fosterer.reference_1 %}
+        <div class="section">
+          <p>
+            <strong>Reference 1:</strong>
+          </p>
+          <p class="pre-wrap">{{ fosterer.reference_1 }}</p>
+        </div>
+      {% endif %}
+      {% if fosterer.reference_2 %}
+        <div class="section">
+          <p>
+            <strong>Reference 2:</strong>
+          </p>
+          <p class="pre-wrap">{{ fosterer.reference_2 }}</p>
+        </div>
+      {% endif %}
+      {% if fosterer.reference_3 %}
+        <div class="section">
+          <p>
+            <strong>Reference 3:</strong>
+          </p>
+          <p class="pre-wrap">{{ fosterer.reference_3 }}</p>
+        </div>
+      {% endif %}
+      <div class="section">
+        <p>
+          <strong>Yard type:</strong>
+        </p>
+        <p>{{ fosterer.get_yard_type_display }}</p>
+      </div>
+      <div class="section">
+        <p>
+          <strong>How many people live in your home, including yourself?</strong>
+        </p>
+        <p>{{ fosterer.num_people_in_home }}</p>
+      </div>
+      {% for person in people_in_home %}
+        <div class="section">
+          <p>
+            <strong>Person {{ forloop.counter }}:</strong>
+          </p>
+          <p>
+            <i>Name:&nbsp;</i>{{ person.name|default_if_none:"NO ANSWER" }}
+          </p>
+          <p>
+            <i>Relation:&nbsp;</i>{{ person.relation|default_if_none:"NO ANSWER" }}
+          </p>
+          <p>
+            <i>Age:&nbsp;</i>{{ person.age|default_if_none:"NO ANSWER" }}
+          </p>
+          <p>
+            <i>Email:&nbsp;</i>{{ person.email|default_if_none:"NO ANSWER" }}
+          </p>
+        </div>
+      {% endfor %}
+      <div class="section">
+        <p>
+          <strong>Are all members of your household in agreement about fostering?</strong>
+        </p>
+        <p>{{ fosterer.get_all_in_agreement_display }}</p>
+      </div>
+      <div class="section">
+        <p>
+          <strong>Does anyone in your home have pet allergies?</strong>
+        </p>
+        <p>{{ fosterer.get_pet_alergies_display }}</p>
+      </div>
+      <div class="section">
+        <p>
+          <strong>Do you have stairs that a dog would have to walk daily?</strong>
+        </p>
+        <p>{{ fosterer.get_stairs_display }}</p>
+      </div>
+      <div class="section">
+        <p>
+          <strong>Describe your yard</strong>
+        </p>
+        <p>{{ fosterer.get_yard_type_display }}</p>
+      </div>
+      {% if fosterer.yard_type == "FULLY_FENCED" %}
+        <div class="section">
+          <p>
+            <strong>If your yard is fully fenced, is it all over 5 feet tall?</strong>
+          </p>
+          <p>{{ fosterer.get_yard_fence_over_5ft_display }}</p>
+        </div>
+      {% endif %}
+      <div class="section">
+        <p>
+          <strong>Do you rent or own?</strong>
+        </p>
+        <p>{{ fosterer.get_rent_own_display }}</p>
+      </div>
+      {% if fosterer.rent_own == "RENT" %}
+        <div class="section">
+          <p>
+            <strong>If you rent, please describe any pet restrictions that are in place.</strong>
+          </p>
+          <p class="pre-wrap">{{ fosterer.rent_restrictions|default:"NO ANSWER" }}</p>
+        </div>
+        <div class="section">
+          <p>
+            <strong>If you rent, please provide your landlord’s contact information (email and/or phone). We will contact them to confirm that you have approval to foster.</strong>
+          </p>
+          <p>{{ fosterer.landlord_contact_text|default:"NO ANSWER" }}</p>
+        </div>
+      {% endif %}
+      <div class="section">
+        <p>
+          <strong>How many hours per day will your foster animal be left alone?</strong>
+        </p>
+        <p class="pre-wrap">{{ fosterer.hours_alone_description }}</p>
+      </div>
+      <div class="section">
+        <p>
+          <strong>Where will your foster animal be kept when you're not home?</strong>
+        </p>
+        <p class="pre-wrap">{{ fosterer.hours_alone_location }}</p>
+      </div>
+      <div class="section">
+        <p>
+          <strong>Where will your foster animal sleep?</strong>
+        </p>
+        <p class="pre-wrap">{{ fosterer.sleep_location }}</p>
+      </div>
+      <div class="section">
+        <p>
+          <strong>Is there anything else you want us / rescues to know?</strong>
+        </p>
+        <p class="pre-wrap">{{ fosterer.other_info|default:"NO ANSWER" }}</p>
+      </div>
     </div>
     <div class="section">
       <p>
-        <strong>Animal-related crime conviction:</strong>
+        <strong>Have you or a family / household member ever been convicted of an animal related crime (animal abuse, neglect, abandonment, etc.)?</strong>
       </p>
       <p>{{ fosterer.get_ever_been_convicted_abuse_display }}</p>
     </div>
     <div class="section">
       <p>
-        <strong>Willing to foster:</strong>
+        <strong>Do you agree that we can share the details you've provided with rescues?</strong>
       </p>
-      {% for label in animal_type_labels %}<div class="label-list">{{ label }}</div>{% endfor %}
+      <p>{{ fosterer.get_agree_share_details_display }}</p>
     </div>
     <div class="section">
       <p>
-        <strong>Category of animals:</strong>
+        <strong>Do you agree to help promote your foster animal on social media and/or by attending adoption events and public outings?</strong>
       </p>
-      {% for label in category_of_animals_labels %}<div class="label-list">{{ label }}</div>{% endfor %}
+      <p>{{ fosterer.get_agree_social_media_display }}</p>
     </div>
-    {% if behaviour_labels %}
-      <div class="section">
-        <p>
-          <strong>Behavioral needs:</strong>
-        </p>
-        {% for label in behaviour_labels %}<div class="label-list">{{ label }}</div>{% endfor %}
-      </div>
-    {% endif %}
-    <div class="section">
-      <p>
-        <strong>Timeframe:</strong>
-      </p>
-      {% if fosterer.timeframe_other %}
-        <p class="pre-wrap">{{ fosterer.timeframe_other }}</p>
-      {% else %}
-        <p>{{ fosterer.timeframe }}</p>
-      {% endif %}
-    </div>
-    <div class="section">
-      <p>
-        <strong>Number of existing pets:</strong>
-      </p>
-      <p>{{ fosterer.num_existing_pets }}</p>
-    </div>
-    <div class="section">
-      <p>
-        <strong>Existing pet details:</strong>
-      </p>
-      <p class="pre-wrap">{{ fosterer.existing_pets_details }}</p>
-    </div>
-    <div class="section">
-      <p>
-        <strong>Experience description:</strong>
-      </p>
-      <p>{{ fosterer.experience_description }}</p>
-    </div>
-    <div class="section">
-      <p>
-        <strong>Experience categories</strong>
-      </p>
-      {% for label in experience_categories_labels %}<div class="label-list">{{ label }}</div>{% endfor %}
-    </div>
-    {% if fosterer.experience_given_up_pet %}
-      <div class="section">
-        <p>
-          <strong>Experience with giving up a pet:</strong>
-        </p>
-        <p>{{ fosterer.experience_given_up_pet }}</p>
-      </div>
-    {% endif %}
-    {% if fosterer.reference_1 %}
-      <div class="section">
-        <p>
-          <strong>Reference 1:</strong>
-        </p>
-        <p class="pre-wrap">{{ fosterer.reference_1 }}</p>
-      </div>
-    {% endif %}
-    {% if fosterer.reference_2 %}
-      <div class="section">
-        <p>
-          <strong>Reference 2:</strong>
-        </p>
-        <p class="pre-wrap">{{ fosterer.reference_2 }}</p>
-      </div>
-    {% endif %}
-    {% if fosterer.reference_3 %}
-      <div class="section">
-        <p>
-          <strong>Reference 3:</strong>
-        </p>
-        <p class="pre-wrap">{{ fosterer.reference_3 }}</p>
-      </div>
-    {% endif %}
-    {% if fosterer.people_at_home %}
-      <div class="section">
-        <p>
-          <strong>People at home:</strong>
-        </p>
-        <p class="pre-wrap">{{ fosterer.people_at_home }}</p>
-      </div>
-    {% endif %}
-    <div class="section">
-      <p>
-        <strong>Yard type:</strong>
-      </p>
-      <p>{{ fosterer.get_yard_type_display }}</p>
-    </div>
-    {% if fosterer.yard_fence_over_5ft %}
-      <div class="section">
-        <p>
-          <strong>Yard fence over 5ft:</strong>
-        </p>
-        <p>{{ fosterer.yard_fence_over_5ft|lower|title }}</p>
-      </div>
-    {% endif %}
-    <div class="section">
-      <p>
-        <strong>Rent or own:</strong>
-      </p>
-      <p>{{ fosterer.get_rent_own_display }}</p>
-    </div>
-    {% if fosterer.rent_restrictions %}
-      <div class="section">
-        <p>
-          <strong>Rent restrictions:</strong>
-        </p>
-        <p class="pre-wrap">{{ fosterer.rent_restrictions }}</p>
-      </div>
-    {% endif %}
-    {% if fosterer.rent_ok_foster_pets %}
-      <div class="section">
-        <p>
-          <strong>Ok to foster pets:</strong>
-        </p>
-        <p>{{ fosterer.rent_ok_foster_pets|lower|title }}</p>
-      </div>
-    {% endif %}
-    <div class="section">
-      <p>
-        <strong>Hours per day left alone:</strong>
-      </p>
-      <p class="pre-wrap">{{ fosterer.hours_alone_description }}</p>
-    </div>
-    {% if fosterer.hours_alone_location %}
-      <div class="section">
-        <p>
-          <strong>Location when left alone:</strong>
-        </p>
-        <p class="pre-wrap">{{ fosterer.hours_alone_location }}</p>
-      </div>
-    {% endif %}
-    <div class="section">
-      <p>
-        <strong>Sleeping location:</strong>
-      </p>
-      <p class="pre-wrap">{{ fosterer.sleep_location }}</p>
-    </div>
-    {% if fosterer.other_info %}
-      <div class="section">
-        <p>
-          <strong>Other info:</strong>
-        </p>
-        <p class="pre-wrap">{{ fosterer.other_info }}</p>
-      </div>
-    {% endif %}
-  </div>
+  {% endwith %}
 </div>

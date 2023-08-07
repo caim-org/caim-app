@@ -15,15 +15,15 @@ Including another URLconf
 """
 from django.conf import settings
 from django.conf.urls.static import static
-from django.views.decorators.cache import cache_control
-from django.contrib.staticfiles.views import serve
 from django.contrib import admin
+from django.contrib.staticfiles.views import serve
 from django.urls import include, path
+from django.views.decorators.cache import cache_control
 from django.views.generic.base import TemplateView
 
-
 from caim_base.views import (account_details, animal, auth, awg, browse,
-                             comments, fosterer_profile, foster_application, home, saved_search,
+                             comments, foster_application, fosterer_profile,
+                             home, saved_search,
                              saved_search_email_notifications, shortlist,
                              user_profile)
 from caim_base.views.utils import user_csv_download
@@ -40,8 +40,8 @@ urlpatterns = [
     ),
     path("fosterer/<stage_id>", fosterer_profile.edit),
     path("fosterer", fosterer_profile.start, name="fosterer_profile"),
-    path("fosterer/<fosterer_id>/pdf", fosterer_profile.download_fosterer_profile),
     path("foster/application", foster_application.application),
+    path("foster/application/pdf", foster_application.download_foster_application),
     path("register", auth.register_view, name="register"),
     path("register/success", auth.register_success, name="register_success"),
     path("login", auth.login_view, name="login"),
