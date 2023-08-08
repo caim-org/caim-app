@@ -1,13 +1,15 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.core.exceptions import PermissionDenied, BadRequest
-from django.http import Http404
-from django.views.decorators.http import require_http_methods
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import BadRequest, PermissionDenied
+from django.http import Http404
+from django.shortcuts import get_object_or_404, redirect, render
+from django.views.decorators.http import require_http_methods
 
-from caim_base.views.awg.user_permissions import check_awg_user_permissions_update_context
+from caim_base.views.awg.user_permissions import \
+    check_awg_user_permissions_update_context
 
-from ...models.awg import Awg, User, AwgMember
+from ...models.awg import Awg, AwgMember, User
+
 
 @login_required()
 @require_http_methods(["GET"])
@@ -36,10 +38,12 @@ def add_member(request, awg_id):
         canEditProfile = "canEditProfile" in request.POST
         canManageAnimals = "canManageAnimals" in request.POST
         canManageMembers = "canManageMembers" in request.POST
+        canManageApplications = "canManageApplications" in request.POST
+        canViewApplications = "canViewApplications" in request.POST
         if not email:
             raise BadRequest("Missing email address parameter")
 
-        if not (canEditProfile or canManageAnimals or canManageMembers):
+        if not (canEditProfile or canManageAnimals or canManageMembers or canManageApplications or canViewApplications):
             raise BadRequest("Must have at least 1 permission")
 
         # Lowercase to avoid case sensitivity
@@ -60,6 +64,8 @@ def add_member(request, awg_id):
             canEditProfile=canEditProfile,
             canManageAnimals=canManageAnimals,
             canManageMembers=canManageMembers,
+            canManageApplications=canManageApplications,
+            canViewApplications=canViewApplications,
         )
         member.save()
         messages.success(request, "Member was added to this organization")
@@ -90,6 +96,8 @@ def update_member(request, awg_id):
             member.canEditProfile = "canEditProfile" in request.POST
             member.canManageAnimals = "canManageAnimals" in request.POST
             member.canManageMembers = "canManageMembers" in request.POST
+            member.canManageApplications = "canManageApplications" in request.POST
+            member.canViewApplications = "canViewApplications" in request.POST
             member.save()
             messages.success(request, "Member was updated for this organization")
         else:
