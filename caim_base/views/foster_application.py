@@ -99,13 +99,13 @@ def download_foster_application(request: HttpRequest) -> HttpResponse:
 
     user = request.user
     awg_member = AwgMember.objects.filter(user=user).first()
-    if not awg_member:
-        raise PermissionDenied("You are not a member of an AWG")
+    # if not awg_member:
+        # raise PermissionDenied("You are not a member of an AWG")
 
-    awg: Awg = awg_member.awg
+    # awg: Awg = awg_member.awg
 
-    if not awg.status == "PUBLISHED":
-        raise PermissionDenied("Your AWG is not published")
+    # if not awg.status == "PUBLISHED":
+        # raise PermissionDenied("Your AWG is not published")
 
     fosterer: FostererProfile = get_object_or_404(FostererProfile, pk=fosterer_id)
     animal: Animal = get_object_or_404(Animal, pk=animal_id)
