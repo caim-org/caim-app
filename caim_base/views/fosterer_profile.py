@@ -106,11 +106,16 @@ class FostererProfileStage1Form(ModelForm):
             user_profile = UserProfile.objects.get(user=user)
 
             if user_profile is not None:
-                initial_args["firstname"] = user.first_name
-                initial_args["lastname"] = user.last_name
-                initial_args["city"] = user_profile.city
-                initial_args["state"] = user_profile.state
-                initial_args["zip_code"] = user_profile.zip_code
+                if not fosterer_profile.firstname:
+                    initial_args["firstname"] = user.first_name
+                if not fosterer_profile.lastname:
+                    initial_args["lastname"] = user.last_name
+                if not fosterer_profile.city:
+                    initial_args["city"] = user_profile.city
+                if not fosterer_profile.state:
+                    initial_args["state"] = user_profile.state
+                if not fosterer_profile.zip_code:
+                    initial_args["zip_code"] = user_profile.zip_code
 
                 kwargs["initial"] = initial_args
 
