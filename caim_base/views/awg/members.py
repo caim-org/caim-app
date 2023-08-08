@@ -91,7 +91,7 @@ def update_member(request, awg_id):
             member.canManageAnimals = "canManageAnimals" in request.POST
             member.canManageMembers = "canManageMembers" in request.POST
             member.save()
-            messages.success(request, "Member was update for this organization")
+            messages.success(request, "Member was updated for this organization")
         else:
             raise BadRequest("Unknown action")
 
