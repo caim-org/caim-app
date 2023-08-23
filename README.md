@@ -51,6 +51,8 @@ Slideshow is https://github.com/sachinchoolur/lightslider. Just copied the dist 
 
 ## Local development
 
+First, you'll need to install the gdal and pango libraries. For Mac OS, this is as easy as `brew install pango gdal`.
+
 Running the app locally requires:
 
 1. The correct env variables via `source local.env`
