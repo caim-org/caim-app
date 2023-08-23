@@ -116,6 +116,9 @@ class FostererLandlordContact(models.Model):
 
 
 class FostererProfile(models.Model):
+    def __str__(self) -> str:
+        return f"{self.firstname} {self.lastname}"
+
     class CategoryOfAnimals(models.TextChoices):
         ADULT_FEMALE = "ADULT_FEMALE", "Adult female"
         ADULT_MALE = "ADULT_MALE", "Adult male"
