@@ -99,6 +99,31 @@ input.text {
     background-position: center;
 }
 
+.animal-profile-card h5 {
+    color: black;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.animal-stats {
+    color: gray;
+}
+
+.animal-detail-panel>div {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid lightgray;
+}
+
+.animal-detail-panel>div>div:first-child {
+    color: gray !important;
+}
+
+.animal-detail-panel img {
+    margin-right: 0.25rem;
+}
+
 .filter {
     margin-bottom: 1em;
 }
