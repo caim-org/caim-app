@@ -44,7 +44,9 @@ A user can shortlist many animals. Powered by a simple API to set and upset the 
 
 The app is rendered as Django templates.
 
-We use good old jQuery for js. 
+CSS styling based on the bootstrap framework.
+
+We use a mix of good old jQuery and HTMX for interactivity. 
 
 Slideshow is https://github.com/sachinchoolur/lightslider. Just copied the dist folder into static for ease.
 
