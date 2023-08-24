@@ -178,7 +178,7 @@ def download_foster_application(request: HttpRequest) -> HttpResponse:
     pdf_file = HTML(string=pdf_string).write_pdf(
         stylesheets=[
             CSS(string="@page { size: letter portrait; margin: 1cm }"),
-            CSS(filename=os.path.join(settings.STATIC_ROOT, "css/normalize.css")),
+            CSS(filename=os.path.join(settings.STATIC_ROOT, "vendor/normalize.css")),
             CSS(filename=os.path.join(settings.STATIC_ROOT, "css/pdf.css")),
         ]
     )
