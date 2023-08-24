@@ -8,13 +8,13 @@ These are all hosted on an S3 bucket. Configured with the `MEDIA_USE_S3` env var
 
 ### Image CDN / resizing
 
-We wanted to use an external image resize service in order to avoid load on the main server (hence we rejected sorl-thumnail etc). 
+We wanted to use an external image resize service in order to avoid load on the main server (hence we rejected sorl-thumnail etc).
 
 We use imagekit.io for the image transforms. However because imagekit has limited free bandwidth, we put amazon cloudfront in front of it. Thus repeat images should be served by cloudfront for very cheap bandwidth, but transforms are processed by imagekit.
 
 Imagekit is configured to use the media S3 bucket as an origin. Ask Al for imagekit login.
 
-We have a macro that converts the django media URL to the correct imagekit + cloudfront one. 
+We have a macro that converts the django media URL to the correct imagekit + cloudfront one.
 
 ```
 <img src="{{ image.photo.url|image_resize:'800x500 max' }}" />
@@ -64,6 +64,8 @@ Running the app locally requires:
 5. Migrate the database via `python manage.py migrate`
 6. Build test data with `python manage.py shell < seed.py`
 
+After you've set up the app, you can start it by running `./run.sh`.
+
 Notes:
 - The postgres local docker image listenes on port 5434 (rather than the default postgres port of 5432) to avoid clashes if you happen to have postgres running locally on your machine
 
@@ -73,7 +75,7 @@ We welcome your help! Please browse the attached project and issues for things t
 
 ## Hosting
 
-The app is currently hostest on AWS AppRunner. 
+The app is currently hostest on AWS AppRunner.
 
 ### Deployment notes
 
