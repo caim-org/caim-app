@@ -21,6 +21,8 @@ services:
       - SALESFORCE_USERNAME='<username>'
       - SALESFORCE_PASSWORD='<pwd>'
       - SALESFORCE_SECURITY_TOKEN='<token>'
+    volumes:
+      - ./seed_data:/app/seed_data
     ports:
       - '8000:8000'
     depends_on:
