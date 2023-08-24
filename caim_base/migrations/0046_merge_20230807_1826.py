@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("caim_base", "0045_awgmember_canviewapplications_and_more"),
         ("caim_base", "0045_remove_fostererexistingpetdetail_type_of_animals_and_more"),

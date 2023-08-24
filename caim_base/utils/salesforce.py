@@ -3,7 +3,7 @@ from simple_salesforce import Salesforce
 
 
 def _user_from_form(user_form):
-    '''compile user data from form into object for salesforce'''
+    """compile user data from form into object for salesforce"""
     form_data = user_form.cleaned_data
 
     return {
@@ -17,7 +17,7 @@ def _user_from_form(user_form):
 
 
 def _salesforce_connection():
-    '''create salesforce connection with auth'''
+    """create salesforce connection with auth"""
     sf_username = settings.SALESFORCE_USERNAME
     sf_password = settings.SALESFORCE_PASSWORD
     sf_security_token = settings.SALESFORCE_SECURITY_TOKEN

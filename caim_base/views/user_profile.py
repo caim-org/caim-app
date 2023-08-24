@@ -95,10 +95,7 @@ def edit(request, username):
             return redirect(f"/user/{user.username}")
     else:
         form = UserProfileForm(
-            initial={
-                "username": user.username,
-                "description": user_profile.description
-            }
+            initial={"username": user.username, "description": user_profile.description}
         )
 
     return render(

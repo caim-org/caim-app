@@ -28,7 +28,6 @@ def parse_euth_date(args):
 
 
 def view(request):
-
     if request.GET.get("animal_type") == "cat":
         animal_type = AnimalType.CAT
     elif request.GET.get("animal_type") == "dog":

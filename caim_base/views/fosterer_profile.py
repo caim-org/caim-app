@@ -19,8 +19,12 @@ from weasyprint import CSS, HTML
 
 from caim_base.models.awg import Awg, AwgMember
 
-from ..models import (FostererExistingPetDetail, FostererPersonInHomeDetail,
-                      FostererReferenceDetail, TypeOfAnimals)
+from ..models import (
+    FostererExistingPetDetail,
+    FostererPersonInHomeDetail,
+    FostererReferenceDetail,
+    TypeOfAnimals,
+)
 from ..models.fosterer import FostererProfile
 from ..models.user import UserProfile
 from ..notifications import notify_new_fosterer_profile
@@ -46,7 +50,7 @@ class ExistingPetDetailForm(forms.ModelForm):
             "quirks",
         ]
         labels = {
-            'type_of_animal': 'Type',
+            "type_of_animal": "Type",
         }
 
 
@@ -88,13 +92,11 @@ class PersonInHomeDetailForm(forms.ModelForm):
             "age",
             "email",
         ]
-        required = (
-        )
+        required = ()
 
 
 class FostererProfileStage1Form(ModelForm):
     def __init__(self, *args, **kwargs):
-
         # patch user and profile info into "initial" to prefill fields
         initial_args = kwargs.get("initial", {})
 
@@ -129,7 +131,7 @@ class FostererProfileStage1Form(ModelForm):
         self.helper.layout = Layout(
             Fieldset(
                 "About you",
-                'firstname',
+                "firstname",
                 "lastname",
                 "age",
                 "email",
@@ -156,8 +158,8 @@ class FostererProfileStage1Form(ModelForm):
             "zip_code",
         ]
         labels = {
-            'firstname': 'First name',
-            'lastname': 'Last name',
+            "firstname": "First name",
+            "lastname": "Last name",
         }
         required = (
             "firstname",
@@ -558,7 +560,7 @@ def edit(request, stage_id):
                                 "weight_lbs",
                                 "spayed_neutered",
                                 "up_to_date_shots",
-                                "quirks"
+                                "quirks",
                             ]
                             if any(detail_data.get(field) for field in fields):
                                 FostererExistingPetDetail.objects.create(
@@ -570,7 +572,9 @@ def edit(request, stage_id):
                                     age=detail_data.get("age"),
                                     weight_lbs=detail_data.get("weight_lbs"),
                                     spayed_neutered=detail_data.get("spayed_neutered"),
-                                    up_to_date_shots=detail_data.get("up_to_date_shots"),
+                                    up_to_date_shots=detail_data.get(
+                                        "up_to_date_shots"
+                                    ),
                                     quirks=detail_data.get("quirks"),
                                 )
 
@@ -639,7 +643,7 @@ def edit(request, stage_id):
 
         existing_pets = FostererExistingPetDetail.objects.filter(
             fosterer_profile=fosterer_profile
-        ).order_by('id')
+        ).order_by("id")
 
         num_existing_pets = existing_pets.count()
         extra_forms_needed = max(0, 6 - num_existing_pets)

@@ -6,7 +6,6 @@ import phonenumber_field.modelfields
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("caim_base", "0044_alter_fostererpersoninhomedetail_age_and_more"),
     ]

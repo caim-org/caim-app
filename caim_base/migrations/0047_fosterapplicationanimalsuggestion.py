@@ -5,7 +5,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("caim_base", "0046_merge_20230807_1826"),
     ]
@@ -14,7 +13,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="FosterApplicationAnimalSuggestion",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 ("submitted_on", models.DateField(auto_now_add=True)),
                 ("updated_on", models.DateField(auto_now=True)),
                 (
@@ -27,7 +34,10 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "animal",
-                    models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="caim_base.animal"),
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="caim_base.animal",
+                    ),
                 ),
             ],
         ),

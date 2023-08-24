@@ -10,11 +10,11 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_http_methods
 
-from caim_base.views.awg.user_permissions import \
-    check_awg_user_permissions_update_context
+from caim_base.views.awg.user_permissions import (
+    check_awg_user_permissions_update_context,
+)
 
-from ...animal_petfinder_import import (ImportAnimalError,
-                                        import_animal_from_petfinder)
+from ...animal_petfinder_import import ImportAnimalError, import_animal_from_petfinder
 from ...animal_search import query_animals
 from ...models.animals import Animal, AnimalImage
 from ...models.awg import Awg
@@ -45,7 +45,9 @@ def list_animals(request, awg_id):
         "animals": animals,
         "paginator": paginator,
     }
-    context = check_awg_user_permissions_update_context(request, awg, ["MANAGE_ANIMALS"], context)
+    context = check_awg_user_permissions_update_context(
+        request, awg, ["MANAGE_ANIMALS"], context
+    )
     return render(request, "awg/manage/animals/list.html", context)
 
 
@@ -192,7 +194,9 @@ def edit_animal(request, awg_id, animal_id):
         "animal": animal,
         "photos": photos,
     }
-    context = check_awg_user_permissions_update_context(request, awg, ["MANAGE_ANIMALS"], context)
+    context = check_awg_user_permissions_update_context(
+        request, awg, ["MANAGE_ANIMALS"], context
+    )
     return render(request, "awg/manage/animals/edit.html", context)
 
 
@@ -217,7 +221,9 @@ def add_animal(request, awg_id):
         "pageTitle": f"{awg.name} | Edit animal",
         "form": form,
     }
-    context = check_awg_user_permissions_update_context(request, awg, ["MANAGE_ANIMALS"], context)
+    context = check_awg_user_permissions_update_context(
+        request, awg, ["MANAGE_ANIMALS"], context
+    )
     return render(request, "awg/manage/animals/add.html", context)
 
 
@@ -300,7 +306,10 @@ def import_animal(request, awg_id):
                 animal = import_animal_from_petfinder(awg, url)
                 messages.success(request, "Animal imported")
                 if animal.primary_breed.name == "Unknown":
-                    messages.warning(request, "Primary Animal breed is unknown, please update it below.")
+                    messages.warning(
+                        request,
+                        "Primary Animal breed is unknown, please update it below.",
+                    )
                 return redirect(f"{awg.get_absolute_url()}/animals/{animal.id}")
             except ImportAnimalError as e:
                 messages.error(request, str(e))

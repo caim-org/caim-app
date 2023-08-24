@@ -160,7 +160,6 @@ def edit(request, awg_id):
 
 @require_http_methods(["POST", "GET"])
 def create(request):
-
     if not request.user.is_authenticated:
         return render(
             request,

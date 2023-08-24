@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("caim_base", "0036_alter_awg_awg_type"),
     ]
@@ -20,7 +19,10 @@ class Migration(migrations.Migration):
             name="reject_reason",
             field=models.CharField(
                 choices=[
-                    ("UNSUITABLE", "Not suitable for the animal requested, and not willing to consider alternative"),
+                    (
+                        "UNSUITABLE",
+                        "Not suitable for the animal requested, and not willing to consider alternative",
+                    ),
                     ("UNRELIABLE", "Concerns about fosterer reliability/commitment"),
                     ("PROPERTY", "Concerns with home and/or yard situation"),
                     ("HUMAN_ROOMMATES", "Concerns with the people in the home"),

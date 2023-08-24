@@ -5,8 +5,9 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_http_methods
 
-from caim_base.views.awg.user_permissions import \
-    check_awg_user_permissions_update_context
+from caim_base.views.awg.user_permissions import (
+    check_awg_user_permissions_update_context,
+)
 
 from ...models.awg import Awg, AwgMember, User
 
@@ -23,7 +24,9 @@ def list_members(request, awg_id):
         "pageTitle": f"{awg.name} | Manage members",
         "members": members,
     }
-    context = check_awg_user_permissions_update_context(request, awg, ["MANAGE_MEMBERS"], context)
+    context = check_awg_user_permissions_update_context(
+        request, awg, ["MANAGE_MEMBERS"], context
+    )
     return render(request, "awg/manage/members/list.html", context)
 
 
@@ -43,7 +46,13 @@ def add_member(request, awg_id):
         if not email:
             raise BadRequest("Missing email address parameter")
 
-        if not (canEditProfile or canManageAnimals or canManageMembers or canManageApplications or canViewApplications):
+        if not (
+            canEditProfile
+            or canManageAnimals
+            or canManageMembers
+            or canManageApplications
+            or canViewApplications
+        ):
             raise BadRequest("Must have at least 1 permission")
 
         # Lowercase to avoid case sensitivity

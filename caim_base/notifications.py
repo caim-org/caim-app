@@ -7,6 +7,7 @@ import caim_base.models.fosterer as fosterer
 NOTIFICATIONS_SOURCE_EMAIL = "notifications@caim.org"
 INTERNAL_NOTIFICATIONS_EMAIL = "hello@caim.org"
 
+
 def notify_new_awg_application(awg):
     send_templated_mail(
         template_name="new_awg_application",
@@ -58,7 +59,9 @@ def notify_new_fosterer_profile(fosterer):
     )
 
 
-def notify_fosterer_of_animal_suggestion(suggested_animal: fosterer.FosterApplicationAnimalSuggestion):
+def notify_fosterer_of_animal_suggestion(
+    suggested_animal: fosterer.FosterApplicationAnimalSuggestion,
+):
     send_templated_mail(
         template_name="application_animal_suggestion",
         from_email=NOTIFICATIONS_SOURCE_EMAIL,
@@ -69,7 +72,10 @@ def notify_fosterer_of_animal_suggestion(suggested_animal: fosterer.FosterApplic
         },
     )
 
-def notify_caim_of_animal_suggestion(suggested_animal: fosterer.FosterApplicationAnimalSuggestion):
+
+def notify_caim_of_animal_suggestion(
+    suggested_animal: fosterer.FosterApplicationAnimalSuggestion,
+):
     send_templated_mail(
         template_name="application_animal_suggestion_internal",
         from_email=NOTIFICATIONS_SOURCE_EMAIL,
@@ -80,6 +86,7 @@ def notify_caim_of_animal_suggestion(suggested_animal: fosterer.FosterApplicatio
         },
     )
 
+
 def notify_caim_foster_application_accepted(application: fosterer.FosterApplication):
     send_templated_mail(
         template_name="application_accepted_internal",
@@ -87,8 +94,9 @@ def notify_caim_foster_application_accepted(application: fosterer.FosterApplicat
         recipient_list=[INTERNAL_NOTIFICATIONS_EMAIL],
         context={
             "app": application,
-        }
+        },
     )
+
 
 def notify_caim_foster_application_rejected(application: fosterer.FosterApplication):
     send_templated_mail(
@@ -97,7 +105,7 @@ def notify_caim_foster_application_rejected(application: fosterer.FosterApplicat
         recipient_list=[INTERNAL_NOTIFICATIONS_EMAIL],
         context={
             "app": application,
-        }
+        },
     )
 
 

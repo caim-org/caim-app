@@ -91,8 +91,8 @@ def create_animal_from_petfinder_data(awg, data):
 
     animal_size = map_size(data["size"].lower())
 
-    animal_type=animals.AnimalType.DOG
-    if data["type"].get("name") == 'Cat':
+    animal_type = animals.AnimalType.DOG
+    if data["type"].get("name") == "Cat":
         animal_type = animals.AnimalType.CAT
         animal_size = animals.Animal.AnimalSize.S
 
@@ -171,7 +171,7 @@ def import_animal_from_petfinder(awg, url):
         print(e)
         if e.__class__.__name__ == "IntegrityError":
             error_message = "We had a problem putting this animal in our database."
-            if 'petfinder_id' in e.__str__():
+            if "petfinder_id" in e.__str__():
                 error_message = "An animal with this PetFinder ID already exists."
             raise ImportAnimalError(error_message)
         else:

@@ -1,11 +1,10 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from caim_base.models.animals import (Animal, AnimalImage, AnimalType, Breed,
-                                      ZipCode)
+from caim_base.models.animals import Animal, AnimalImage, AnimalType, Breed, ZipCode
 from caim_base.models.awg import Awg, AwgMember
 from caim_base.models.fosterer import FosterApplication, FostererProfile
 
-from fake_data import (      
+from fake_data import (
     load_zips,
     load_breeds,
     load_breeds,

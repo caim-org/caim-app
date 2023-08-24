@@ -26,7 +26,7 @@ class AnimalType(models.TextChoices):
         elif animal_type.upper() == cls.CAT:
             return "Cats"
         else:
-            raise ValueError(f'unknown AnimalType {animal_type}')
+            raise ValueError(f"unknown AnimalType {animal_type}")
 
 
 class Breed(models.Model):
@@ -80,7 +80,9 @@ class Animal(models.Model):
     petfinder_id = models.CharField(
         max_length=32, blank=True, null=True, default=None, unique=True
     )
-    awg = models.ForeignKey(Awg, on_delete=models.CASCADE, verbose_name="AWG", related_name="animals")
+    awg = models.ForeignKey(
+        Awg, on_delete=models.CASCADE, verbose_name="AWG", related_name="animals"
+    )
     awg_internal_id = models.CharField(
         max_length=64,
         null=True,
