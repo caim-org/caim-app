@@ -6,11 +6,11 @@
     <div class="modal-content">
       <div class="modal-header">
         <div class="container-fluid" style="height: 100%;">
-            <img
-              class="mx-auto d-block"
-              src="{% static 'img/thinking.svg' %}"
-            >
-            <div class="fs-3 text-center">Are you sure you want to accept this application?</div>
+          <img
+            class="mx-auto d-block"
+            src="{% static 'img/thinking.svg' %}"
+          >
+          <div class="fs-3 text-center">Are you sure you want to accept this application?</div>
         </div>
       </div>
       <div class="modal-body">
@@ -35,7 +35,7 @@
             <form action="/organization/{{ awg.id }}/applications/{{ app.id }}" , method="post">
               {% csrf_token %}
               <input class="d-none" name="status" type="text" value="{{ app.Statuses.ACCEPTED | title }}"
-                readonly>
+                     readonly>
               <button
                 class="btn btn-primary"
                 hx-post="{% url 'awg_update_application_status_submit_modal' awg_id=awg.id application_id=app.id %}"
@@ -43,7 +43,7 @@
                 _="on htmx:afterOnLoad wait 10ms then add .show to #modal then add .show to #modal-backdrop"
               >Confirm</button>
             </form>
-        	  <button type="button" class="btn btn-link" onclick="closeModal('awg-applications-modal')">cancel</button>
+            <button type="button" class="btn btn-link" onclick="closeModal('awg-applications-modal')">cancel</button>
           </div>
         </div>
       </div>

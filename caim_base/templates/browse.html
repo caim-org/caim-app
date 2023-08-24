@@ -3,222 +3,222 @@
 
 
 {% block content %}
-<style>
-  .filter-button{
-    border-bottom: 1px solid #ddd;
-    padding: 8px;
-    text-align: center !important;
-    z-index: 100; 
-    display: block;
-  }
-  @media (min-width: 768px) {
-    .collapse.dont-collapse-sm {
+  <style>
+    .filter-button{
+      border-bottom: 1px solid #ddd;
+      padding: 8px;
+      text-align: center !important;
+      z-index: 100;
       display: block;
-      height: auto !important;
-      visibility: visible;
     }
-  }
-</style>
-<div class="bg-dark context-bar">
+    @media (min-width: 768px) {
+      .collapse.dont-collapse-sm {
+        display: block;
+        height: auto !important;
+        visibility: visible;
+      }
+    }
+  </style>
+  <div class="bg-dark context-bar">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 py-2 text-center text-md-start">
+          <p class="text-light mt-2 mb-1">Showing {{ paginator.count }}
+            {% if animal_type %}
+              {{animal_type.lower}}{{paginator.count|pluralize}}
+            {% else %}
+              animals
+            {% endif %}
+            {% if search.zip %}
+              within
+              {% if search.radius %}{{search.radius}} miles{% else %}any distance{% endif %}
+              of {{ search.zip }}
+            {% endif %}
+          </p>
+        </div>
+        <div class="col-md-6 text-end d-bottom-mobile">
+          <div class="d-flex py-2 justify-content-center justify-content-md-end align-items-center">
+            <a href="#" onclick="saveSearch()" class="btn btn-secondary">Save search</a>
+
+            {% if savedSearches %}
+              <li class="dropdown">
+                <a class="dropdown-toggle" style="text-decoration: none; color:white;" data-bs-toggle="dropdown" href="#" role="button">
+                  Saved searches
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  {% for saved_search in savedSearches %}
+                    <li>
+                      <a class="dropdown-item" href="{{ saved_search.get_absolute_url }}">
+                        {{ saved_search.name }}
+                      </a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </li>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container mb-3">
+    <div class="row d-md-none">
+      <a class="filter-button" data-bs-toggle="collapse" href="#searchFilters" role="button">
+        Show filters
+      </a>
+    </div>
+  </div>
   <div class="container">
     <div class="row">
-      <div class="col-md-6 py-2 text-center text-md-start">
-        <p class="text-light mt-2 mb-1">Showing {{ paginator.count }} 
-          {% if animal_type %}
-            {{animal_type.lower}}{{paginator.count|pluralize}} 
-          {% else %}
-            animals
-          {% endif %}
-          {% if search.zip %}
-            within
-            {% if search.radius %}{{search.radius}} miles{% else %}any distance{% endif %}
-            of {{ search.zip }}
-          {% endif %}
-        </p>
-      </div>
-      <div class="col-md-6 text-end d-bottom-mobile">
-        <div class="d-flex py-2 justify-content-center justify-content-md-end align-items-center">
-        <a href="#" onclick="saveSearch()" class="btn btn-secondary">Save search</a>
-
-        {% if savedSearches %}
-        <li class="dropdown">
-          <a class="dropdown-toggle" style="text-decoration: none; color:white;" data-bs-toggle="dropdown" href="#" role="button">
-            Saved searches
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end">
-            {% for saved_search in savedSearches %}
-            <li>
-              <a class="dropdown-item" href="{{ saved_search.get_absolute_url }}">
-              {{ saved_search.name }}
-              </a>
-            </li>
-            {% endfor %}
-          </ul>
-        </li>
-        {% endif %}
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="container mb-3">
-  <div class="row d-md-none">
-    <a class="filter-button" data-bs-toggle="collapse" href="#searchFilters" role="button">
-    Show filters
-    </a>
-  </div>
-</div>
-<div class="container">
-  <div class="row">
-    <div class="col-md-3 mb-3 collapse dont-collapse-sm" id="searchFilters">
-      <div class="card sticky-top" style="top:80px;">
-        <div class="card-body">
-          <form action="/browse" method="get">
-            <input type="hidden" name="zip" value="{{search.zip|default:''}}" />
-            <div class="text-center">
-              <input type="submit" class="btn btn-primary" value="Update filters" />
-            </div>
-            <hr>
-            <div class="filter">
-              Animal Type
-              <select
-                class="form-select"
-                name="animal_type"
-                hx-target="#breeds_dropdown"
-                hx-select="#breeds_dropdown"
-                hx-get="/browse"
-                {% if not isProduction %}
-                hx-ext="debug"
-                {% endif %}
-              >
-                <option value="" {% if not search.animal_type%}selected{% endif %}>
-                Any Animal Type
-                </option>
-                {% for at in animal_types.items %}
-                <option
-                  value="{{at.1.lower}}"
-                  {% if at.1.lower == search.animal_type.lower %}selected{% endif %}
+      <div class="col-md-3 mb-3 collapse dont-collapse-sm" id="searchFilters">
+        <div class="card sticky-top" style="top:80px;">
+          <div class="card-body">
+            <form action="/browse" method="get">
+              <input type="hidden" name="zip" value="{{search.zip|default:''}}" />
+              <div class="text-center">
+                <input type="submit" class="btn btn-primary" value="Update filters" />
+              </div>
+              <hr>
+              <div class="filter">
+                Animal Type
+                <select
+                  class="form-select"
+                  name="animal_type"
+                  hx-target="#breeds_dropdown"
+                  hx-select="#breeds_dropdown"
+                  hx-get="/browse"
+                  {% if not isProduction %}
+                    hx-ext="debug"
+                  {% endif %}
                 >
-                {{at.1.lower}}
-                </option>
-                {% endfor %}
-              </select>
-            </div>
-            <div id="breeds_dropdown" class="filter">
-              Breed
-              <select class="form-select" name="breed">
-                <option value="" {% if not search.breed %}selected{% endif %}>Any breed</option>
-                {% for b in breeds %}
-                <option value="{{b.slug}}" {% if b.slug == search.breed %}selected{% endif %}>{{b.name}}</option>
-                {% endfor %}
-              </select>
-            </div>
-            <div class="filter">
-              Age
-              <select class="form-select" name="age">
-                <option {% if not search.age %}selected{% endif %} value="">Any age</option>
-                <option {% if search.age == 'baby' %}selected{% endif %} value="baby">Baby (< 1 year)</option>
-                <option {% if search.age == 'young' %}selected{% endif %} value="young">Young (1-3 years)</option>
-                <option {% if search.age == 'adult' %}selected{% endif %} value="adult">Adult (3-8 years)</option>
-                <option {% if search.age == 'senior' %}selected{% endif %} value="senior">Senior (8+ years)</option>
-              </select>
-            </div>
-            <div class="filter">
-              Size
-              <select class="form-select" name="size">
-                <option {% if not search.size %}selected{% endif %} value="">Any size</option>
-                <option {% if search.size == 's' %}selected{% endif %} value="s">Small (0-25 lbs)</option>
-                <option {% if search.size == 'm' %}selected{% endif %} value="m">Medium (26-60 lbs)</option>
-                <option {% if search.size == 'l' %}selected{% endif %} value="l">Large (61-100 lbs)</option>
-                <option {% if search.size == 'xl' %}selected{% endif %} value="xl">X-Large (101 lbs+)</option>
-              </select>
-            </div>
-            <div class="filter">
-              Euth date
-              <select class="form-select" name="euth_date">
-                <option {% if not search.euth_date_within_days %}selected{% endif %} value="">Any</option>
-                <option {% if search.euth_date_within_days == 1 %}selected{% endif %} value="1">Tomorrow</option>
-                <option {% if search.euth_date_within_days == 7 %}selected{% endif %} value="7">Within 7 days</option>
-                <option {% if search.euth_date_within_days == 14 %}selected{% endif %} value="14">Within 14 days</option>
-              </select>
-            </div>
-            {% if search.zip %}
-            <div class="filter">
-              Distance
-              <select class="form-select" name="radius">
-                <option value="any" {% if not search.radius %}selected{% endif %}>Any distance</option>
-                <option value="50" {% if search.radius == 50 %}selected{% endif %}>&lt; 50 miles</option>
-                <option value="100" {% if search.radius == 100 %}selected{% endif %}>&lt; 100 miles</option>
-                <option value="500" {% if search.radius == 500 %}selected{% endif %}>&lt; 500 miles</option>
-              </select>
-            </div>
-            {% endif %}
-            <div class="filter">
-              Order by
-              <select class="form-select" name="sort">
-                {% if search.zip %}
-                <option value="distance" {% if search.sort == 'distance' %}selected{% endif %}>Distance (Closest first)
-                </option>
-                {% endif %}
-                <option value="euth_date" {% if search.sort == 'euth_date' %}selected{% endif %}>Soonest euth date first
-                </option>
-                <option value="-created_at" {% if search.sort == '-created_at' %}selected{% endif %}>Newest listing first
-                </option>
-                <option value="created_at" {% if search.sort == 'created_at' %}selected{% endif %}>Oldest listing first
-                </option>
-              </select>
-            </div>
-            <div class="filter">
-              Attributes
-              <div>
-                <label>
-                  <input type="checkbox" name="goodwith_cats" {% if search.goodwith_cats %}checked{% endif %} /> Good
-                  with cats
-                </label>
+                  <option value="" {% if not search.animal_type%}selected{% endif %}>
+                    Any Animal Type
+                  </option>
+                  {% for at in animal_types.items %}
+                    <option
+                      value="{{at.1.lower}}"
+                      {% if at.1.lower == search.animal_type.lower %}selected{% endif %}
+                    >
+                      {{at.1.lower}}
+                    </option>
+                  {% endfor %}
+                </select>
               </div>
-              <div>
-                <label>
-                  <input type="checkbox" name="goodwith_dogs" {% if search.goodwith_dogs %}checked{% endif %} /> Good
-                  with dogs
-                </label>
+              <div id="breeds_dropdown" class="filter">
+                Breed
+                <select class="form-select" name="breed">
+                  <option value="" {% if not search.breed %}selected{% endif %}>Any breed</option>
+                  {% for b in breeds %}
+                    <option value="{{b.slug}}" {% if b.slug == search.breed %}selected{% endif %}>{{b.name}}</option>
+                  {% endfor %}
+                </select>
               </div>
-              <div>
-                <label>
-                  <input type="checkbox" name="goodwith_kids" {% if search.goodwith_kids %}checked{% endif %} /> Good
-                  with kids
-                </label>
+              <div class="filter">
+                Age
+                <select class="form-select" name="age">
+                  <option {% if not search.age %}selected{% endif %} value="">Any age</option>
+                  <option {% if search.age == 'baby' %}selected{% endif %} value="baby">Baby (< 1 year)</option>
+                  <option {% if search.age == 'young' %}selected{% endif %} value="young">Young (1-3 years)</option>
+                  <option {% if search.age == 'adult' %}selected{% endif %} value="adult">Adult (3-8 years)</option>
+                  <option {% if search.age == 'senior' %}selected{% endif %} value="senior">Senior (8+ years)</option>
+                </select>
               </div>
-              {% if request.user.id %}
-              <div>
-                <label>
-                  <input type="checkbox" name="shortlist" {% if search.shortlist %}checked{% endif %} /> My favorites
-                </label>
+              <div class="filter">
+                Size
+                <select class="form-select" name="size">
+                  <option {% if not search.size %}selected{% endif %} value="">Any size</option>
+                  <option {% if search.size == 's' %}selected{% endif %} value="s">Small (0-25 lbs)</option>
+                  <option {% if search.size == 'm' %}selected{% endif %} value="m">Medium (26-60 lbs)</option>
+                  <option {% if search.size == 'l' %}selected{% endif %} value="l">Large (61-100 lbs)</option>
+                  <option {% if search.size == 'xl' %}selected{% endif %} value="xl">X-Large (101 lbs+)</option>
+                </select>
               </div>
+              <div class="filter">
+                Euth date
+                <select class="form-select" name="euth_date">
+                  <option {% if not search.euth_date_within_days %}selected{% endif %} value="">Any</option>
+                  <option {% if search.euth_date_within_days == 1 %}selected{% endif %} value="1">Tomorrow</option>
+                  <option {% if search.euth_date_within_days == 7 %}selected{% endif %} value="7">Within 7 days</option>
+                  <option {% if search.euth_date_within_days == 14 %}selected{% endif %} value="14">Within 14 days</option>
+                </select>
+              </div>
+              {% if search.zip %}
+                <div class="filter">
+                  Distance
+                  <select class="form-select" name="radius">
+                    <option value="any" {% if not search.radius %}selected{% endif %}>Any distance</option>
+                    <option value="50" {% if search.radius == 50 %}selected{% endif %}>&lt; 50 miles</option>
+                    <option value="100" {% if search.radius == 100 %}selected{% endif %}>&lt; 100 miles</option>
+                    <option value="500" {% if search.radius == 500 %}selected{% endif %}>&lt; 500 miles</option>
+                  </select>
+                </div>
               {% endif %}
-            </div>
-          </form>
+              <div class="filter">
+                Order by
+                <select class="form-select" name="sort">
+                  {% if search.zip %}
+                    <option value="distance" {% if search.sort == 'distance' %}selected{% endif %}>Distance (Closest first)
+                    </option>
+                  {% endif %}
+                  <option value="euth_date" {% if search.sort == 'euth_date' %}selected{% endif %}>Soonest euth date first
+                  </option>
+                  <option value="-created_at" {% if search.sort == '-created_at' %}selected{% endif %}>Newest listing first
+                  </option>
+                  <option value="created_at" {% if search.sort == 'created_at' %}selected{% endif %}>Oldest listing first
+                  </option>
+                </select>
+              </div>
+              <div class="filter">
+                Attributes
+                <div>
+                  <label>
+                    <input type="checkbox" name="goodwith_cats" {% if search.goodwith_cats %}checked{% endif %} /> Good
+                    with cats
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    <input type="checkbox" name="goodwith_dogs" {% if search.goodwith_dogs %}checked{% endif %} /> Good
+                    with dogs
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    <input type="checkbox" name="goodwith_kids" {% if search.goodwith_kids %}checked{% endif %} /> Good
+                    with kids
+                  </label>
+                </div>
+                {% if request.user.id %}
+                  <div>
+                    <label>
+                      <input type="checkbox" name="shortlist" {% if search.shortlist %}checked{% endif %} /> My favorites
+                    </label>
+                  </div>
+                {% endif %}
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col-md-9">
+      <div class="col-md-9">
 
-      {% include 'components/animal_list.html' %}
-      {% include 'components/animal_pagination.html' %}
-      {% include 'components/saved_search_modal.html' %}
+        {% include 'components/animal_list.html' %}
+        {% include 'components/animal_pagination.html' %}
+        {% include 'components/saved_search_modal.html' %}
 
+      </div>
     </div>
   </div>
-</div>
 
-<script>
-  var myCollapsible = document.getElementById('searchFilters')
-  myCollapsible.addEventListener('show.bs.collapse', function () {
-    $('.filter-button').html('Hide filters');
-  });
-  myCollapsible.addEventListener('hidden.bs.collapse', function () {
-    $('.filter-button').html('Show filters');
-  });
-</script>
+  <script>
+    var myCollapsible = document.getElementById('searchFilters')
+    myCollapsible.addEventListener('show.bs.collapse', function () {
+      $('.filter-button').html('Hide filters');
+    });
+    myCollapsible.addEventListener('hidden.bs.collapse', function () {
+      $('.filter-button').html('Show filters');
+    });
+  </script>
 
 
 {% endblock %}

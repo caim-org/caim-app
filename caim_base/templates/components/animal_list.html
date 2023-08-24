@@ -2,40 +2,40 @@
 
 <div class="row">
   {% for animal in animals %}
-  <div class="col-md-4">
-    <a href="/animal/{{ animal.id }}{% modify_qs %}" style="text-decoration:none; color: #333;">
-      <div class="card animal-card">
-        {% if animal.id in shortlistAnimalIds %}
-        <div class="animal-shortlist animal-shortlist-selected"
-          onclick="toggleShortlistSmall(this, {{ animal.id }});return false;">
-          <i class="bi-heart-fill"></i>
-        </div>
-        {% else %}
-        <div class="animal-shortlist" onclick="toggleShortlistSmall(this, {{ animal.id }});return false;">
-          <i class="bi-heart"></i>
-        </div>
-        {% endif %}
-        <div class="card-img-top"
-          style="background-color: #eee;{% if animal.primary_photo %}background-image: url({{ animal.primary_photo.url|image_resize:'300x300 crop' }}){% endif %}">
-        </div>
-        <div class="card-body">
-          <h5>{{ animal.name }}</h5>
-          <div class="text-truncate text-xsmall">{{animal.age|title}} - {{ animal.breedsText }}</div>
-          <div class="text-truncate text-xsmall text-danger">
-            {% if animal.euth_date %}
-            Euth Date: {{animal.euth_date}}
-            {% else %}
-            &nbsp;
+    <div class="col-md-4">
+      <a href="/animal/{{ animal.id }}{% modify_qs %}" style="text-decoration:none; color: #333;">
+        <div class="card animal-card">
+          {% if animal.id in shortlistAnimalIds %}
+            <div class="animal-shortlist animal-shortlist-selected"
+                 onclick="toggleShortlistSmall(this, {{ animal.id }});return false;">
+              <i class="bi-heart-fill"></i>
+            </div>
+          {% else %}
+            <div class="animal-shortlist" onclick="toggleShortlistSmall(this, {{ animal.id }});return false;">
+              <i class="bi-heart"></i>
+            </div>
+          {% endif %}
+          <div class="card-img-top"
+               style="background-color: #eee;{% if animal.primary_photo %}background-image: url({{ animal.primary_photo.url|image_resize:'300x300 crop' }}){% endif %}">
+          </div>
+          <div class="card-body">
+            <h5>{{ animal.name }}</h5>
+            <div class="text-truncate text-xsmall">{{animal.age|title}} - {{ animal.breedsText }}</div>
+            <div class="text-truncate text-xsmall text-danger">
+              {% if animal.euth_date %}
+                Euth Date: {{animal.euth_date}}
+              {% else %}
+                &nbsp;
+              {% endif %}
+            </div>
+            {% if search.zip %}
+              <div class="text-truncate text-xsmall">{{ animal.distance.mi | floatformat:"0" }} miles away</div>
             {% endif %}
           </div>
-          {% if search.zip %}
-          <div class="text-truncate text-xsmall">{{ animal.distance.mi | floatformat:"0" }} miles away</div>
-          {% endif %}
         </div>
-      </div>
-    </a>
-  </div>
+      </a>
+    </div>
   {% empty %}
-  <p>No animals found. Please try different filters.</p>
+    <p>No animals found. Please try different filters.</p>
   {% endfor %}
 </div>

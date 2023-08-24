@@ -6,37 +6,37 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="bg-dark context-bar">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6 py-3 text-center text-md-start">
-            <p class="text-light my-0">
-              <a href="/user/{{user.username}}">&laquo; Back to profile</a>
-            </p>
-          </div>
-      </div>
-    </div>
-  </div>
-  
-<div class="container">
-    <div class="row justify-content-md-center">
-      <div class="col-md-8">
-        <div class="container py-5">
-            <h3>
-                <a href="{% url 'avatar_change' %}" class="text-decoration-none">
-                    {% avatar user 80 80 class="avatar" %}
-                </a>
-                {{ user.username }}
-            </h3>
-            <div>
-                <form method="POST">
-                    {% csrf_token %}
-                    {{ form|crispy }}
-                    <button class="btn btn-primary" type="submit">Save changes</button>
-                    <a href="/user/{{user.username}}" class="btn btn-secondary">Cancel</a>
-                  </form>
+    <div class="bg-dark context-bar">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 py-3 text-center text-md-start">
+                    <p class="text-light my-0">
+                        <a href="/user/{{user.username}}">&laquo; Back to profile</a>
+                    </p>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-md-8">
+                <div class="container py-5">
+                    <h3>
+                        <a href="{% url 'avatar_change' %}" class="text-decoration-none">
+                            {% avatar user 80 80 class="avatar" %}
+                        </a>
+                        {{ user.username }}
+                    </h3>
+                    <div>
+                        <form method="POST">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                            <button class="btn btn-primary" type="submit">Save changes</button>
+                            <a href="/user/{{user.username}}" class="btn btn-secondary">Cancel</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 {% endblock %}

@@ -6,11 +6,11 @@
     <div class="modal-content">
       <div class="modal-header">
         <div class="container-fluid" style="height: 100%;">
-            <img
-              class="mx-auto d-block"
-              src="{% static 'img/thinking.svg' %}"
-            >
-            <div class="fs-3 text-center">Are you sure you want to reject this application?</div>
+          <img
+            class="mx-auto d-block"
+            src="{% static 'img/thinking.svg' %}"
+          >
+          <div class="fs-3 text-center">Are you sure you want to reject this application?</div>
         </div>
       </div>
       <div class="modal-body">
@@ -33,23 +33,23 @@
               </div>
             </div>
             <form action="/organization/{{ awg.id }}/applications/{{ app.id }}", method="post" style="height: 100%;">
-            {% csrf_token %}
+              {% csrf_token %}
               <input class="d-none" name="status" type="text" value="{{ app.Statuses.REJECTED | title }}" readonly>
               <div class="row justify-content-start align-content-start text-start" style="height: 50%;">
-              <div>Select the reason for rejection</div>
+                <div>Select the reason for rejection</div>
                 <div class="input-group" style="height: 25%;">
                   <select class="form-control" name="reject_reason">
                     <option
                       value=""
                     >
-                    Select
+                      Select
                     </option>
                     {% for rr in reject_reasons %}
-                    <option
-                      value="{{ rr.0 }}"
-                    >
-                    {{ rr.1 }}
-                    </option>
+                      <option
+                        value="{{ rr.0 }}"
+                      >
+                        {{ rr.1 }}
+                      </option>
                     {% endfor %}
                   </select>
                 </div>
@@ -69,10 +69,10 @@
                 _="on htmx:afterOnLoad wait 10ms then add .show to #modal then add .show to #modal-backdrop"
               >Confirm</button>
             </form>
-        	  <button type="button" class="btn btn-link" onclick="closeModal('awg-applications-modal')">cancel</button>
-        	</div>
-      	</div>
-    	</div>
+            <button type="button" class="btn btn-link" onclick="closeModal('awg-applications-modal')">cancel</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
