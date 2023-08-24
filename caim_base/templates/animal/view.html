@@ -66,7 +66,7 @@
 <div class="container">
   <div class="row">
     <div class="col-md-8">
-      <div class="card animal-profile-card mb-3">
+      <div class="card animal-profile-card mb-5">
         <div class="card-body">
 
           <div class="fb-share-button float-end" 
@@ -85,12 +85,12 @@
             {{ animal.sizeText }}
           </p>
           <div class="mb-5">
-            <h5>About {{ animal.name }}</h5>
+            <h5 class="black-header mb-3">About {{ animal.name }}</h5>
             {{ animal.description | urlizetrunc:60 |linebreaks }}
           </div>
           <div class="row gx-5 gy-3">
             <div class="col-lg animal-detail-panel">
-              <h5>Behavior</h5>
+              <h5 class="black-header mb-3">Behavior</h5>
               <div>
                 <div>
                   <img src="{% static 'img/icon-dog.svg' %}">
@@ -114,7 +114,7 @@
               </div>
             </div>
             <div class="col-lg animal-detail-panel">
-              <h5>Medical Notes</h5>
+              <h5 class="black-header mb-3">Medical Notes</h5>
               <div class="d-flex justify-content-between">
                 <div>
                   <img src="{% static 'img/icon-spayneuter.svg' %}">
@@ -152,7 +152,7 @@
       </div>
       {% include './comments.html' %}
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4 mt-3 mt-md-0">
       <div class="card">
         <div class="card-body">
           <h4><a href="{{animal.awg.get_absolute_url}}">{{ animal.awg.name }}</a></h4>

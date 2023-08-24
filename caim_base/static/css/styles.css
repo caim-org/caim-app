@@ -99,10 +99,9 @@ input.text {
     background-position: center;
 }
 
-.animal-profile-card h5 {
+.black-header {
     color: black;
     font-weight: 600;
-    margin-bottom: 1rem;
 }
 
 .animal-stats {
