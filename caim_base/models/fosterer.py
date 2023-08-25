@@ -465,8 +465,6 @@ class FostererProfile(models.Model):
         return f"{self.firstname} {self.lastname}"
 
 
-
-
 def __str__(self) -> str:
     return f"{self.firstname} {self.lastname}"
 

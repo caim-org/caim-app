@@ -120,8 +120,9 @@ class AwgForm(ModelForm):
             "workwith_dogs": "We work with Dogs",
             "workwith_cats": "We work with Cats",
             "workwith_other": "We work with other animals",
-            "is_exact_location_shown":
-                "Should we show your exact location (zip and map) publicly?",
+            "is_exact_location_shown": (
+                "Should we show your exact location (zip and map) publicly?"
+            ),
             "has_501c3_tax_exemption": "We are a 501c3 tax exempt charity",
             "email": "Contact email address",
             "phone": "Contact phone number",
