@@ -172,24 +172,6 @@ class Animal(models.Model):
             text = f"{text} mix"
         return text
 
-    def sexText(self):
-        return Animal.AnimalSex[self.sex].label
-
-    def ageText(self):
-        return Animal.AnimalAge[self.age].label
-
-    def sizeText(self):
-        return Animal.AnimalSize[self.size].label
-
-    def behaviourDogsText(self):
-        return Animal.AnimalBehaviourGrade[self.behaviour_dogs].label
-
-    def behaviourCatsText(self):
-        return Animal.AnimalBehaviourGrade[self.behaviour_cats].label
-
-    def behaviourKidsText(self):
-        return Animal.AnimalBehaviourGrade[self.behaviour_kids].label
-
     def get_absolute_url(self):
         return full_url(f"/animal/{self.id}")
 

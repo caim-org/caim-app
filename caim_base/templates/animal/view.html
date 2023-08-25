@@ -4,7 +4,7 @@
 
 {% block opengraph %}
 
-  <meta property="og:title" content="{{animal.name}} | {{ animal.sexText}} | {{ animal.sizeText }}">
+  <meta property="og:title" content="{{animal.name}} | {{ animal.get_sex_display }} | {{ animal.get_size_display }}">
   <meta property="og:url" content="{{animal.get_absolute_url}}">
 {% if animal.primary_photo %}
     <meta property="og:image" content="{{ animal.primary_photo.url|image_resize:'600x500 max' }}">
@@ -76,13 +76,13 @@
           </div>
           <h2>{{ animal.name }}</h2>
           <p class="animal-stats mb-5">
-            {{ animal.breedsText }}
+            {{ animal.get_breed_display }}
             |
-            {{ animal.sexText }}
+            {{ animal.get_sex_display }}
             |
-            {{ animal.ageText }}
+            {{ animal.get_age_display }}
             |
-            {{ animal.sizeText }}
+            {{ animal.get_size_display }}
           </p>
           <div class="mb-5">
             <h5 class="black-header mb-3">About {{ animal.name }}</h5>
@@ -96,21 +96,21 @@
                   <img src="{% static 'img/icon-dog.svg' %}">
                   with dogs:
                 </div>
-                <div>{{ animal.behaviourDogsText }}</div>
+                <div>{{ animal.get_behaviour_dogs_display }}</div>
               </div>
               <div>
                 <div>
                   <img src="{% static 'img/icon-cat.svg' %}">
                   with cats:
                 </div>
-                <div>{{ animal.behaviourCatsText }}</div>
+                <div>{{ animal.get_behaviour_cats_display }}</div>
               </div>
               <div>
                 <div>
                   <img src="{% static 'img/icon-kid.svg' %}">
                   with kids:
                 </div>
-                <div>{{ animal.behaviourKidsText}}</div>
+                <div>{{ animal.get_behaviour_kids_display }}</div>
               </div>
             </div>
             <div class="col-lg animal-detail-panel">
