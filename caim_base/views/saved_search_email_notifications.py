@@ -51,12 +51,14 @@ def check_new_animals_send_email(saved_search):
 
     if len(animals) > 0:
         print(
-            f"{saved_search.name} #{saved_search.id}: Animals found for search. Sending."
+            f"{saved_search.name} #{saved_search.id}:"
+            f" Animals found for search. Sending."
         )
         send_email(saved_search, animals)
     else:
         print(
-            f"{saved_search.name} #{saved_search.id}: No animals found for search. Skipping."
+            f"{saved_search.name} #{saved_search.id}:"
+            f"No animals found for search. Skipping."
         )
 
 

@@ -18,9 +18,6 @@ def _user_from_form(user_form):
 
 def _salesforce_connection():
     """create salesforce connection with auth"""
-    sf_username = settings.SALESFORCE_USERNAME
-    sf_password = settings.SALESFORCE_PASSWORD
-    sf_security_token = settings.SALESFORCE_SECURITY_TOKEN
 
     return Salesforce(
         username=settings.SALESFORCE_USERNAME,
@@ -63,7 +60,7 @@ def update_contact(salesforce_id, user_form):
     try:
         # 204 (no content) results from successful update
         # exceptions thrown on failure
-        result = sf.Contact.update(salesforce_id, sf_user)
-    except Exception as e:
+        sf.Contact.update(salesforce_id, sf_user)
+    except Exception:
         pass
         # TODO log error

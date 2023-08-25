@@ -22,7 +22,6 @@ from caim_base.models.fosterer import (
     TypeOfAnimals,
     YesNo,
 )
-from caim_base.views.awg.applications import query_applications_for_awg
 
 assert not settings.PRODUCTION, "CANNOT RUN GENERATE FAKE DATA IN PRODUCTION"
 
@@ -83,9 +82,9 @@ def map_size(str):
 
 
 def map_behavour(v):
-    if v == True:
+    if v is True:
         return Animal.AnimalBehaviourGrade.GOOD
-    if v == False:
+    if v is False:
         return Animal.AnimalBehaviourGrade.POOR
     return Animal.AnimalBehaviourGrade.NOT_TESTED
 
@@ -223,7 +222,8 @@ def fake_foster_profile(user: User) -> FostererProfile:
     fosterer.city = fake.city()[: FostererProfile.city.field.max_length - 1]
     fosterer.state = fake.state_abbr()
     fosterer.zip_code = fake.zipcode()
-    # pick a random selections from these ChoiceArrayFields, from 1-max number of selections
+    # pick a random selections from these ChoiceArrayFields
+    # from 1-max number of selections
     k = randint(1, len(TypeOfAnimals.choices))
     fosterer.type_of_animals = list(
         set(choices([choice[0] for choice in TypeOfAnimals.choices], k=k))
@@ -335,7 +335,8 @@ def fake_foster_applications():
 
 def fake_foster_application_suggestion(suggestions_per_awg: int = 2):
     print(
-        "generating some alernative suggested animals for a few of the rejected applications in each awg"
+        "generating some alernative suggested animals"
+        "for a few of the rejected applications in each awg"
     )
     awgs = Awg.objects.all()
     for awg in awgs:
@@ -348,7 +349,8 @@ def fake_foster_application_suggestion(suggestions_per_awg: int = 2):
         )
         suggestions_per_awg = min(suggestions_per_awg, applications.count())
         if suggestions_per_awg:
-            continue  # next awg, there wasn't any accepted or rejected applications here
+            continue
+            # next awg, there wasn't any accepted or rejected applications here
         get_suggest: List[FosterApplication] = choices(
             list(applications), k=suggestions_per_awg
         )
@@ -367,7 +369,8 @@ def fake_foster_application_suggestion(suggestions_per_awg: int = 2):
 
 def fake_user_didnothing():
     print(
-        "registering a fake user to use for testing a user w/ no applications and not in an AWG:"
+        "registering a fake user to use for testing a user w/ no applications"
+        " and not in an AWG:"
     )
     print("username&pass: testuser")
     user = User.objects.create_user(
@@ -388,7 +391,8 @@ def fake_staff_user():
 
 def fake_user_with_foster_profile_and_applications():
     print(
-        "registering a fake user to use for testing a user w/ an application, and not in an AWG"
+        "registering a fake user to use for testing a user w/ an application,"
+        " and not in an AWG"
     )
     print("username&pass: testfosterer")
     user = User.objects.create_user(
@@ -425,7 +429,8 @@ def fake_user_in_awg():
 
 def fake_user_in_awg_appviewonly():
     print(
-        "registering a fake user in an AWG that cannot manage applications, only view them"
+        "registering a fake user in an AWG that cannot manage applications,"
+        " only view them"
     )
     print("username&pass: testawg_viewapps")
     user = User.objects.create_user(

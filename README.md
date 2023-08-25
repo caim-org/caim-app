@@ -46,7 +46,7 @@ The app is rendered as Django templates.
 
 CSS styling based on the bootstrap framework.
 
-We use a mix of good old jQuery and HTMX for interactivity. 
+We use a mix of good old jQuery and HTMX for interactivity.
 
 Slideshow is https://github.com/sachinchoolur/lightslider. Just copied the dist folder into static for ease.
 

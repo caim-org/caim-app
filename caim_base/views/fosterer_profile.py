@@ -1,29 +1,19 @@
-import logging
-import os
-
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Fieldset, Layout, Submit
 from django import forms
-from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import PermissionDenied
 from django.forms import ModelForm, RadioSelect, formset_factory
 from django.forms.models import model_to_dict
-from django.http import Http404, HttpRequest, HttpResponse
-from django.shortcuts import get_object_or_404, redirect, render
-from django.template.loader import render_to_string
+from django.http import Http404
+from django.shortcuts import redirect, render
 from django.views.decorators.http import require_http_methods
-from django.views.generic import detail
-from weasyprint import CSS, HTML
 
-from caim_base.models.awg import Awg, AwgMember
 
 from ..models import (
     FostererExistingPetDetail,
     FostererPersonInHomeDetail,
     FostererReferenceDetail,
-    TypeOfAnimals,
 )
 from ..models.fosterer import FostererProfile
 from ..models.user import UserProfile
@@ -474,7 +464,7 @@ def edit(request, stage_id):
             },
         )
 
-    if not stage_id in STAGES:
+    if stage_id not in STAGES:
         raise Http404("Stage not found")
 
     stage = STAGES[stage_id]

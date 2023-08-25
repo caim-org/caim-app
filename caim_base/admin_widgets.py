@@ -26,10 +26,11 @@ class AdminImageWidget(forms.ClearableFileInput):
                 logger.warning("Unable to get the thumbnail", exc_info=e)
             else:
                 try:
-                    # Not beautiful code, but prepend the image ina floating div
+                    # Not beautiful code, but prepend the image in a floating div
                     output = (
                         '<div style="float:left">'
-                        '<a style="width:80px;display:block;margin:0 8px 0 0" class="thumbnail" '
+                        '<a style="width:80px;display:block;margin:0 8px 0 0"'
+                        ' class="thumbnail" '
                         'target="_blank" href="%s">'
                         '<img src="%s"></a></div>%s'
                     ) % (value.url, mini_url, output)

@@ -3,7 +3,6 @@ from crispy_forms.layout import Fieldset, Layout, Submit
 from django import forms
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.core.paginator import Paginator
 from django.forms import ModelForm
 from django.http import Http404
 from django.shortcuts import render
@@ -121,7 +120,8 @@ class AwgForm(ModelForm):
             "workwith_dogs": "We work with Dogs",
             "workwith_cats": "We work with Cats",
             "workwith_other": "We work with other animals",
-            "is_exact_location_shown": "Should we show your exact location (zip and map) publicly?",
+            "is_exact_location_shown":
+                "Should we show your exact location (zip and map) publicly?",
             "has_501c3_tax_exemption": "We are a 501c3 tax exempt charity",
             "email": "Contact email address",
             "phone": "Contact phone number",
@@ -133,11 +133,11 @@ class AwgForm(ModelForm):
 def edit(request, awg_id):
     try:
         awg = Awg.objects.get(id=awg_id)
-    except Awg.DoesNotExist:
-        raise Http404("Awg not found")
+    except Awg.DoesNotExist as e:
+        raise Http404("Awg not found") from e
 
     current_user_permissions = awg.get_permissions_for_user(request.user)
-    if not "EDIT_PROFILE" in current_user_permissions:
+    if "EDIT_PROFILE" not in current_user_permissions:
         raise PermissionDenied("User does not have permission to edit this AWG")
 
     if request.POST:
@@ -184,7 +184,7 @@ def create(request):
 
             try:
                 notify_new_awg_application(awg)
-            except:
+            except Exception:
                 print("Could not send email")
 
             return render(request, "awg/apply/success.html", {"pageTitle": "Success"})

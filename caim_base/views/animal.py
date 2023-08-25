@@ -1,17 +1,19 @@
 from django.shortcuts import render, redirect
 from django.http import Http404
 from ..models.animals import Animal, AnimalShortList, AnimalComment
-from ..models.awg import Awg
 
 
 def view(request, animal_id):
     try:
         animal = Animal.objects.get(id=animal_id)
-    except Animal.DoesNotExist:
-        raise Http404("Animal not found")
+    except Animal.DoesNotExist as e:
+        raise Http404("Animal not found") from e
 
     awg = animal.awg
-    # If the animal listing is not published OR if the aws is not published AND the user is not staff we redirect
+    # If the animal listing is not published
+    # OR if the aws is not published
+    # AND the user is not staff
+    # we redirect
     if (
         (not animal.is_currently_published())
         and not awg.user_is_member_of_awg(request.user)

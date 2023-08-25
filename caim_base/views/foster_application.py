@@ -20,9 +20,7 @@ from ..models.fosterer import (
     FostererPersonInHomeDetail,
     FostererProfile,
     FostererReferenceDetail,
-    FosterApplicationAnimalSuggestion,
 )
-from ..models.user import UserProfile
 
 
 @login_required()
@@ -44,14 +42,12 @@ def application(request):
 
         try:
             animal = Animal.objects.get(pk=animal_id)
-        except Animal.DoesNotExist:
-            raise Http404("No Animal matches the given query.")
+        except Animal.DoesNotExist as e:
+            raise Http404("No Animal matches the given query.") from e
 
         # check if application exists already
         try:
-            existing_application = FosterApplication.objects.get(
-                fosterer=fosterer_profile, animal=animal
-            )
+            FosterApplication.objects.get(fosterer=fosterer_profile, animal=animal)
             return render(
                 request,
                 "foster_application/exists.html",

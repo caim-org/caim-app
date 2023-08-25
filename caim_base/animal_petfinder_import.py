@@ -13,7 +13,10 @@ class ImportAnimalError(Exception):
 
 def load_html(url):
     headers = {
-        "User-Agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.0.3705; .NET CLR 1.1.4322)",
+        "User-Agent": (
+            "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1;"
+            " .NET CLR 1.0.3705; .NET CLR 1.1.4322)"
+        )
     }
     response = requests.get(url, headers=headers)
     response.raise_for_status()
@@ -58,9 +61,9 @@ def map_size(str):
 
 
 def map_behavour(v):
-    if v == True:
+    if v is True:
         return animals.Animal.AnimalBehaviourGrade.GOOD
-    if v == False:
+    if v is False:
         return animals.Animal.AnimalBehaviourGrade.POOR
     return animals.Animal.AnimalBehaviourGrade.NOT_TESTED
 
@@ -147,7 +150,7 @@ def import_animal_from_petfinder(awg, url):
     print("Petfinder import")
     print(url)
 
-    if not "www.petfinder.com" in url:
+    if "www.petfinder.com" not in url:
         raise ImportAnimalError(
             "Can only import animals from www.petfinder.com. Please check URL."
         )
@@ -156,7 +159,7 @@ def import_animal_from_petfinder(awg, url):
         html = load_html(url)
     except Exception as e:
         print(e)
-        raise ImportAnimalError("Could not load webpage. Please check URL.")
+        raise ImportAnimalError("Could not load webpage. Please check URL.") from e
 
     data = extract_animal_data(html)
     if not data:
@@ -173,8 +176,8 @@ def import_animal_from_petfinder(awg, url):
             error_message = "We had a problem putting this animal in our database."
             if "petfinder_id" in e.__str__():
                 error_message = "An animal with this PetFinder ID already exists."
-            raise ImportAnimalError(error_message)
+            raise ImportAnimalError(error_message) from e
         else:
-            raise ImportAnimalError("Could not create animal. Please check URL.")
+            raise ImportAnimalError("Could not create animal. Please check URL.") from e
 
     return animal

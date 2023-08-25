@@ -1,5 +1,4 @@
 from django import forms
-from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.core.validators import RegexValidator
@@ -7,16 +6,17 @@ from django.http import Http404
 from django.shortcuts import redirect, render
 from django.views.decorators.http import require_http_methods
 
-from ..forms import zip_validator
 from ..models.user import User, UserProfile
-from ..states import form_states
-from ..utils import salesforce
 
 
 class UserProfileForm(forms.Form):
     username = forms.CharField(
         label="Display name",
-        help_text="Your individual username as you want it to appear on the site. This will be visible publicly and may contain only letters, numbers, and @/./+/-/_ characters.",
+        help_text=(
+            "Your individual username as you want it to appear on the site."
+            " This will be visible publicly and may contain only letters, numbers,"
+            " and @/./+/-/_ characters."
+        ),
         max_length=30,
         required=True,
         validators=[
@@ -43,8 +43,8 @@ class UserProfileForm(forms.Form):
 def view(request, username):
     try:
         user = User.objects.get(username=username)
-    except User.DoesNotExist:
-        raise Http404("User not found")
+    except User.DoesNotExist as e:
+        raise Http404("User not found") from e
 
     try:
         user_profile = UserProfile.objects.get(user=user)
@@ -69,8 +69,8 @@ def view(request, username):
 def edit(request, username):
     try:
         user = User.objects.get(username=username)
-    except User.DoesNotExist:
-        raise Http404("User not found")
+    except User.DoesNotExist as e:
+        raise Http404("User not found") from e
 
     if user != request.user and not request.user.is_staff:
         raise PermissionDenied("User does not have permission to edit this user")

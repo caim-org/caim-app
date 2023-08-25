@@ -3,7 +3,7 @@ from crispy_forms.layout import Fieldset, Layout, Submit
 from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import BadRequest, PermissionDenied
+from django.core.exceptions import BadRequest
 from django.core.paginator import Paginator
 from django.forms import DateInput, ModelForm
 from django.http import Http404
@@ -58,8 +58,8 @@ def publish_animal(request, awg_id, animal_id):
 
     try:
         animal = Animal.objects.get(id=animal_id, awg_id=awg_id)
-    except Animal.DoesNotExist:
-        raise Http404("Animal not found")
+    except Animal.DoesNotExist as e:
+        raise Http404("Animal not found") from e
 
     if request.POST["action"] == "PUBLISH":
         if not animal.can_be_published():
@@ -171,8 +171,8 @@ def edit_animal(request, awg_id, animal_id):
 
     try:
         animal = Animal.objects.get(id=animal_id, awg_id=awg_id)
-    except Animal.DoesNotExist:
-        raise Http404("Animal not found")
+    except Animal.DoesNotExist as e:
+        raise Http404("Animal not found") from e
 
     if request.POST:
         form = AwgAnimalForm(request.POST, instance=animal)
@@ -234,8 +234,8 @@ def animal_photos(request, awg_id, animal_id):
 
     try:
         animal = Animal.objects.get(id=animal_id, awg_id=awg_id)
-    except Animal.DoesNotExist:
-        raise Http404("Animal not found")
+    except Animal.DoesNotExist as e:
+        raise Http404("Animal not found") from e
 
     action = request.POST["action"]
 
@@ -244,9 +244,10 @@ def animal_photos(request, awg_id, animal_id):
             if "photo" in request.FILES:
                 file = request.FILES["photo"]
                 file_name = f"${animal.id}_${file.name}"
-                if not file.content_type in ("image/jpeg", "image/gif", "image/png"):
+                if file.content_type not in ("image/jpeg", "image/gif", "image/png"):
                     raise BadRequest(
-                        "Cannot upload this file type. Please make sure its a jpeg, png or gif image."
+                        "Cannot upload this file type."
+                        " Please make sure its a jpeg, png or gif image."
                     )
                 if animal.primary_photo:
                     new_animalimage = AnimalImage(
@@ -316,5 +317,5 @@ def import_animal(request, awg_id):
     else:
         form = ImportURLForm()
 
-    context = {"awg": awg, "pageTitle": f"Import from petfinder", "form": form}
+    context = {"awg": awg, "pageTitle": "Import from petfinder", "form": form}
     return render(request, "awg/manage/animals/import.html", context)

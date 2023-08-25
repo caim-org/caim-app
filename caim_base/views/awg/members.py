@@ -1,7 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import BadRequest, PermissionDenied
-from django.http import Http404
+from django.core.exceptions import BadRequest
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_http_methods
 
@@ -60,8 +59,8 @@ def add_member(request, awg_id):
 
         try:
             user = User.objects.get(email=email)
-        except User.DoesNotExist:
-            raise BadRequest("User does not exist")
+        except User.DoesNotExist as e:
+            raise BadRequest("User does not exist") from e
 
         existing_member = AwgMember.objects.filter(awg=awg, user=user).all()
         if existing_member:
@@ -95,8 +94,8 @@ def update_member(request, awg_id):
     try:
         try:
             member = AwgMember.objects.get(id=member_id)
-        except AwgMember.DoesNotExist:
-            raise BadRequest("Member not found")
+        except AwgMember.DoesNotExist as e:
+            raise BadRequest("Member not found") from e
 
         if action == "DELETE":
             member.delete()

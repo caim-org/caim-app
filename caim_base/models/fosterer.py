@@ -1,4 +1,3 @@
-import io
 from typing import List, Optional, Union
 
 from django import forms
@@ -80,6 +79,9 @@ class FostererExistingPetDetail(models.Model):
         "FostererProfile", on_delete=models.CASCADE, related_name="existing_pets"
     )
 
+    def __str__(self) -> str:
+        return f"{self.fosterer_profile} - {self.name}"
+
 
 class FostererReferenceDetail(models.Model):
     fosterer_profile = models.ForeignKey(
@@ -91,6 +93,9 @@ class FostererReferenceDetail(models.Model):
     phone = PhoneNumberField(null=True, default=None)
     relation = models.CharField(max_length=128)
 
+    def __str__(self) -> str:
+        return f"{self.first_name} {self.last_name}"
+
 
 class FostererPersonInHomeDetail(models.Model):
     fosterer_profile = models.ForeignKey(
@@ -100,6 +105,9 @@ class FostererPersonInHomeDetail(models.Model):
     relation = models.CharField(max_length=128, blank=True, null=True, default=None)
     age = models.IntegerField(blank=True, null=True, default=None)
     email = models.EmailField(max_length=255, blank=True, null=True, default=None)
+
+    def __str__(self) -> str:
+        return f"{self.name}"
 
 
 # NOTE model not currently in use.
@@ -112,11 +120,11 @@ class FostererLandlordContact(models.Model):
     email = models.EmailField(max_length=255, blank=True, null=True)
     phone = PhoneNumberField(blank=True, null=True, default=None)
 
-
-class FostererProfile(models.Model):
     def __str__(self) -> str:
         return f"{self.firstname} {self.lastname}"
 
+
+class FostererProfile(models.Model):
     class CategoryOfAnimals(models.TextChoices):
         ADULT_FEMALE = "ADULT_FEMALE", "Adult female"
         ADULT_MALE = "ADULT_MALE", "Adult male"
@@ -212,14 +220,19 @@ class FostererProfile(models.Model):
         blank=True,
         null=True,
         default=None,
-        verbose_name="If you’re interested in fostering dogs, do you have a preference about size?",
+        verbose_name=(
+            "If you’re interested in fostering dogs,"
+            " do you have a preference about size?"
+        ),
     )
     behavioural_attributes = ChoiceArrayField(
         models.CharField(max_length=32, choices=BehaviouralAttributes.choices),
         blank=True,
         null=True,
         default=None,
-        verbose_name="Please check any of the requirements you have for a foster animal.",
+        verbose_name=(
+            "Please check any of the requirements you have for a foster animal."
+        ),
     )
     medical_issues = models.CharField(
         choices=YesNo.choices,
@@ -263,20 +276,28 @@ class FostererProfile(models.Model):
         blank=True,
         null=True,
         default=None,
-        verbose_name="Have you ever given a pet up? If so, please describe the situation.",
+        verbose_name=(
+            "Have you ever given a pet up? If so, please describe the situation."
+        ),
     )
     experience_description = models.TextField(
         blank=True,
         null=True,
         default=None,
-        verbose_name="Please describe your experience with animals (personal pets, training, interactions, etc.)",
+        verbose_name=(
+            "Please describe your experience with animals"
+            " (personal pets, training, interactions, etc.)"
+        ),
     )
     experience_categories = ChoiceArrayField(
         models.CharField(max_length=32, choices=ExperienceCategories.choices),
         blank=True,
         null=True,
         default=None,
-        verbose_name="Have you had experience with any of the following in animals you’ve owned or fostered?",
+        verbose_name=(
+            "Have you had experience with any of the following"
+            " in animals you’ve owned or fostered?"
+        ),
     )
     # These references are not used and simply to preserve existing data.
     # going forward associated `ReferenceDetail` holds this information.
@@ -295,7 +316,9 @@ class FostererProfile(models.Model):
         blank=True,
         null=True,
         default=None,
-        verbose_name="Please list how many people live in your home and their ages (legacy)",
+        verbose_name=(
+            "Please list how many people live in your home and their ages (legacy)"
+        ),
     )
     num_people_in_home = models.IntegerField(
         blank=True,
@@ -308,7 +331,10 @@ class FostererProfile(models.Model):
         blank=True,
         null=True,
         default=None,
-        verbose_name="Please list the following details for each person in your home, excluding yourself: Name, Relation, Age, Email address.",
+        verbose_name=(
+            "Please list the following details for each person in your home,"
+            " excluding yourself: Name, Relation, Age, Email address."
+        ),
     )
     all_in_agreement = models.CharField(
         choices=YesNo.choices,
@@ -362,14 +388,20 @@ class FostererProfile(models.Model):
         blank=True,
         null=True,
         default=None,
-        verbose_name="If you rent, please describe any pet restrictions that are in place.",
+        verbose_name=(
+            "If you rent, please describe any pet restrictions that are in place."
+        ),
     )
     landlord_contact_text = models.CharField(
         blank=True,
         null=True,
         max_length=128,
         default=None,
-        verbose_name="If you rent, please provide your landlord’s contact information (email and/or phone). We will contact them to confirm that you have approval to foster.",
+        verbose_name=(
+            "If you rent, please provide your landlord’s"
+            " contact information (email and/or phone)."
+            " We will contact them to confirm that you have approval to foster."
+        ),
     )
     hours_alone_description = models.TextField(
         blank=True,
@@ -401,7 +433,10 @@ class FostererProfile(models.Model):
         blank=False,
         null=True,
         default=None,
-        verbose_name="Have you or a family / household member ever been convicted of an animal related crime (animal abuse, neglect, abandonment, etc.)?",
+        verbose_name=(
+            "Have you or a family / household member ever been convicted"
+            " of an animal related crime (animal abuse, neglect, abandonment, etc.)?"
+        ),
     )
     agree_share_details = models.CharField(
         choices=YesNo.choices,
@@ -409,7 +444,9 @@ class FostererProfile(models.Model):
         blank=False,
         null=True,
         default=None,
-        verbose_name="Do you agree that we can share the details you've provided with rescues?",
+        verbose_name=(
+            "Do you agree that we can share the details you've provided with rescues?"
+        ),
     )
     agree_social_media = models.CharField(
         choices=YesNo.choices,
@@ -417,9 +454,17 @@ class FostererProfile(models.Model):
         blank=False,
         null=True,
         default=None,
-        verbose_name="Do you agree to help promote your foster animal on social media and/or by attending adoption events and public outings?",
+        verbose_name=(
+            "Do you agree to help promote your foster animal on social media"
+            " and/or by attending adoption events and public outings?"
+        ),
     )
     is_complete = models.BooleanField(default=False)
+
+    def __str__(self) -> str:
+        return f"{self.firstname} {self.lastname}"
+
+
 
 
 def __str__(self) -> str:
@@ -429,12 +474,14 @@ def __str__(self) -> str:
 def query_fostererprofiles(
     behavioural_attributes: Optional[List[str]] = None,
     is_complete=True,
-    sort: Optional[Union[str, List[str]]] = ["firstname", "lastname"],
+    sort: Optional[Union[str, List[str]]] = None,
 ) -> models.QuerySet:
     """
     Query fosterer profiles with preferred defaults
     """
 
+    if sort is None:
+        sort = ["firstname", "lastname"]
     query = FostererProfile.objects.all()
 
     if behavioural_attributes:
@@ -462,7 +509,10 @@ class FosterApplication(models.Model):
     class RejectionReasons(models.TextChoices):
         UNSUITABLE = (
             "UNSUITABLE",
-            "Not suitable for the animal requested, and not willing to consider alternative",
+            (
+                "Not suitable for the animal requested,"
+                " and not willing to consider alternative"
+            ),
         )
         UNRELIABLE = "UNRELIABLE", "Concerns about fosterer reliability/commitment"
         PROPERTY = "PROPERTY", "Concerns with home and/or yard situation"
@@ -510,3 +560,6 @@ class FosterApplicationAnimalSuggestion(models.Model):
     animal = models.ForeignKey(Animal, on_delete=models.CASCADE)
     submitted_on = models.DateField(auto_now_add=True)
     updated_on = models.DateField(auto_now=True)
+
+    def __str__(self) -> str:
+        return f"Suggestion of {self.animal} for {self.fosterer}"

@@ -61,10 +61,10 @@ def list_applications(request, awg_id):
             context = check_awg_user_permissions_update_context(
                 request, awg, ["VIEW_APPLICATIONS"], context
             )
-        except PermissionDenied:
+        except PermissionDenied as e:
             raise PermissionDenied(
                 "User does not have permissions to view or manage applications"
-            )
+            ) from e
 
     return render(request, "awg/manage/applications/list.html", context)
 

@@ -1,6 +1,6 @@
 from unittest import TestCase as unitTestCase
 
-from django.test import Client, TestCase
+from django.test import Client
 
 
 # simple endpoint tests. Can the pages render?

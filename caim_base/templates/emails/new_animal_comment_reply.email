@@ -2,7 +2,7 @@
 {% block plain %}
 Hi!
 
-A new reply to a comment has been posted on animal {{ animal.name }}. 
+A new reply to a comment has been posted on animal {{ animal.name }}.
 
 You can view it here: {{animal.get_absolute_url}}
 {% endblock %}
