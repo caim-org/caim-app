@@ -15,7 +15,8 @@ from faker import Faker
 from caim_base.models.animals import (Animal, AnimalImage, AnimalType, Breed,
                                       ZipCode)
 from caim_base.models.awg import Awg, AwgMember
-from caim_base.models.fosterer import FosterApplication, FostererProfile
+from caim_base.models.fosterer import FosterApplication, FostererProfile, TypeOfAnimals, YesNo
+
 
 assert not settings.PRODUCTION, "CANNOT RUN GENERATE FAKE DATA IN PRODUCTION"
 
@@ -207,8 +208,8 @@ def fake_foster_profile(user: User) -> FostererProfile:
     fosterer.state = fake.state_abbr()
     fosterer.zip_code = fake.zipcode()
     # pick a random selections from these ChoiceArrayFields, from 1-max number of selections
-    k = randint(1, len(fosterer.TypeOfAnimals.choices))
-    fosterer.type_of_animals = list(set(choices([choice[0] for choice in fosterer.TypeOfAnimals.choices], k=k)))
+    k = randint(1, len(TypeOfAnimals.choices))
+    fosterer.type_of_animals = list(set(choices([choice[0] for choice in TypeOfAnimals.choices], k=k)))
     k = randint(1, len(fosterer.CategoryOfAnimals.choices))
     fosterer.category_of_animals = list(set(choices([choice[0] for choice in fosterer.CategoryOfAnimals.choices], k=k)))
     k = randint(1, len(fosterer.BehaviouralAttributes.choices))
@@ -216,8 +217,8 @@ def fake_foster_profile(user: User) -> FostererProfile:
         set(choices([choice[0] for choice in fosterer.BehaviouralAttributes.choices], k=k))
     )
     fosterer.timeframe = choice([choice[0] for choice in fosterer.Timeframe.choices])
-    if fosterer.Timeframe.OTHER in fosterer.timeframe:
-        fosterer.timeframe_other = fake.text(randint(5, 500))
+    # if fosterer.Timeframe.ANY_DURATION in fosterer.timeframe:
+    #     fosterer.timeframe_other = fake.text(randint(5, 500))
     fosterer.num_existing_pets = randint(0, 10)
     fosterer.existing_pets_details = fake.text(randint(5, 500))
     fosterer.experience_description = fake.text(randint(5, 500))
@@ -233,21 +234,28 @@ def fake_foster_profile(user: User) -> FostererProfile:
     fosterer.people_at_home = fake.text(randint(5, 50))
     # from just normal choice fields, pick 1 choice
     fosterer.yard_type = choice([choice[0] for choice in fosterer.YardTypes.choices])
-    fosterer.yard_fence_over_5ft = choice([choice[0] for choice in fosterer.YesNo.choices])
+    fosterer.yard_fence_over_5ft = choice([choice[0] for choice in YesNo.choices])
     fosterer.rent_own = choice([choice[0] for choice in fosterer.RentOwn.choices])
     if fosterer.rent_own == fosterer.RentOwn.RENT:
         fosterer.rent_restrictions = fake.text(randint(5, 50))
-        fosterer.rent_ok_foster_pets = choice([choice[0] for choice in fosterer.YesNo.choices])
+        fosterer.rent_ok_foster_pets = choice([choice[0] for choice in YesNo.choices])
     else:
         fosterer.rent_restrictions = None
-        fosterer.rent_ok_foster_pets = fosterer.YesNo.YES  # field not allowing null???
+        fosterer.rent_ok_foster_pets = YesNo.YES  # field not allowing null???
     fosterer.hours_alone_description = fake.text(10)
     fosterer.hours_alone_location = fake.text(10)
     fosterer.sleep_location = fake.text(10)
     fosterer.other_info = fake.text(50)
-    fosterer.ever_been_convicted_abuse = choice([choice[0] for choice in fosterer.YesNo.choices])
-    fosterer.agree_share_details = choice([choice[0] for choice in fosterer.YesNo.choices])
+    fosterer.ever_been_convicted_abuse = choice([choice[0] for choice in YesNo.choices])
+    fosterer.agree_share_details = choice([choice[0] for choice in YesNo.choices])
     fosterer.is_complete = choice([True, False])
+    fosterer.medical_issues = choice([choice[0] for choice in YesNo.choices])
+    fosterer.special_needs = choice([choice[0] for choice in YesNo.choices])
+    fosterer.behavioral_issues =  choice([choice[0] for choice in YesNo.choices])
+    fosterer.all_in_agreement =  choice([choice[0] for choice in YesNo.choices])
+    fosterer.stairs =  choice([choice[0] for choice in YesNo.choices])
+    fosterer.agree_social_media =  choice([choice[0] for choice in YesNo.choices])
+    fosterer.pet_allergies =  choice([choice[0] for choice in YesNo.choices])
     fosterer.full_clean()
     return fosterer
 
@@ -272,6 +280,8 @@ def fake_foster_application(animal: Animal, foster_profile: FostererProfile) -> 
     if application.status == application.Statuses.REJECTED:
         application.reject_reason = choice([choice[0] for choice in application.RejectionReasons.choices])
         application.reject_reason_detail = fake.text(1000)
+    else:
+        application.reject_reason= choice([choice[0] for choice in application.RejectionReasons.choices])
     application.full_clean()
     return application
 
