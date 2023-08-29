@@ -1,5 +1,6 @@
 {% extends 'awg/manage/base.html' %}
 {% load caim_helpers %}
+{% load static %}
 
 {% block innerContent %}
 <div class="row">
@@ -46,61 +47,89 @@
     </div>
   </div>
   <div class="col-md-9">
-    <div class="row" id="awg-applications-cards">
+    <div class="row gy-4" id="awg-applications-cards">
       {% for app in applications %}
-      <div class="col-md-4 p-2">
-        <div class="card" style="text-align: center;">
-          <div class='card-title'>
+      <div class="col-md-4 p2">
+        <div class="card p-2 h-100">
+          <div class='card-title d-flex flex-grow-0 justify-content-between px-3 pt-1'>
             {% if app.status == app.Statuses.PENDING %}
-            <button type="button" class="btn btn-warning fs-7" style="pointer-events: none;">{{ app.status.title }}</button>
+            <span class="badge rounded-pill text-bg-warning fs-7 fw-light px-4">{{ app.status.title }}</span>
             {% elif app.status == app.Statuses.ACCEPTED %}
-            <button type="button" class="btn btn-success fs-7" style="pointer-events: none;">{{ app.status.title }}</button>
+            <span class="badge rounded-pill text-bg-success fs-7 fw-light px-4">{{ app.status.title }}</span>
             {% elif app.status == app.Statuses.REJECTED %}
-            <button type="button" class="btn btn-danger fs-7" style="pointer-events: none;">{{ app.status.title }}</button>
+            <span class="badge rounded-pill text-bg-danger fs-7 fw-light px-4">{{ app.status.title }}</span>
             {% else %}
-            <button type="button" class="btn btn-info fs-7" style="pointer-events: none;">{{ app.status.title }}</button>
+            <span class="badge roundedpill text-bg-info fs-7 fw-light px-4">{{ app.status.title }}</span>
             {% endif %}
-            <div>Applied on {{ app.submitted_on }}</div>
+            <div class="d-flex align-items-center fs-7 fw-lighter">Applied on {{ app.submitted_on }}</div>
           </div>
-          <div class="card-body">
-            <h4>{{ app.fosterer.firstname }} {{ app.fosterer.lastname }}</h4>
-            <div>{{ app.fosterer.city }}, {{ app.fosterer.state }}</div>
+          <div class="card-body flex-grow-0 row gy-1">
+            <div class="d-flex justify-content-between">
+              <h5 class="text-reset">{{ app.fosterer.firstname }} {{ app.fosterer.lastname }}</h5>
+              <a class="fs-8 fw-light text-decoration-none d-flex align-items-center" href="{% url 'application_pdf'%}?fosterer_id={{app.fosterer.id}}&animal_id={{app.animal.id}}">
+                download profile
+              </a>
+            </div>
+            <div class="ps-2 d-flex align-items-center">
+              <img class="pe-1" src="{% static 'img/house-pin.svg' %}" />
+              {{ app.fosterer.city }}, {{ app.fosterer.state }}
+            </div>
 
             {% if app.fosterer.rent_own == app.fosterer.RentOwn.RENT %}
-            <div>Rents Home</div>
+            <div class="ps-2 d-flex align-items-center">
+              <img class="pe-1" src="{% static 'img/house.svg' %}"/>
+              Rents Home
+            </div>
             {% elif app.fosterer.rent_own == app.fosterer.RentOwn.OWN%}
-            <div>Owns Home</div>
+            <div class="ps-2 d-flex align-items-center">
+              <img class="pe-1" src="{% static 'img/house.svg' %}"/>
+              Owns Home
+            </div>
             {% endif %}
 
             {% if app.fosterer.num_existing_pets > 1 %}
-            <div>Pets: Yes</div>
+            <div class="ps-2 d-flex align-items-center">
+              <img class="pe-1" src="{% static 'img/paw.svg' %}"/>
+              Pets: Yes
+            </div>
             {% else %}
-            <div>Pets: No</div>
+            <div class="ps-2 d-flex align-items-center">
+              <img class="pe-1" src="{% static 'img/paw.svg' %}"/>
+              Pets: No
+            </div>
             {% endif %}
-            <a href="{% url 'application_pdf'%}?fosterer_id={{app.fosterer.id}}&animal_id={{app.animal.id}}">View Application</a>
           </div>
-          <div class="card-body">
-              <img
-                style="background-color: #eee; clip-path: circle();"
-                src="{{ app.animal.primary_photo.url|image_resize:'75x75 crop' }}"
-              >
-              <div>{{ app.animal }}</div>
-              <a href="/animal/{{ app.animal.id }}">View Profile</a>
+          <p class="flex-grow-0 py-0 px-3 m-0 text-uppercase fs-6 text-light-emphasis">Animal Requested </p>
+          <div class="card-body d-flex justify-content-between flex-grow-0">
+              <div class="d-flex align-items-center">
+                <img
+                  style="background-color: #eee; clip-path: circle(); width: 30px; height: 30px;"
+                  src="{{ app.animal.primary_photo.url|image_resize:'75x75 crop' }}"
+                >
+                <span class="px-1">{{ app.animal }}</span>
+              </div>
+              <a class="fs-8 fw-light text-decoration-none d-flex align-items-center"  href="/animal/{{ app.animal.id }}">see profile</a>
           </div>
-          <div class="card-footer">
+          <div class="card-footer bg-body border-top-0 d-flex justify-content-center gap-2 flex-grow-0">
             {% if app.status == app.Statuses.PENDING and 'MANAGE_APPLICATIONS' in currentUserPermissions %}
             <button
-              class="btn btn-primary"
+              class="btn btn-primary d-flex gap-1"
               hx-get="/organization/{{ awg.id }}/applications/{{ app.id }}/modal/{{ app.Statuses.ACCEPTED }}"
               hx-target="#awg-applications-modal"
               _="on htmx:afterOnLoad wait 10ms then add .show to #modal then add .show to #modal-backdrop"
-            >Accept</button>
+            >
+            <i class="bi-check"></i>
+            Approve
+          </button>
             <button
-              class="btn btn-secondary"
+              class="btn btn-secondary d-flex gap-1"
               hx-get="/organization/{{ awg.id }}/applications/{{ app.id }}/modal/{{ app.Statuses.REJECTED }}"
               hx-target="#awg-applications-modal"
               _="on htmx:afterOnLoad wait 10ms then add .show to #modal then add .show to #modal-backdrop"
-            >Reject</button>
+            >
+            <i class="bi-x"></i>
+            Reject
+          </button>
             {% else %}
             <!--
             <a
