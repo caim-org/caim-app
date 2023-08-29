@@ -2,7 +2,7 @@
 {% load static %}
 <div id="modal-backdrop" class="modal-backdrop fade show" style="display:block;"></div>
 <div id="modal" class="modal fade show" tabindex="-1" style="display:block;">
-  <div class="modal-dialog modal-dialog-centered">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <div class="container-fluid" style="height: 100%;">
@@ -47,7 +47,6 @@
             </form>
             <a
               class="text-decoration-underline"
-              style="white-space: nowrap;"
               hx-get="{% url 'awg_suggest_alternative_animal_modal' awg_id=awg.id application_id=app.id %}"
               hx-target="#awg-applications-modal"
             >Do you have another animal that you think they'd be a good fit for? Click Here</a>
