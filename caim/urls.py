@@ -104,8 +104,8 @@ urlpatterns = [
     path("organization/<awg_id>/applications", awg.list_applications, name="awg_list_applications"),
     path(
         "organization/<awg_id>/applications/<application_id>",
-        awg.update_application,
-        name="awg_update_application",
+        awg.update_application_status_submit_modal,
+        name="awg_update_application_status_submit_modal",
     ),
     path(
         "organization/<awg_id>/applications/<application_id>/modal/<status>",

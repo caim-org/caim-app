@@ -8,12 +8,13 @@
         <div class="container-fluid" style="height: 100%;">
             <img
               class="mx-auto d-block"
-              src="{% static 'img/thinking.svg' %}"
+              src="{% static 'img/sad.svg' %}"
             >
-            <div class="fs-3 text-center">Are you sure you want to accept this application?</div>
+            <div class="fs-3 text-center">Application is rejected</div>
         </div>
       </div>
       <div class="modal-body">
+      <div>We will inform the applicant!</div>
         <div class="container-fluid">
           <div class="row">
             <div class="col text-center">
@@ -36,14 +37,21 @@
               {% csrf_token %}
               <input class="d-none" name="status" type="text" value="{{ app.Statuses.ACCEPTED | title }}"
                 readonly>
-              <button
-                class="btn btn-primary"
-                hx-post="{% url 'awg_update_application_status_submit_modal' awg_id=awg.id application_id=app.id %}"
-                hx-target="#awg-applications-modal"
-                _="on htmx:afterOnLoad wait 10ms then add .show to #modal then add .show to #modal-backdrop"
-              >Confirm</button>
+              <div class="row justify-content-center align-content-center">
+                <div class="input-group">
+                  <div class="col text-center">
+                    <input type="submit" class="btn btn-primary" value="Confirm">
+                  </div>
+                </div>
+              </div>
             </form>
-        	  <button type="button" class="btn btn-link" onclick="closeModal('awg-applications-modal')">cancel</button>
+            <a
+              class="text-decoration-underline"
+              style="white-space: nowrap;"
+              hx-get="{% url 'awg_suggest_alternative_animal_modal' awg_id=awg.id application_id=app.id %}"
+              hx-target="#awg-applications-modal"
+            >Do you have another animal that you think they'd be a good fit for? Click Here</a>
+        	  <button type="button" class="btn btn-link" onclick="closeModal('awg-applications-modal'); location.reload()">Close</button>
           </div>
         </div>
       </div>

@@ -65,3 +65,14 @@ def notify_fosterer_of_animal_suggestion(suggested_animal: FosterApplicationAnim
             "url_prefix": settings.URL_PREFIX,
         },
     )
+
+def notify_caim_of_animal_suggestion(suggested_animal: FosterApplicationAnimalSuggestion):
+    send_templated_mail(
+        template_name="application_animal_suggestion_internal",
+        from_email="notifications@caim.org",
+        recipient_list=["hello@caim.org"],
+        context={
+            "suggestion": suggested_animal,
+            "url_prefix": settings.URL_PREFIX,
+        },
+    )

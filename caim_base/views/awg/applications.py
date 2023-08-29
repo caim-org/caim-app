@@ -12,7 +12,7 @@ from caim_base.models.animals import Animal
 from caim_base.models.awg import Awg
 from caim_base.models.fosterer import (FosterApplication,
                                        FosterApplicationAnimalSuggestion)
-from caim_base.notifications import notify_fosterer_of_animal_suggestion
+from caim_base.notifications import notify_fosterer_of_animal_suggestion, notify_caim_of_animal_suggestion
 from caim_base.views.awg.user_permissions import \
     check_awg_user_permissions_update_context
 
@@ -54,7 +54,7 @@ def list_applications(request, awg_id):
 
 @login_required()
 @require_http_methods(["POST"])
-def update_application(request, awg_id, application_id):
+def update_application_status_submit_modal(request, awg_id, application_id):
     awg = get_object_or_404(Awg, pk=awg_id)
 
     context = check_awg_user_permissions_update_context(request, awg, ["MANAGE_APPLICATIONS"])
@@ -78,13 +78,20 @@ def update_application(request, awg_id, application_id):
     application.reject_reason_detail = request.POST.get("reject_reason_detail")
     application.save()
 
+    templates = {
+        FosterApplication.Statuses.ACCEPTED: "awg/manage/applications/accept_confirmed_modal.html",
+        FosterApplication.Statuses.REJECTED: "awg/manage/applications/reject_confirmed_modal.html",
+    }
+    template = templates[application.status]
+
     context = {
         **context,
         "awg": awg,
-        "applications": query_applications_for_awg(awg),
-        "application_status_options": [c[0] for c in FosterApplication.Statuses.choices],
+        "app": application,
+        # "applications": query_applications_for_awg(awg),
+        # "application_status_options": [c[0] for c in FosterApplication.Statuses.choices],
     }
-    return render(request, "awg/manage/applications/list.html", context)
+    return render(request, template, context)
 
 
 @login_required()
@@ -97,7 +104,6 @@ def update_application_status_modal(request, awg_id, application_id, status):
     templates = {
         FosterApplication.Statuses.ACCEPTED: "awg/manage/applications/accept_modal.html",
         FosterApplication.Statuses.REJECTED: "awg/manage/applications/reject_modal.html",
-        FosterApplication.Statuses.PENDING: "awg/manage/applications/pend_modal.html",
     }
     template = templates[status]
 
@@ -142,6 +148,7 @@ def suggest_alternative_animal_submit(request, awg_id, application_id):
     suggested_animal.save()
 
     notify_fosterer_of_animal_suggestion(suggested_animal)
+    notify_caim_of_animal_suggestion(suggested_animal)
 
     context = {
         **context,

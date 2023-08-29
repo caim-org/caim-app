@@ -86,14 +86,7 @@
               >
               <div>{{ app.animal }}</div>
               <a style="white-space: nowrap;" href="/animal/{{ app.animal.id }}">View Profile</a>
-              {% if app.alternative_suggested_animals.count == 0 %}
-                <a
-                  class="text-decoration-underline"
-                  style="white-space: nowrap;"
-                  hx-get="{% url 'awg_suggest_alternative_animal_modal' awg_id=awg.id application_id=app.id %}"
-                  hx-target="#awg-applications-modal"
-                >Suggest another animal</a>
-              {% else %}
+              {% if app.alternative_suggested_animals.count != 0 %}
                 <h5>Suggested Animal:</h5>
                 <img
                   style="background-color: #eee; clip-path: circle();"

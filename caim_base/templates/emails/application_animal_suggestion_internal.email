@@ -1,0 +1,7 @@
+{% block subject %}{{suggestion.application.animal.awg.name}} has suggested an animal for {{suggestion.application.fosterer.name}} to foster!{% endblock %}
+{% block plain %}
+
+An AWG {{suggestion.application.animal.awg.name}} has suggested that {{suggestion.application.fosterer.name}} foster
+{{suggestion.animal.name}} instead of {{suggestion.application.animal.name}}.
+
+{% endblock %}
