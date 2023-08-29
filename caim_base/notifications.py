@@ -50,3 +50,12 @@ def notify_new_fosterer_profile(fosterer):
         context={"fosterer": fosterer},
         from_email="notifications@caim.org",
     )
+
+
+def notify_new_fosterer_application(application):
+    send_templated_mail(
+        template_name="new_fosterer_application",
+        recipient_list=["hello@caim.org", "al@caim.org"],
+        context={"application": application},
+        from_email="notifications@caim.org",
+    )

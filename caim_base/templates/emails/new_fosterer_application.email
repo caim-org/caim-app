@@ -1,0 +1,21 @@
+{% block subject %}New Fosterer Application{% endblock %}
+{% block plain %}
+Hi!
+
+A new Fosterer has filled out an application.
+
+
+Foster First Name: {{application.fosterer.firstname}}
+Foster Last Name: {{application.fosterer.lastname}}
+Street Address: {{application.fosterer.street_address}}
+City: {{application.fosterer.city}}
+State: {{application.fosterer.state}}
+Email: {{application.fosterer.email}}
+Type of Animal: {{application.animal.animal_type}}
+Animal requested: {{application.animal.get_absolute_url}}
+Associated AWG: {{application.animal.awg.name}}
+Foster application link: {{application.get_absolute_url}}
+
+
+You can log into https://app.caim.org/admin to review
+{% endblock %}
