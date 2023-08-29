@@ -12,7 +12,7 @@ from caim_base.models.animals import Animal
 from caim_base.models.awg import Awg
 from caim_base.models.fosterer import (FosterApplication,
                                        FosterApplicationAnimalSuggestion)
-from caim_base.notifications import notify_fosterer_of_animal_suggestion, notify_caim_of_animal_suggestion
+from caim_base.notifications import notify_caim_of_animal_suggestion, notify_caim_foster_application_accepted, notify_caim_foster_application_rejected
 from caim_base.views.awg.user_permissions import \
     check_awg_user_permissions_update_context
 
@@ -78,6 +78,12 @@ def update_application_status_submit_modal(request, awg_id, application_id):
     application.reject_reason_detail = request.POST.get("reject_reason_detail")
     application.save()
 
+    notify = {
+        FosterApplication.Statuses.ACCEPTED: notify_caim_foster_application_accepted,
+        FosterApplication.Statuses.REJECTED: notify_caim_foster_application_rejected,
+    }
+    notify[application.status](application)
+    
     templates = {
         FosterApplication.Statuses.ACCEPTED: "awg/manage/applications/accept_confirmed_modal.html",
         FosterApplication.Statuses.REJECTED: "awg/manage/applications/reject_confirmed_modal.html",
@@ -147,7 +153,6 @@ def suggest_alternative_animal_submit(request, awg_id, application_id):
     )
     suggested_animal.save()
 
-    notify_fosterer_of_animal_suggestion(suggested_animal)
     notify_caim_of_animal_suggestion(suggested_animal)
 
     context = {

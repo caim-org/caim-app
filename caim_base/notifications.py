@@ -1,6 +1,6 @@
 from templated_email import send_templated_mail
 
-from caim_base.models.fosterer import FosterApplicationAnimalSuggestion
+from caim_base.models.fosterer import FosterApplicationAnimalSuggestion, FosterApplication
 from django.conf import settings
 
 
@@ -75,4 +75,24 @@ def notify_caim_of_animal_suggestion(suggested_animal: FosterApplicationAnimalSu
             "suggestion": suggested_animal,
             "url_prefix": settings.URL_PREFIX,
         },
+    )
+
+def notify_caim_foster_application_accepted(application: FosterApplication):
+    send_templated_mail(
+        template_name="application_accepted_internal",
+        from_email="notifications@caim.org",
+        recipient_list=["hello@caim.org"],
+        context={
+            "app": application,
+        }
+    )
+    
+def notify_caim_foster_application_rejected(application: FosterApplication):
+    send_templated_mail(
+        template_name="application_rejected_internal",
+        from_email="notifications@caim.org",
+        recipient_list=["hello@caim.org"],
+        context={
+            "app": application,
+        }
     )

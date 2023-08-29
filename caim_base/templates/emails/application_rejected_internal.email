@@ -1,0 +1,18 @@
+{% block subject %}New Foster Application Rejected{% endblock %}
+{% block plain %}
+
+A foster application has been rejected!
+
+AWG: {{app.animal.awg.name}}
+
+Animal: {{app.animal.name}}, {{app.animal.animal_type}}
+
+Fosterer: {{app.fosterer}}, {{app.fosterer.city}} {{app.fosterer.state}}
+
+Submitted On: {{app.submitted_on}}
+
+Rejection Reason: {{app.reject_reason}}
+Rejection Reason Details:
+{{app.reject_reason_detail}}
+
+{% endblock %}
