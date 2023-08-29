@@ -1,5 +1,6 @@
 {% extends 'awg/manage/base.html' %}
 {% load caim_helpers %}
+{% load static %}
 
 {% block innerContent %}
 <div class="row">
@@ -69,21 +70,33 @@
                 download profile
               </a>
             </div>
-            <div class="ps-2">
-              <i class="bi-geo-alt"></i>
+            <div class="ps-2 d-flex align-items-center">
+              <img class="pe-1" src="{% static 'img/house-pin.svg' %}" />
               {{ app.fosterer.city }}, {{ app.fosterer.state }}
             </div>
 
             {% if app.fosterer.rent_own == app.fosterer.RentOwn.RENT %}
-            <div class="ps-2"><i class="bi-house-door"></i> Rents Home</div>
+            <div class="ps-2 d-flex align-items-center">
+              <img class="pe-1" src="{% static 'img/house.svg' %}"/>
+              Rents Home
+            </div>
             {% elif app.fosterer.rent_own == app.fosterer.RentOwn.OWN%}
-            <div class="ps-2"><i class="bi-house-door"></i> Owns Home</div>
+            <div class="ps-2 d-flex align-items-center">
+              <img class="pe-1" src="{% static 'img/house.svg' %}"/>
+              Owns Home
+            </div>
             {% endif %}
 
             {% if app.fosterer.num_existing_pets > 1 %}
-            <div class="ps-2"><i class="bi-exclamation"></i> Pets: Yes</div>
+            <div class="ps-2 d-flex align-items-center">
+              <img class="pe-1" src="{% static 'img/paw.svg' %}"/>
+              Pets: Yes
+            </div>
             {% else %}
-            <div class="ps-2"><i class="bi-exclamation"></i> Pets: No</div>
+            <div class="ps-2 d-flex align-items-center">
+              <img class="pe-1" src="{% static 'img/paw.svg' %}"/>
+              Pets: No
+            </div>
             {% endif %}
           </div>
           <p class="flex-grow-0 py-0 px-3 m-0 text-uppercase fs-6 text-light-emphasis">Animal Requested </p>
