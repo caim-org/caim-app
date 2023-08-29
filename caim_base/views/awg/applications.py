@@ -1,8 +1,8 @@
 from textwrap import dedent
 from typing import Optional, Tuple
 
-from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from django.db.models import QuerySet
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
@@ -10,7 +10,9 @@ from django.views.decorators.http import require_http_methods
 
 from caim_base.models.animals import Animal
 from caim_base.models.awg import Awg
-from caim_base.models.fosterer import FosterApplication, FosterApplicationAnimalSuggestion
+from caim_base.models.fosterer import (FosterApplication,
+                                       FosterApplicationAnimalSuggestion)
+from caim_base.notifications import notify_fosterer_of_animal_suggestion
 from caim_base.views.awg.user_permissions import \
     check_awg_user_permissions_update_context
 
@@ -45,9 +47,8 @@ def list_applications(request, awg_id):
         try:
             context = check_awg_user_permissions_update_context(request, awg, ["VIEW_APPLICATIONS"], context)
         except PermissionDenied:
-            raise PermissionDenied('User does not have permissions to view or manage applications')
+            raise PermissionDenied("User does not have permissions to view or manage applications")
 
-    
     return render(request, "awg/manage/applications/list.html", context)
 
 
@@ -133,12 +134,14 @@ def suggest_alternative_animal_submit(request, awg_id, application_id):
     context = check_awg_user_permissions_update_context(request, awg, ["MANAGE_APPLICATIONS"])
     application: FosterApplication = get_object_or_404(FosterApplication, id=application_id, animal__awg=awg)
     animal = get_object_or_404(Animal, pk=request.POST["suggest-animal"], awg_id=awg.id)
-        
+
     suggested_animal = FosterApplicationAnimalSuggestion(
         application=application,
         animal=animal,
     )
     suggested_animal.save()
+
+    notify_fosterer_of_animal_suggestion(suggested_animal)
 
     context = {
         **context,
