@@ -74,19 +74,13 @@ class FostererExistingPetDetail(models.Model):
         null=True,
         verbose_name="Up to date on their shots?",
     )
-    quirks = models.TextField(
-        max_length=1024, blank=True, null=True, verbose_name="Any quirks?"
-    )
+    quirks = models.TextField(max_length=1024, blank=True, null=True, verbose_name="Any quirks?")
 
-    fosterer_profile = models.ForeignKey(
-        "FostererProfile", on_delete=models.CASCADE, related_name="existing_pets"
-    )
+    fosterer_profile = models.ForeignKey("FostererProfile", on_delete=models.CASCADE, related_name="existing_pets")
 
 
 class FostererReferenceDetail(models.Model):
-    fosterer_profile = models.ForeignKey(
-        "FostererProfile", on_delete=models.CASCADE, related_name="references"
-    )
+    fosterer_profile = models.ForeignKey("FostererProfile", on_delete=models.CASCADE, related_name="references")
     first_name = models.CharField(max_length=64)
     last_name = models.CharField(max_length=64)
     email = models.EmailField()
@@ -95,9 +89,7 @@ class FostererReferenceDetail(models.Model):
 
 
 class FostererPersonInHomeDetail(models.Model):
-    fosterer_profile = models.ForeignKey(
-        "FostererProfile", on_delete=models.CASCADE, related_name="people_in_home"
-    )
+    fosterer_profile = models.ForeignKey("FostererProfile", on_delete=models.CASCADE, related_name="people_in_home")
     name = models.CharField(max_length=128, blank=True, null=True, default=None)
     relation = models.CharField(max_length=128, blank=True, null=True, default=None)
     age = models.IntegerField(blank=True, null=True, default=None)
@@ -184,13 +176,9 @@ class FostererProfile(models.Model):
     age = models.IntegerField(blank=True, null=True, default=None)
     email = models.EmailField(blank=True, null=True, max_length=255, default=None)
     phone = PhoneNumberField(blank=True, null=True, default=None)
-    street_address = models.CharField(
-        blank=True, null=True, max_length=244, default=None
-    )
+    street_address = models.CharField(blank=True, null=True, max_length=244, default=None)
     city = models.CharField(max_length=32, blank=True, null=True, default=None)
-    state = models.CharField(
-        max_length=2, blank=True, null=True, choices=states.items(), default=None
-    )
+    state = models.CharField(max_length=2, blank=True, null=True, choices=states.items(), default=None)
     zip_code = models.CharField(max_length=16, blank=True, null=True, default=None)
     type_of_animals = ChoiceArrayField(
         models.CharField(max_length=32, choices=TypeOfAnimals.choices),
@@ -279,15 +267,9 @@ class FostererProfile(models.Model):
     )
     # These references are not used and simply to preserve existing data.
     # going forward associated `ReferenceDetail` holds this information.
-    reference_1 = models.TextField(
-        blank=True, null=True, default=None, verbose_name="Reference #1"
-    )
-    reference_2 = models.TextField(
-        blank=True, null=True, default=None, verbose_name="Reference #2"
-    )
-    reference_3 = models.TextField(
-        blank=True, null=True, default=None, verbose_name="Reference #3"
-    )
+    reference_1 = models.TextField(blank=True, null=True, default=None, verbose_name="Reference #1")
+    reference_2 = models.TextField(blank=True, null=True, default=None, verbose_name="Reference #2")
+    reference_3 = models.TextField(blank=True, null=True, default=None, verbose_name="Reference #3")
     # This is old "people at home" and is simply to preserve existing data.
     # Unused in the future this info should come from associated `PersonInHomeDetail`.
     people_at_home = models.TextField(
@@ -471,12 +453,19 @@ class FosterApplication(models.Model):
     fosterer = models.ForeignKey(FostererProfile, on_delete=models.CASCADE, related_name="applications")
     animal = models.ForeignKey(Animal, on_delete=models.CASCADE, related_name="applications")
     status = models.CharField(max_length=32, choices=Statuses.choices)
-    reject_reason = models.CharField(
-        max_length=32, choices=RejectionReasons.choices, null=True
-    )
+    reject_reason = models.CharField(max_length=32, choices=RejectionReasons.choices, null=True)
     reject_reason_detail = models.TextField(max_length=65516, null=True, blank=True)
     submitted_on = models.DateField(auto_now_add=True)
     updated_on = models.DateField(auto_now=True)
 
     def __str__(self) -> str:
         return f"Application for {self.animal} by {self.fosterer}"
+
+
+class FosterApplicationAnimalSuggestion(models.Model):
+    application = models.ForeignKey(
+        FosterApplication, on_delete=models.CASCADE, related_name="alternative_suggested_animals"
+    )
+    animal = models.ForeignKey(Animal, on_delete=models.CASCADE)
+    submitted_on = models.DateField(auto_now_add=True)
+    updated_on = models.DateField(auto_now=True)

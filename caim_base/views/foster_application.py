@@ -16,7 +16,7 @@ from ..models.animals import Animal
 from ..models.awg import Awg, AwgMember
 from ..models.fosterer import (FosterApplication, FostererExistingPetDetail,
                                FostererPersonInHomeDetail, FostererProfile,
-                               FostererReferenceDetail)
+                               FostererReferenceDetail, FosterApplicationAnimalSuggestion)
 from ..models.user import UserProfile
 
 

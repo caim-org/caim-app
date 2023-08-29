@@ -8,8 +8,9 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.views.decorators.http import require_http_methods
 
+from caim_base.models.animals import Animal
 from caim_base.models.awg import Awg
-from caim_base.models.fosterer import FosterApplication
+from caim_base.models.fosterer import FosterApplication, FosterApplicationAnimalSuggestion
 from caim_base.views.awg.user_permissions import \
     check_awg_user_permissions_update_context
 
@@ -88,7 +89,7 @@ def update_application(request, awg_id, application_id):
 @login_required()
 @require_http_methods(["GET"])
 def update_application_status_modal(request, awg_id, application_id, status):
-    awg = get_object_or_404(Awg, pk=awg_id)
+    awg: Awg = get_object_or_404(Awg, pk=awg_id)
     context = check_awg_user_permissions_update_context(request, awg, ["MANAGE_APPLICATIONS"])
     application: FosterApplication = get_object_or_404(FosterApplication, id=application_id, animal__awg=awg)
 
@@ -106,3 +107,44 @@ def update_application_status_modal(request, awg_id, application_id, status):
         "reject_reasons": FosterApplication.RejectionReasons.choices,
     }
     return render(request, template, context)
+
+
+@login_required()
+@require_http_methods(["GET"])
+def suggest_alternative_animal_modal(request, awg_id, application_id):
+    awg: Awg = get_object_or_404(Awg, pk=awg_id)
+    context = check_awg_user_permissions_update_context(request, awg, ["MANAGE_APPLICATIONS"])
+    application: FosterApplication = get_object_or_404(FosterApplication, id=application_id, animal__awg=awg)
+
+    context = {
+        **context,
+        "awg": awg,
+        "app": application,
+        "animals": awg.animals.all(),
+    }
+
+    return render(request, "awg/manage/applications/suggest_alternative_animal_modal.html", context)
+
+
+@login_required()
+@require_http_methods(["POST"])
+def suggest_alternative_animal_submit(request, awg_id, application_id):
+    awg: Awg = get_object_or_404(Awg, pk=awg_id)
+    context = check_awg_user_permissions_update_context(request, awg, ["MANAGE_APPLICATIONS"])
+    application: FosterApplication = get_object_or_404(FosterApplication, id=application_id, animal__awg=awg)
+    animal = get_object_or_404(Animal, pk=request.POST["suggest-animal"], awg_id=awg.id)
+        
+    suggested_animal = FosterApplicationAnimalSuggestion(
+        application=application,
+        animal=animal,
+    )
+    suggested_animal.save()
+
+    context = {
+        **context,
+        "awg": awg,
+        "app": application,
+        "animal": animal,
+    }
+
+    return render(request, "awg/manage/applications/suggest_alternative_animal_submitted_modal.html", context)

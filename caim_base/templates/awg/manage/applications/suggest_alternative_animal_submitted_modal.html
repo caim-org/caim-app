@@ -1,0 +1,38 @@
+{% load caim_helpers %}
+<div id="modal-backdrop" class="modal-backdrop fade show" style="display:block;"></div>
+<div id="modal" class="modal fade show" tabindex="-1" style="display:block;">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="container-fluid" style="height: 100%;">
+            <h2 class="modal-title">Success! We'll notify the fosterer of the suggestion.</h2>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col text-center">
+              <h4 class="row">Applicant</h4>
+              <div class="row">{{ app.fosterer.firstname }} {{ app.fosterer.lastname }}</div>
+              <div>{{ app.fosterer.city }}, {{ app.fosterer.state }}</div>
+            </div>
+            <div class="col text-center">
+              <h4 class="row">Animal</h4>
+              <div class="row">
+                <img
+                  class="col"
+                  style="background-color: #eee; clip-path: circle()"
+                  src="{{ app.animal.primary_photo.url|image_resize:'75x75 crop' }}"
+                >
+                <div class="col">{{ app.animal.name}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeModal('awg-applications-modal')">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

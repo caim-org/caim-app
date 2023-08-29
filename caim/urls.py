@@ -112,6 +112,16 @@ urlpatterns = [
         awg.update_application_status_modal,
         name="awg_update_application_status_modal",
     ),
+    path(
+        "organization/<awg_id>/applications/<application_id>/suggest-animal-modal",
+        awg.suggest_alternative_animal_modal,
+        name="awg_suggest_alternative_animal_modal",
+    ),
+    path(
+        "organization/<awg_id>/applications/<application_id>/suggest-animal-submit",
+        awg.suggest_alternative_animal_submit,
+        name="awg_suggest_alternative_animal_submit",
+    ),
     path("utils/users-csv", user_csv_download.view, name="user_csv_download"),
     path("__reload__/", include("django_browser_reload.urls")),
 ]

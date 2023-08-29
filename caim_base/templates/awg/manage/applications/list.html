@@ -85,19 +85,25 @@
                 src="{{ app.animal.primary_photo.url|image_resize:'75x75 crop' }}"
               >
               <div>{{ app.animal }}</div>
-              <a href="/animal/{{ app.animal.id }}">View Profile</a>
+              <a style="white-space: nowrap;" href="/animal/{{ app.animal.id }}">View Profile</a>
+              <a
+                class="text-decoration-underline"
+                style="white-space: nowrap;"
+                hx-get="{% url 'awg_suggest_alternative_animal_modal' awg_id=awg.id application_id=app.id %}"
+                hx-target="#awg-applications-modal"
+              >Suggest another animal</a>
           </div>
           <div class="card-footer">
             {% if app.status == app.Statuses.PENDING and 'MANAGE_APPLICATIONS' in currentUserPermissions %}
             <button
               class="btn btn-primary"
-              hx-get="/organization/{{ awg.id }}/applications/{{ app.id }}/modal/{{ app.Statuses.ACCEPTED }}"
+              hx-get="{% url 'awg_update_application_status_modal' awg_id=awg.id application_id=app.id status=app.Statuses.ACCEPTED %}"
               hx-target="#awg-applications-modal"
               _="on htmx:afterOnLoad wait 10ms then add .show to #modal then add .show to #modal-backdrop"
             >Accept</button>
             <button
               class="btn btn-secondary"
-              hx-get="/organization/{{ awg.id }}/applications/{{ app.id }}/modal/{{ app.Statuses.REJECTED }}"
+              hx-get="{% url 'awg_update_application_status_modal' awg_id=awg.id application_id=app.id status=app.Statuses.REJECTED %}"
               hx-target="#awg-applications-modal"
               _="on htmx:afterOnLoad wait 10ms then add .show to #modal then add .show to #modal-backdrop"
             >Reject</button>

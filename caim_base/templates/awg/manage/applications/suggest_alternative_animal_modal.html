@@ -1,0 +1,47 @@
+{% load caim_helpers %}
+<div id="modal-backdrop" class="modal-backdrop fade show" style="display:block;"></div>
+<div id="modal" class="modal fade show" tabindex="-1" style="display:block;">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="container-fluid" style="height: 100%;">
+          <h2 class="modal-title">Suggest an Alternative Animal for this Fosterer</h2>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <h3 class="row">Applicant</h3>
+            <div class="row">{{ app.fosterer.firstname }} {{ app.fosterer.lastname }}</div>
+            <div>{{ app.fosterer.city }}, {{ app.fosterer.state }}</div>
+          </div>
+          <div class="row">
+            <hr>
+            <form>
+              {% csrf_token %}
+              <select class="form-select" name="suggest-animal">
+                <option value="">Please pick an animal</option>
+                {% for a in animals %}
+                  {% if a.id == app.animal.id %}
+                    <option value="{{a.id}}" disabled>{{a.name}}</option>
+                  {% else %}
+                    <option value="{{a.id}}">{{a.name}}</option>
+                  {% endif %}
+                {% endfor %}
+              </select>
+              <button
+                class="btn btn-primary"
+                hx-post="{% url 'awg_suggest_alternative_animal_submit' awg_id=awg.id application_id=app.id %}"
+                hx-target="#awg-applications-modal"
+                _="on htmx:afterOnLoad wait 10ms then add .show to #modal then add .show to #modal-backdrop"
+              >confirm</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeModal('awg-applications-modal')">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
