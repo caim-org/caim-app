@@ -4,12 +4,10 @@ from typing import List, Optional, Union
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.postgres.fields import ArrayField
-from django.core.validators import MinLengthValidator
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
-from reportlab.lib.pagesizes import letter
-from reportlab.pdfbase.pdfmetrics import stringWidth
-from reportlab.pdfgen import canvas
+from caim_base.notifications import notify_new_fosterer_application
+from ..utils import full_url
 
 from caim_base.models.animals import Animal
 
@@ -480,3 +478,11 @@ class FosterApplication(models.Model):
 
     def __str__(self) -> str:
         return f"Application for {self.animal} by {self.fosterer}"
+
+    def save(self, *args, **kwargs):
+        if not self.id:  # the first save
+            notify_new_fosterer_application(self)
+        super().save()
+
+    def get_absolute_url(self):
+        return full_url(f"/foster/application?animal_id={self.animal.id}")
