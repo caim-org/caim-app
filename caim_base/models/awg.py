@@ -70,7 +70,7 @@ class Awg(models.Model):
     is_exact_location_shown = models.BooleanField(
         default=False, verbose_name="Show exact location?"
     )
-    email = models.EmailField(max_length=32, blank=True, null=True, default=None)
+    email = models.EmailField(max_length=255, blank=True, null=True, default=None)
     phone = PhoneNumberField(blank=True, null=True, default=None)
     website_url = models.URLField(
         max_length=255, blank=True, null=True, default=None, verbose_name="Website URL"

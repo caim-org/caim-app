@@ -98,3 +98,12 @@ def notify_caim_foster_application_rejected(application: FosterApplication):
             "app": application,
         }
     )
+
+
+def notify_new_fosterer_application(application):
+    send_templated_mail(
+        template_name="new_fosterer_application",
+        recipient_list=["hello@caim.org", "al@caim.org"],
+        context={"application": application},
+        from_email="notifications@caim.org",
+    )

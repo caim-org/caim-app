@@ -23,6 +23,7 @@ djangorestframework==3.13.1
 docutils==0.19
 easy-thumbnails==2.8.3
 Faker==14.1.0
+factory_boy==3.3.0
 gunicorn==20.1.0
 idna==3.4
 jmespath==1.0.1
