@@ -119,7 +119,7 @@
                     >
                     <span class="px-1">{{ app.alternative_suggested_animals.first.animal }}</span>
                   </div>
-                  <a class="fs-8 fw-light text-decoration-none d-flex align-items-center"  href="{% url 'animal' animal_id=app.animal.id %}">see profile</a>
+                  <a class="fs-8 fw-light text-decoration-none d-flex align-items-center"  href="{% url 'animal' animal_id=app.alternative_suggested_animals.first.animal.id %}">see profile</a>
               </div>
             {% endif %}
           </div>
