@@ -94,8 +94,6 @@ def update_application_status_submit_modal(request, awg_id, application_id):
         **context,
         "awg": awg,
         "app": application,
-        # "applications": query_applications_for_awg(awg),
-        # "application_status_options": [c[0] for c in FosterApplication.Statuses.choices],
     }
     return render(request, template, context)
 

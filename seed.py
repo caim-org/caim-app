@@ -14,6 +14,7 @@ from fake_data import (
     load_animals,
     fake_fosterers,
     fake_foster_applications,
+    fake_foster_application_suggestion,
     fake_user_didnothing,
     fake_staff_user,
     fake_user_in_awg,
@@ -41,6 +42,7 @@ load_animals("dog", "seed_data/dogs3.json")
 
 fake_fosterers(100)
 fake_foster_applications()
+fake_foster_application_suggestion()
 
 fake_user_didnothing()
 fake_staff_user()

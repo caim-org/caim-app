@@ -3,6 +3,7 @@ import json
 import os
 import urllib.request
 from random import choice, choices, randint
+from typing import List
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -15,8 +16,10 @@ from faker import Faker
 from caim_base.models.animals import (Animal, AnimalImage, AnimalType, Breed,
                                       ZipCode)
 from caim_base.models.awg import Awg, AwgMember
-from caim_base.models.fosterer import FosterApplication, FostererProfile, TypeOfAnimals, YesNo
-
+from caim_base.models.fosterer import (FosterApplication,
+                                       FosterApplicationAnimalSuggestion,
+                                       FostererProfile, TypeOfAnimals, YesNo)
+from caim_base.views.awg.applications import query_applications_for_awg
 
 assert not settings.PRODUCTION, "CANNOT RUN GENERATE FAKE DATA IN PRODUCTION"
 
@@ -251,11 +254,11 @@ def fake_foster_profile(user: User) -> FostererProfile:
     fosterer.is_complete = choice([True, False])
     fosterer.medical_issues = choice([choice[0] for choice in YesNo.choices])
     fosterer.special_needs = choice([choice[0] for choice in YesNo.choices])
-    fosterer.behavioral_issues =  choice([choice[0] for choice in YesNo.choices])
-    fosterer.all_in_agreement =  choice([choice[0] for choice in YesNo.choices])
-    fosterer.stairs =  choice([choice[0] for choice in YesNo.choices])
-    fosterer.agree_social_media =  choice([choice[0] for choice in YesNo.choices])
-    fosterer.pet_allergies =  choice([choice[0] for choice in YesNo.choices])
+    fosterer.behavioral_issues = choice([choice[0] for choice in YesNo.choices])
+    fosterer.all_in_agreement = choice([choice[0] for choice in YesNo.choices])
+    fosterer.stairs = choice([choice[0] for choice in YesNo.choices])
+    fosterer.agree_social_media = choice([choice[0] for choice in YesNo.choices])
+    fosterer.pet_allergies = choice([choice[0] for choice in YesNo.choices])
     fosterer.full_clean()
     return fosterer
 
@@ -281,7 +284,7 @@ def fake_foster_application(animal: Animal, foster_profile: FostererProfile) -> 
         application.reject_reason = choice([choice[0] for choice in application.RejectionReasons.choices])
         application.reject_reason_detail = fake.text(1000)
     else:
-        application.reject_reason= choice([choice[0] for choice in application.RejectionReasons.choices])
+        application.reject_reason = choice([choice[0] for choice in application.RejectionReasons.choices])
     application.full_clean()
     return application
 
@@ -297,6 +300,26 @@ def fake_foster_applications():
             application = fake_foster_application(animal, fosterer)
             applications.append(application)
     FosterApplication.objects.bulk_create(applications)
+
+
+def fake_foster_application_suggestion(suggestions_per_awg: int = 2):
+    print("generating some alernative suggested animals for a few of the rejected applications in each awg")
+    awgs = Awg.objects.all()
+    for awg in awgs:
+        applications = FosterApplication.objects.select_related("animal").filter(
+            animal__awg=awg, status__in=[FosterApplication.Statuses.ACCEPTED, FosterApplication.Statuses.REJECTED]
+        )
+        suggestions_per_awg = min(suggestions_per_awg, applications.count())
+        if suggestions_per_awg:
+            continue  # next awg, there wasn't any accepted or rejected applications here
+        get_suggest: List[FosterApplication] = choices(list(applications), k=suggestions_per_awg)
+        for application_gets_suggest in get_suggest:
+            animals_could_suggest = Animal.objects.filter(awg=awg).exclude(pk=application_gets_suggest.animal.id)
+            # some awgs only have one animal
+            if animals_could_suggest.count() > 0:
+                animal = choice(animals_could_suggest)
+                suggestion = FosterApplicationAnimalSuggestion(application=application_gets_suggest, animal=animal)
+                suggestion.save()
 
 
 def fake_user_didnothing():
@@ -343,6 +366,7 @@ def fake_user_in_awg():
     awgmembership.canManageMembers = True
     awgmembership.canManageApplications = True
     awgmembership.save()
+
 
 def fake_user_in_awg_appviewonly():
     print("registering a fake user in an AWG that cannot manage applications, only view them")
