@@ -60,8 +60,9 @@ Running the app locally requires:
 1. The correct env variables via `source local.env`
 2. Making a virtual env `mkvirtualenv caim-django` and then `pip install -r requirements.txt`
 3. Running the postgres container via `docker compose up`
-4. Migrate the database via `python manage.py migrate`
-5. Build test data with `python manage.py shell < seed.py`
+4. Make migrations for built-in Django model changes via `python manage.py makemigrations`
+5. Migrate the database via `python manage.py migrate`
+6. Build test data with `python manage.py shell < seed.py`
 
 Notes:
 - The postgres local docker image listenes on port 5434 (rather than the default postgres port of 5432) to avoid clashes if you happen to have postgres running locally on your machine
