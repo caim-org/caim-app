@@ -89,7 +89,7 @@ class FostererReferenceDetail(models.Model):
     )
     first_name = models.CharField(max_length=64)
     last_name = models.CharField(max_length=64)
-    email = models.EmailField()
+    email = models.EmailField(max_length=255)
     phone = PhoneNumberField(null=True, default=None)
     relation = models.CharField(max_length=128)
 
@@ -101,7 +101,7 @@ class FostererPersonInHomeDetail(models.Model):
     name = models.CharField(max_length=128, blank=True, null=True, default=None)
     relation = models.CharField(max_length=128, blank=True, null=True, default=None)
     age = models.IntegerField(blank=True, null=True, default=None)
-    email = models.EmailField(blank=True, null=True, default=None)
+    email = models.EmailField(max_length=255, blank=True, null=True, default=None)
 
 
 # NOTE model not currently in use.
@@ -111,7 +111,7 @@ class FostererLandlordContact(models.Model):
     )
     first_name = models.CharField(max_length=64)
     last_name = models.CharField(max_length=128)
-    email = models.EmailField(blank=True, null=True)
+    email = models.EmailField(max_length=255, blank=True, null=True)
     phone = PhoneNumberField(blank=True, null=True, default=None)
 
 
