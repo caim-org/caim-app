@@ -1,12 +1,17 @@
 from templated_email import send_templated_mail
 
+from caim_base.models.fosterer import FosterApplicationAnimalSuggestion, FosterApplication
+from django.conf import settings
+
+NOTIFICATIONS_SOURCE_EMAIL = "notifications@caim.org"
+INTERNAL_NOTIFICATIONS_EMAIL = "hello@caim.org"
 
 def notify_new_awg_application(awg):
     send_templated_mail(
         template_name="new_awg_application",
-        recipient_list=["hello@caim.org"],
+        recipient_list=[INTERNAL_NOTIFICATIONS_EMAIL],
         context={"awg": awg},
-        from_email="notifications@caim.org",
+        from_email=NOTIFICATIONS_SOURCE_EMAIL,
     )
 
 
@@ -20,7 +25,7 @@ def notify_animal_comment(comment):
         template_name="new_animal_comment",
         recipient_list=emails,
         context={"awg": awg, "animal": animal, "comment": comment},
-        from_email="notifications@caim.org",
+        from_email=NOTIFICATIONS_SOURCE_EMAIL,
     )
 
 
@@ -35,7 +40,7 @@ def notify_animal_comment_reply(subcomment):
         template_name="new_animal_comment_reply",
         recipient_list=emails,
         context={"animal": animal},
-        from_email="notifications@caim.org",
+        from_email=NOTIFICATIONS_SOURCE_EMAIL,
     )
 
 
@@ -46,9 +51,52 @@ def notify_animal_published(animal):
 def notify_new_fosterer_profile(fosterer):
     send_templated_mail(
         template_name="new_fosterer_profile",
-        recipient_list=["hello@caim.org", "al@caim.org"],
+        recipient_list=[INTERNAL_NOTIFICATIONS_EMAIL],
         context={"fosterer": fosterer},
-        from_email="notifications@caim.org",
+        from_email=NOTIFICATIONS_SOURCE_EMAIL,
+    )
+
+
+def notify_fosterer_of_animal_suggestion(suggested_animal: FosterApplicationAnimalSuggestion):
+    send_templated_mail(
+        template_name="application_animal_suggestion",
+        from_email=NOTIFICATIONS_SOURCE_EMAIL,
+        recipient_list=[suggested_animal.application.fosterer.email],
+        context={
+            "suggestion": suggested_animal,
+            "url_prefix": settings.URL_PREFIX,
+        },
+    )
+
+def notify_caim_of_animal_suggestion(suggested_animal: FosterApplicationAnimalSuggestion):
+    send_templated_mail(
+        template_name="application_animal_suggestion_internal",
+        from_email=NOTIFICATIONS_SOURCE_EMAIL,
+        recipient_list=[INTERNAL_NOTIFICATIONS_EMAIL],
+        context={
+            "suggestion": suggested_animal,
+            "url_prefix": settings.URL_PREFIX,
+        },
+    )
+
+def notify_caim_foster_application_accepted(application: FosterApplication):
+    send_templated_mail(
+        template_name="application_accepted_internal",
+        from_email=NOTIFICATIONS_SOURCE_EMAIL,
+        recipient_list=[INTERNAL_NOTIFICATIONS_EMAIL],
+        context={
+            "app": application,
+        }
+    )
+    
+def notify_caim_foster_application_rejected(application: FosterApplication):
+    send_templated_mail(
+        template_name="application_rejected_internal",
+        from_email=NOTIFICATIONS_SOURCE_EMAIL,
+        recipient_list=[INTERNAL_NOTIFICATIONS_EMAIL],
+        context={
+            "app": application,
+        }
     )
 
 

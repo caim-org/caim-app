@@ -2,7 +2,7 @@
 {% load caim_helpers %}
 <div id="modal-backdrop" class="modal-backdrop fade show" style="display:block;"></div>
 <div id="modal" class="modal fade show" tabindex="-1" style="display:block;">
-  <div class="modal-dialog modal-dialog-centered">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <div class="container-fluid" style="height: 100%;">
@@ -62,13 +62,12 @@
                   ></textarea>
                 </div>
               </div>
-              <div class="row justify-content-center align-content-center">
-                <div class="input-group">
-                  <div class="col text-center">
-                    <input type="submit" class="btn btn-primary" value="Confirm">
-                  </div>
-                </div>
-              </div>
+              <button
+                class="btn btn-primary"
+                hx-post="{% url 'awg_update_application_status_submit_modal' awg_id=awg.id application_id=app.id %}"
+                hx-target="#awg-applications-modal"
+                _="on htmx:afterOnLoad wait 10ms then add .show to #modal then add .show to #modal-backdrop"
+              >Confirm</button>
             </form>
         	  <button type="button" class="btn btn-link" onclick="closeModal('awg-applications-modal')">cancel</button>
         	</div>
