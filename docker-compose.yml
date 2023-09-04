@@ -1,6 +1,36 @@
 version: '3.7'
 services:
+  django:
+    image: caim-django:latest
+    build: .
+    restart: always
+    environment:
+      - PRODUCTION=0
+      - DEBUG=1
+      - MEDIA_USE_S3=0
+      - SECRET_KEY='dfdfeferewrewrewrrerewr'
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=postgres
+      - IMAGE_RESIZE_USE_IMAGKIT=0
+      - EMAIL_ENABLED=0
+      - URL_PREFIX='http://127.0.0.1:8000'
+      - SALESFORCE_ENABLED=0
+      - SALESFORCE_USERNAME='<username>'
+      - SALESFORCE_PASSWORD='<pwd>'
+      - SALESFORCE_SECURITY_TOKEN='<token>'
+    volumes:
+      - ./:/app
+    ports:
+      - '8000:8000'
+    depends_on:
+      - postgres
+    command: python manage.py runserver 0.0.0.0:8000
+  
   postgres:
+    container_name: postgres
     image: postgis/postgis:14-3.3
     platform: linux/amd64
     restart: always
@@ -12,7 +42,7 @@ services:
         max-size: 10m
         max-file: "3"
     ports:
-      - '5434:5432'
+      - '5432:5432'
     volumes:
       - caim_pg:/var/lib/postgresql
       - caim_pgdata:/var/lib/postgresql/data
