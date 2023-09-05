@@ -27,8 +27,8 @@ services:
       - '8000:8000'
     depends_on:
       - postgres
-    command: python manage.py runserver 0.0.0.0:8000
-  
+    command: /bin/sh -c "./entrypoint.sh"
+
   postgres:
     container_name: postgres
     image: postgis/postgis:14-3.3
