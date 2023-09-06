@@ -1,9 +1,10 @@
 {% extends "base/wrapper.html" %}
 {% load caim_helpers %}
+{% load static %}
 
 {% block opengraph %}
 
-  <meta property="og:title" content="{{animal.name}} | {{ animal.sexText}} | {{ animal.sizeText }}">
+  <meta property="og:title" content="{{animal.name}} | {{ animal.get_sex_display }} | {{ animal.get_size_display }}">
   <meta property="og:url" content="{{animal.get_absolute_url}}">
 {% if animal.primary_photo %}
     <meta property="og:image" content="{{ animal.primary_photo.url|image_resize:'600x500 max' }}">
@@ -65,7 +66,7 @@
 <div class="container">
   <div class="row">
     <div class="col-md-8">
-      <div class="card mb-3">
+      <div class="card animal-profile-card mb-5">
         <div class="card-body">
 
           <div class="fb-share-button float-end" 
@@ -74,40 +75,84 @@
           data-size="large">
           </div>
           <h2>{{ animal.name }}</h2>
-          <p>
-            {{ animal.breedsText }}
+          <p class="animal-stats mb-5">
+            {{ animal.get_breed_display }}
             |
-            {{ animal.sexText }}
+            {{ animal.get_sex_display }}
             |
-            {{ animal.ageText }}
+            {{ animal.get_age_display }}
             |
-            {{ animal.sizeText }}
+            {{ animal.get_size_display }}
           </p>
-          <p>
+          <div class="mb-5">
+            <h5 class="black-header mb-3">About {{ animal.name }}</h5>
             {{ animal.description | urlizetrunc:60 |linebreaks }}
-          </p>
-
-          {% if animal.special_needs %}
-          <h4>Special Needs</h4>
-          <p>
-            {{ animal.special_needs | urlizetrunc:60 | linebreaks }}
-          </p>
-          {% endif %}
-
-          {% if animal.vaccinations_notes %}
-          <h4>Vaccination Notes</h4>
-          <p>
-            {{ animal.vaccinations_notes | urlizetrunc:60 | linebreaks }}
-          </p>
-          {% endif %}
-
-          {% include './comments.html' %}
-
-
+          </div>
+          <div class="row gx-5 gy-3">
+            <div class="col-lg animal-detail-panel">
+              <h5 class="black-header mb-3">Behavior</h5>
+              <div>
+                <div>
+                  <img src="{% static 'img/icon-dog.svg' %}">
+                  with dogs:
+                </div>
+                <div>{{ animal.get_behaviour_dogs_display }}</div>
+              </div>
+              <div>
+                <div>
+                  <img src="{% static 'img/icon-cat.svg' %}">
+                  with cats:
+                </div>
+                <div>{{ animal.get_behaviour_cats_display }}</div>
+              </div>
+              <div>
+                <div>
+                  <img src="{% static 'img/icon-kid.svg' %}">
+                  with kids:
+                </div>
+                <div>{{ animal.get_behaviour_kids_display }}</div>
+              </div>
+            </div>
+            <div class="col-lg animal-detail-panel">
+              <h5 class="black-header mb-3">Medical Notes</h5>
+              <div class="d-flex justify-content-between">
+                <div>
+                  <img src="{% static 'img/icon-spayneuter.svg' %}">
+                  Spayed / Neutered:
+                </div>
+                <div>{{ animal.is_spayed_neutered | yesno | capfirst }}</div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div>
+                  <img src="{% static 'img/icon-vaccination.svg' %}">
+                  Vaccinations up to date:
+                </div>
+                <div>{{ animal.is_vaccinations_current | yesno | capfirst }}</div>
+              </div>
+              {% if animal.vaccinations_notes %}
+                <p>
+                  {{ animal.vaccinations_notes | urlizetrunc:60 | linebreaks }}
+                </p>
+              {% endif %}
+              <div class="d-flex justify-content-between">
+                <div>
+                  <img src="{% static 'img/icon-specneeds.svg' %}">
+                  Special needs:
+                </div>
+                <div>{{ animal.is_special_needs | yesno | capfirst }}</div>
+              </div>
+              {% if animal.special_needs %}
+                <p>
+                  {{ animal.special_needs | urlizetrunc:60 | linebreaks }}
+                </p>
+              {% endif %}
+            </div>
+          </div>
         </div>
       </div>
+      {% include './comments.html' %}
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4 mt-3 mt-md-0">
       <div class="card">
         <div class="card-body">
           <h4><a href="{{animal.awg.get_absolute_url}}">{{ animal.awg.name }}</a></h4>
