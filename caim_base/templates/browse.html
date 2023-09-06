@@ -201,11 +201,11 @@
       </div>
     </div>
     <div class="col-md-9">
-
-      {% include 'components/animal_list.html' %}
-      {% include 'components/animal_pagination.html' %}
-      {% include 'components/saved_search_modal.html' %}
-
+      <div class="col-md-12" id="animal_cards">
+        {% include 'components/animal_list.html' %}
+        {% include 'components/animal_pagination_infinite.html' %}
+        {% include 'components/saved_search_modal.html' %}
+      </div>
     </div>
   </div>
 </div>
