@@ -11,7 +11,7 @@ from django.core.exceptions import PermissionDenied
 from django.forms import ModelForm, RadioSelect, formset_factory
 from django.forms.models import model_to_dict
 from django.http import Http404, HttpRequest, HttpResponse
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, redirect, render, reverse
 from django.template.loader import render_to_string
 from django.views.decorators.http import require_http_methods
 from django.views.generic import detail
@@ -441,7 +441,8 @@ STAGES = {
 @login_required()
 @require_http_methods(["GET"])
 def start(request):
-    return redirect("/fosterer/about-you")
+    after = request.GET.get('after')
+    return redirect(f"/fosterer/about-you?after={after}")
 
 
 @login_required()
@@ -463,11 +464,14 @@ def edit(request, stage_id):
             fosterer_profile.is_complete = True
             fosterer_profile.save()
             notify_new_fosterer_profile(fosterer_profile)
+
+        link = request.GET.get('after')
         return render(
             request,
             "fosterer_profile/complete.html",
             {
                 "user": user,
+                "link": link,
                 "pageTitle": "Fosterer profile complete",
             },
         )
@@ -627,10 +631,12 @@ def edit(request, stage_id):
                             )
 
             is_previous = "submit_prev" in request.POST
+            after = request.GET.get('after')
+
             if is_previous:
-                return redirect(f"/fosterer/{prev_stage}")
+                return redirect(f"/fosterer/{prev_stage}?after={after}")
             else:
-                return redirect(f"/fosterer/{next_stage}")
+                return redirect(f"/fosterer/{next_stage}?after={after}")
 
         else:
             messages.error(request, "Please correct form errors")
