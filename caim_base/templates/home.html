@@ -14,13 +14,41 @@
   .home ul {
     margin-left: -30px;
   }
-  .hero-image {
-    display: none;
-  }
+  .row .hero-images {
+     display: none;
+    }
 }
 .hero-image{
   max-width: 100%;
-  border-radius: 25px;
+}
+
+.hero-image-1 {
+  grid-column: 1;
+  grid-row: 1;
+  overflow: visible;
+  z-index: 2;
+}
+.hero-image-background-1 {
+  grid-column: 1;
+  grid-row: 1;
+  background-color: #37CABA;
+  border-radius: 800px;
+  width: 300px;
+  height: 300px;
+  bottom: -45px;
+  left: -25px;
+  position: relative;
+  z-index: 1;
+}
+.hero-image-2 {
+  grid-column: 2;
+  grid-row: 2;
+  z-index: 3;
+}
+.hero-images{
+  display: grid;
+  grid-template-columns: 175px 0;
+  grid-template-rows: 175px 0;
 }
 </style>
 
@@ -29,7 +57,12 @@
     <div class="container">
       <div class="row">
         <div class="col-md-6 offset-md-1 order-md-last pt-3 pb-5">
-          <img class="hero-image" src="{% static 'img/richard-brutyo-xvYxGcwFvuE-unsplash-min-p-1600.jpg' %}" alt="" />
+          <div class="hero-images">
+            <div class="hero-image-background-1">
+            </div>
+            <img class="hero-image-1" src="{% static 'img/two-dogs-main.png' %}" alt="two dogs" />
+            <img class="hero-image-2" src="{% static 'img/one-dog-main.png' %}" alt="one dog with one human" />
+          </div>
         </div>
         <div class="col-md-5 pb-4 px-4 d-flex flex-column">
           <p class="fs-1 text-light fw-bold mt-0 mt-md-5 mb-5">
