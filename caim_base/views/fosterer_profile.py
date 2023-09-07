@@ -558,9 +558,9 @@ def edit(request, stage_id):
         form_is_valid = form.is_valid()
 
         if not formsets_are_valid:
-            messages.error(request, "Form is not valid due to errors.")
+            messages.error(request, "Please correct any form errors")
 
-        if form_is_valid and formsets_are_valid:
+        if form_is_valid:
             form.save()
 
             if stage_id == "pet-experience":
