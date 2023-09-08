@@ -5,7 +5,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("caim_base", "0009_alter_awg_awg_type_alter_awg_company_ein_and_more"),
     ]

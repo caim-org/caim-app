@@ -74,7 +74,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django_browser_reload.middleware.BrowserReloadMiddleware",
-    "django_htmx.middleware.HtmxMiddleware"
+    "django_htmx.middleware.HtmxMiddleware",
 ]
 
 ROOT_URLCONF = "caim.urls"
@@ -126,7 +126,9 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "NAME": (
+            "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
+        ),
     },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
@@ -276,12 +278,15 @@ if SALESFORCE_ENABLED:
     SALESFORCE_PASSWORD = os.getenv("SALESFORCE_PASSWORD")
     SALESFORCE_SECURITY_TOKEN = os.getenv("SALESFORCE_SECURITY_TOKEN")
 
-    
-if sys.platform == 'darwin':
+
+if sys.platform == "darwin":
     import subprocess
+
     try:
-        brew_prefix = subprocess.check_output(["brew", "--prefix"]).decode("utf-8").strip()
-        GDAL_LIBRARY_PATH = f'{brew_prefix}/opt/gdal/lib/libgdal.dylib'
-        GEOS_LIBRARY_PATH = f'{brew_prefix}/opt/geos/lib/libgeos_c.dylib'
+        brew_prefix = (
+            subprocess.check_output(["brew", "--prefix"]).decode("utf-8").strip()
+        )
+        GDAL_LIBRARY_PATH = f"{brew_prefix}/opt/gdal/lib/libgdal.dylib"
+        GEOS_LIBRARY_PATH = f"{brew_prefix}/opt/geos/lib/libgeos_c.dylib"
     except subprocess.CalledProcessError:
-        pass # brew not installed, assume libraries are in default location
+        pass  # brew not installed, assume libraries are in default location

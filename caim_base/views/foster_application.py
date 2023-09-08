@@ -14,10 +14,13 @@ from weasyprint import CSS, HTML
 from ..models import TypeOfAnimals
 from ..models.animals import Animal
 from ..models.awg import Awg, AwgMember
-from ..models.fosterer import (FosterApplication, FostererExistingPetDetail,
-                               FostererPersonInHomeDetail, FostererProfile,
-                               FostererReferenceDetail, FosterApplicationAnimalSuggestion)
-from ..models.user import UserProfile
+from ..models.fosterer import (
+    FosterApplication,
+    FostererExistingPetDetail,
+    FostererPersonInHomeDetail,
+    FostererProfile,
+    FostererReferenceDetail,
+)
 
 
 @login_required()
@@ -39,14 +42,12 @@ def application(request):
 
         try:
             animal = Animal.objects.get(pk=animal_id)
-        except Animal.DoesNotExist:
-            raise Http404("No Animal matches the given query.")
+        except Animal.DoesNotExist as e:
+            raise Http404("No Animal matches the given query.") from e
 
         # check if application exists already
         try:
-            existing_application = FosterApplication.objects.get(
-                fosterer=fosterer_profile, animal=animal
-            )
+            FosterApplication.objects.get(fosterer=fosterer_profile, animal=animal)
             return render(
                 request,
                 "foster_application/exists.html",
@@ -92,6 +93,7 @@ def application(request):
         },
     )
 
+
 @login_required()
 def download_foster_application(request: HttpRequest) -> HttpResponse:
     fosterer_id = request.GET.get("fosterer_id", None)
@@ -109,17 +111,24 @@ def download_foster_application(request: HttpRequest) -> HttpResponse:
 
     fosterer: FostererProfile = get_object_or_404(FostererProfile, pk=fosterer_id)
     animal: Animal = get_object_or_404(Animal, pk=animal_id)
-    foster_application: FosterApplication = get_object_or_404(FosterApplication, fosterer=fosterer, animal=animal)
+    foster_application: FosterApplication = get_object_or_404(
+        FosterApplication, fosterer=fosterer, animal=animal
+    )
 
-    existing_animals: QuerySet[FostererExistingPetDetail] = FostererExistingPetDetail.objects.filter(fosterer_profile=fosterer)
-    references: QuerySet[FostererReferenceDetail] = FostererReferenceDetail.objects.filter(fosterer_profile=fosterer)
-    people_in_home: QuerySet[FostererPersonInHomeDetail] = FostererPersonInHomeDetail.objects.filter(fosterer_profile=fosterer)
+    existing_animals: QuerySet[
+        FostererExistingPetDetail
+    ] = FostererExistingPetDetail.objects.filter(fosterer_profile=fosterer)
+    references: QuerySet[
+        FostererReferenceDetail
+    ] = FostererReferenceDetail.objects.filter(fosterer_profile=fosterer)
+    people_in_home: QuerySet[
+        FostererPersonInHomeDetail
+    ] = FostererPersonInHomeDetail.objects.filter(fosterer_profile=fosterer)
 
     animal_type_labels = []
     if fosterer.type_of_animals:
         animal_type_labels = [
-            TypeOfAnimals(animal_type).label
-            for animal_type in fosterer.type_of_animals
+            TypeOfAnimals(animal_type).label for animal_type in fosterer.type_of_animals
         ]
 
     category_of_animals_labels = []
@@ -132,8 +141,7 @@ def download_foster_application(request: HttpRequest) -> HttpResponse:
     dog_size_labels = []
     if fosterer.dog_size:
         dog_size_labels = [
-            fosterer.DogSize(dog_size).label
-            for dog_size in fosterer.dog_size
+            fosterer.DogSize(dog_size).label for dog_size in fosterer.dog_size
         ]
 
     behaviour_labels = []
@@ -166,7 +174,7 @@ def download_foster_application(request: HttpRequest) -> HttpResponse:
     pdf_file = HTML(string=pdf_string).write_pdf(
         stylesheets=[
             CSS(string="@page { size: letter portrait; margin: 1cm }"),
-            CSS(filename=os.path.join(settings.STATIC_ROOT, "css/normalize.css")),
+            CSS(filename=os.path.join(settings.STATIC_ROOT, "vendor/normalize.css")),
             CSS(filename=os.path.join(settings.STATIC_ROOT, "css/pdf.css")),
         ]
     )

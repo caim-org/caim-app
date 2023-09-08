@@ -5,7 +5,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("caim_base", "0031_awgmember_canmanageapplications"),
     ]
@@ -25,14 +24,18 @@ class Migration(migrations.Migration):
             model_name="fosterapplication",
             name="animal",
             field=models.ForeignKey(
-                on_delete=django.db.models.deletion.CASCADE, related_name="applications", to="caim_base.animal"
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="applications",
+                to="caim_base.animal",
             ),
         ),
         migrations.AlterField(
             model_name="fosterapplication",
             name="fosterer",
             field=models.ForeignKey(
-                on_delete=django.db.models.deletion.CASCADE, related_name="applications", to="caim_base.fostererprofile"
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="applications",
+                to="caim_base.fostererprofile",
             ),
         ),
     ]

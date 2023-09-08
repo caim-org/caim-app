@@ -3,103 +3,71 @@
 {% load static %}
 
 {% block innerContent %}
-<div class="row">
-  <h2>Foster Applications</h2>
-  <div>Here's a list of all of your foster applicants. You can view, approve, reject or download each application.</div>
-</div>
-<div class="container mb-3">
-  <div class="row d-md-none">
-    <a class="filter-button" data-bs-toggle="collapse" href="#searchFilters" role="button">
-    Show filters
-    </a>
+  <div class="row">
+    <h2>Foster Applications</h2>
+    <div>Here's a list of all of your foster applicants. You can view, approve, reject or download each application.</div>
   </div>
-</div>
-<div class="row">
-  <div class="col-md-3" id="searchFilters">
-    <div class="card sticky-top" style="top:80px;">
-      <div class="card-body">
-        <form action="/organization/{{ awg.id }}/applications" method="get">
-          <div class="text-center">
-            <input type="submit" class="btn btn-primary" value="Update filters" />
-          </div>
-        <hr>
-        <div class="filter">
-          Application Status
-          <select class="form-control" name="status">
-            <option
-              value=""
-              {% if not filters.status %}selected{% endif %}
-            >
-            Any Status
-            </option>
-            {% for status_option in application_status_options %}
-            <option
-              value="{{ status_option }}"
-              {% if filters.status == status_option %}selected{% endif %}
-            >
-            {{ status_option | title }}
-            </option>
-            {% endfor %}
-          </select>
-        </div>
-        </form>
-      </div>
+  <div class="container mb-3">
+    <div class="row d-md-none">
+      <a class="filter-button" data-bs-toggle="collapse" href="#searchFilters" role="button">
+        Show filters
+      </a>
     </div>
   </div>
   <div class="col-md-9">
     <div class="row gy-4" id="awg-applications-cards">
       {% for app in applications %}
-      <div class="col-md-4 p2">
-        <div class="card p-2 h-100">
-          <div class='card-title d-flex flex-grow-0 justify-content-between px-3 pt-1'>
-            {% if app.status == app.Statuses.PENDING %}
-            <span class="badge rounded-pill text-bg-warning fs-7 fw-light px-4">{{ app.status.title }}</span>
-            {% elif app.status == app.Statuses.ACCEPTED %}
-            <span class="badge rounded-pill text-bg-success fs-7 fw-light px-4">{{ app.status.title }}</span>
-            {% elif app.status == app.Statuses.REJECTED %}
-            <span class="badge rounded-pill text-bg-danger fs-7 fw-light px-4">{{ app.status.title }}</span>
-            {% else %}
-            <span class="badge roundedpill text-bg-info fs-7 fw-light px-4">{{ app.status.title }}</span>
-            {% endif %}
-            <div class="d-flex align-items-center fs-7 fw-lighter">Applied on {{ app.submitted_on }}</div>
-          </div>
-          <div class="card-body flex-grow-0 row gy-1">
-            <div class="d-flex justify-content-between">
-              <h5 class="text-reset">{{ app.fosterer.firstname }} {{ app.fosterer.lastname }}</h5>
-              <a class="fs-8 fw-light text-decoration-none d-flex align-items-center" href="{% url 'application_pdf'%}?fosterer_id={{app.fosterer.id}}&animal_id={{app.animal.id}}">
-                download profile
-              </a>
+        <div class="col-md-4 p2">
+          <div class="card p-2 h-100">
+            <div class='card-title d-flex flex-grow-0 justify-content-between px-3 pt-1'>
+              {% if app.status == app.Statuses.PENDING %}
+                <span class="badge rounded-pill text-bg-warning fs-7 fw-light px-4">{{ app.status.title }}</span>
+              {% elif app.status == app.Statuses.ACCEPTED %}
+                <span class="badge rounded-pill text-bg-success fs-7 fw-light px-4">{{ app.status.title }}</span>
+              {% elif app.status == app.Statuses.REJECTED %}
+                <span class="badge rounded-pill text-bg-danger fs-7 fw-light px-4">{{ app.status.title }}</span>
+              {% else %}
+                <span class="badge roundedpill text-bg-info fs-7 fw-light px-4">{{ app.status.title }}</span>
+              {% endif %}
+              <div class="d-flex align-items-center fs-7 fw-lighter">Applied on {{ app.submitted_on }}</div>
             </div>
-            <div class="ps-2 d-flex align-items-center">
-              <img class="pe-1" src="{% static 'img/house-pin.svg' %}" />
-              {{ app.fosterer.city }}, {{ app.fosterer.state }}
-            </div>
+            <div class="card-body flex-grow-0 row gy-1">
+              <div class="d-flex justify-content-between">
+                <h5 class="text-reset">{{ app.fosterer.firstname }} {{ app.fosterer.lastname }}</h5>
+                <a class="fs-8 fw-light text-decoration-none d-flex align-items-center" href="{% url 'application_pdf'%}?fosterer_id={{app.fosterer.id}}&animal_id={{app.animal.id}}">
+                  download profile
+                </a>
+              </div>
+              <div class="ps-2 d-flex align-items-center">
+                <img class="pe-1" src="{% static 'img/house-pin.svg' %}" />
+                {{ app.fosterer.city }}, {{ app.fosterer.state }}
+              </div>
 
-            {% if app.fosterer.rent_own == app.fosterer.RentOwn.RENT %}
-            <div class="ps-2 d-flex align-items-center">
-              <img class="pe-1" src="{% static 'img/house.svg' %}"/>
-              Rents Home
-            </div>
-            {% elif app.fosterer.rent_own == app.fosterer.RentOwn.OWN%}
-            <div class="ps-2 d-flex align-items-center">
-              <img class="pe-1" src="{% static 'img/house.svg' %}"/>
-              Owns Home
-            </div>
-            {% endif %}
+              {% if app.fosterer.rent_own == app.fosterer.RentOwn.RENT %}
+                <div class="ps-2 d-flex align-items-center">
+                  <img class="pe-1" src="{% static 'img/house.svg' %}"/>
+                  Rents Home
+                </div>
+              {% elif app.fosterer.rent_own == app.fosterer.RentOwn.OWN%}
+                <div class="ps-2 d-flex align-items-center">
+                  <img class="pe-1" src="{% static 'img/house.svg' %}"/>
+                  Owns Home
+                </div>
+              {% endif %}
 
-            {% if app.fosterer.num_existing_pets > 1 %}
-            <div class="ps-2 d-flex align-items-center">
-              <img class="pe-1" src="{% static 'img/paw.svg' %}"/>
-              Pets: Yes
-            </div>
-            {% else %}
-            <div class="ps-2 d-flex align-items-center">
-              <img class="pe-1" src="{% static 'img/paw.svg' %}"/>
-              Pets: No
-            </div>
-            {% endif %}
-            <p class="flex-grow-0 mt-3 py-0 px-3 m-0 text-uppercase fs-6 text-light-emphasis">Animal Requested </p>
-            <div class="card-body d-flex justify-content-between flex-grow-0">
+              {% if app.fosterer.num_existing_pets > 1 %}
+                <div class="ps-2 d-flex align-items-center">
+                  <img class="pe-1" src="{% static 'img/paw.svg' %}"/>
+                  Pets: Yes
+                </div>
+              {% else %}
+                <div class="ps-2 d-flex align-items-center">
+                  <img class="pe-1" src="{% static 'img/paw.svg' %}"/>
+                  Pets: No
+                </div>
+              {% endif %}
+              <p class="flex-grow-0 mt-3 py-0 px-3 m-0 text-uppercase fs-6 text-light-emphasis">Animal Requested </p>
+              <div class="card-body d-flex justify-content-between flex-grow-0">
                 <div class="d-flex align-items-center">
                   <img
                     style="background-color: #eee; clip-path: circle(); width: 30px; height: 30px;"
@@ -108,10 +76,10 @@
                   <span class="px-1">{{ app.animal }}</span>
                 </div>
                 <a class="fs-8 fw-light text-decoration-none d-flex align-items-center"  href="{% url 'animal' animal_id=app.animal.id %}">see profile</a>
-            </div>
-            {% if app.alternative_suggested_animals.count != 0 %}
-              <p class="flex-grow-0 py-0 px-3 m-0 text-uppercase fs-6 text-light-emphasis">Suggested Alternative:</p>
-              <div class="card-body d-flex justify-content-between flex-grow-0">
+              </div>
+              {% if app.alternative_suggested_animals.count != 0 %}
+                <p class="flex-grow-0 py-0 px-3 m-0 text-uppercase fs-6 text-light-emphasis">Suggested Alternative:</p>
+                <div class="card-body d-flex justify-content-between flex-grow-0">
                   <div class="d-flex align-items-center">
                     <img
                       style="background-color: #eee; clip-path: circle(); width: 30px; height: 30px;"
@@ -120,30 +88,30 @@
                     <span class="px-1">{{ app.alternative_suggested_animals.first.animal }}</span>
                   </div>
                   <a class="fs-8 fw-light text-decoration-none d-flex align-items-center"  href="{% url 'animal' animal_id=app.alternative_suggested_animals.first.animal.id %}">see profile</a>
-              </div>
-            {% endif %}
-          </div>
-          <div class="card-footer bg-body border-top-0 d-flex justify-content-center gap-2 flex-grow-0">
-            {% if app.status == app.Statuses.PENDING and 'MANAGE_APPLICATIONS' in currentUserPermissions %}
-            <button
-              class="btn btn-primary d-flex gap-1"
-              hx-get="{% url 'awg_update_application_status_modal' awg_id=awg.id application_id=app.id status=app.Statuses.ACCEPTED %}"
-              hx-target="#awg-applications-modal"
-              _="on htmx:afterOnLoad wait 10ms then add .show to #modal then add .show to #modal-backdrop"
-            >
-            <i class="bi-check"></i>
-            Approve
-          </button>
-            <button
-              class="btn btn-secondary d-flex gap-1"
-              hx-get="{% url 'awg_update_application_status_modal' awg_id=awg.id application_id=app.id status=app.Statuses.REJECTED %}"
-              hx-target="#awg-applications-modal"
-              _="on htmx:afterOnLoad wait 10ms then add .show to #modal then add .show to #modal-backdrop"
-            >
-            <i class="bi-x"></i>
-            Reject
-          </button>
-            {% else %}
+                </div>
+              {% endif %}
+            </div>
+            <div class="card-footer bg-body border-top-0 d-flex justify-content-center gap-2 flex-grow-0">
+              {% if app.status == app.Statuses.PENDING and 'MANAGE_APPLICATIONS' in currentUserPermissions %}
+                <button
+                  class="btn btn-primary d-flex gap-1"
+                  hx-get="{% url 'awg_update_application_status_modal' awg_id=awg.id application_id=app.id status=app.Statuses.ACCEPTED %}"
+                  hx-target="#awg-applications-modal"
+                  _="on htmx:afterOnLoad wait 10ms then add .show to #modal then add .show to #modal-backdrop"
+                >
+                  <i class="bi-check"></i>
+                  Approve
+                </button>
+                <button
+                  class="btn btn-secondary d-flex gap-1"
+                  hx-get="{% url 'awg_update_application_status_modal' awg_id=awg.id application_id=app.id status=app.Statuses.REJECTED %}"
+                  hx-target="#awg-applications-modal"
+                  _="on htmx:afterOnLoad wait 10ms then add .show to #modal then add .show to #modal-backdrop"
+                >
+                  <i class="bi-x"></i>
+                  Reject
+                </button>
+              {% else %}
             <!--
             <a
               class='btn'
@@ -152,15 +120,15 @@
               _="on htmx:afterOnLoad wait 10ms then add .show to #modal then add .show to #modal-backdrop"
             >Reset to Pending</a>
             -->
-            {% endif %}
+              {% endif %}
+            </div>
           </div>
         </div>
-      </div>
       {% empty %}
-      <p>No Applications</p>
+        <p>No Applications</p>
       {% endfor %}
     </div>
   </div>
-</div>
-<div id="awg-applications-modal"></div>
+  </div>
+  <div id="awg-applications-modal"></div>
 {% endblock %}

@@ -7,7 +7,6 @@ import phonenumber_field.modelfields
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("caim_base", "0036_alter_awg_awg_type"),
     ]

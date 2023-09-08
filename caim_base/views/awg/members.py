@@ -1,12 +1,12 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import BadRequest, PermissionDenied
-from django.http import Http404
+from django.core.exceptions import BadRequest
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_http_methods
 
-from caim_base.views.awg.user_permissions import \
-    check_awg_user_permissions_update_context
+from caim_base.views.awg.user_permissions import (
+    check_awg_user_permissions_update_context,
+)
 
 from ...models.awg import Awg, AwgMember, User
 
@@ -23,7 +23,9 @@ def list_members(request, awg_id):
         "pageTitle": f"{awg.name} | Manage members",
         "members": members,
     }
-    context = check_awg_user_permissions_update_context(request, awg, ["MANAGE_MEMBERS"], context)
+    context = check_awg_user_permissions_update_context(
+        request, awg, ["MANAGE_MEMBERS"], context
+    )
     return render(request, "awg/manage/members/list.html", context)
 
 
@@ -43,7 +45,13 @@ def add_member(request, awg_id):
         if not email:
             raise BadRequest("Missing email address parameter")
 
-        if not (canEditProfile or canManageAnimals or canManageMembers or canManageApplications or canViewApplications):
+        if not (
+            canEditProfile
+            or canManageAnimals
+            or canManageMembers
+            or canManageApplications
+            or canViewApplications
+        ):
             raise BadRequest("Must have at least 1 permission")
 
         # Lowercase to avoid case sensitivity
@@ -51,8 +59,8 @@ def add_member(request, awg_id):
 
         try:
             user = User.objects.get(email=email)
-        except User.DoesNotExist:
-            raise BadRequest("User does not exist")
+        except User.DoesNotExist as e:
+            raise BadRequest("User does not exist") from e
 
         existing_member = AwgMember.objects.filter(awg=awg, user=user).all()
         if existing_member:
@@ -86,8 +94,8 @@ def update_member(request, awg_id):
     try:
         try:
             member = AwgMember.objects.get(id=member_id)
-        except AwgMember.DoesNotExist:
-            raise BadRequest("Member not found")
+        except AwgMember.DoesNotExist as e:
+            raise BadRequest("Member not found") from e
 
         if action == "DELETE":
             member.delete()

@@ -13,13 +13,15 @@ from django.core.files import File
 from django.db import transaction
 from faker import Faker
 
-from caim_base.models.animals import (Animal, AnimalImage, AnimalType, Breed,
-                                      ZipCode)
+from caim_base.models.animals import Animal, AnimalImage, AnimalType, Breed, ZipCode
 from caim_base.models.awg import Awg, AwgMember
-from caim_base.models.fosterer import (FosterApplication,
-                                       FosterApplicationAnimalSuggestion,
-                                       FostererProfile, TypeOfAnimals, YesNo)
-from caim_base.views.awg.applications import query_applications_for_awg
+from caim_base.models.fosterer import (
+    FosterApplication,
+    FosterApplicationAnimalSuggestion,
+    FostererProfile,
+    TypeOfAnimals,
+    YesNo,
+)
 
 assert not settings.PRODUCTION, "CANNOT RUN GENERATE FAKE DATA IN PRODUCTION"
 
@@ -80,9 +82,9 @@ def map_size(str):
 
 
 def map_behavour(v):
-    if v == True:
+    if v is True:
         return Animal.AnimalBehaviourGrade.GOOD
-    if v == False:
+    if v is False:
         return Animal.AnimalBehaviourGrade.POOR
     return Animal.AnimalBehaviourGrade.NOT_TESTED
 
@@ -170,13 +172,21 @@ def load_animals(animal_type, file_name):
                 euth_date=fake.date_between(start_date="today", end_date="+30d"),
                 is_spayed_neutered="Spay/Neuter" in aa["attributes"],
                 is_vaccinations_current="Shots Current" in aa["attributes"],
-                behaviour_dogs=map_behavour(aa["home_environment_attributes"].get("good_with_dogs", False)),
-                behaviour_kids=map_behavour(aa["home_environment_attributes"].get("good_with_children", False)),
-                behaviour_cats=map_behavour(aa["home_environment_attributes"].get("good_with_cats", False)),
+                behaviour_dogs=map_behavour(
+                    aa["home_environment_attributes"].get("good_with_dogs", False)
+                ),
+                behaviour_kids=map_behavour(
+                    aa["home_environment_attributes"].get("good_with_children", False)
+                ),
+                behaviour_cats=map_behavour(
+                    aa["home_environment_attributes"].get("good_with_cats", False)
+                ),
             )
             image_url = aa["primary_photo_url"]
             img_result = urllib.request.urlretrieve(image_url)
-            a.primary_photo.save(os.path.basename(image_url), File(open(img_result[0], "rb")))
+            a.primary_photo.save(
+                os.path.basename(image_url), File(open(img_result[0], "rb"))
+            )
             a.save()
 
             if aa["photo_urls"]:
@@ -185,7 +195,9 @@ def load_animals(animal_type, file_name):
                     if image_url != aa["primary_photo_url"]:
                         ai = AnimalImage(animal=a)
                         img_result = urllib.request.urlretrieve(image_url)
-                        ai.photo.save(os.path.basename(image_url), File(open(img_result[0], "rb")))
+                        ai.photo.save(
+                            os.path.basename(image_url), File(open(img_result[0], "rb"))
+                        )
                         ai.save()
         except Exception as er:
             print(er)
@@ -210,14 +222,23 @@ def fake_foster_profile(user: User) -> FostererProfile:
     fosterer.city = fake.city()[: FostererProfile.city.field.max_length - 1]
     fosterer.state = fake.state_abbr()
     fosterer.zip_code = fake.zipcode()
-    # pick a random selections from these ChoiceArrayFields, from 1-max number of selections
+    # pick a random selections from these ChoiceArrayFields
+    # from 1-max number of selections
     k = randint(1, len(TypeOfAnimals.choices))
-    fosterer.type_of_animals = list(set(choices([choice[0] for choice in TypeOfAnimals.choices], k=k)))
+    fosterer.type_of_animals = list(
+        set(choices([choice[0] for choice in TypeOfAnimals.choices], k=k))
+    )
     k = randint(1, len(fosterer.CategoryOfAnimals.choices))
-    fosterer.category_of_animals = list(set(choices([choice[0] for choice in fosterer.CategoryOfAnimals.choices], k=k)))
+    fosterer.category_of_animals = list(
+        set(choices([choice[0] for choice in fosterer.CategoryOfAnimals.choices], k=k))
+    )
     k = randint(1, len(fosterer.BehaviouralAttributes.choices))
     fosterer.behavioural_attributes = list(
-        set(choices([choice[0] for choice in fosterer.BehaviouralAttributes.choices], k=k))
+        set(
+            choices(
+                [choice[0] for choice in fosterer.BehaviouralAttributes.choices], k=k
+            )
+        )
     )
     fosterer.timeframe = choice([choice[0] for choice in fosterer.Timeframe.choices])
     # if fosterer.Timeframe.ANY_DURATION in fosterer.timeframe:
@@ -228,7 +249,11 @@ def fake_foster_profile(user: User) -> FostererProfile:
     # pick a random selections from these choice fields, from 1-max number of selections
     k = randint(1, len(fosterer.ExperienceCategories.choices))
     fosterer.experience_categories = list(
-        set(choices([choice[0] for choice in fosterer.ExperienceCategories.choices], k=k))
+        set(
+            choices(
+                [choice[0] for choice in fosterer.ExperienceCategories.choices], k=k
+            )
+        )
     )
     fosterer.experience_given_up_pet = fake.text(randint(5, 500))
     fosterer.reference_1 = fake.name()
@@ -275,16 +300,22 @@ def fake_fosterers(num_desired_fosterers: int):
     FostererProfile.objects.bulk_create(fosterers)
 
 
-def fake_foster_application(animal: Animal, foster_profile: FostererProfile) -> FosterApplication:
+def fake_foster_application(
+    animal: Animal, foster_profile: FostererProfile
+) -> FosterApplication:
     application = FosterApplication()
     application.animal = animal
     application.fosterer = foster_profile
     application.status = choice([choice[0] for choice in application.Statuses.choices])
     if application.status == application.Statuses.REJECTED:
-        application.reject_reason = choice([choice[0] for choice in application.RejectionReasons.choices])
+        application.reject_reason = choice(
+            [choice[0] for choice in application.RejectionReasons.choices]
+        )
         application.reject_reason_detail = fake.text(1000)
     else:
-        application.reject_reason = choice([choice[0] for choice in application.RejectionReasons.choices])
+        application.reject_reason = choice(
+            [choice[0] for choice in application.RejectionReasons.choices]
+        )
     application.full_clean()
     return application
 
@@ -303,44 +334,70 @@ def fake_foster_applications():
 
 
 def fake_foster_application_suggestion(suggestions_per_awg: int = 2):
-    print("generating some alernative suggested animals for a few of the rejected applications in each awg")
+    print(
+        "generating some alernative suggested animals"
+        "for a few of the rejected applications in each awg"
+    )
     awgs = Awg.objects.all()
     for awg in awgs:
         applications = FosterApplication.objects.select_related("animal").filter(
-            animal__awg=awg, status__in=[FosterApplication.Statuses.ACCEPTED, FosterApplication.Statuses.REJECTED]
+            animal__awg=awg,
+            status__in=[
+                FosterApplication.Statuses.ACCEPTED,
+                FosterApplication.Statuses.REJECTED,
+            ],
         )
         suggestions_per_awg = min(suggestions_per_awg, applications.count())
         if suggestions_per_awg:
-            continue  # next awg, there wasn't any accepted or rejected applications here
-        get_suggest: List[FosterApplication] = choices(list(applications), k=suggestions_per_awg)
+            continue
+            # next awg, there wasn't any accepted or rejected applications here
+        get_suggest: List[FosterApplication] = choices(
+            list(applications), k=suggestions_per_awg
+        )
         for application_gets_suggest in get_suggest:
-            animals_could_suggest = Animal.objects.filter(awg=awg).exclude(pk=application_gets_suggest.animal.id)
+            animals_could_suggest = Animal.objects.filter(awg=awg).exclude(
+                pk=application_gets_suggest.animal.id
+            )
             # some awgs only have one animal
             if animals_could_suggest.count() > 0:
                 animal = choice(animals_could_suggest)
-                suggestion = FosterApplicationAnimalSuggestion(application=application_gets_suggest, animal=animal)
+                suggestion = FosterApplicationAnimalSuggestion(
+                    application=application_gets_suggest, animal=animal
+                )
                 suggestion.save()
 
 
 def fake_user_didnothing():
-    print("registering a fake user to use for testing a user w/ no applications and not in an AWG:")
+    print(
+        "registering a fake user to use for testing a user w/ no applications"
+        " and not in an AWG:"
+    )
     print("username&pass: testuser")
-    user = User.objects.create_user("testuser", password="testuser", email="testuser@caim.org")
+    user = User.objects.create_user(
+        "testuser", password="testuser", email="testuser@caim.org"
+    )
     user.save()
 
 
 def fake_staff_user():
     print("registering a fake caim staff user")
     print("username&pass: teststaff")
-    user = User.objects.create_user("teststaff", password="teststaff", email="teststaff@caim.org")
+    user = User.objects.create_user(
+        "teststaff", password="teststaff", email="teststaff@caim.org"
+    )
     user.is_staff = True
     user.save()
 
 
 def fake_user_with_foster_profile_and_applications():
-    print("registering a fake user to use for testing a user w/ an application, and not in an AWG")
+    print(
+        "registering a fake user to use for testing a user w/ an application,"
+        " and not in an AWG"
+    )
     print("username&pass: testfosterer")
-    user = User.objects.create_user("testfosterer", password="testfosterer", email="testfosterer@caim.org")
+    user = User.objects.create_user(
+        "testfosterer", password="testfosterer", email="testfosterer@caim.org"
+    )
     user.save()
     profile = fake_foster_profile(user)
     profile.save()
@@ -356,7 +413,9 @@ def fake_user_with_foster_profile_and_applications():
 def fake_user_in_awg():
     print("registering a fake user in an AWG with full permissions")
     print("username&pass: testawg")
-    user = User.objects.create_user("testawg", password="testawg", email="testawg@caim.org")
+    user = User.objects.create_user(
+        "testawg", password="testawg", email="testawg@caim.org"
+    )
     user.save()
     awgmembership = AwgMember()
     awgmembership.user = user
@@ -369,9 +428,16 @@ def fake_user_in_awg():
 
 
 def fake_user_in_awg_appviewonly():
-    print("registering a fake user in an AWG that cannot manage applications, only view them")
+    print(
+        "registering a fake user in an AWG that cannot manage applications,"
+        " only view them"
+    )
     print("username&pass: testawg_viewapps")
-    user = User.objects.create_user("testawg_viewapps", password="testawg_viewapps", email="testawg_viewapps@caim.org")
+    user = User.objects.create_user(
+        "testawg_viewapps",
+        password="testawg_viewapps",
+        email="testawg_viewapps@caim.org",
+    )
     user.save()
     awgmembership = AwgMember()
     awgmembership.user = user

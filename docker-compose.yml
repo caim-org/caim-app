@@ -28,7 +28,7 @@ services:
     depends_on:
       - postgres
     command: python manage.py runserver 0.0.0.0:8000
-  
+
   postgres:
     container_name: postgres
     image: postgis/postgis:14-3.3

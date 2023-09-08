@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("caim_base", "0002_alter_animalcomment_edited_at"),
     ]
