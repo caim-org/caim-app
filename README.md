@@ -57,12 +57,11 @@ First, you'll need to install the gdal and pango libraries. For Mac OS, this is 
 
 Running the app locally requires:
 
-1. The correct env variables via `source local.env`
-2. Making a virtual env `mkvirtualenv caim-django` and then `pip install -r requirements.txt`
-3. Running the postgres container via `docker compose up`
-4. Make migrations for built-in Django model changes via `python manage.py makemigrations`
-5. Migrate the database via `python manage.py migrate`
-6. Build test data with `python manage.py shell < seed.py`
+1. Making a virtual env `mkvirtualenv caim-django` and then `pip install -r requirements.txt`
+2. Running the postgres container via `docker compose up`
+3. Make migrations for built-in Django model changes via `python manage.py makemigrations`
+4. Migrate the database via `python manage.py migrate`
+5. Build test data with `python manage.py shell < seed.py`
 
 After you've set up the app, you can start it by running `./run.sh`.
 
