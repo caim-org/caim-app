@@ -102,7 +102,7 @@
         <div class="text-small" >To delete a photo please click on the photo. </div>
         {% for photo in photos %}
           <img src="{{ photo.photo.url|image_resize:'116x116 crop' }}" data-photo-id="{{ photo.id }}" onclick="showPhoto(this);" data-photo-url="{{ photo.photo.url|image_resize:'400x400' }}" class="animal-photo" />
-          {% empty %}<span class="text-black-50">No other images</span>
+        {% empty %}<span class="text-black-50">No other images</span>
         {% endfor %}
       </div>
       <a href="#" onclick="showAddPhoto();return false;" class="btn btn-secondary">Add photo</a>

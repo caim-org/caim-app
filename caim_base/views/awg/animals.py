@@ -3,18 +3,18 @@ from crispy_forms.layout import Fieldset, Layout, Submit
 from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import BadRequest, PermissionDenied
+from django.core.exceptions import BadRequest
 from django.core.paginator import Paginator
 from django.forms import DateInput, ModelForm
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_http_methods
 
-from caim_base.views.awg.user_permissions import \
-    check_awg_user_permissions_update_context
+from caim_base.views.awg.user_permissions import (
+    check_awg_user_permissions_update_context,
+)
 
-from ...animal_petfinder_import import (ImportAnimalError,
-                                        import_animal_from_petfinder)
+from ...animal_petfinder_import import ImportAnimalError, import_animal_from_petfinder
 from ...animal_search import query_animals
 from ...models.animals import Animal, AnimalImage
 from ...models.awg import Awg
@@ -45,7 +45,9 @@ def list_animals(request, awg_id):
         "animals": animals,
         "paginator": paginator,
     }
-    context = check_awg_user_permissions_update_context(request, awg, ["MANAGE_ANIMALS"], context)
+    context = check_awg_user_permissions_update_context(
+        request, awg, ["MANAGE_ANIMALS"], context
+    )
     return render(request, "awg/manage/animals/list.html", context)
 
 
@@ -56,8 +58,8 @@ def publish_animal(request, awg_id, animal_id):
 
     try:
         animal = Animal.objects.get(id=animal_id, awg_id=awg_id)
-    except Animal.DoesNotExist:
-        raise Http404("Animal not found")
+    except Animal.DoesNotExist as e:
+        raise Http404("Animal not found") from e
 
     if request.POST["action"] == "PUBLISH":
         if not animal.can_be_published():
@@ -169,8 +171,8 @@ def edit_animal(request, awg_id, animal_id):
 
     try:
         animal = Animal.objects.get(id=animal_id, awg_id=awg_id)
-    except Animal.DoesNotExist:
-        raise Http404("Animal not found")
+    except Animal.DoesNotExist as e:
+        raise Http404("Animal not found") from e
 
     if request.POST:
         form = AwgAnimalForm(request.POST, instance=animal)
@@ -192,7 +194,9 @@ def edit_animal(request, awg_id, animal_id):
         "animal": animal,
         "photos": photos,
     }
-    context = check_awg_user_permissions_update_context(request, awg, ["MANAGE_ANIMALS"], context)
+    context = check_awg_user_permissions_update_context(
+        request, awg, ["MANAGE_ANIMALS"], context
+    )
     return render(request, "awg/manage/animals/edit.html", context)
 
 
@@ -217,7 +221,9 @@ def add_animal(request, awg_id):
         "pageTitle": f"{awg.name} | Edit animal",
         "form": form,
     }
-    context = check_awg_user_permissions_update_context(request, awg, ["MANAGE_ANIMALS"], context)
+    context = check_awg_user_permissions_update_context(
+        request, awg, ["MANAGE_ANIMALS"], context
+    )
     return render(request, "awg/manage/animals/add.html", context)
 
 
@@ -228,8 +234,8 @@ def animal_photos(request, awg_id, animal_id):
 
     try:
         animal = Animal.objects.get(id=animal_id, awg_id=awg_id)
-    except Animal.DoesNotExist:
-        raise Http404("Animal not found")
+    except Animal.DoesNotExist as e:
+        raise Http404("Animal not found") from e
 
     action = request.POST["action"]
 
@@ -238,9 +244,10 @@ def animal_photos(request, awg_id, animal_id):
             if "photo" in request.FILES:
                 file = request.FILES["photo"]
                 file_name = f"${animal.id}_${file.name}"
-                if not file.content_type in ("image/jpeg", "image/gif", "image/png"):
+                if file.content_type not in ("image/jpeg", "image/gif", "image/png"):
                     raise BadRequest(
-                        "Cannot upload this file type. Please make sure its a jpeg, png or gif image."
+                        "Cannot upload this file type."
+                        " Please make sure its a jpeg, png or gif image."
                     )
                 if animal.primary_photo:
                     new_animalimage = AnimalImage(
@@ -300,12 +307,15 @@ def import_animal(request, awg_id):
                 animal = import_animal_from_petfinder(awg, url)
                 messages.success(request, "Animal imported")
                 if animal.primary_breed.name == "Unknown":
-                    messages.warning(request, "Primary Animal breed is unknown, please update it below.")
+                    messages.warning(
+                        request,
+                        "Primary Animal breed is unknown, please update it below.",
+                    )
                 return redirect(f"{awg.get_absolute_url()}/animals/{animal.id}")
             except ImportAnimalError as e:
                 messages.error(request, str(e))
     else:
         form = ImportURLForm()
 
-    context = {"awg": awg, "pageTitle": f"Import from petfinder", "form": form}
+    context = {"awg": awg, "pageTitle": "Import from petfinder", "form": form}
     return render(request, "awg/manage/animals/import.html", context)

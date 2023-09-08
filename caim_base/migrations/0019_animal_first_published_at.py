@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("caim_base", "0018_alter_animal_age_alter_animal_behaviour_kids_and_more"),
     ]

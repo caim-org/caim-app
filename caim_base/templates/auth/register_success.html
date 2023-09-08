@@ -3,41 +3,41 @@
 {% load static %}
 
 {% block head %}
-<style>
-  .doggy-img, .button-holder {
-    max-width: 550px;
-    width: 66vw;
-  }
-  .button-holder {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-  }
-  .text-holder {
-    width: 78vw;
-  }
-  .text-title {
-    font-size: 1.25em;
-    font-weight: bold;
-    margin-bottom: 0;
-  }
-</style>
+  <style>
+    .doggy-img, .button-holder {
+      max-width: 550px;
+      width: 66vw;
+    }
+    .button-holder {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+    }
+    .text-holder {
+      width: 78vw;
+    }
+    .text-title {
+      font-size: 1.25em;
+      font-weight: bold;
+      margin-bottom: 0;
+    }
+  </style>
 {% endblock %}
 
 {% block content %}
-<div class="container">
-  <div class="row">
-    <div class="col d-flex flex-column mt-5 justify-content-center align-items-center">
-      <img src="{% static 'img/undraw_good_doggy.png' %}" alt="Good Dog Image" class="mx-auto img-fluid doggy-img">
-      <div class="text-holder mt-4 mb-4">
-        <p class="text-center text-title">Now let us know...</p>
-        <p class="text-center">Are you interested in fostering or are you already associated with a rescue?</p>
-      </div>
-      <div class="between button-holder">
-        <a href="/fosterer" class="btn btn-primary me-2">Fosterer</a>
-        <a href="https://drive.google.com/file/d/1l4gKE5D1MZ-QdN6P8Di4aJNevOcjB63J/view" target="_blank" class="btn btn-primary ms-2">Rescue</a>
+  <div class="container">
+    <div class="row">
+      <div class="col d-flex flex-column mt-5 justify-content-center align-items-center">
+        <img src="{% static 'img/undraw_good_doggy.png' %}" alt="Good Dog Image" class="mx-auto img-fluid doggy-img">
+        <div class="text-holder mt-4 mb-4">
+          <p class="text-center text-title">Now let us know...</p>
+          <p class="text-center">Are you interested in fostering or are you already associated with a rescue?</p>
+        </div>
+        <div class="between button-holder">
+          <a href="/fosterer" class="btn btn-primary me-2">Fosterer</a>
+          <a href="https://drive.google.com/file/d/1l4gKE5D1MZ-QdN6P8Di4aJNevOcjB63J/view" target="_blank" class="btn btn-primary ms-2">Rescue</a>
+        </div>
       </div>
     </div>
   </div>
-</div>
 {% endblock %}

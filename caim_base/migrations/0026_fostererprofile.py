@@ -8,7 +8,6 @@ import phonenumber_field.modelfields
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ("caim_base", "0025_alter_animal_age_alter_savedsearch_age"),

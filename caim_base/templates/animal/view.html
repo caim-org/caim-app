@@ -6,194 +6,193 @@
 
   <meta property="og:title" content="{{animal.name}} | {{ animal.get_sex_display }} | {{ animal.get_size_display }}">
   <meta property="og:url" content="{{animal.get_absolute_url}}">
-{% if animal.primary_photo %}
+  {% if animal.primary_photo %}
     <meta property="og:image" content="{{ animal.primary_photo.url|image_resize:'600x500 max' }}">
-{% endif %}
-{% for image in images %}
+  {% endif %}
+  {% for image in images %}
     <meta property="og:image" content="{{ image.photo.url|image_resize:'600x500 max' }}">
-{% endfor %}
-    <meta property="og:description" content="{{ animal.name}} is located at {{ animal.awg.name}} in {{ animal.awg.city }}. We urgently need a foster to save {{ himHer }}">
+  {% endfor %}
+  <meta property="og:description" content="{{ animal.name}} is located at {{ animal.awg.name}} in {{ animal.awg.city }}. We urgently need a foster to save {{ himHer }}">
 {% endblock %}
 
 {% block content %}
 
-<div class="bg-dark context-bar">
+  <div class="bg-dark context-bar">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 py-2 text-center text-md-start">
+          <p class="text-light my-0">
+            {% if request.GET.zip %}
+              <a href="/browse{% modify_qs %}">&laquo; Back to results</a>
+            {% else %}
+              <a href="/browse?zip={{animal.awg.zip_code}}">&laquo; Animals nearby</a>
+            {% endif %}
+          </p>
+        </div>
+        <div class="col-md-6 text-end d-bottom-mobile">
+          <div class="d-flex py-2 justify-content-center justify-content-md-end align-items-center">
+            <a href="/foster/application?animal_id={{ animal.id }}" class="btn btn-secondary">Foster this {{ animal.animal_type | lower }}</a>
+            &nbsp;
+            {% if isShortlisted %}
+              <a href="#" onclick="toggleShortlistLarge(this, {{ animal.id }});return false;" class="btn btn-primary"><i
+                class="bi-heart-fill"></i> Favorited</a>
+            {% else %}
+              <a href="#" onclick="toggleShortlistLarge(this, {{ animal.id }});return false;" class="btn btn-secondary"><i
+                class="bi-heart"></i> Add to favorites</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="animal-slideshow bg-dark mb-4">
+    <ul id="lightSlider" class="bg-dark gallery list-unstyled cS-hidden">
+      {% if animal.primary_photo %}
+        <li class="text-center">
+          <img src="{{ animal.primary_photo.url|image_resize:'800x500 max' }}" />
+        </li>
+      {% endif %}
+      {% for image in images %}
+        <li class="text-center">
+          <img src="{{ image.photo.url|image_resize:'800x500 max' }}" />
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+
   <div class="container">
     <div class="row">
-      <div class="col-md-6 py-2 text-center text-md-start">
-        <p class="text-light my-0">
-          {% if request.GET.zip %}
-          <a href="/browse{% modify_qs %}">&laquo; Back to results</a>
-          {% else %}
-          <a href="/browse?zip={{animal.awg.zip_code}}">&laquo; Animals nearby</a>
-          {% endif %}
-        </p>
-      </div>
-      <div class="col-md-6 text-end d-bottom-mobile">
-        <div class="d-flex py-2 justify-content-center justify-content-md-end align-items-center">
-            <a href="/foster/application?animal_id={{ animal.id }}" class="btn btn-secondary">Foster this {{ animal.animal_type | lower }}</a>
-          &nbsp;
-          {% if isShortlisted %}
-          <a href="#" onclick="toggleShortlistLarge(this, {{ animal.id }});return false;" class="btn btn-primary"><i
-              class="bi-heart-fill"></i> Favorited</a>
-          {% else %}
-          <a href="#" onclick="toggleShortlistLarge(this, {{ animal.id }});return false;" class="btn btn-secondary"><i
-              class="bi-heart"></i> Add to favorites</a>
-          {% endif %}
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+      <div class="col-md-8">
+        <div class="card animal-profile-card mb-5">
+          <div class="card-body">
 
-
-<div class="animal-slideshow bg-dark mb-4">
-  <ul id="lightSlider" class="bg-dark gallery list-unstyled cS-hidden">
-    {% if animal.primary_photo %}
-    <li class="text-center">
-      <img src="{{ animal.primary_photo.url|image_resize:'800x500 max' }}" />
-    </li>
-    {% endif %}
-    {% for image in images %}
-    <li class="text-center">
-      <img src="{{ image.photo.url|image_resize:'800x500 max' }}" />
-    </li>
-    {% endfor %}
-  </ul>
-</div>
-
-
-<div class="container">
-  <div class="row">
-    <div class="col-md-8">
-      <div class="card animal-profile-card mb-5">
-        <div class="card-body">
-
-          <div class="fb-share-button float-end" 
-          data-href="{{animal.get_absolute_url}}" 
-          data-layout="button"
-          data-size="large">
-          </div>
-          <h2>{{ animal.name }}</h2>
-          <p class="animal-stats mb-5">
-            {{ animal.get_breed_display }}
-            |
-            {{ animal.get_sex_display }}
-            |
-            {{ animal.get_age_display }}
-            |
-            {{ animal.get_size_display }}
-          </p>
-          <div class="mb-5">
-            <h5 class="black-header mb-3">About {{ animal.name }}</h5>
-            {{ animal.description | urlizetrunc:60 |linebreaks }}
-          </div>
-          <div class="row gx-5 gy-3">
-            <div class="col-lg animal-detail-panel">
-              <h5 class="black-header mb-3">Behavior</h5>
-              <div>
-                <div>
-                  <img src="{% static 'img/icon-dog.svg' %}">
-                  with dogs:
-                </div>
-                <div>{{ animal.get_behaviour_dogs_display }}</div>
-              </div>
-              <div>
-                <div>
-                  <img src="{% static 'img/icon-cat.svg' %}">
-                  with cats:
-                </div>
-                <div>{{ animal.get_behaviour_cats_display }}</div>
-              </div>
-              <div>
-                <div>
-                  <img src="{% static 'img/icon-kid.svg' %}">
-                  with kids:
-                </div>
-                <div>{{ animal.get_behaviour_kids_display }}</div>
-              </div>
+            <div class="fb-share-button float-end"
+                 data-href="{{animal.get_absolute_url}}"
+                 data-layout="button"
+                 data-size="large">
             </div>
-            <div class="col-lg animal-detail-panel">
-              <h5 class="black-header mb-3">Medical Notes</h5>
-              <div class="d-flex justify-content-between">
+            <h2>{{ animal.name }}</h2>
+            <p class="animal-stats mb-5">
+              {{ animal.get_breed_display }}
+              |
+              {{ animal.get_sex_display }}
+              |
+              {{ animal.get_age_display }}
+              |
+              {{ animal.get_size_display }}
+            </p>
+            <div class="mb-5">
+              <h5 class="black-header mb-3">About {{ animal.name }}</h5>
+              {{ animal.description | urlizetrunc:60 |linebreaks }}
+            </div>
+            <div class="row gx-5 gy-3">
+              <div class="col-lg animal-detail-panel">
+                <h5 class="black-header mb-3">Behavior</h5>
                 <div>
-                  <img src="{% static 'img/icon-spayneuter.svg' %}">
-                  Spayed / Neutered:
+                  <div>
+                    <img src="{% static 'img/icon-dog.svg' %}">
+                    with dogs:
+                  </div>
+                  <div>{{ animal.get_behaviour_dogs_display }}</div>
                 </div>
-                <div>{{ animal.is_spayed_neutered | yesno | capfirst }}</div>
-              </div>
-              <div class="d-flex justify-content-between">
                 <div>
-                  <img src="{% static 'img/icon-vaccination.svg' %}">
-                  Vaccinations up to date:
+                  <div>
+                    <img src="{% static 'img/icon-cat.svg' %}">
+                    with cats:
+                  </div>
+                  <div>{{ animal.get_behaviour_cats_display }}</div>
                 </div>
-                <div>{{ animal.is_vaccinations_current | yesno | capfirst }}</div>
-              </div>
-              {% if animal.vaccinations_notes %}
-                <p>
-                  {{ animal.vaccinations_notes | urlizetrunc:60 | linebreaks }}
-                </p>
-              {% endif %}
-              <div class="d-flex justify-content-between">
                 <div>
-                  <img src="{% static 'img/icon-specneeds.svg' %}">
-                  Special needs:
+                  <div>
+                    <img src="{% static 'img/icon-kid.svg' %}">
+                    with kids:
+                  </div>
+                  <div>{{ animal.get_behaviour_kids_display }}</div>
                 </div>
-                <div>{{ animal.is_special_needs | yesno | capfirst }}</div>
               </div>
-              {% if animal.special_needs %}
-                <p>
-                  {{ animal.special_needs | urlizetrunc:60 | linebreaks }}
-                </p>
-              {% endif %}
+              <div class="col-lg animal-detail-panel">
+                <h5 class="black-header mb-3">Medical Notes</h5>
+                <div class="d-flex justify-content-between">
+                  <div>
+                    <img src="{% static 'img/icon-spayneuter.svg' %}">
+                    Spayed / Neutered:
+                  </div>
+                  <div>{{ animal.is_spayed_neutered | yesno | capfirst }}</div>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <div>
+                    <img src="{% static 'img/icon-vaccination.svg' %}">
+                    Vaccinations up to date:
+                  </div>
+                  <div>{{ animal.is_vaccinations_current | yesno | capfirst }}</div>
+                </div>
+                {% if animal.vaccinations_notes %}
+                  <p>
+                    {{ animal.vaccinations_notes | urlizetrunc:60 | linebreaks }}
+                  </p>
+                {% endif %}
+                <div class="d-flex justify-content-between">
+                  <div>
+                    <img src="{% static 'img/icon-specneeds.svg' %}">
+                    Special needs:
+                  </div>
+                  <div>{{ animal.is_special_needs | yesno | capfirst }}</div>
+                </div>
+                {% if animal.special_needs %}
+                  <p>
+                    {{ animal.special_needs | urlizetrunc:60 | linebreaks }}
+                  </p>
+                {% endif %}
+              </div>
             </div>
           </div>
         </div>
+        {% include './comments.html' %}
       </div>
-      {% include './comments.html' %}
-    </div>
-    <div class="col-md-4 mt-3 mt-md-0">
-      <div class="card">
-        <div class="card-body">
-          <h4><a href="{{animal.awg.get_absolute_url}}">{{ animal.awg.name }}</a></h4>
-          {% with awg=animal.awg %}
-          {% include 'components/awg_address.html' %}
-          {% endwith %}
+      <div class="col-md-4 mt-3 mt-md-0">
+        <div class="card">
+          <div class="card-body">
+            <h4><a href="{{animal.awg.get_absolute_url}}">{{ animal.awg.name }}</a></h4>
+            {% with awg=animal.awg %}
+              {% include 'components/awg_address.html' %}
+            {% endwith %}
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-<script type="text/javascript">
-  setTimeout(function(){
-    $(document).ready(function() {
-      $("#lightSlider").lightSlider({
-        gallery:false,
-        item: 1,
-        slideMargin: 20,
-        speed:500,
-        pause: 5000,
-        auto:true,
-        loop:true,
-        pager: true,
-        adaptiveHeight:true,
-        currentPagerPosition: 'middle',
-        onSliderLoad: function() {
-            $('#lightSlider').removeClass('cS-hidden');
-        }     
-    }); 
-    });
-  }, 50);
-</script>
+    <script type="text/javascript">
+      setTimeout(function(){
+        $(document).ready(function() {
+          $("#lightSlider").lightSlider({
+            gallery:false,
+            item: 1,
+            slideMargin: 20,
+            speed:500,
+            pause: 5000,
+            auto:true,
+            loop:true,
+            pager: true,
+            adaptiveHeight:true,
+            currentPagerPosition: 'middle',
+            onSliderLoad: function() {
+              $('#lightSlider').removeClass('cS-hidden');
+            }
+          });
+        });
+      }, 50);
+    </script>
 
   <!-- Load Facebook SDK for JavaScript -->
-  <div id="fb-root"></div>
-  <script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
-  fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));</script>
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
 
-  {% endblock %}
+{% endblock %}

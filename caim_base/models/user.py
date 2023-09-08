@@ -26,3 +26,6 @@ class UserProfile(models.Model):
     )
     zip_code = models.CharField(_("ZIP code"), max_length=10, blank=True)
     salesforce_id = models.CharField(max_length=32, null=True)
+
+    def __str__(self):
+        return self.user

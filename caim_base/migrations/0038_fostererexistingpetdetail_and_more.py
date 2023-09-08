@@ -6,7 +6,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("caim_base", "0037_remove_fostererprofile_existing_pets_details_and_more"),
     ]

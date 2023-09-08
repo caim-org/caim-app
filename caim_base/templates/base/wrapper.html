@@ -19,32 +19,32 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
-      integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+          integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <link type="text/css" rel="stylesheet" href="{% static 'lightslider/css/lightslider.css' %}" /> 
+    <link type="text/css" rel="stylesheet" href="{% static 'vendor/lightslider/css/lightslider.min.css' %}" />
     {% leaflet_js %}
     {% leaflet_css %}
     {% block head %}
     {% endblock %}
 
     {% if isProduction %}
-    <script>
-      function postHogLoaded(posthog) {
-        {% if request.user.is_authenticated %}
-        posthog.identify("{{request.user.id|escapejs}}",{},{"email":"{{request.user.email|escapejs}}"});
-        {% endif %}
-      }
-      !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
-      posthog.init('phc_lKEILqGFojePEGE2iCbTW3zo4EQ9mzMQAxJQXai2Itx',{
-        api_host:'https://app.posthog.com',
-        loaded: postHogLoaded,
-      });
-    </script>
+      <script>
+        function postHogLoaded(posthog) {
+          {% if request.user.is_authenticated %}
+            posthog.identify("{{request.user.id|escapejs}}",{},{"email":"{{request.user.email|escapejs}}"});
+          {% endif %}
+        }
+        !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+        posthog.init('phc_lKEILqGFojePEGE2iCbTW3zo4EQ9mzMQAxJQXai2Itx',{
+          api_host:'https://app.posthog.com',
+          loaded: postHogLoaded,
+        });
+      </script>
     {% endif %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/htmx/1.9.2/htmx.min.js"></script>
     {% if not isProduction %}
-    <script src="https://unpkg.com/htmx.org/dist/ext/debug.js"></script>
+      <script src="https://unpkg.com/htmx.org/dist/ext/debug.js"></script>
     {% endif %}
   </head>
 
@@ -57,38 +57,38 @@
             alt="Caim" />
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ms-auto">
             {% if not request.user.is_authenticated %}
-            <li class="nav-item">
-              <a class="nav-link" href="/login">Login</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/register">Register</a>
-            </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/login">Login</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/register">Register</a>
+              </li>
             {% else %}
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">
-                {% avatar request.user 30 30 class="avatar" %}
-                {{request.user.username}}
-              </a>
-              <ul class="dropdown-menu dropdown-menu-end" id="userMenu">
-                <li><a class="dropdown-item" href="/user/{{request.user.username}}">My Profile</a></li>
-                <li><a class="dropdown-item" href="/browse?shortlist=on">My Favorites</a></li>
-                <li><a class="dropdown-item" href="#">My Saved Searches</a></li>
-                <li><a class="dropdown-item" href="/my-organizations">My Organizations</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="{% url "account_details" %}">Account Details</a></li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">
+                  {% avatar request.user 30 30 class="avatar" %}
+                  {{request.user.username}}
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" id="userMenu">
+                  <li><a class="dropdown-item" href="/user/{{request.user.username}}">My Profile</a></li>
+                  <li><a class="dropdown-item" href="/browse?shortlist=on">My Favorites</a></li>
+                  <li><a class="dropdown-item" href="#">My Saved Searches</a></li>
+                  <li><a class="dropdown-item" href="/my-organizations">My Organizations</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="{% url "account_details" %}">Account Details</a></li>
                 {% comment %} This link is redundant, there's an edit button under the profile page {% endcomment %}
                 {% comment %} <li><a class="dropdown-item" href="/user/{{request.user.username}}/edit">Edit Profile</a></li> {% endcomment %}
-                <li><a class="dropdown-item" href="#">Notification Settings</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="/logout">Logout</a></li>
-              </ul>
-            </li>
+                  <li><a class="dropdown-item" href="#">Notification Settings</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                </ul>
+              </li>
             {% endif %}
           </ul>
         </div>
@@ -105,13 +105,13 @@
       {% endif %}
       -->
     <main id="main">
-    {% block content %}
-    {% endblock %}
+      {% block content %}
+      {% endblock %}
     </main>
 
     {% if not disableFooter %}
-       <footer class="bg-dark text-light py-4 text-center text-md-start">
-         <div class="container">
+      <footer class="bg-dark text-light py-4 text-center text-md-start">
+        <div class="container">
           <div class="row">
             <div class="col-12">
               <a href="https://www.caim.org">Return to website</a>
@@ -122,19 +122,19 @@
     {% endif %}
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
-      integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
-      crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
-      crossorigin="anonymous"></script>
+            integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+            crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
-    <script src="{% static 'lightslider/js/lightslider.js' %}"></script>
+    <script src="{% static 'vendor/lightslider/js/lightslider.min.js' %}"></script>
 
     <script>
       {% if request.user.is_authenticated %}
-      var USER = { "id": {{ request.user.id }}, "email": "{{request.user.email|escapejs}}", "username": "{{request.user.username|escapejs}}"};
+        var USER = { "id": {{ request.user.id }}, "email": "{{request.user.email|escapejs}}", "username": "{{request.user.username|escapejs}}"};
       {% else %}
-      var USER = null;
+        var USER = null;
       {% endif %}
     </script>
     <script src="{% static 'js/common.js' %}"></script>
@@ -143,7 +143,7 @@
     </div>
     {% include './tags.html' %}
     <script>
-      $(document).ready(function(){ 
+      $(document).ready(function(){
         // If small or medium screen, need to swap the hamburger menu around
         var isMediumOrSmaller = window.innerWidth < 992;
         if (isMediumOrSmaller){
@@ -159,17 +159,17 @@
     </script>
     <script>
       function closeModal(modal_container_id) {
-      	var container = document.getElementById(modal_container_id)
-      	var backdrop = document.getElementById("modal-backdrop")
-      	var modal = document.getElementById("modal")
+        var container = document.getElementById(modal_container_id)
+        var backdrop = document.getElementById("modal-backdrop")
+        var modal = document.getElementById("modal")
 
-      	modal.classList.remove("show")
-      	backdrop.classList.remove("show")
+        modal.classList.remove("show")
+        backdrop.classList.remove("show")
 
-      	setTimeout(function() {
-      		container.removeChild(backdrop)
-      		container.removeChild(modal)
-      	}, 200)
+        setTimeout(function() {
+          container.removeChild(backdrop)
+          container.removeChild(modal)
+        }, 200)
       }
     </script>
 
