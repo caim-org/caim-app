@@ -10,6 +10,6 @@ def index(request):
             "pageTitle": "Home",
             "navbarDark": True,
             "bodyClasses": "page-narrow",
-            "disableFooter": True,
+            "disableFooterMargin": True,
         },
     )
