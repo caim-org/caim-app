@@ -17,34 +17,72 @@
       .home ul {
         margin-left: -30px;
       }
+      .row .hero-images {
+        display: none;
+      }
     }
     .hero-image{
       max-width: 100%;
-      border-radius: 25px;
+    }
+
+    .hero-image-1 {
+      grid-column: 1;
+      grid-row: 1;
+      overflow: visible;
+      z-index: 2;
+    }
+    .hero-image-background-1 {
+      grid-column: 1;
+      grid-row: 1;
+      background-color: #37CABA;
+      border-radius: 800px;
+      width: 300px;
+      height: 300px;
+      bottom: -45px;
+      left: -25px;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-image-2 {
+      grid-column: 2;
+      grid-row: 2;
+      z-index: 3;
+    }
+    .hero-images{
+      display: grid;
+      grid-template-columns: 185px 0;
+      grid-template-rows: 220px 0;
     }
   </style>
 
   <div class="home">
-    <div class="bg-dark">
+    <div class="bg-dark" style="min-height:calc(100vh - 80px)">
       <div class="container">
         <div class="row">
-
           <div class="col-md-6 offset-md-1 order-md-last pt-3 pb-5">
-            <img class="hero-image" src="{% static 'img/richard-brutyo-xvYxGcwFvuE-unsplash-min-p-1600.jpg' %}" alt="" />
+            <div class="hero-images">
+              <div class="hero-image-background-1">
+              </div>
+              <img class="hero-image-1" src="{% static 'img/two-dogs-main.png' %}" alt="two dogs" />
+              <img class="hero-image-2" src="{% static 'img/one-dog-main.png' %}" alt="one dog with one human" />
+            </div>
           </div>
-          <div class="col-md-5 pb-4">
-            <p class="fs-1 text-light mt-0 mt-md-5 mb-4">
+          <div class="col-md-5 pb-4 px-4 d-flex flex-column">
+            <p class="fs-1 text-light fw-bold mt-0 mt-md-5 mb-5">
               Browse animals that are in need of a foster home
+            </p>
+            <p class="fs-4 text-light fw-lighter mt-0 mt-md-5 mb-5">
+              Enter your ZIP Code to find animals near you.
             </p>
             <form class="form-inline" action="/browse" method="get">
               <div class="d-flex">
                 <div class="px-1">
                   <input name="zip" pattern="[0-9]{5}"
                          required type="text" class="fs-4 form-control text"
-                         placeholder="ZIP code" />
+                         placeholder="ZIP Code" />
                 </div>
                 <div class="px-1">
-                  <input class="btn btn-primary px-5 d-block fs-4" type="submit" value="Search" />
+                  <input class="btn btn-primary px-5 d-block fs-4 text-dark fw-bold" type="submit" value="Search" />
                 </div>
               </div>
             </form>
@@ -52,24 +90,4 @@
         </div>
       </div>
     </div>
-
-
-    <div class="container mt-5">
-      <h3 class="mb-3">We’re officially testing our platform!</h3>
-      <p>
-        Caim is in its early stages of growth and is continuously expanding to new locations.
-        Currently, we only have partners who operate in parts of CO and TX.
-        If you aren't located in one of these areas but still want to foster, check out our
-        <a href="https://www.caim.org/rescue-directory">Rescue Directory</a>
-        to find a shelter or rescue near you.
-      </p><p>
-        If you're a shelter or rescue anywhere in the US who wants to use our platform, please sign up for an organization account.
-        You must first create an <a href="https://app.caim.org/register">individual user account</a> before you can request an <a href="https://app.caim.org/organization/apply">organization account</a>.
-        We review and approve all organization account requests within 2 business days. You can upload animals in the meantime, but they won't be available for view by the public until we've changed your org account to Active.
-      </p><p>
-        If you have questions, please check out our <a href="https://www.caim.org/faq">FAQs</a> or email us at hello@caim.org.
-      </p>
-    </div>
-
-  </div>
 {% endblock %}
