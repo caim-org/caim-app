@@ -324,7 +324,7 @@ class FostererProfile(models.Model):
         blank=True,
         null=True,
         default=None,
-        verbose_name="How many people live in your home, including yourself?",
+        verbose_name="How many people live in your home, excluding yourself?",
     )
     # TODO use Personinhomedetail
     people_in_home_detail = models.TextField(
