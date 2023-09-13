@@ -56,8 +56,8 @@ urlpatterns = [
         foster_application.download_foster_application,
         name="application_pdf",
     ),
-    path("register", auth.register_view, name="register"),
-    path("register/success", auth.register_success, name="register_success"),
+    path("signup", auth.signup_view, name="signup"),
+    path("signup/success", auth.signup_success, name="signup_success"),
     path("login", auth.login_view, name="login"),
     path(
         "login/", auth.login_view, name="login_with_slash"
@@ -79,7 +79,7 @@ urlpatterns = [
     path("reply/<int:pk>/delete", comments.SubCommentDeleteView.as_view()),
     path("user/details", account_details.view, name="account_details"),
     path("user/details/edit", account_details.edit, name="account_details_edit"),
-    path("user/<username>", user_profile.view),
+    path("user/<username>", user_profile.view, name="user_detail"),
     path("user/<username>/edit", user_profile.edit, name="user_edit"),
     path("organization/apply", awg.create, name="awg_create"),
     path("organization/<awg_id>/edit", awg.edit, name="awg_edit"),

@@ -18,7 +18,8 @@
         <h2>You must be logged in to list your organization</h2>
 
         <p>
-          Please start by <a href="/login?next=/organization/apply">logging in</a> or <a href="/register?next=/organization/apply">signing up.</a>
+          Please start by <a href="{% url 'login' %}?next=/organization/apply">logging in</a>
+          or <a href="{% url 'signup' %}?next=/organization/apply">signing up.</a>
         </p>
       </div>
 

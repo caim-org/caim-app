@@ -41,7 +41,7 @@ def login_view(request):
     )
 
 
-def register_view(request):
+def signup_view(request):
     if request.method == "POST":
         form = NewUserForm(request.POST)
         if form.is_valid():
@@ -59,33 +59,33 @@ def register_view(request):
                 salesforce.create_contact(user_profile, form)
 
             login(request, user)
-            messages.success(request, "Registration successful.")
-            return redirect(request.GET.get("next", "register_success"))
-        messages.error(request, "Unsuccessful registration. Invalid information.")
+            messages.success(request, "Sign Up successful.")
+            return redirect(request.GET.get("next", "signup_success"))
+        messages.error(request, "Unsuccessful sign up. Invalid information.")
     else:
         form = NewUserForm()
 
     if request.user.is_authenticated:
-        return redirect("register_success")
+        return redirect("signup_success")
 
     return render(
         request=request,
-        template_name="auth/register.html",
+        template_name="auth/signup.html",
         context={
             "register_form": form,
-            "pageTitle": "Register",
+            "pageTitle": "Sign Up",
         },
     )
 
 
-def register_success(request):
+def signup_success(request):
     """Afer signup propmt user to fill foster profile or view AWG info"""
     fosterer_profile = FostererProfile(user=request.user)
 
     if fosterer_profile is None or not fosterer_profile.is_complete:
         return render(
             request=request,
-            template_name="auth/register_success.html",
+            template_name="auth/signup_success.html",
         )
     else:
         return redirect("home")

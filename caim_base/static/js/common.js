@@ -2,7 +2,7 @@
 function saveSearch() {
     var modal = new bootstrap.Modal(document.getElementById('savedSearchModal'))
     if (!USER) {
-        alert('Please login or register');
+        alert('Please log in or sign up');
         return;
     }
     const params = new URLSearchParams(location.search);
@@ -87,7 +87,7 @@ function csrfHeaders() {
 
 function toggleShortlistSmall(el, animalId) {
     if (!USER) {
-        alert('Please login or register');
+        alert('Please log in or sign up');
         return;
     }
     var wasSet = $(el).hasClass('animal-shortlist-selected');
@@ -103,7 +103,7 @@ function toggleShortlistSmall(el, animalId) {
 
 function toggleShortlistLarge(el, animalId) {
     if (!USER) {
-        alert('Please login or register');
+        alert('Please log in or sign up');
         return;
     }
     var wasSet = $(el).hasClass('btn-primary');

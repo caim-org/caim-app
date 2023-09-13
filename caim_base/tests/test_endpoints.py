@@ -16,8 +16,8 @@ class EndpointTesting(unitTestCase):
         response = self.client.post("/browse")
         self.assertEqual(response.status_code, 200)
 
-    def test_register_page(self):
-        response = self.client.post("/register")
+    def test_signpu_page(self):
+        response = self.client.post("/signup")
         self.assertEqual(response.status_code, 200)
 
     def test_fosterer_page_redirects(self):
