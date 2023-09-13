@@ -48,8 +48,8 @@ urlpatterns = [
         user_profile.my_organizations,
         name="user_profile_my_organizations",
     ),
-    path("fosterer/<stage_id>", fosterer_profile.edit),
-    path("fosterer", fosterer_profile.start, name="fosterer_profile"),
+    path("foster/<stage_id>", fosterer_profile.edit),
+    path("foster", fosterer_profile.start, name="foster_profile"),
     path("foster/application", foster_application.application),
     path(
         "foster/application/pdf",

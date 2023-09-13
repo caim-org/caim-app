@@ -19,22 +19,22 @@
               <ul class="dropdown-menu">
                 {% if 'EDIT_PROFILE' in currentUserPermissions %}
                   <li>
-                    <a class="dropdown-item" href="{{ awg.get_absolute_url }}/edit">Edit organization profile</a>
+                    <a class="dropdown-item" href="{% url 'awg_edit' awg_id=awg.id %}">Edit organization profile</a>
                   </li>
                 {% endif %}
                 {% if 'MANAGE_ANIMALS' in currentUserPermissions %}
                   <li>
-                    <a class="dropdown-item" href="{{ awg.get_absolute_url }}/animals">Manage animals</a>
+                    <a class="dropdown-item" href="{% url 'awg_list_animals' awg_id=awg.id %}">Manage animals</a>
                   </li>
                 {% endif %}
                 {% if 'MANAGE_MEMBERS' in currentUserPermissions %}
                   <li>
-                    <a class="dropdown-item" href="{{ awg.get_absolute_url }}/members">Manage admins</a>
+                    <a class="dropdown-item" href="{% url 'awg_list_members' awg_id=awg.id %}">Manage admins</a>
                   </li>
                 {% endif %}
                 {% if 'MANAGE_APPLICATIONS' in currentUserPermissions or 'VIEW_APPLICATIONS' in currentUserPermissions %}
                   <li>
-                    <a class="dropdown-item" href="{{ awg.get_absolute_url }}/applications">Manage applications</a>
+                    <a class="dropdown-item" href="{% url 'awg_list_applications' awg_id=awg.id %}">Manage applications</a>
                   </li>
                 {% endif %}
               </ul>

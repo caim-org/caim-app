@@ -12,7 +12,7 @@
                     <ul>
                         {% for membership in memberships %}
                             <li>
-                                <a href="{{membership.awg.get_absolute_url}}">{{ membership.awg.name }}</a>
+                                <a href="{% url 'awg' awg_id=membership.awg.id %}">{{ membership.awg.name }}</a>
                             </li>
                         {% empty %}
                             <li>You are not a member of any organizations</li>
