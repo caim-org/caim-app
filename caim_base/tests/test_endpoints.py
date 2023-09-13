@@ -16,17 +16,17 @@ class EndpointTesting(unitTestCase):
         response = self.client.post("/browse")
         self.assertEqual(response.status_code, 200)
 
-    def test_signpu_page(self):
+    def test_signup_page(self):
         response = self.client.post("/signup")
         self.assertEqual(response.status_code, 200)
 
-    def test_fosterer_page_redirects(self):
-        response = self.client.post("/fosterer")
+    def test_foster_page_redirects(self):
+        response = self.client.post("/foster")
         self.assertEqual(response.status_code, 302)
 
-    def test_fosterer_edit_page_redirects_to_login_if_not_logged_in(self):
-        response = self.client.post("/fosterer/about-you")
+    def test_foster_edit_page_redirects_to_login_if_not_logged_in(self):
+        response = self.client.post("/foster/about-you")
         self.assertEqual(response.status_code, 302)
         self.assertEqual(
-            response.headers["Location"], "/login?next=/fosterer/about-you"
+            response.headers["Location"], "/login?next=/foster/about-you"
         )

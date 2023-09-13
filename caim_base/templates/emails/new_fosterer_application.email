@@ -1,8 +1,8 @@
-{% block subject %}New Fosterer Application{% endblock %}
+{% block subject %}New Foster Application{% endblock %}
 {% block plain %}
 Hi!
 
-A new Fosterer has filled out an application.
+A new Foster has filled out an application.
 
 
 Foster First Name: {{application.fosterer.firstname}}

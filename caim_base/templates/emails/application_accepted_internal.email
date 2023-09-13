@@ -7,7 +7,7 @@ AWG: {{app.animal.awg.name}}
 
 Animal: {{app.animal.name}}, {{app.animal.animal_type}}
 
-Fosterer: {{app.fosterer}}, {{app.fosterer.city}} {{app.fosterer.state}}
+Foster: {{app.fosterer}}, {{app.fosterer.city}} {{app.fosterer.state}}
 
 Submitted On: {{app.submitted_on}}
 

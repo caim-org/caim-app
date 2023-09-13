@@ -1,10 +1,10 @@
-{% block subject %}New Fosterer profile{% endblock %}
+{% block subject %}New Foster profile{% endblock %}
 {% block plain %}
 Hi!
 
-A new Fosterer has filled out a profile.
+A new Foster has filled out a profile.
 
-Fosterer email: {{fosterer.email}}
+Foster email: {{fosterer.email}}
 
 You can log into https://app.caim.org/admin to review
 {% endblock %}
