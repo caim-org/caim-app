@@ -74,15 +74,24 @@
                  data-size="large">
             </div>
             <h2>{{ animal.name }}</h2>
-            <p class="animal-stats mb-5">
-              {{ animal.get_breed_display }}
-              |
-              {{ animal.get_sex_display }}
-              |
-              {{ animal.get_age_display }}
-              |
-              {{ animal.get_size_display }}
-            </p>
+            <div class="d-flex flex-column flex-md-row justify-content-between gap-3 mb-5">
+              <div class="text-gray">
+                {{ animal.breedsText }}
+                |
+                {{ animal.get_sex_display }}
+                |
+                {{ animal.get_age_display }}
+                |
+                {{ animal.get_size_display }}
+              </div>
+              {% if animal.euth_date %}
+                <div>
+                  <img src="{% static 'img/icon-calendar.svg' %}">
+                  <span class="text-gray">Euthanasia date:</span>
+                  {{ animal.euth_date | date:"m/d/Y" }}
+                </div>
+              {% endif %}
+            </div>
             <div class="mb-5">
               <h5 class="black-header mb-3">About {{ animal.name }}</h5>
               {{ animal.description | urlizetrunc:60 |linebreaks }}
