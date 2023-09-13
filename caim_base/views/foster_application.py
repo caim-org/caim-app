@@ -32,10 +32,10 @@ def application(request):
     try:
         fosterer_profile = FostererProfile.objects.get(user=user)
     except FostererProfile.DoesNotExist:
-        return redirect("/fosterer")
+        return redirect("/foster")
 
     if not fosterer_profile.is_complete:
-        return redirect("/fosterer")
+        return redirect("/foster")
 
     if request.method == "POST":
         animal_id = request.POST.get("animal_id")

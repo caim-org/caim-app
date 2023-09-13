@@ -433,7 +433,7 @@ STAGES = {
 @login_required()
 @require_http_methods(["GET"])
 def start(request):
-    return redirect("/fosterer/about-you")
+    return redirect("/foster/about-you")
 
 
 @login_required()
@@ -664,9 +664,9 @@ def edit(request, stage_id):
 
             is_previous = "submit_prev" in request.POST
             if is_previous:
-                return redirect(f"/fosterer/{prev_stage}")
+                return redirect(f"/foster/{prev_stage}")
             else:
-                return redirect(f"/fosterer/{next_stage}")
+                return redirect(f"/foster/{next_stage}")
 
     else:
         form = form_class(instance=fosterer_profile)

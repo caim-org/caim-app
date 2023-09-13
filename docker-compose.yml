@@ -27,7 +27,7 @@ services:
       - '8000:8000'
     depends_on:
       - postgres
-    command: python manage.py runserver 0.0.0.0:8000
+    entrypoint: python manage.py runserver 0.0.0.0:8000
 
   postgres:
     container_name: postgres
