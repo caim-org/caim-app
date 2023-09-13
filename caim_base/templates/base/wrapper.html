@@ -64,10 +64,10 @@
           <ul class="navbar-nav ms-auto">
             {% if not request.user.is_authenticated %}
               <li class="nav-item">
-                <a class="nav-link" href="/login">Login</a>
+                <a class="nav-link" href="/login">Log in</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/register">Register</a>
+                <a class="nav-link" href="/register">Sign up</a>
               </li>
             {% else %}
               <li class="nav-item dropdown">
@@ -84,7 +84,7 @@
                 {% comment %} This link is redundant, there's an edit button under the profile page {% endcomment %}
                 {% comment %} <li><a class="dropdown-item" href="/user/{{request.user.username}}/edit">Edit Profile</a></li> {% endcomment %}
                   <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                  <li><a class="dropdown-item" href="/logout">Log out</a></li>
                 </ul>
               </li>
             {% endif %}
