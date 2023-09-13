@@ -497,6 +497,20 @@ def edit(request, stage_id):
         formsets_are_valid = True
 
         if stage_id == "pet-experience":
+            # Number of pet fields filled must be equal, or great then the listed number of pets.
+            num_of_pets = int(existing_pet_detail_formset.data['num_existing_pets'])
+            if num_of_pets:
+                for index, existing_pet_detail_form in enumerate(existing_pet_detail_formset):
+                    if index <= num_of_pets - 1:
+                        existing_pet_detail_form.full_clean()
+                        if not any(existing_pet_detail_form.cleaned_data.values()):
+                            formsets_are_valid = False
+                            messages.error(
+                                request,
+                                f"Ensure the \"Number of Pets\" ({num_of_pets}) matches the number of "
+                                f"\"Pet\" fields you have filled out."
+                            )
+
             if not existing_pet_detail_formset.is_valid():
                 formsets_are_valid = False
 
@@ -505,12 +519,40 @@ def edit(request, stage_id):
                 formsets_are_valid = False
 
         if stage_id == "household-details":
+            # Number of cohabitant fields filled must be equal, or great then the listed number of people in the
+            # home.
+            num_people_in_home = int(person_in_home_detail_formset.data['num_people_in_home'])
+            if num_people_in_home:
+                for index, person_in_home_detail_form in enumerate(person_in_home_detail_formset):
+                    if index <= num_people_in_home - 1:
+                        person_in_home_detail_form.full_clean()
+                        if not any(person_in_home_detail_form.cleaned_data.values()):
+                            formsets_are_valid = False
+                            messages.error(
+                                request,
+                                f"Ensure the number of people in your home ({num_people_in_home}) matches " \
+                                f"the number of \"Person in Home Details\" fields you have filled out."
+                            )
+
+            # Ensure if a user has selected `Rent` they must fill out rent details.
+            rent_own = person_in_home_detail_formset.data['rent_own']
+            if rent_own == FostererProfile.RentOwn.RENT:
+                if not person_in_home_detail_formset.data['rent_restrictions']:
+                    formsets_are_valid = False
+                    messages.error(request, 'Please describe any pet restrictions that are in place.')
+                if not person_in_home_detail_formset.data['landlord_contact_text']:
+                    formsets_are_valid = False
+                    messages.error(request, 'Please provide your landlord’s contact information below.')
+
             if not person_in_home_detail_formset.is_valid():
                 formsets_are_valid = False
 
         form_is_valid = form.is_valid()
 
-        if form_is_valid and formsets_are_valid:
+        if not formsets_are_valid:
+            messages.error(request, "Please correct any form errors")
+
+        if form_is_valid:
             form.save()
 
             if stage_id == "pet-experience":
@@ -626,8 +668,6 @@ def edit(request, stage_id):
             else:
                 return redirect(f"/fosterer/{next_stage}")
 
-        else:
-            messages.error(request, "Please correct form errors")
     else:
         form = form_class(instance=fosterer_profile)
 
