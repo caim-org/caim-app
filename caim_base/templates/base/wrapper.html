@@ -78,13 +78,11 @@
                 <ul class="dropdown-menu dropdown-menu-end" id="userMenu">
                   <li><a class="dropdown-item" href="/user/{{request.user.username}}">My Profile</a></li>
                   <li><a class="dropdown-item" href="/browse?shortlist=on">My Favorites</a></li>
-                  <li><a class="dropdown-item" href="#">My Saved Searches</a></li>
                   <li><a class="dropdown-item" href="/my-organizations">My Organizations</a></li>
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" href="{% url "account_details" %}">Account Details</a></li>
                 {% comment %} This link is redundant, there's an edit button under the profile page {% endcomment %}
                 {% comment %} <li><a class="dropdown-item" href="/user/{{request.user.username}}/edit">Edit Profile</a></li> {% endcomment %}
-                  <li><a class="dropdown-item" href="#">Notification Settings</a></li>
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" href="/logout">Logout</a></li>
                 </ul>

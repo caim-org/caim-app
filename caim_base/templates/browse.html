@@ -36,28 +36,6 @@
             {% endif %}
           </p>
         </div>
-        <div class="col-md-6 text-end d-bottom-mobile">
-          <div class="d-flex py-2 justify-content-center justify-content-md-end align-items-center">
-            <a href="#" onclick="saveSearch()" class="btn btn-secondary">Save search</a>
-
-            {% if savedSearches %}
-              <li class="dropdown">
-                <a class="dropdown-toggle" style="text-decoration: none; color:white;" data-bs-toggle="dropdown" href="#" role="button">
-                  Saved searches
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end">
-                  {% for saved_search in savedSearches %}
-                    <li>
-                      <a class="dropdown-item" href="{{ saved_search.get_absolute_url }}">
-                        {{ saved_search.name }}
-                      </a>
-                    </li>
-                  {% endfor %}
-                </ul>
-              </li>
-            {% endif %}
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -201,11 +179,8 @@
         </div>
       </div>
       <div class="col-md-9">
-
         {% include 'components/animal_list.html' %}
         {% include 'components/animal_pagination.html' %}
-        {% include 'components/saved_search_modal.html' %}
-
       </div>
     </div>
   </div>
