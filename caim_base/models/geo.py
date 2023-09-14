@@ -5,3 +5,6 @@ from django.db import models
 class ZipCode(models.Model):
     zip_code = models.CharField(max_length=16, unique=True)
     geo_location = PointField()
+
+    def __str__(self):
+        return self.zip_code

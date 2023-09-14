@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("caim_base", "0033_merge_20230628_1416"),
         ("caim_base", "0033_userprofile_salesforce_id"),

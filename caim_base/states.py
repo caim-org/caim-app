@@ -52,4 +52,4 @@ states = {
     "WY": "Wyoming",
 }
 
-form_states = {"": "", **states} # add empty label
+form_states = {"": "", **states}  # add empty label

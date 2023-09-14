@@ -14,9 +14,15 @@ class EmailTesting(TestCase):
         foster_application.save()
 
         self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(mail.outbox[0].subject, 'New Fosterer Application')
-        self.assertIn(f'Foster First Name: {foster_application.fosterer.firstname}\n', mail.outbox[0].body)
-        self.assertIn(f'Animal requested: {foster_application.animal.get_absolute_url()}\n', mail.outbox[0].body)
+        self.assertEqual(mail.outbox[0].subject, "New Fosterer Application")
+        self.assertIn(
+            f"Foster First Name: {foster_application.fosterer.firstname}\n",
+            mail.outbox[0].body,
+        )
+        self.assertIn(
+            f"Animal requested: {foster_application.animal.get_absolute_url()}\n",
+            mail.outbox[0].body,
+        )
 
     def test_foster_profile_complete(self):
         pass

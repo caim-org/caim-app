@@ -3,67 +3,67 @@
 
 {% block content %}
 
-<div class="container">
-  <div class"row">
-    <div class="col">
-      <div class="d-flex flex-row-reverse mt-3 me-2">
-        <div class="text-center text-md-end d-flex flex-column flex-sm-row gap-2 py-2 me-3">
-          <a href='{% url "fosterer_profile" %}?after={{ current_url_escaped }}' class="btn btn-secondary">Update Fosterer Profile</a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row justify-content-md-center">
-    <div class="col-md-8">
-      <div class="container py-5 pt-3">
-        {% if messages %}
-        <ul class="messages">
-          {% for message in messages %}
-          {% endfor %}
-        </ul>
-        {% endif %}
-        <h3>Foster application for {{ animal.name }} the {{ animal.animal_type | lower }}</h3>
-        <div class="row">
-          <div class="col col-3 pt-2">
-            <img src="{{ animal.primary_photo.url }}" style="max-width: 100%">
+  <div class="container">
+    <div class"row">
+      <div class="col">
+        <div class="d-flex flex-row-reverse mt-3 me-2">
+          <div class="text-center text-md-end d-flex flex-column flex-sm-row gap-2 py-2 me-3">
+            <a href="{% url "fosterer_profile" %}?after={{ current_url_escaped }}" class="btn btn-secondary">Update Fosterer Profile</a>
           </div>
         </div>
-        <div class="mt-4">
-          <form method="post">
-            {% csrf_token %}
-            <div class="mb-3">
-              <label for="name">Email</label>
-              <input type="text" class="form-control" id="field_name1" value="{{ fosterer_profile.email }}" readonly disabled>
+      </div>
+    </div>
+    <div class="row justify-content-md-center">
+      <div class="col-md-8">
+        <div class="container py-5 pt-3">
+          {% if messages %}
+            <ul class="messages">
+              {% for message in messages %}
+              {% endfor %}
+            </ul>
+          {% endif %}
+          <h3>Foster application for {{ animal.name }} the {{ animal.animal_type | lower }}</h3>
+          <div class="row">
+            <div class="col col-3 pt-2">
+              <img src="{{ animal.primary_photo.url }}" style="max-width: 100%">
             </div>
-            <div class="mb-3">
-              <label for="name">First Name</label>
-              <input type="text" class="form-control" id="field_name1" value="{{ fosterer_profile.firstname }}" readonly disabled>
-            </div>
-            <div class="mb-3">
-              <label for="name">Last Name</label>
-              <input type="text" class="form-control" id="field_name1" value="{{ fosterer_profile.lastname }}" readonly disabled>
-            </div>
-            <div class="mb-3">
-              <label for="name">City</label>
-              <input type="text" class="form-control" id="field_name1" value="{{ fosterer_profile.city }}" readonly disabled>
-            </div>
-            <div class="mb-3">
-              <label for="name">State</label>
-              <input type="text" class="form-control" id="field_name1" value="{{ fosterer_profile.state }}" readonly disabled>
-            </div>
-            <div class="mb-3">
-              <label for="name">Name of Animal</label>
-              <input type="text" class="form-control" id="field_name1" value="{{ animal.name }}" readonly disabled>
-            </div>
-            <input type="hidden" id="animal_id" name="animal_id" value="{{ animal.id }}">
-            <div class="mt-4">
-              <button class="btn btn-primary me-1" type="submit">Submit Application</button>
-              <a href="#" class="btn btn-secondary" onclick="event.preventDefault(); window.history.back();">Cancel</a>
-            </div>
-          </form>
+          </div>
+          <div class="mt-4">
+            <form method="post">
+              {% csrf_token %}
+              <div class="mb-3">
+                <label for="name">Email</label>
+                <input type="text" class="form-control" id="field_name1" value="{{ fosterer_profile.email }}" readonly disabled>
+              </div>
+              <div class="mb-3">
+                <label for="name">First Name</label>
+                <input type="text" class="form-control" id="field_name1" value="{{ fosterer_profile.firstname }}" readonly disabled>
+              </div>
+              <div class="mb-3">
+                <label for="name">Last Name</label>
+                <input type="text" class="form-control" id="field_name1" value="{{ fosterer_profile.lastname }}" readonly disabled>
+              </div>
+              <div class="mb-3">
+                <label for="name">City</label>
+                <input type="text" class="form-control" id="field_name1" value="{{ fosterer_profile.city }}" readonly disabled>
+              </div>
+              <div class="mb-3">
+                <label for="name">State</label>
+                <input type="text" class="form-control" id="field_name1" value="{{ fosterer_profile.state }}" readonly disabled>
+              </div>
+              <div class="mb-3">
+                <label for="name">Name of Animal</label>
+                <input type="text" class="form-control" id="field_name1" value="{{ animal.name }}" readonly disabled>
+              </div>
+              <input type="hidden" id="animal_id" name="animal_id" value="{{ animal.id }}">
+              <div class="mt-4">
+                <button class="btn btn-primary me-1" type="submit">Submit Application</button>
+                <a href="#" class="btn btn-secondary" onclick="event.preventDefault(); window.history.back();">Cancel</a>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 {% endblock %}

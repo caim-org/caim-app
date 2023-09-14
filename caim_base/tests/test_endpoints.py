@@ -1,6 +1,6 @@
 from unittest import TestCase as unitTestCase
 
-from django.test import Client, TestCase
+from django.test import Client
 
 
 # simple endpoint tests. Can the pages render?
@@ -27,4 +27,6 @@ class EndpointTesting(unitTestCase):
     def test_fosterer_edit_page_redirects_to_login_if_not_logged_in(self):
         response = self.client.post("/fosterer/about-you")
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.headers["Location"], "/login?next=/fosterer/about-you")
+        self.assertEqual(
+            response.headers["Location"], "/login?next=/fosterer/about-you"
+        )

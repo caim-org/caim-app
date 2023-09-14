@@ -21,11 +21,21 @@ from django.urls import include, path
 from django.views.decorators.cache import cache_control
 from django.views.generic.base import TemplateView
 
-from caim_base.views import (account_details, animal, auth, awg, browse,
-                             comments, foster_application, fosterer_profile,
-                             home, saved_search,
-                             saved_search_email_notifications, shortlist,
-                             user_profile)
+from caim_base.views import (
+    account_details,
+    animal,
+    auth,
+    awg,
+    browse,
+    comments,
+    foster_application,
+    fosterer_profile,
+    home,
+    saved_search,
+    saved_search_email_notifications,
+    shortlist,
+    user_profile,
+)
 from caim_base.views.utils import user_csv_download
 
 urlpatterns = [
@@ -41,11 +51,17 @@ urlpatterns = [
     path("fosterer/<stage_id>", fosterer_profile.edit),
     path("fosterer", fosterer_profile.start, name="fosterer_profile"),
     path("foster/application", foster_application.application),
-    path("foster/application/pdf", foster_application.download_foster_application, name="application_pdf"),
+    path(
+        "foster/application/pdf",
+        foster_application.download_foster_application,
+        name="application_pdf",
+    ),
     path("register", auth.register_view, name="register"),
     path("register/success", auth.register_success, name="register_success"),
     path("login", auth.login_view, name="login"),
-    path("login/", auth.login_view, name="login_with_slash"),  # @todo fix trailing slash issues
+    path(
+        "login/", auth.login_view, name="login_with_slash"
+    ),  # @todo fix trailing slash issues
     path("logout", auth.logout_view, name="logout"),
     path("api/shortlist", shortlist.api, name="shortlist_api"),
     path("api/saved-search/add", saved_search.add, name="saved_search_add"),
@@ -101,7 +117,11 @@ urlpatterns = [
         name="awg_update_member",
     ),
     path("organization/<awg_id>", awg.view, name="awg"),
-    path("organization/<awg_id>/applications", awg.list_applications, name="awg_list_applications"),
+    path(
+        "organization/<awg_id>/applications",
+        awg.list_applications,
+        name="awg_list_applications",
+    ),
     path(
         "organization/<awg_id>/applications/<application_id>",
         awg.update_application_status_submit_modal,
@@ -131,7 +151,7 @@ if settings.DEBUG:
     urlpatterns += static(
         settings.STATIC_URL,
         document_root=settings.STATIC_ROOT,
-        view=cache_control(no_cache=True, must_revalidate=True)(serve)
+        view=cache_control(no_cache=True, must_revalidate=True)(serve),
     )
     urlpatterns += [
         path(
@@ -143,6 +163,8 @@ else:
     urlpatterns += [
         path(
             "robots.txt",
-            TemplateView.as_view(template_name="prod_robots.txt", content_type="text/plain"),
+            TemplateView.as_view(
+                template_name="prod_robots.txt", content_type="text/plain"
+            ),
         ),
     ]

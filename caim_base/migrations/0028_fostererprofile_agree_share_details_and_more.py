@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("caim_base", "0027_remove_fostererprofile_description_and_more"),
     ]

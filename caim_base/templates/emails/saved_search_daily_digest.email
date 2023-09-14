@@ -2,7 +2,7 @@
 {% block plain %}
 Hi there.
 
-The following animals have been added to caim matching your saved search "{{saved_search.name }}". 
+The following animals have been added to caim matching your saved search "{{saved_search.name }}".
 
 {% for animal in animals %}
 - {{ animal.name }} / {{animal.get_breed_display }} / {{animal.get_age_display }} [{{ animal.get_absolute_url }}]{% endfor %}

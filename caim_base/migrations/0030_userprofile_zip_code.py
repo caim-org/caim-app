@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("caim_base", "0029_fostererprofile_is_complete_and_more"),
     ]

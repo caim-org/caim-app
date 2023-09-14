@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("caim_base", "0032_alter_animal_awg_alter_fosterapplication_animal_and_more"),
         ("caim_base", "0032_alter_animal_behaviour_cats_and_more"),

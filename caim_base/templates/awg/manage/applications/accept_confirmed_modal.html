@@ -6,15 +6,15 @@
     <div class="modal-content">
       <div class="modal-header">
         <div class="container-fluid" style="height: 100%;">
-            <img
-              class="mx-auto d-block"
-              src="{% static 'img/good_doggy.svg' %}"
-            >
-            <div class="fs-3 text-center">Application Approved!</div>
+          <img
+            class="mx-auto d-block"
+            src="{% static 'img/good_doggy.svg' %}"
+          >
+          <div class="fs-3 text-center">Application Approved!</div>
         </div>
       </div>
       <div class="modal-body">
-      <div>We will inform the applicant!</div>
+        <div>We will inform the applicant!</div>
         <div class="container-fluid">
           <div class="row">
             <div class="col text-center">
@@ -36,7 +36,7 @@
             <form action="/organization/{{ awg.id }}/applications/{{ app.id }}" , method="post">
               {% csrf_token %}
               <input class="d-none" name="status" type="text" value="{{ app.Statuses.ACCEPTED | title }}"
-                readonly>
+                     readonly>
               <div class="row justify-content-center align-content-center">
                 <div class="input-group">
                   <div class="col text-center">
@@ -50,7 +50,7 @@
               hx-get="{% url 'awg_suggest_alternative_animal_modal' awg_id=awg.id application_id=app.id %}"
               hx-target="#awg-applications-modal"
             >Do you have another animal that you think they'd be a good fit for? Click Here</a>
-        	  <button type="button" class="btn btn-link" onclick="closeModal('awg-applications-modal'); location.reload()">Close</button>
+            <button type="button" class="btn btn-link" onclick="closeModal('awg-applications-modal'); location.reload()">Close</button>
           </div>
         </div>
       </div>
