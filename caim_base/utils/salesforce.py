@@ -1,6 +1,8 @@
+from logging import getLogger
 from django.conf import settings
 from simple_salesforce import Salesforce
 
+logger = getLogger(__name__)
 
 def _user_from_form(user_form):
     """compile user data from form into object for salesforce"""
@@ -27,6 +29,7 @@ def _salesforce_connection():
 
 
 def create_contact(user_profile, user_form):
+    logger.info("Enter create contact")
     sf = _salesforce_connection()
     sf_user = _user_from_form(user_form)
 
@@ -39,7 +42,7 @@ def create_contact(user_profile, user_form):
         ],
     )
     if len(errors) > 0:
-        # TODO log
+        logger.error("Create contact errors: %s", ", ".join(errors))
         return
 
     salesforce_id = result.get("id")
@@ -49,7 +52,7 @@ def create_contact(user_profile, user_form):
         user_profile.save()
 
     else:
-        # TODO log
+        logger.info("Salesforce id not found")
         return
 
 
@@ -62,5 +65,4 @@ def update_contact(salesforce_id, user_form):
         # exceptions thrown on failure
         sf.Contact.update(salesforce_id, sf_user)
     except Exception:
-        pass
-        # TODO log error
+        logger.exception("Not able to update contact")
