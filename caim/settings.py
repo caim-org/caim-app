@@ -198,28 +198,21 @@ IMAGE_RESIZE_CDN = os.getenv("IMAGE_RESIZE_CDN", None)
 AVATAR_GRAVATAR_DEFAULT = "mp"
 AVATAR_DEFAULT_URL = "/static/default_avatar.jpg"
 
-if DEBUG:
-    LOGGING = {
-        "version": 1,
-        "disable_existing_loggers": False,
-        "filters": {},
-        "handlers": {
-            "console": {
-                "level": "DEBUG",
-                "class": "logging.StreamHandler",
-            }
-        },
-        "root": {
-            "handlers": ["console"],
-            "level": "DEBUG",
-        },
-        "loggers": {
-            # "django.db.backends": {
-            #    "level": "DEBUG",
-            #    "handlers": ["console"],
-            # }
-        },
-    }
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "filters": {},
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "stream": sys.stdout,
+        }
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "INFO" if PRODUCTION else "DEBUG",
+    },
+}
 
 if not PRODUCTION:
     CSRF_TRUSTED_ORIGINS = [
