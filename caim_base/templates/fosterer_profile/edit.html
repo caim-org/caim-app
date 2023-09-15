@@ -132,4 +132,59 @@
         </div>
       </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            function updateDetailsVisibility(inputSelector, detailSelector) {
+                var numInput = document.querySelector(inputSelector);
+                var details = document.querySelectorAll(detailSelector);
+
+                function setVisibility() {
+                    var num = parseInt(numInput.value);
+
+                    // Iterate through all details and show/hide based on num value
+                    for(var i = 0; i < details.length; i++) {
+                        if(i < num) {
+                            details[i].style.display = '';
+                        } else {
+                            details[i].style.display = 'none';
+                        }
+                    }
+                }
+
+                if(numInput) {
+                    // Initial setup
+                    setVisibility();
+                    // Listen to the change event
+                    numInput.addEventListener('change', setVisibility);
+                }
+            }
+
+            // Initialize for Pets and People in Home
+            updateDetailsVisibility('[name="num_existing_pets"]', '.pet-detail');
+            updateDetailsVisibility('[name="num_people_in_home"]', '.person-detail');
+
+            // Make rent specific fields disappear for homeowners
+            var rentRestrictionsInput =  document.querySelector('#div_id_rent_restrictions');
+            var landlordContactText =  document.querySelector('#div_id_landlord_contact_text');
+
+            function toggleRentRestrictions() {
+                var rented = document.querySelector('#id_rent_own_0');
+                var owned = document.querySelector('#id_rent_own_1');
+                if(rented.checked) {
+                    rentRestrictionsInput.style.display = 'block';
+                    landlordContactText.style.display = 'block';
+                } else {
+                    rentRestrictionsInput.style.display = 'none';
+                    landlordContactText.style.display = 'none';
+                }
+            }
+            var rentInput = document.querySelector('#id_rent_own_0');
+            var ownedInput = document.querySelector('#id_rent_own_1');
+
+            rentInput.addEventListener('change', toggleRentRestrictions);
+            ownedInput.addEventListener('change', toggleRentRestrictions);
+            toggleRentRestrictions();
+        });
+    </script>
 {% endblock %}
