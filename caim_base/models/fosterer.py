@@ -190,7 +190,11 @@ class FostererProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     firstname = models.CharField(blank=True, null=True, max_length=64, default=None)
     lastname = models.CharField(blank=True, null=True, max_length=64, default=None)
-    age = models.IntegerField(blank=True, null=True, default=None)
+    age = models.IntegerField(
+        blank=True,
+        null=False,
+        default=None
+    )
     email = models.EmailField(blank=True, null=True, max_length=255, default=None)
     phone = PhoneNumberField(blank=True, null=True, default=None)
     street_address = models.CharField(
@@ -302,19 +306,28 @@ class FostererProfile(models.Model):
     # These references are not used and simply to preserve existing data.
     # going forward associated `ReferenceDetail` holds this information.
     reference_1 = models.TextField(
-        blank=True, null=True, default=None, verbose_name="Reference #1"
+        blank=False,
+        null=False,
+        default=None,
+        verbose_name="Reference #1"
     )
     reference_1.system_check_deprecated_details = dict(
         msg='The ReferenceDetail1 field has been deprecated.',
     )
     reference_2 = models.TextField(
-        blank=True, null=True, default=None, verbose_name="Reference #2"
+        blank=False,
+        null=False,
+        default=None,
+        verbose_name="Reference #2"
     )
     reference_2.system_check_deprecated_details = dict(
         msg='The ReferenceDetail2 field has been deprecated.',
     )
     reference_3 = models.TextField(
-        blank=True, null=True, default=None, verbose_name="Reference #3"
+        blank=False,
+        null=False,
+        default=None,
+        verbose_name="Reference #3"
     )
     reference_3.system_check_deprecated_details = dict(
         msg='The ReferenceDetail3 field has been deprecated.',
@@ -331,7 +344,7 @@ class FostererProfile(models.Model):
     )
     num_people_in_home = models.IntegerField(
         blank=True,
-        null=True,
+        null=False,
         default=None,
         verbose_name="How many people live in your home, excluding yourself?",
     )
