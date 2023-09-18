@@ -16,6 +16,26 @@ class Migration(migrations.Migration):
     operations = [
         migrations.RunPython(set_values_for_non_nulls, reverse_set_values_for_non_nulls),
         migrations.AlterField(
+            model_name="fosterapplication",
+            name="reject_reason",
+            field=models.CharField(
+                choices=[
+                    (
+                        "UNSUITABLE",
+                        "Not suitable for the animal requested, and not willing to consider alternative",
+                    ),
+                    ("UNRELIABLE", "Concerns about fosterer reliability/commitment"),
+                    ("PROPERTY", "Concerns with home and/or yard situation"),
+                    ("HUMAN_ROOMMATES", "Concerns with the people in the home"),
+                    ("PET_ROOMMATES", "Concerns with the other pets in the home"),
+                    ("NO_LANDLORD_APPROVAL", "Landlord has not approved fostering"),
+                    ("LIED", "Lied on Application"),
+                    ("OTHER", "Other"),
+                ],
+                max_length=32,
+            ),
+        ),
+        migrations.AlterField(
             model_name="fostererprofile",
             name="age",
             field=models.IntegerField(blank=True, default=None),

@@ -556,7 +556,7 @@ class FosterApplication(models.Model):
     )
     status = models.CharField(max_length=32, choices=Statuses.choices)
     reject_reason = models.CharField(
-        max_length=32, choices=RejectionReasons.choices, null=True
+        max_length=32, choices=RejectionReasons.choices, null=False
     )
     reject_reason_detail = models.TextField(max_length=65516, null=True, blank=True)
     submitted_on = models.DateField(auto_now_add=True)
