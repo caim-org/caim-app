@@ -21,6 +21,7 @@ from ..models.fosterer import (
     FostererPersonInHomeDetail,
     FostererProfile,
     FostererReferenceDetail,
+    FostererApplicationProfile
 )
 
 
@@ -28,6 +29,11 @@ from ..models.fosterer import (
 @require_http_methods(["POST", "GET"])
 def application(request):
     user = request.user
+    animal_id = request.POST.get("animal_id") or request.GET.get("animal_id")
+    try:
+        animal = Animal.objects.get(pk=int(animal_id))
+    except Animal.DoesNotExist as e:
+        raise Http404("No Animal matches the given query.") from e
 
     # check if person has completed fosterer profile. if not send to fill.
     try:
@@ -39,16 +45,8 @@ def application(request):
         return redirect("/fosterer")
 
     if request.method == "POST":
-        animal_id = request.POST.get("animal_id")
-
-        try:
-            animal = Animal.objects.get(pk=animal_id)
-        except Animal.DoesNotExist as e:
-            raise Http404("No Animal matches the given query.") from e
-
         # check if application exists already
-        try:
-            FosterApplication.objects.get(fosterer=fosterer_profile, animal=animal)
+        if FosterApplication.objects.filter(fosterer__user=user, animal=animal).exists():
             return render(
                 request,
                 "foster_application/exists.html",
@@ -57,17 +55,16 @@ def application(request):
                     "pageTitle": "Foster application already exists",
                 },
             )
-        except FosterApplication.DoesNotExist:
-            pass
 
+        static_foster_profile = FostererProfile.objects.get(user=user).copy_to_static()
         application = FosterApplication(
-            fosterer=fosterer_profile,
+            fosterer=static_foster_profile,
             animal=animal,
             status=FosterApplication.Statuses.PENDING,
             reject_reason_detail=None,
         )
-
         application.save()
+        application
 
         return render(
             request,

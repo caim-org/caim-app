@@ -124,7 +124,10 @@ class FostererLandlordContact(models.Model):
         return f"{self.firstname} {self.lastname}"
 
 
-class FostererProfile(models.Model):
+class AbstractFostererProfile(models.Model):
+    class Meta:
+        abstract = True
+
     class CategoryOfAnimals(models.TextChoices):
         ADULT_FEMALE = "ADULT_FEMALE", "Adult female"
         ADULT_MALE = "ADULT_MALE", "Adult male"
@@ -187,7 +190,6 @@ class FostererProfile(models.Model):
         RENT = "RENT", "Rent"
         OWN = "OWN", "Own"
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
     firstname = models.CharField(blank=True, null=True, max_length=64, default=None)
     lastname = models.CharField(blank=True, null=True, max_length=64, default=None)
     age = models.IntegerField(blank=True, null=True, default=None)
@@ -536,7 +538,7 @@ class FosterApplication(models.Model):
         OTHER = "OTHER", "Other"
 
     fosterer = models.ForeignKey(
-        FostererProfile, on_delete=models.CASCADE, related_name="applications"
+        'FostererApplicationProfile', on_delete=models.CASCADE, related_name="applications"
     )
     animal = models.ForeignKey(
         Animal, on_delete=models.CASCADE, related_name="applications"
@@ -555,7 +557,7 @@ class FosterApplication(models.Model):
     def save(self, *args, **kwargs):
         if not self.id:  # the first save
             notify_new_fosterer_application(self)
-        super().save()
+        super().save( *args, **kwargs)
 
     def get_absolute_url(self):
         return full_url(f"/foster/application?animal_id={self.animal.id}")
@@ -573,3 +575,37 @@ class FosterApplicationAnimalSuggestion(models.Model):
 
     def __str__(self) -> str:
         return f"Suggestion of {self.animal} for {self.fosterer}"
+
+
+class FostererProfile(AbstractFostererProfile):
+    '''
+    The active profile that reflects the current user's info
+    '''
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    def copy_to_static(self):
+        data = self.__dict__.copy()
+        data.pop('_state', None)
+        data.pop('id', None)
+        data.pop('pk', None)
+        data.pop('abstractfostererprofile_ptr_id', None)  # I don't know what this is.
+        return FostererApplicationProfile.objects.create(**data)
+
+
+class FostererApplicationProfile(AbstractFostererProfile):
+    '''
+    The staic profile accompanies the user's foster application and doesn't change.
+    '''
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="application_profile")
+
+    @property
+    def application(self):
+        return FosterApplication.objects.get(fosterer=self)
+
+    def save(self, *args, **kwargs):
+        if self.id:  # the first save
+            raise NotImplemented('StaticFostererProfile can only be saved once.')
+        super().save(*args, **kwargs)
+
+    def __str__(self) -> str:
+        return f"{self.firstname} {self.lastname} @{self.application.submitted_on}"
