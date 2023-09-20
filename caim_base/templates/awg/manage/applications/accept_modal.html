@@ -2,37 +2,44 @@
 {% load static %}
 <div id="modal-backdrop" class="modal-backdrop fade show" style="display:block;"></div>
 <div id="modal" class="modal fade show" tabindex="-1" style="display:block;">
-  <div class="modal-dialog modal-xl modal-dialog-centered">
+  <div class="modal-dialog modal-fullscreen-sm-down modal-xl modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="applicant-modal-header">
+        <div class="d-flex justify-content-end">
+          <i class="bi-x" style="font-size: 2rem; cursor: pointer;" onclick="closeModal('awg-applications-modal')"></i>
+        </div>
         <div class="container-fluid" style="height: 100%;">
           <img
             class="mx-auto d-block"
             src="{% static 'img/thinking.svg' %}"
           >
-          <div class="fs-3 text-center">Are you sure you want to accept this application?</div>
+          <div class="pt-5 fs-3 fw-bold text-center">Are you sure you want to approve this application?</div>
         </div>
       </div>
       <div class="modal-body">
         <div class="container-fluid">
-          <div class="row">
-            <div class="col text-center">
-              <h4 class="row">Applicant</h4>
-              <div class="row">{{ app.fosterer.firstname }} {{ app.fosterer.lastname }}</div>
-              <div>{{ app.fosterer.city }}, {{ app.fosterer.state }}</div>
+          <div class="fs-5 py-3 text-center">Please review all the details below</div>
+          <div class="row py-2">
+            <div class="col text-center entity-overview">
+              <div class="row fs-7 pb-2">Applicant</div>
+
+              <div class="row picture-preview-container fake-profile-image"></div>
+              <div class="row fs-7 pt-2">{{ app.fosterer.firstname }} {{ app.fosterer.lastname }}</div>
+              <div class="row text-secondary fs-7">{{ app.fosterer.city }}, {{ app.fosterer.state }}</div>
             </div>
-            <div class="col text-center">
-              <h4 class="row">Animal</h4>
-              <div class="row">
+            <div class="col text-center entity-overview row-gap-3">
+              <div class="row fs-7 pb-2">Animal</div>
+              <div class="row picture-preview-container">
                 <img
-                  class="col"
+                  class="col picture-preview"
                   style="background-color: #eee; clip-path: circle()"
-                  src="{{ app.animal.primary_photo.url|image_resize:'75x75 crop' }}"
+                  src="{{ app.animal.primary_photo.url|image_resize:'34x34' }}"
                 >
-                <div class="col">{{ app.animal.name}}</div>
               </div>
+              <div class="row fs-7 pt-2">{{ app.animal.name}}</div>
+              <div class="row text-secondary fs-7">{{ app.animal.awg.city}}, {{ app.animal.awg.state }}</div>
             </div>
-            <form action="/organization/{{ awg.id }}/applications/{{ app.id }}" , method="post">
+            <form class="pt-3 d-flex justify-content-center" action="/organization/{{ awg.id }}/applications/{{ app.id }}" , method="post">
               {% csrf_token %}
               <input class="d-none" name="status" type="text" value="{{ app.Statuses.ACCEPTED | title }}"
                      readonly>
@@ -41,9 +48,9 @@
                 hx-post="{% url 'awg_update_application_status_submit_modal' awg_id=awg.id application_id=app.id %}"
                 hx-target="#awg-applications-modal"
                 _="on htmx:afterOnLoad wait 10ms then add .show to #modal then add .show to #modal-backdrop"
-              >Confirm</button>
+              >Continue</button>
             </form>
-            <button type="button" class="btn btn-link" onclick="closeModal('awg-applications-modal')">cancel</button>
+            <button type="button" class="btn btn-link text-decoration-none" onclick="closeModal('awg-applications-modal')">cancel</button>
           </div>
         </div>
       </div>
