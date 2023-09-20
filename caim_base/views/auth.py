@@ -54,9 +54,7 @@ def register_view(request):
             )
             user_profile.save()
 
-            # create contact in salesforce
-            if settings.SALESFORCE_ENABLED:
-                salesforce.create_contact(user_profile, form)
+            salesforce.create_or_update_contact(user_profile, form)
 
             login(request, user)
             messages.success(request, "Registration successful.")

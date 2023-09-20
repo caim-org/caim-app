@@ -61,12 +61,7 @@ def edit(request: HttpRequest) -> HttpResponse:
             user_profile.zip_code = form.cleaned_data["zip_code"]
             user_profile.save()
 
-            # create or update salesforce contact
-            if settings.SALESFORCE_ENABLED:
-                if user_profile.salesforce_id is not None:
-                    salesforce.update_contact(user_profile.salesforce_id, form)
-                else:
-                    salesforce.create_contact(user_profile, form)
+            salesforce.create_or_update_contact(user_profile, form)
 
             return redirect("account_details")
 
