@@ -22,7 +22,6 @@
           <div class="row py-2">
             <div class="col text-center entity-overview">
               <div class="row fs-7 pb-2">Applicant</div>
-
               <div class="row picture-preview-container fake-profile-image"></div>
               <div class="row fs-7 pt-2">{{ app.fosterer.firstname }} {{ app.fosterer.lastname }}</div>
               <div class="row text-secondary fs-7">{{ app.fosterer.city }}, {{ app.fosterer.state }}</div>
@@ -39,12 +38,12 @@
               <div class="row fs-7 pt-2">{{ app.animal.name}}</div>
               <div class="row text-secondary fs-7">{{ app.animal.awg.city}}, {{ app.animal.awg.state }}</div>
             </div>
-            <form class="pt-3 d-flex justify-content-center" action="/organization/{{ awg.id }}/applications/{{ app.id }}" , method="post">
+            <form class="pt-4 d-flex justify-content-center" action="/organization/{{ awg.id }}/applications/{{ app.id }}" , method="post">
               {% csrf_token %}
               <input class="d-none" name="status" type="text" value="{{ app.Statuses.ACCEPTED | title }}"
                      readonly>
               <button
-                class="btn btn-primary"
+                class="btn btn-primary btn-lg"
                 hx-post="{% url 'awg_update_application_status_submit_modal' awg_id=awg.id application_id=app.id %}"
                 hx-target="#awg-applications-modal"
                 _="on htmx:afterOnLoad wait 10ms then add .show to #modal then add .show to #modal-backdrop"
