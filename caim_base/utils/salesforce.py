@@ -14,7 +14,7 @@ def _salesforce_connection():
         security_token=settings.SALESFORCE_SECURITY_TOKEN,
     )
 
-def _create_contact(user_profile, user_form, connection = _salesforce_connection()):
+def _create_contact(user_profile, user_form, connection):
     logger.info("Enter create contact")
     sf_user = _user_from_form(user_form)
 
@@ -40,7 +40,7 @@ def _create_contact(user_profile, user_form, connection = _salesforce_connection
         logger.info("Salesforce id not found")
         return
 
-def _update_contact(salesforce_id, user_form, connection = _salesforce_connection()):
+def _update_contact(salesforce_id, user_form, connection):
     sf_user = _user_from_form(user_form)
 
     try:
@@ -70,6 +70,6 @@ def create_or_update_contact(user_profile, user_form):
         return
 
     if user_profile.salesforce_id is not None:
-        _update_contact(user_profile.salesforce_id, user_form)
+        _update_contact(user_profile.salesforce_id, user_form, _salesforce_connection())
     else:
-        _create_contact(user_profile, user_form)
+        _create_contact(user_profile, user_form, _salesforce_connection())
