@@ -19,6 +19,8 @@ def _salesforce_connection():
 def _create_contact(salesforce_contact, connection):
     logger.info("Enter create contact")
 
+    salesforce_contact["FosterProfile"] = "Incomplete"
+
     result = connection.Contact.create(salesforce_contact)
 
     errors = result.get(
@@ -56,7 +58,7 @@ def _user_from_form(user_form):
         "MailingPostalCode": form_data.get("zip_code"),
     }
 
-def _user_profile_to_salesforce_contact(user_profile: UserProfile):
+def _user_profile_to_salesforce_contact(user_profile: models.UserProfile):
     return {
         "FirstName": user_profile.user.first_name,
         "LastName": user_profile.user.last_name,
@@ -65,6 +67,21 @@ def _user_profile_to_salesforce_contact(user_profile: UserProfile):
         "MailingState": user_profile.state,
         "MailingPostalCode": user_profile.zip_code,
     }
+
+def update_fosterer_profile_complete(user: models.User):
+    if not settings.SALESFORCE_ENABLED:
+        logger.info("Salesforce not enabled for this environment, skipping")
+        return 
+
+    try:
+        user_profile = models.UserProfile.objects.get(user=user)
+        connection = _salesforce_connection()
+        connection.Contact.update(user_profile.salesforce_id, {"FosterProfile": "Complete"})
+    except models.UserProfile.DoesNotExist:
+        logger.info("Unable to retrieve UserProfile for user %s", user)
+    except Exception:
+        logger.exception("Not able to update contact")
+
 
 
 def create_or_update_contact(user_profile: models.UserProfile):

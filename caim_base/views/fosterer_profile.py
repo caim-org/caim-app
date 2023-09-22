@@ -18,6 +18,7 @@ from ..models import (
 from ..models.fosterer import FostererProfile
 from ..models.user import UserProfile
 from ..notifications import notify_new_fosterer_profile
+from ..utils import salesforce
 
 
 class ExistingPetDetailForm(forms.ModelForm):
@@ -429,13 +430,11 @@ STAGES = {
     },
 }
 
-
 @login_required()
 @require_http_methods(["GET"])
 def start(request):
     after = request.GET.get('after', '')
     return redirect(f"/fosterer/about-you?after={after}")
-
 
 @login_required()
 @require_http_methods(["POST", "GET"])
@@ -455,6 +454,7 @@ def edit(request, stage_id):
             # @todo check if all fields done
             fosterer_profile.is_complete = True
             fosterer_profile.save()
+            salesforce.update_fosterer_profile_complete(user)
             notify_new_fosterer_profile(fosterer_profile)
 
         link = request.GET.get('after') or reverse('browse')
