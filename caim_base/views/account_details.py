@@ -61,7 +61,7 @@ def edit(request: HttpRequest) -> HttpResponse:
             user_profile.zip_code = form.cleaned_data["zip_code"]
             user_profile.save()
 
-            salesforce.create_or_update_contact(user_profile, form)
+            salesforce.create_or_update_contact(user_profile)
 
             return redirect("account_details")
 

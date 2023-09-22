@@ -1,7 +1,9 @@
+from __future__ import annotations
 from logging import getLogger
+from functools import cache
 from django.conf import settings
 from simple_salesforce import Salesforce
-from functools import cache
+from .. import models
 
 logger = getLogger(__name__)
 
@@ -14,11 +16,10 @@ def _salesforce_connection():
         security_token=settings.SALESFORCE_SECURITY_TOKEN,
     )
 
-def _create_contact(user_profile, user_form, connection):
+def _create_contact(salesforce_contact, connection):
     logger.info("Enter create contact")
-    sf_user = _user_from_form(user_form)
 
-    result = connection.Contact.create(sf_user)
+    result = connection.Contact.create(salesforce_contact)
 
     errors = result.get(
         "errors",
@@ -31,22 +32,13 @@ def _create_contact(user_profile, user_form, connection):
         return
 
     salesforce_id = result.get("id")
-    if salesforce_id:
-        # update profile with salesforce id
-        user_profile.salesforce_id = salesforce_id
-        user_profile.save()
+    return salesforce_id
 
-    else:
-        logger.info("Salesforce id not found")
-        return
-
-def _update_contact(salesforce_id, user_form, connection):
-    sf_user = _user_from_form(user_form)
-
+def _update_contact(salesforce_id, salesforce_contact, connection):
     try:
         # 204 (no content) results from successful update
         # exceptions thrown on failure
-        connection.Contact.update(salesforce_id, sf_user)
+        connection.Contact.update(salesforce_id, salesforce_contact)
     except Exception:
         logger.exception("Not able to update contact")
 
@@ -64,12 +56,31 @@ def _user_from_form(user_form):
         "MailingPostalCode": form_data.get("zip_code"),
     }
 
-def create_or_update_contact(user_profile, user_form):
+def _user_profile_to_salesforce_contact(user_profile: UserProfile):
+    return {
+        "FirstName": user_profile.user.first_name,
+        "LastName": user_profile.user.last_name,
+        "Email": user_profile.user.email,
+        "MailingCity": user_profile.city,
+        "MailingState": user_profile.state,
+        "MailingPostalCode": user_profile.zip_code,
+    }
+
+
+def create_or_update_contact(user_profile: models.UserProfile):
     if not settings.SALESFORCE_ENABLED:
         logger.info("Salesforce not enabled for this environment, skipping")
         return
 
+    salesforce_contact = _user_profile_to_salesforce_contact(user_profile)
+
     if user_profile.salesforce_id is not None:
-        _update_contact(user_profile.salesforce_id, user_form, _salesforce_connection())
+        _update_contact(user_profile.salesforce_id, salesforce_contact, _salesforce_connection())
     else:
-        _create_contact(user_profile, user_form, _salesforce_connection())
+        logger.info("salesforce_id is not present, creating new contact")
+        salesforce_id = _create_contact(salesforce_contact, _salesforce_connection())
+        if salesforce_id:
+            logger.info("salesforce id created")
+            # update profile with salesforce id
+            user_profile.salesforce_id = salesforce_id
+            user_profile.save()

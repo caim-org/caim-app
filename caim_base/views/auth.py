@@ -8,7 +8,6 @@ from ..forms import NewUserForm
 from ..models import UserProfile, FostererProfile
 from ..utils import salesforce
 
-
 def login_view(request):
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
@@ -54,7 +53,7 @@ def register_view(request):
             )
             user_profile.save()
 
-            salesforce.create_or_update_contact(user_profile, form)
+            salesforce.create_or_update_contact(user_profile)
 
             login(request, user)
             messages.success(request, "Registration successful.")
