@@ -244,7 +244,7 @@ def fake_foster_profile(user: User) -> FostererProfile:
     # if fosterer.Timeframe.ANY_DURATION in fosterer.timeframe:
     #     fosterer.timeframe_other = fake.text(randint(5, 500))
     fosterer.num_existing_pets = randint(0, 10)
-    fosterer.existing_pets_details = fake.text(randint(5, 500))
+    # fosterer.existing_pets_details = fake.text(randint(5, 500))
     fosterer.experience_description = fake.text(randint(5, 500))
     # pick a random selections from these choice fields, from 1-max number of selections
     k = randint(1, len(fosterer.ExperienceCategories.choices))
@@ -266,10 +266,10 @@ def fake_foster_profile(user: User) -> FostererProfile:
     fosterer.rent_own = choice([choice[0] for choice in fosterer.RentOwn.choices])
     if fosterer.rent_own == fosterer.RentOwn.RENT:
         fosterer.rent_restrictions = fake.text(randint(5, 50))
-        fosterer.rent_ok_foster_pets = choice([choice[0] for choice in YesNo.choices])
+        # fosterer.rent_ok_foster_pets = choice([choice[0] for choice in YesNo.choices])
     else:
         fosterer.rent_restrictions = None
-        fosterer.rent_ok_foster_pets = YesNo.YES  # field not allowing null???
+        # fosterer.rent_ok_foster_pets = YesNo.YES  # field not allowing null???
     fosterer.hours_alone_description = fake.text(10)
     fosterer.hours_alone_location = fake.text(10)
     fosterer.sleep_location = fake.text(10)
@@ -290,14 +290,18 @@ def fake_foster_profile(user: User) -> FostererProfile:
 
 def fake_fosterers(num_desired_fosterers: int):
     print("generating fake fosterers...")
-    fosterers = []
     for _ in range(num_desired_fosterers):
         # going through the fields in the same order they appear in the model
-        user = User.objects.create_user(fake.user_name(), email=fake.email())
+        try:
+            user = User.objects.create_user(fake.user_name(), email=fake.email())
+        except django.db.IntegrityError:
+            # Random name collision gives an IntegrityError, but odds getting two IntegrityError in a row here has got
+            # to be very, very low.
+            user = User.objects.create_user(fake.user_name(), email=fake.email())
+
         user.save()
         fosterer = fake_foster_profile(user)
-        fosterers.append(fosterer)
-    FostererProfile.objects.bulk_create(fosterers)
+        fosterer.save()
 
 
 def fake_foster_application(
@@ -305,7 +309,7 @@ def fake_foster_application(
 ) -> FosterApplication:
     application = FosterApplication()
     application.animal = animal
-    application.fosterer = foster_profile
+    application.fosterer = foster_profile.copy_to_static()
     application.status = choice([choice[0] for choice in application.Statuses.choices])
     if application.status == application.Statuses.REJECTED:
         application.reject_reason = choice(

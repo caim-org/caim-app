@@ -13,7 +13,7 @@ from .models.animals import (
     User,
 )
 from .models.awg import AwgMember
-from .models.fosterer import FostererProfile, FosterApplication
+from .models.fosterer import FostererApplicationProfile, FostererProfile, FosterApplication
 from .models.user import UserProfile
 
 # Unregister the user admin so we can user our own
@@ -83,4 +83,5 @@ admin.site.register(Animal, AnimalAdmin)
 admin.site.register(Awg, AwgAdmin)
 admin.site.register(AnimalComment, CommentAdmin)
 admin.site.register(FostererProfile)
+admin.site.register(FostererApplicationProfile)
 admin.site.register(FosterApplication)
