@@ -505,15 +505,17 @@ def edit(request, stage_id):
             num_of_pets = int(existing_pet_detail_formset.data['num_existing_pets'])
             if num_of_pets:
                 for index, existing_pet_detail_form in enumerate(existing_pet_detail_formset):
-                    if index <= num_of_pets - 1:
+                    if index < num_of_pets:
                         existing_pet_detail_form.full_clean()
-                        if not any(existing_pet_detail_form.cleaned_data.values()):
+                        any_missing_fields = not all(value is not None for value in existing_pet_detail_form.cleaned_data.values())
+                        if not existing_pet_detail_form.cleaned_data or any_missing_fields:
                             formsets_are_valid = False
                             messages.error(
                                 request,
                                 f"Ensure the \"Number of Pets\" ({num_of_pets}) matches the number of "
-                                f"\"Pet\" fields you have filled out."
+                                f"\"Pet Details\" sections you entirely have filled out."
                             )
+                            break
 
             if not existing_pet_detail_formset.is_valid():
                 formsets_are_valid = False
@@ -528,15 +530,17 @@ def edit(request, stage_id):
             num_people_in_home = int(person_in_home_detail_formset.data['num_people_in_home'])
             if num_people_in_home:
                 for index, person_in_home_detail_form in enumerate(person_in_home_detail_formset):
-                    if index <= num_people_in_home - 1:
+                    if index < num_people_in_home:
                         person_in_home_detail_form.full_clean()
-                        if not any(person_in_home_detail_form.cleaned_data.values()):
+                        any_missing_fields = not all(value is not None for value in person_in_home_detail_form.cleaned_data.values())
+                        if not person_in_home_detail_form.cleaned_data or any_missing_fields:
                             formsets_are_valid = False
                             messages.error(
                                 request,
                                 f"Ensure the number of people in your home ({num_people_in_home}) matches " \
-                                f"the number of \"Person in Home Details\" fields you have filled out."
+                                f"the number of \"Person in Home Details\" sections you have entirely filled out."
                             )
+                            break
 
             # Ensure if a user has selected `Rent` they must fill out rent details.
             rent_own = person_in_home_detail_formset.data['rent_own']
@@ -556,7 +560,7 @@ def edit(request, stage_id):
         if not formsets_are_valid:
             messages.error(request, "Please correct any form errors")
 
-        if form_is_valid:
+        if form_is_valid and formsets_are_valid:
             form.save()
 
             if stage_id == "pet-experience":
