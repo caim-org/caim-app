@@ -1,0 +1,33 @@
+.modal-body {
+    /* padding: 50px 50px; */
+}
+
+.applicant-modal-header {
+    padding: 20px 24px 0;
+}
+
+.close-button {
+    width: 24px;
+    height: 24px;
+}
+.picture-preview-container {
+    width: 34px;
+    height: 34px;
+}
+
+.picture-preview {
+    object-fit: contain;
+    padding: 0;
+}
+
+.entity-overview {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.fake-profile-image {
+    background-color: #D9D9D9;
+    clip-path: circle();
+}
