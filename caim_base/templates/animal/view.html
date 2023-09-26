@@ -138,9 +138,12 @@
                   <div>{{ animal.is_vaccinations_current | yesno | capfirst }}</div>
                 </div>
                 {% if animal.vaccinations_notes %}
-                  <p>
-                    {{ animal.vaccinations_notes | urlizetrunc:60 | linebreaks }}
-                  </p>
+                  <div class="d-inline-block">
+                    {{ animal.vaccinations_notes | truncatechars:150 | linebreaksbr }}
+                    {% if animal.vaccinations_notes|length > 150 %}
+                      <button class="btn btn-link text-decoration-none align-top p-0" onclick="this.parentElement.innerHTML = '{{ animal.vaccinations_notes | linebreaksbr }}'">Read more</button>
+                    {% endif %}
+                  </div>
                 {% endif %}
                 <div class="d-flex justify-content-between">
                   <div>
@@ -150,9 +153,12 @@
                   <div>{{ animal.is_special_needs | yesno | capfirst }}</div>
                 </div>
                 {% if animal.special_needs %}
-                  <p>
-                    {{ animal.special_needs | urlizetrunc:60 | linebreaks }}
-                  </p>
+                  <div class="d-inline-block">
+                    {{ animal.special_needs | truncatechars:150 | linebreaksbr }}
+                    {% if animal.special_needs|length > 150 %}
+                      <button class="btn btn-link text-decoration-none align-top p-0" onclick="this.parentElement.innerHTML = '{{ animal.special_needs| linebreaksbr }}'">Read more</button>
+                    {% endif %}
+                  </div>
                 {% endif %}
               </div>
             </div>
