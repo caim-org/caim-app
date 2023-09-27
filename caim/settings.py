@@ -74,7 +74,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django_browser_reload.middleware.BrowserReloadMiddleware",
-    "django_htmx.middleware.HtmxMiddleware"
+    "django_htmx.middleware.HtmxMiddleware",
 ]
 
 ROOT_URLCONF = "caim.urls"
@@ -126,7 +126,9 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "NAME": (
+            "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
+        ),
     },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
@@ -196,28 +198,21 @@ IMAGE_RESIZE_CDN = os.getenv("IMAGE_RESIZE_CDN", None)
 AVATAR_GRAVATAR_DEFAULT = "mp"
 AVATAR_DEFAULT_URL = "/static/default_avatar.jpg"
 
-if DEBUG:
-    LOGGING = {
-        "version": 1,
-        "disable_existing_loggers": False,
-        "filters": {},
-        "handlers": {
-            "console": {
-                "level": "DEBUG",
-                "class": "logging.StreamHandler",
-            }
-        },
-        "root": {
-            "handlers": ["console"],
-            "level": "DEBUG",
-        },
-        "loggers": {
-            # "django.db.backends": {
-            #    "level": "DEBUG",
-            #    "handlers": ["console"],
-            # }
-        },
-    }
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "filters": {},
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "stream": sys.stdout,
+        }
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "INFO" if PRODUCTION else "DEBUG",
+    },
+}
 
 if not PRODUCTION:
     CSRF_TRUSTED_ORIGINS = [
@@ -276,12 +271,15 @@ if SALESFORCE_ENABLED:
     SALESFORCE_PASSWORD = os.getenv("SALESFORCE_PASSWORD")
     SALESFORCE_SECURITY_TOKEN = os.getenv("SALESFORCE_SECURITY_TOKEN")
 
-    
-if sys.platform == 'darwin':
+
+if sys.platform == "darwin":
     import subprocess
+
     try:
-        brew_prefix = subprocess.check_output(["brew", "--prefix"]).decode("utf-8").strip()
-        GDAL_LIBRARY_PATH = f'{brew_prefix}/opt/gdal/lib/libgdal.dylib'
-        GEOS_LIBRARY_PATH = f'{brew_prefix}/opt/geos/lib/libgeos_c.dylib'
+        brew_prefix = (
+            subprocess.check_output(["brew", "--prefix"]).decode("utf-8").strip()
+        )
+        GDAL_LIBRARY_PATH = f"{brew_prefix}/opt/gdal/lib/libgdal.dylib"
+        GEOS_LIBRARY_PATH = f"{brew_prefix}/opt/geos/lib/libgeos_c.dylib"
     except subprocess.CalledProcessError:
-        pass # brew not installed, assume libraries are in default location
+        pass  # brew not installed, assume libraries are in default location

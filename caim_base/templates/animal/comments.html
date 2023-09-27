@@ -9,9 +9,10 @@
     </p>
 {% else %}
 
-    <div id="comments" class="py-4">
-    {{ commentCount }} comment{{ commentCount|pluralize }}
-    ha{{ commentCount|pluralize:"s,ve" }} been posted.
+    <h5 class="black-header">Comments:</h5>
+    <div id="comments" class="py-3 text-muted">
+        {{ commentCount }} comment{{ commentCount|pluralize }}
+        ha{{ commentCount|pluralize:"s,ve" }} been posted.
     </div>
 
     {% for comment in comments %}
@@ -50,10 +51,10 @@
                                     {% if sub_comment.edited_at %}(edited){% endif %}
                                 </div>
                                 <div>
-                                    {% if sub_comment|can_be_edited_by:request.user %}<a href="/reply/{{sub_comment.id}}/edit">Edit reply</a> |{% endif %} 
-                                    {% if sub_comment|can_be_deleted_by:request.user %}<a href="/reply/{{sub_comment.id}}/delete">Delete reply</a>{% endif %}   
+                                    {% if sub_comment|can_be_edited_by:request.user %}<a href="/reply/{{sub_comment.id}}/edit">Edit reply</a> |{% endif %}
+                                    {% if sub_comment|can_be_deleted_by:request.user %}<a href="/reply/{{sub_comment.id}}/delete">Delete reply</a>{% endif %}
                                 </div>
-                            </div>    
+                            </div>
                         </div>
                     </div>
                 {% endfor %}
@@ -62,16 +63,16 @@
     {% endfor %}
 
     <form method="post" action="/comments/add">
-    {% csrf_token %}
-    <input type="hidden" name="animalId" value="{{animal.id}}" />
-    <div class="comment">
-        {% avatar user 40 40 class="comment-avatar avatar" %}
-        <div class="comment-inner">
-        <div class="comment-username">Ask something about this animal</div>
-        <textarea rows="3" name="body"></textarea>
-        <input type="submit" class="btn btn-primary" value="Add comment" />
+        {% csrf_token %}
+        <input type="hidden" name="animalId" value="{{animal.id}}" />
+        <div class="comment">
+            {% avatar user 40 40 class="comment-avatar avatar" %}
+            <div class="comment-inner">
+                <div class="comment-username text-muted">Ask something about this animal</div>
+                <textarea rows="3" name="body"></textarea>
+                <input type="submit" class="btn btn-primary mt-3 mb-2" value="Add comment" />
+            </div>
         </div>
-    </div>
     </form>
 
 {% endif %}

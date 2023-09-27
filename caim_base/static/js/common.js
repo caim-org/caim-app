@@ -1,10 +1,3 @@
-// @todo move into static asset 
-
-function todo() {
-    alert('Todo!');
-    return false;
-}
-
 // Saved searched
 function saveSearch() {
     var modal = new bootstrap.Modal(document.getElementById('savedSearchModal'))

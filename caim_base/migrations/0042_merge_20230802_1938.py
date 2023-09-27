@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("caim_base", "0037_fosterapplication_reject_reason_detail_and_more"),
         ("caim_base", "0041_fostererprofile_landlord_contact_text"),

@@ -84,4 +84,3 @@ admin.site.register(Awg, AwgAdmin)
 admin.site.register(AnimalComment, CommentAdmin)
 admin.site.register(FostererProfile)
 admin.site.register(FosterApplication)
-

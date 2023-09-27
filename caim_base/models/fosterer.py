@@ -1,4 +1,3 @@
-import io
 from typing import List, Optional, Union
 
 from django import forms
@@ -72,26 +71,43 @@ class FostererExistingPetDetail(models.Model):
         null=True,
         verbose_name="Up to date on their shots?",
     )
-    quirks = models.TextField(max_length=1024, blank=True, null=True, verbose_name="Any quirks?")
+    quirks = models.TextField(
+        max_length=1024, blank=True, null=True, verbose_name="Any quirks?"
+    )
 
-    fosterer_profile = models.ForeignKey("FostererProfile", on_delete=models.CASCADE, related_name="existing_pets")
+    fosterer_profile = models.ForeignKey(
+        "FostererProfile", on_delete=models.CASCADE, related_name="existing_pets"
+    )
+
+    def __str__(self) -> str:
+        return f"{self.fosterer_profile} - {self.name}"
 
 
 class FostererReferenceDetail(models.Model):
-    fosterer_profile = models.ForeignKey("FostererProfile", on_delete=models.CASCADE, related_name="references")
+    fosterer_profile = models.ForeignKey(
+        "FostererProfile", on_delete=models.CASCADE, related_name="references"
+    )
     first_name = models.CharField(max_length=64)
     last_name = models.CharField(max_length=64)
     email = models.EmailField(max_length=255)
     phone = PhoneNumberField(null=True, default=None)
     relation = models.CharField(max_length=128)
 
+    def __str__(self) -> str:
+        return f"{self.first_name} {self.last_name}"
+
 
 class FostererPersonInHomeDetail(models.Model):
-    fosterer_profile = models.ForeignKey("FostererProfile", on_delete=models.CASCADE, related_name="people_in_home")
+    fosterer_profile = models.ForeignKey(
+        "FostererProfile", on_delete=models.CASCADE, related_name="people_in_home"
+    )
     name = models.CharField(max_length=128, blank=True, null=True, default=None)
     relation = models.CharField(max_length=128, blank=True, null=True, default=None)
     age = models.IntegerField(blank=True, null=True, default=None)
     email = models.EmailField(max_length=255, blank=True, null=True, default=None)
+
+    def __str__(self) -> str:
+        return f"{self.name}"
 
 
 # NOTE model not currently in use.
@@ -104,11 +120,11 @@ class FostererLandlordContact(models.Model):
     email = models.EmailField(max_length=255, blank=True, null=True)
     phone = PhoneNumberField(blank=True, null=True, default=None)
 
-
-class FostererProfile(models.Model):
     def __str__(self) -> str:
         return f"{self.firstname} {self.lastname}"
 
+
+class FostererProfile(models.Model):
     class CategoryOfAnimals(models.TextChoices):
         ADULT_FEMALE = "ADULT_FEMALE", "Adult female"
         ADULT_MALE = "ADULT_MALE", "Adult male"
@@ -177,9 +193,13 @@ class FostererProfile(models.Model):
     age = models.IntegerField(blank=True, null=True, default=None)
     email = models.EmailField(blank=True, null=True, max_length=255, default=None)
     phone = PhoneNumberField(blank=True, null=True, default=None)
-    street_address = models.CharField(blank=True, null=True, max_length=244, default=None)
+    street_address = models.CharField(
+        blank=True, null=True, max_length=244, default=None
+    )
     city = models.CharField(max_length=32, blank=True, null=True, default=None)
-    state = models.CharField(max_length=2, blank=True, null=True, choices=states.items(), default=None)
+    state = models.CharField(
+        max_length=2, blank=True, null=True, choices=states.items(), default=None
+    )
     zip_code = models.CharField(max_length=16, blank=True, null=True, default=None)
     type_of_animals = ChoiceArrayField(
         models.CharField(max_length=32, choices=TypeOfAnimals.choices),
@@ -200,14 +220,19 @@ class FostererProfile(models.Model):
         blank=True,
         null=True,
         default=None,
-        verbose_name="If you’re interested in fostering dogs, do you have a preference about size?",
+        verbose_name=(
+            "If you’re interested in fostering dogs,"
+            " do you have a preference about size?"
+        ),
     )
     behavioural_attributes = ChoiceArrayField(
         models.CharField(max_length=32, choices=BehaviouralAttributes.choices),
         blank=True,
         null=True,
         default=None,
-        verbose_name="Please check any of the requirements you have for a foster animal.",
+        verbose_name=(
+            "Please check any of the requirements you have for a foster animal."
+        ),
     )
     medical_issues = models.CharField(
         choices=YesNo.choices,
@@ -251,46 +276,77 @@ class FostererProfile(models.Model):
         blank=True,
         null=True,
         default=None,
-        verbose_name="Have you ever given a pet up? If so, please describe the situation.",
+        verbose_name=(
+            "Have you ever given a pet up? If so, please describe the situation."
+        ),
     )
     experience_description = models.TextField(
         blank=True,
         null=True,
         default=None,
-        verbose_name="Please describe your experience with animals (personal pets, training, interactions, etc.)",
+        verbose_name=(
+            "Please describe your experience with animals"
+            " (personal pets, training, interactions, etc.)"
+        ),
     )
     experience_categories = ChoiceArrayField(
         models.CharField(max_length=32, choices=ExperienceCategories.choices),
         blank=True,
         null=True,
         default=None,
-        verbose_name="Have you had experience with any of the following in animals you’ve owned or fostered?",
+        verbose_name=(
+            "Have you had experience with any of the following"
+            " in animals you’ve owned or fostered?"
+        ),
     )
     # These references are not used and simply to preserve existing data.
     # going forward associated `ReferenceDetail` holds this information.
-    reference_1 = models.TextField(blank=True, null=True, default=None, verbose_name="Reference #1")
-    reference_2 = models.TextField(blank=True, null=True, default=None, verbose_name="Reference #2")
-    reference_3 = models.TextField(blank=True, null=True, default=None, verbose_name="Reference #3")
+    reference_1 = models.TextField(
+        blank=True, null=True, default=None, verbose_name="Reference #1"
+    )
+    reference_1.system_check_deprecated_details = dict(
+        msg='The ReferenceDetail1 field has been deprecated.',
+    )
+    reference_2 = models.TextField(
+        blank=True, null=True, default=None, verbose_name="Reference #2"
+    )
+    reference_2.system_check_deprecated_details = dict(
+        msg='The ReferenceDetail2 field has been deprecated.',
+    )
+    reference_3 = models.TextField(
+        blank=True, null=True, default=None, verbose_name="Reference #3"
+    )
+    reference_3.system_check_deprecated_details = dict(
+        msg='The ReferenceDetail3 field has been deprecated.',
+    )
     # This is old "people at home" and is simply to preserve existing data.
     # Unused in the future this info should come from associated `PersonInHomeDetail`.
     people_at_home = models.TextField(
         blank=True,
         null=True,
         default=None,
-        verbose_name="Please list how many people live in your home and their ages (legacy)",
+        verbose_name=(
+            "Please list how many people live in your home and their ages (legacy)"
+        ),
     )
     num_people_in_home = models.IntegerField(
         blank=True,
         null=True,
         default=None,
-        verbose_name="How many people live in your home, including yourself?",
+        verbose_name="How many people live in your home, excluding yourself?",
     )
     # TODO use Personinhomedetail
     people_in_home_detail = models.TextField(
         blank=True,
         null=True,
         default=None,
-        verbose_name="Please list the following details for each person in your home, excluding yourself: Name, Relation, Age, Email address.",
+        verbose_name=(
+            "Please list the following details for each person in your home,"
+            " excluding yourself: Name, Relation, Age, Email address."
+        ),
+    )
+    people_in_home_detail.system_check_deprecated_details = dict(
+        msg='The PeopleInHomeDetail field has been deprecated.',
     )
     all_in_agreement = models.CharField(
         choices=YesNo.choices,
@@ -344,14 +400,20 @@ class FostererProfile(models.Model):
         blank=True,
         null=True,
         default=None,
-        verbose_name="If you rent, please describe any pet restrictions that are in place.",
+        verbose_name=(
+            "If you rent, please describe any pet restrictions that are in place."
+        ),
     )
     landlord_contact_text = models.CharField(
         blank=True,
         null=True,
         max_length=128,
         default=None,
-        verbose_name="If you rent, please provide your landlord’s contact information (email and/or phone). We will contact them to confirm that you have approval to foster.",
+        verbose_name=(
+            "If you rent, please provide your landlord’s"
+            " contact information (email and/or phone)."
+            " We will contact them to confirm that you have approval to foster."
+        ),
     )
     hours_alone_description = models.TextField(
         blank=True,
@@ -383,7 +445,10 @@ class FostererProfile(models.Model):
         blank=False,
         null=True,
         default=None,
-        verbose_name="Have you or a family / household member ever been convicted of an animal related crime (animal abuse, neglect, abandonment, etc.)?",
+        verbose_name=(
+            "Have you or a family / household member ever been convicted"
+            " of an animal related crime (animal abuse, neglect, abandonment, etc.)?"
+        ),
     )
     agree_share_details = models.CharField(
         choices=YesNo.choices,
@@ -391,7 +456,9 @@ class FostererProfile(models.Model):
         blank=False,
         null=True,
         default=None,
-        verbose_name="Do you agree that we can share the details you've provided with rescues?",
+        verbose_name=(
+            "Do you agree that we can share the details you've provided with rescues?"
+        ),
     )
     agree_social_media = models.CharField(
         choices=YesNo.choices,
@@ -399,9 +466,15 @@ class FostererProfile(models.Model):
         blank=False,
         null=True,
         default=None,
-        verbose_name="Do you agree to help promote your foster animal on social media and/or by attending adoption events and public outings?",
+        verbose_name=(
+            "Do you agree to help promote your foster animal on social media"
+            " and/or by attending adoption events and public outings?"
+        ),
     )
     is_complete = models.BooleanField(default=False)
+
+    def __str__(self) -> str:
+        return f"{self.firstname} {self.lastname}"
 
 
 def __str__(self) -> str:
@@ -411,12 +484,14 @@ def __str__(self) -> str:
 def query_fostererprofiles(
     behavioural_attributes: Optional[List[str]] = None,
     is_complete=True,
-    sort: Optional[Union[str, List[str]]] = ["firstname", "lastname"],
+    sort: Optional[Union[str, List[str]]] = None,
 ) -> models.QuerySet:
     """
     Query fosterer profiles with preferred defaults
     """
 
+    if sort is None:
+        sort = ["firstname", "lastname"]
     query = FostererProfile.objects.all()
 
     if behavioural_attributes:
@@ -442,26 +517,41 @@ class FosterApplication(models.Model):
         PENDING = "PENDING", "Pending"
 
     class RejectionReasons(models.TextChoices):
-        UNSUITABLE = "UNSUITABLE", "Not suitable for the animal requested, and not willing to consider alternative"
+        UNSUITABLE = (
+            "UNSUITABLE",
+            (
+                "Not suitable for the animal requested,"
+                " and not willing to consider alternative"
+            ),
+        )
         UNRELIABLE = "UNRELIABLE", "Concerns about fosterer reliability/commitment"
         PROPERTY = "PROPERTY", "Concerns with home and/or yard situation"
         HUMAN_ROOMMATES = "HUMAN_ROOMMATES", "Concerns with the people in the home"
         PET_ROOMMATES = "PET_ROOMMATES", "Concerns with the other pets in the home"
-        NO_LANDLORD_APPROVAL = "NO_LANDLORD_APPROVAL", "Landlord has not approved fostering"
+        NO_LANDLORD_APPROVAL = (
+            "NO_LANDLORD_APPROVAL",
+            "Landlord has not approved fostering",
+        )
         LIED = "LIED", "Lied on Application"
         OTHER = "OTHER", "Other"
 
-    fosterer = models.ForeignKey(FostererProfile, on_delete=models.CASCADE, related_name="applications")
-    animal = models.ForeignKey(Animal, on_delete=models.CASCADE, related_name="applications")
+    fosterer = models.ForeignKey(
+        FostererProfile, on_delete=models.CASCADE, related_name="applications"
+    )
+    animal = models.ForeignKey(
+        Animal, on_delete=models.CASCADE, related_name="applications"
+    )
     status = models.CharField(max_length=32, choices=Statuses.choices)
-    reject_reason = models.CharField(max_length=32, choices=RejectionReasons.choices, null=True)
+    reject_reason = models.CharField(
+        max_length=32, choices=RejectionReasons.choices, null=True
+    )
     reject_reason_detail = models.TextField(max_length=65516, null=True, blank=True)
     submitted_on = models.DateField(auto_now_add=True)
     updated_on = models.DateField(auto_now=True)
 
     def __str__(self) -> str:
         return f"Application for {self.animal} by {self.fosterer}"
-    
+
     def save(self, *args, **kwargs):
         if not self.id:  # the first save
             notify_new_fosterer_application(self)
@@ -473,8 +563,13 @@ class FosterApplication(models.Model):
 
 class FosterApplicationAnimalSuggestion(models.Model):
     application = models.ForeignKey(
-        FosterApplication, on_delete=models.CASCADE, related_name="alternative_suggested_animals"
+        FosterApplication,
+        on_delete=models.CASCADE,
+        related_name="alternative_suggested_animals",
     )
     animal = models.ForeignKey(Animal, on_delete=models.CASCADE)
     submitted_on = models.DateField(auto_now_add=True)
     updated_on = models.DateField(auto_now=True)
+
+    def __str__(self) -> str:
+        return f"Suggestion of {self.animal} for {self.fosterer}"

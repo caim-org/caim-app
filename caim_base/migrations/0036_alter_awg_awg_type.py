@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("caim_base", "0035_alter_fostererprofile_experience_categories"),
     ]

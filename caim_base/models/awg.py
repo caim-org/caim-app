@@ -1,8 +1,5 @@
 import logging
-import urllib
-from datetime import datetime
 
-from django.contrib.auth import get_user_model
 from django.contrib.gis.db.models import PointField
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -98,6 +95,17 @@ class Awg(models.Model):
     def __str__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        try:
+            zip_info = ZipCode.objects.get(zip_code=self.zip_code)
+            self.geo_location = zip_info.geo_location
+        except Exception:
+            logger.warn("ZIP code not valid")
+        super(Awg, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return full_url(f"/organization/{self.id}")
+
     def user_is_member_of_awg(self, user):
         if not user.id:
             return False
@@ -129,9 +137,6 @@ class Awg(models.Model):
                 ret.append("VIEW_APPLICATIONS")
         return ret
 
-    def get_absolute_url(self):
-        return full_url(f"/organization/{self.id}")
-
     def is_currently_published(self):
         return self.status == Awg.AwgStatus.PUBLISHED
 
@@ -141,14 +146,6 @@ class Awg(models.Model):
             zip_info = ZipCode.objects.filter(zip_code=self.zip_code).first()
             if not zip_info:
                 raise ValidationError({"zip_code": "Invalid US zip code"})
-
-    def save(self, *args, **kwargs):
-        try:
-            zip_info = ZipCode.objects.get(zip_code=self.zip_code)
-            self.geo_location = zip_info.geo_location
-        except:
-            logger.warn("ZIP code not valid")
-        super(Awg, self).save(*args, **kwargs)
 
 
 class AwgMember(models.Model):
@@ -167,6 +164,9 @@ class AwgMember(models.Model):
             "user",
             "awg",
         )
+
+    def __str__(self) -> str:
+        return f"{self.user} - {self.awg}"
 
     def to_dict(self):
         return {

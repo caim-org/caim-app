@@ -1,4 +1,4 @@
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy
 from datetime import datetime
 from django.core.exceptions import BadRequest, PermissionDenied
 from django.views.generic import CreateView, UpdateView, DeleteView
@@ -8,7 +8,6 @@ from django.shortcuts import redirect, render
 from ..models.animals import Animal, AnimalComment, AnimalSubComment
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
 
 from ..notifications import notify_animal_comment, notify_animal_comment_reply
 
@@ -40,8 +39,8 @@ def add(request):
 def edit(request, comment_id):
     try:
         comment = AnimalComment.objects.get(id=comment_id)
-    except AnimalComment.DoesNotExist:
-        raise Http404("Comment not found")
+    except AnimalComment.DoesNotExist as e:
+        raise Http404("Comment not found") from e
     animal = comment.animal
 
     if not comment.can_be_edited_by(request.user):
@@ -71,8 +70,8 @@ def delete(request, comment_id):
         raise PermissionDenied("Must be logged in")
     try:
         comment = AnimalComment.objects.get(id=comment_id)
-    except AnimalComment.DoesNotExist:
-        raise Http404("Comment not found")
+    except AnimalComment.DoesNotExist as e:
+        raise Http404("Comment not found") from e
     animal = comment.animal
 
     if not comment.can_be_deleted_by(request.user):

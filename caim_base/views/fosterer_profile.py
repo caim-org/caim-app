@@ -1,29 +1,24 @@
-import logging
-import os
-
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Fieldset, Layout, Submit
 from django import forms
-from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import PermissionDenied
 from django.forms import ModelForm, RadioSelect, formset_factory
 from django.forms.models import model_to_dict
-from django.http import Http404, HttpRequest, HttpResponse
-from django.shortcuts import get_object_or_404, redirect, render
-from django.template.loader import render_to_string
+from django.http import Http404
+from django.shortcuts import redirect, render, reverse
 from django.views.decorators.http import require_http_methods
-from django.views.generic import detail
-from weasyprint import CSS, HTML
 
-from caim_base.models.awg import Awg, AwgMember
 
-from ..models import (FostererExistingPetDetail, FostererPersonInHomeDetail,
-                      FostererReferenceDetail, TypeOfAnimals)
+from ..models import (
+    FostererExistingPetDetail,
+    FostererPersonInHomeDetail,
+    FostererReferenceDetail,
+)
 from ..models.fosterer import FostererProfile
 from ..models.user import UserProfile
 from ..notifications import notify_new_fosterer_profile
+from ..utils import salesforce
 
 
 class ExistingPetDetailForm(forms.ModelForm):
@@ -46,7 +41,7 @@ class ExistingPetDetailForm(forms.ModelForm):
             "quirks",
         ]
         labels = {
-            'type_of_animal': 'Type',
+            "type_of_animal": "Type",
         }
 
 
@@ -88,13 +83,11 @@ class PersonInHomeDetailForm(forms.ModelForm):
             "age",
             "email",
         ]
-        required = (
-        )
+        required = ()
 
 
 class FostererProfileStage1Form(ModelForm):
     def __init__(self, *args, **kwargs):
-
         # patch user and profile info into "initial" to prefill fields
         initial_args = kwargs.get("initial", {})
 
@@ -129,7 +122,7 @@ class FostererProfileStage1Form(ModelForm):
         self.helper.layout = Layout(
             Fieldset(
                 "About you",
-                'firstname',
+                "firstname",
                 "lastname",
                 "age",
                 "email",
@@ -156,8 +149,8 @@ class FostererProfileStage1Form(ModelForm):
             "zip_code",
         ]
         labels = {
-            'firstname': 'First name',
-            'lastname': 'Last name',
+            "firstname": "First name",
+            "lastname": "Last name",
         }
         required = (
             "firstname",
@@ -437,12 +430,11 @@ STAGES = {
     },
 }
 
-
 @login_required()
 @require_http_methods(["GET"])
 def start(request):
-    return redirect("/fosterer/about-you")
-
+    after = request.GET.get('after', '')
+    return redirect(f"/fosterer/about-you?after={after}")
 
 @login_required()
 @require_http_methods(["POST", "GET"])
@@ -462,17 +454,21 @@ def edit(request, stage_id):
             # @todo check if all fields done
             fosterer_profile.is_complete = True
             fosterer_profile.save()
+            salesforce.update_fosterer_profile_complete(user)
             notify_new_fosterer_profile(fosterer_profile)
+
+        link = request.GET.get('after') or reverse('browse')
         return render(
             request,
             "fosterer_profile/complete.html",
             {
                 "user": user,
+                "link": link,
                 "pageTitle": "Fosterer profile complete",
             },
         )
 
-    if not stage_id in STAGES:
+    if stage_id not in STAGES:
         raise Http404("Stage not found")
 
     stage = STAGES[stage_id]
@@ -505,6 +501,22 @@ def edit(request, stage_id):
         formsets_are_valid = True
 
         if stage_id == "pet-experience":
+            # Number of pet fields filled must be equal, or great then the listed number of pets.
+            num_of_pets = int(existing_pet_detail_formset.data['num_existing_pets'])
+            if num_of_pets:
+                for index, existing_pet_detail_form in enumerate(existing_pet_detail_formset):
+                    if index < num_of_pets:
+                        existing_pet_detail_form.full_clean()
+                        any_missing_fields = not all(value is not None for value in existing_pet_detail_form.cleaned_data.values())
+                        if not existing_pet_detail_form.cleaned_data or any_missing_fields:
+                            formsets_are_valid = False
+                            messages.error(
+                                request,
+                                f"Ensure the \"Number of Pets\" ({num_of_pets}) matches the number of "
+                                f"\"Pet Details\" sections you entirely have filled out."
+                            )
+                            break
+
             if not existing_pet_detail_formset.is_valid():
                 formsets_are_valid = False
 
@@ -513,10 +525,40 @@ def edit(request, stage_id):
                 formsets_are_valid = False
 
         if stage_id == "household-details":
+            # Number of cohabitant fields filled must be equal, or great then the listed number of people in the
+            # home.
+            num_people_in_home = int(person_in_home_detail_formset.data['num_people_in_home'])
+            if num_people_in_home:
+                for index, person_in_home_detail_form in enumerate(person_in_home_detail_formset):
+                    if index < num_people_in_home:
+                        person_in_home_detail_form.full_clean()
+                        any_missing_fields = not all(value is not None for value in person_in_home_detail_form.cleaned_data.values())
+                        if not person_in_home_detail_form.cleaned_data or any_missing_fields:
+                            formsets_are_valid = False
+                            messages.error(
+                                request,
+                                f"Ensure the number of people in your home ({num_people_in_home}) matches " \
+                                f"the number of \"Person in Home Details\" sections you have entirely filled out."
+                            )
+                            break
+
+            # Ensure if a user has selected `Rent` they must fill out rent details.
+            rent_own = person_in_home_detail_formset.data['rent_own']
+            if rent_own == FostererProfile.RentOwn.RENT:
+                if not person_in_home_detail_formset.data['rent_restrictions']:
+                    formsets_are_valid = False
+                    messages.error(request, 'Please describe any pet restrictions that are in place.')
+                if not person_in_home_detail_formset.data['landlord_contact_text']:
+                    formsets_are_valid = False
+                    messages.error(request, 'Please provide your landlord’s contact information below.')
+
             if not person_in_home_detail_formset.is_valid():
                 formsets_are_valid = False
 
         form_is_valid = form.is_valid()
+
+        if not formsets_are_valid:
+            messages.error(request, "Please correct any form errors")
 
         if form_is_valid and formsets_are_valid:
             form.save()
@@ -558,7 +600,7 @@ def edit(request, stage_id):
                                 "weight_lbs",
                                 "spayed_neutered",
                                 "up_to_date_shots",
-                                "quirks"
+                                "quirks",
                             ]
                             if any(detail_data.get(field) for field in fields):
                                 FostererExistingPetDetail.objects.create(
@@ -570,7 +612,9 @@ def edit(request, stage_id):
                                     age=detail_data.get("age"),
                                     weight_lbs=detail_data.get("weight_lbs"),
                                     spayed_neutered=detail_data.get("spayed_neutered"),
-                                    up_to_date_shots=detail_data.get("up_to_date_shots"),
+                                    up_to_date_shots=detail_data.get(
+                                        "up_to_date_shots"
+                                    ),
                                     quirks=detail_data.get("quirks"),
                                 )
 
@@ -627,19 +671,19 @@ def edit(request, stage_id):
                             )
 
             is_previous = "submit_prev" in request.POST
-            if is_previous:
-                return redirect(f"/fosterer/{prev_stage}")
-            else:
-                return redirect(f"/fosterer/{next_stage}")
+            after = request.GET.get('after', '')
 
-        else:
-            messages.error(request, "Please correct form errors")
+            if is_previous:
+                return redirect(f"/fosterer/{prev_stage}?after={after}")
+            else:
+                return redirect(f"/fosterer/{next_stage}?after={after}")
+
     else:
         form = form_class(instance=fosterer_profile)
 
         existing_pets = FostererExistingPetDetail.objects.filter(
             fosterer_profile=fosterer_profile
-        ).order_by('id')
+        ).order_by("id")
 
         num_existing_pets = existing_pets.count()
         extra_forms_needed = max(0, 6 - num_existing_pets)

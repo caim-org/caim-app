@@ -2,58 +2,64 @@
 {% load caim_helpers %}
 <div id="modal-backdrop" class="modal-backdrop fade show" style="display:block;"></div>
 <div id="modal" class="modal fade show" tabindex="-1" style="display:block;">
-  <div class="modal-dialog modal-xl modal-dialog-centered">
+  <div class="modal-dialog modal-fullscreen-sm-down modal-xl modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="applicant-modal-header">
+        <div class="d-flex justify-content-end">
+          <i class="bi-x" style="font-size: 2rem; cursor: pointer;" onclick="closeModal('awg-applications-modal')"></i>
+        </div>
         <div class="container-fluid" style="height: 100%;">
-            <img
-              class="mx-auto d-block"
-              src="{% static 'img/thinking.svg' %}"
-            >
-            <div class="fs-3 text-center">Are you sure you want to reject this application?</div>
+          <img
+            class="mx-auto d-block"
+            src="{% static 'img/thinking.svg' %}"
+          >
+          <div class="pt-5 fs-3 fw-bold text-center">Are you sure you want to reject this application?</div>
         </div>
       </div>
       <div class="modal-body">
         <div class="container-fluid">
-          <div class="row">
-            <div class="col text-start">
-              <h4 class="row">Applicant</h4>
-              <div class="row">{{ app.fosterer.firstname }} {{ app.fosterer.lastname }}</div>
-              <div>{{ app.fosterer.city }}, {{ app.fosterer.state }}</div>
+          <div class="row py-2">
+            <div class="col text-center entity-overview">
+              <h4 class="row fs-7 pb-2">Applicant</h4>
+              <div class="row picture-preview-container fake-profile-image"></div>
+              <div class="row fs-7 pt-2">{{ app.fosterer.firstname }} {{ app.fosterer.lastname }}</div>
+              <div class="row text-secondary fs-7">{{ app.fosterer.city }}, {{ app.fosterer.state }}</div>
             </div>
-            <div class="col text-end">
-              <h4 class="row justify-content-end">Animal</h4>
-              <div class="row justify-content-center">
+            <div class="col text-center entity-overview">
+              <h4 class="row fs-7 pb-2">Animal</h4>
+              <div class="row picture-preview-container">
                 <img
-                  class="row"
+                  class="col picture-preview"
                   style="background-color: #eee; clip-path: circle()"
-                  src="{{ app.animal.primary_photo.url|image_resize:'75x75 crop' }}"
+                  src="{{ app.animal.primary_photo.url|image_resize:'34x34' }}"
                 >
-                <div class="row justify-content-center">{{ app.animal.name}}</div>
               </div>
+              <div class="row fs-7 pt-2">{{ app.animal.name}}</div>
+              <div class="row text-secondary fs-7">{{ app.animal.awg.city}}, {{ app.animal.awg.state }}</div>
             </div>
-            <form action="/organization/{{ awg.id }}/applications/{{ app.id }}", method="post" style="height: 100%;">
-            {% csrf_token %}
+          </div>
+            <form class="pt-3" action="/organization/{{ awg.id }}/applications/{{ app.id }}", method="post" style="height: 100%;">
+              {% csrf_token %}
               <input class="d-none" name="status" type="text" value="{{ app.Statuses.REJECTED | title }}" readonly>
-              <div class="row justify-content-start align-content-start text-start" style="height: 50%;">
-              <div>Select the reason for rejection</div>
-                <div class="input-group" style="height: 25%;">
-                  <select class="form-control" name="reject_reason">
+              <div class="row d-flex justify-content-center flex-column justify-content-start align-content-start text-center" style="height: 50%;">
+                <div class="fs-6 py-3">Select the reason for rejection</div>
+                <div class="input-group py-2" style="height: 25%;">
+                  <select class="form-control row" name="reject_reason">
                     <option
                       value=""
                     >
-                    Select
+                      Select
                     </option>
                     {% for rr in reject_reasons %}
-                    <option
-                      value="{{ rr.0 }}"
-                    >
-                    {{ rr.1 }}
-                    </option>
+                      <option
+                        value="{{ rr.0 }}"
+                      >
+                        {{ rr.1 }}
+                      </option>
                     {% endfor %}
                   </select>
                 </div>
-                <div class="input-group" style="height: 75%;">
+                <div class="input-group py-2" style="height: 75%;">
                   <textarea
                     name='reject_reason_detail'
                     class="form-control row"
@@ -62,17 +68,21 @@
                   ></textarea>
                 </div>
               </div>
-              <button
-                class="btn btn-primary"
-                hx-post="{% url 'awg_update_application_status_submit_modal' awg_id=awg.id application_id=app.id %}"
-                hx-target="#awg-applications-modal"
-                _="on htmx:afterOnLoad wait 10ms then add .show to #modal then add .show to #modal-backdrop"
-              >Confirm</button>
+              <div class="d-flex justify-content-center py-4">
+                <button
+                  class="btn btn-primary btn-lg"
+                  hx-post="{% url 'awg_update_application_status_submit_modal' awg_id=awg.id application_id=app.id %}"
+                  hx-target="#awg-applications-modal"
+                  _="on htmx:afterOnLoad wait 10ms then add .show to #modal then add .show to #modal-backdrop"
+                >Reject</button>
+              </div>
             </form>
-        	  <button type="button" class="btn btn-link" onclick="closeModal('awg-applications-modal')">cancel</button>
-        	</div>
-      	</div>
-    	</div>
+
+            <div class="d-flex justify-content-center">
+              <button type="button py-2" class="btn btn-link text-decoration-none" onclick="closeModal('awg-applications-modal')">cancel</button>
+            </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -26,7 +26,7 @@ class AnimalType(models.TextChoices):
         elif animal_type.upper() == cls.CAT:
             return "Cats"
         else:
-            raise ValueError(f'unknown AnimalType {animal_type}')
+            raise ValueError(f"unknown AnimalType {animal_type}")
 
 
 class Breed(models.Model):
@@ -80,7 +80,9 @@ class Animal(models.Model):
     petfinder_id = models.CharField(
         max_length=32, blank=True, null=True, default=None, unique=True
     )
-    awg = models.ForeignKey(Awg, on_delete=models.CASCADE, verbose_name="AWG", related_name="animals")
+    awg = models.ForeignKey(
+        Awg, on_delete=models.CASCADE, verbose_name="AWG", related_name="animals"
+    )
     awg_internal_id = models.CharField(
         max_length=64,
         null=True,
@@ -162,6 +164,17 @@ class Animal(models.Model):
     def __str__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        # Automatically unpublish is record no longer valid to be published
+        if not self.can_be_published():
+            self.is_published = False
+        if not self.first_published_at and self.is_currently_published():
+            self.first_published_at = datetime.now()
+        super(Animal, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return full_url(f"/animal/{self.id}")
+
     def breedsText(self):
         if self.is_unknown_breed:
             return "Unknown breed"
@@ -171,18 +184,6 @@ class Animal(models.Model):
         if self.is_mixed_breed:
             text = f"{text} mix"
         return text
-
-    def sexText(self):
-        return Animal.AnimalSex[self.sex].label
-
-    def ageText(self):
-        return Animal.AnimalAge[self.age].label
-
-    def sizeText(self):
-        return Animal.AnimalSize[self.size].label
-
-    def get_absolute_url(self):
-        return full_url(f"/animal/{self.id}")
 
     def can_be_published(self):
         return bool(self.primary_photo)
@@ -203,19 +204,14 @@ class Animal(models.Model):
 
     admin_image_tag.short_description = "Image"
 
-    def save(self, *args, **kwargs):
-        # Automatically unpublish is record no longer valid to be published
-        if not self.can_be_published():
-            self.is_published = False
-        if not self.first_published_at and self.is_currently_published():
-            self.first_published_at = datetime.now()
-        super(Animal, self).save(*args, **kwargs)
-
 
 class AnimalImage(models.Model):
     animal = models.ForeignKey(Animal, on_delete=models.CASCADE)
     photo = models.ImageField(blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.animal} - {self.created_at}"
 
 
 class AnimalShortList(models.Model):
@@ -226,6 +222,9 @@ class AnimalShortList(models.Model):
     class Meta:
         unique_together = (("animal", "user"),)
 
+    def __str__(self):
+        return f"{self.animal} - {self.user}"
+
 
 class AnimalComment(models.Model):
     animal = models.ForeignKey(Animal, on_delete=models.CASCADE)
@@ -233,6 +232,9 @@ class AnimalComment(models.Model):
     body = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     edited_at = models.DateTimeField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.animal} - {self.user} - {self.created_at}"
 
     def can_be_deleted_by(self, user):
         return self.can_be_edited_by(user)
@@ -251,14 +253,17 @@ class AnimalSubComment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     edited_at = models.DateTimeField(blank=True, null=True)
 
+    def __str__(self):
+        return f"{self.comment} - {self.user} - {self.created_at}"
+
+    def get_absolute_url(self):
+        return full_url(f"/animal/{self.comment.animal.id}#comments")
+
     def can_be_deleted_by(self, user):
         return self.can_be_edited_by(user)
 
     def can_be_edited_by(self, user):
         return self.user == user or user.is_staff
-
-    def get_absolute_url(self):
-        return full_url(f"/animal/{self.comment.animal.id}#comments")
 
 
 class SavedSearch(models.Model):
@@ -313,11 +318,14 @@ class SavedSearch(models.Model):
     last_checked_at = models.DateTimeField(null=True, default=None, blank=True)
     check_every = models.DurationField(default=timedelta(days=1))
 
+    def __str__(self):
+        return f"{self.user} - {self.created_at}"
+
     def save(self, *args, **kwargs):
         try:
             zip_info = ZipCode.objects.get(zip_code=self.zip_code)
             self.geo_location = zip_info.geo_location
-        except:
+        except Exception:
             logger.warn("ZIP code not valid")
         super(SavedSearch, self).save(*args, **kwargs)
 
