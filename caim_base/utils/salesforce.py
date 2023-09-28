@@ -3,6 +3,7 @@ from logging import getLogger
 from functools import cache
 from django.conf import settings
 from simple_salesforce import Salesforce
+from simple_salesforce import SalesforceMalformedRequest
 from .. import models
 
 logger = getLogger(__name__)
@@ -21,20 +22,23 @@ def _create_contact(salesforce_contact, connection):
 
     salesforce_contact["FosterProfile"] = "Incomplete"
 
-    result = connection.Contact.create(salesforce_contact)
+    try:
+        result = connection.Contact.create(salesforce_contact)
 
-    errors = result.get(
-        "errors",
-        [
-            "key_not_found",
-        ],
-    )
-    if len(errors) > 0:
-        logger.error("Create contact errors: %s", ", ".join(errors))
-        return
+        errors = result.get(
+            "errors",
+            [
+                "key_not_found",
+            ],
+        )
+        if len(errors) > 0:
+            logger.error("Create contact errors: %s", ", ".join(errors))
+            return
 
-    salesforce_id = result.get("id")
-    return salesforce_id
+        salesforce_id = result.get("id")
+        return salesforce_id
+    except SalesforceMalformedRequest:
+        logger.exception("Unable to create contact")
 
 def _update_contact(salesforce_id, salesforce_contact, connection):
     try:
