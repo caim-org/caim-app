@@ -557,6 +557,10 @@ def edit(request, stage_id):
 
         form_is_valid = form.is_valid()
 
+        if not reference_detail_formset.is_valid():
+            formsets_are_valid = False
+            form_is_valid = False
+
         if not formsets_are_valid:
             messages.error(request, "Please correct any form errors")
 
