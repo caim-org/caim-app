@@ -13,7 +13,7 @@ from .models.animals import (
     User,
 )
 from .models.awg import AwgMember
-from .models.fosterer import FostererProfile, FosterApplication
+from .models.fosterer import FostererProfile, FosterApplication, FostererReferenceDetail
 from .models.user import UserProfile
 
 # Unregister the user admin so we can user our own
@@ -74,13 +74,28 @@ class SubCommentInline(admin.TabularInline):
     model = AnimalSubComment
 
 
+class ReferenceInline(admin.TabularInline):
+    model = FostererReferenceDetail
+
+
 class CommentAdmin(admin.ModelAdmin):
     inlines = [SubCommentInline]
+
+
+class FostererProfileAdmin(admin.ModelAdmin):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields = [x.name for x in FostererProfile._meta.fields if x.editable and
+                         not x.is_relation and
+                         not x.primary_key and not getattr(x, 'system_check_deprecated_details')]
+
+    inlines = [ReferenceInline]
 
 
 admin.site.register(Breed)
 admin.site.register(Animal, AnimalAdmin)
 admin.site.register(Awg, AwgAdmin)
 admin.site.register(AnimalComment, CommentAdmin)
-admin.site.register(FostererProfile)
+admin.site.register(FostererProfile, FostererProfileAdmin)
 admin.site.register(FosterApplication)
