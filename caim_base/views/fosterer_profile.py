@@ -552,11 +552,11 @@ def edit(request, stage_id):
                     formsets_are_valid = False
                     messages.error(request, 'Please provide your landlord’s contact information below.')
 
-            if not person_in_home_detail_formset.is_valid():
-                formsets_are_valid = False
+            for index, person_in_home_detail_form in enumerate(person_in_home_detail_formset):
+                if index < num_people_in_home and not person_in_home_detail_form.is_valid():
+                    formsets_are_valid = False
 
         form_is_valid = form.is_valid()
-
         if not formsets_are_valid:
             messages.error(request, "Please correct any form errors")
 
