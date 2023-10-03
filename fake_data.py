@@ -22,6 +22,7 @@ from caim_base.models.fosterer import (
     TypeOfAnimals,
     YesNo,
 )
+from caim_base.tests.factories import FostererProfileFactory
 
 assert not settings.PRODUCTION, "CANNOT RUN GENERATE FAKE DATA IN PRODUCTION"
 
@@ -204,100 +205,10 @@ def load_animals(animal_type, file_name):
             print("SKIPPEd")
 
 
-def fake_foster_profile(user: User) -> FostererProfile:
-    fosterer = FostererProfile()
-    fosterer.user = user
-    fosterer.firstname = fake.first_name()
-    fosterer.lastname = fake.last_name()
-    fosterer.email = user.email
-    fosterer.phone = fake.phone_number()
-    try:
-        fosterer.full_clean()
-    except ValidationError as exc:
-        phone_broke = exc.error_dict.get("phone", None)
-        if phone_broke:
-            fosterer.phone = None
-        # lots of other fields are likely invalid here, don't raise
-    fosterer.street_address = fake.address()
-    fosterer.city = fake.city()[: FostererProfile.city.field.max_length - 1]
-    fosterer.state = fake.state_abbr()
-    fosterer.zip_code = fake.zipcode()
-    # pick a random selections from these ChoiceArrayFields
-    # from 1-max number of selections
-    k = randint(1, len(TypeOfAnimals.choices))
-    fosterer.type_of_animals = list(
-        set(choices([choice[0] for choice in TypeOfAnimals.choices], k=k))
-    )
-    k = randint(1, len(fosterer.CategoryOfAnimals.choices))
-    fosterer.category_of_animals = list(
-        set(choices([choice[0] for choice in fosterer.CategoryOfAnimals.choices], k=k))
-    )
-    k = randint(1, len(fosterer.BehaviouralAttributes.choices))
-    fosterer.behavioural_attributes = list(
-        set(
-            choices(
-                [choice[0] for choice in fosterer.BehaviouralAttributes.choices], k=k
-            )
-        )
-    )
-    fosterer.timeframe = choice([choice[0] for choice in fosterer.Timeframe.choices])
-    # if fosterer.Timeframe.ANY_DURATION in fosterer.timeframe:
-    #     fosterer.timeframe_other = fake.text(randint(5, 500))
-    fosterer.num_existing_pets = randint(0, 10)
-    fosterer.existing_pets_details = fake.text(randint(5, 500))
-    fosterer.experience_description = fake.text(randint(5, 500))
-    # pick a random selections from these choice fields, from 1-max number of selections
-    k = randint(1, len(fosterer.ExperienceCategories.choices))
-    fosterer.experience_categories = list(
-        set(
-            choices(
-                [choice[0] for choice in fosterer.ExperienceCategories.choices], k=k
-            )
-        )
-    )
-    fosterer.experience_given_up_pet = fake.text(randint(5, 500))
-    fosterer.reference_1 = fake.name()
-    fosterer.reference_2 = fake.name()
-    fosterer.reference_3 = fake.name()
-    fosterer.people_at_home = fake.text(randint(5, 50))
-    # from just normal choice fields, pick 1 choice
-    fosterer.yard_type = choice([choice[0] for choice in fosterer.YardTypes.choices])
-    fosterer.yard_fence_over_5ft = choice([choice[0] for choice in YesNo.choices])
-    fosterer.rent_own = choice([choice[0] for choice in fosterer.RentOwn.choices])
-    if fosterer.rent_own == fosterer.RentOwn.RENT:
-        fosterer.rent_restrictions = fake.text(randint(5, 50))
-        fosterer.rent_ok_foster_pets = choice([choice[0] for choice in YesNo.choices])
-    else:
-        fosterer.rent_restrictions = None
-        fosterer.rent_ok_foster_pets = YesNo.YES  # field not allowing null???
-    fosterer.hours_alone_description = fake.text(10)
-    fosterer.hours_alone_location = fake.text(10)
-    fosterer.sleep_location = fake.text(10)
-    fosterer.other_info = fake.text(50)
-    fosterer.ever_been_convicted_abuse = choice([choice[0] for choice in YesNo.choices])
-    fosterer.agree_share_details = choice([choice[0] for choice in YesNo.choices])
-    fosterer.is_complete = choice([True, False])
-    fosterer.medical_issues = choice([choice[0] for choice in YesNo.choices])
-    fosterer.special_needs = choice([choice[0] for choice in YesNo.choices])
-    fosterer.behavioral_issues = choice([choice[0] for choice in YesNo.choices])
-    fosterer.all_in_agreement = choice([choice[0] for choice in YesNo.choices])
-    fosterer.stairs = choice([choice[0] for choice in YesNo.choices])
-    fosterer.agree_social_media = choice([choice[0] for choice in YesNo.choices])
-    fosterer.pet_allergies = choice([choice[0] for choice in YesNo.choices])
-    fosterer.full_clean()
-    return fosterer
-
-
 def fake_fosterers(num_desired_fosterers: int):
     print("generating fake fosterers...")
-    fosterers = []
     for _ in range(num_desired_fosterers):
-        # going through the fields in the same order they appear in the model
-        user = User.objects.create_user(fake.user_name(), email=fake.email())
-        user.save()
-        fosterer = fake_foster_profile(user)
-        fosterers.append(fosterer)
-    FostererProfile.objects.bulk_create(fosterers)
+        FostererProfileFactory()
 
 
 def fake_foster_application(
@@ -399,7 +310,7 @@ def fake_user_with_foster_profile_and_applications():
         "testfosterer", password="testfosterer", email="testfosterer@caim.org"
     )
     user.save()
-    profile = fake_foster_profile(user)
+    profile = FostererProfileFactory(user=user)
     profile.save()
     # make a few applications
     fake_foster_application(choice(Animal.objects.all()), profile)

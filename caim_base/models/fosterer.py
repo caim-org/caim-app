@@ -46,30 +46,33 @@ class YesNo(models.TextChoices):
 
 
 class FostererExistingPetDetail(models.Model):
-    name = models.CharField(max_length=64, blank=True, null=True)
-    type_of_animal = models.CharField(max_length=64, blank=True, null=True)
-    breed = models.CharField(max_length=64, blank=True, null=True)
+    name = models.CharField(max_length=64, blank=False, null=False, default='N/A')
+    type_of_animal = models.CharField(max_length=64, blank=False, null=False, default='N/A')
+    breed = models.CharField(max_length=64, blank=False, null=False, default='N/A')
     sex = models.CharField(
         max_length=6,
         choices=(("Male", "Male"), ("Female", "Female")),
-        blank=True,
-        null=True,
+        blank=False,
+        null=False,
+        default='N/A'
     )
-    age = models.PositiveIntegerField(blank=True, null=True)
-    weight_lbs = models.PositiveIntegerField(blank=True, null=True)
+    age = models.PositiveIntegerField(blank=False, null=False, default=0)
+    weight_lbs = models.PositiveIntegerField(blank=False, null=False, default=0)
     spayed_neutered = models.CharField(
         choices=YesNo.choices,
         max_length=32,
-        blank=True,
-        null=True,
+        blank=False,
+        null=False,
         verbose_name="Spayed or Neutered?",
+        default='N/A'
     )
     up_to_date_shots = models.CharField(
         choices=YesNo.choices,
         max_length=32,
-        blank=True,
-        null=True,
+        blank=False,
+        null=False,
         verbose_name="Up to date on their shots?",
+        default='N/A'
     )
     quirks = models.TextField(
         max_length=1024, blank=True, null=True, verbose_name="Any quirks?"
@@ -87,11 +90,11 @@ class FostererReferenceDetail(models.Model):
     fosterer_profile = models.ForeignKey(
         "FostererProfile", on_delete=models.CASCADE, related_name="references"
     )
-    first_name = models.CharField(max_length=64)
-    last_name = models.CharField(max_length=64)
-    email = models.EmailField(max_length=255)
+    first_name = models.CharField(max_length=64, null=False, blank=False)
+    last_name = models.CharField(max_length=64, null=False, blank=False)
+    email = models.EmailField(max_length=255, null=False, blank=False)
     phone = PhoneNumberField(null=True, default=None)
-    relation = models.CharField(max_length=128)
+    relation = models.CharField(max_length=128, null=False, blank=False)
 
     def __str__(self) -> str:
         return f"{self.first_name} {self.last_name}"
@@ -101,10 +104,10 @@ class FostererPersonInHomeDetail(models.Model):
     fosterer_profile = models.ForeignKey(
         "FostererProfile", on_delete=models.CASCADE, related_name="people_in_home"
     )
-    name = models.CharField(max_length=128, blank=True, null=True, default=None)
-    relation = models.CharField(max_length=128, blank=True, null=True, default=None)
-    age = models.IntegerField(blank=True, null=True, default=None)
-    email = models.EmailField(max_length=255, blank=True, null=True, default=None)
+    name = models.CharField(max_length=128, blank=False, null=False, default=None)
+    relation = models.CharField(max_length=128, blank=False, null=False, default=None)
+    age = models.IntegerField(blank=False, null=False, default=None)
+    email = models.EmailField(max_length=255, blank=False, null=False, default=None)
 
     def __str__(self) -> str:
         return f"{self.name}"
@@ -118,7 +121,7 @@ class FostererLandlordContact(models.Model):
     first_name = models.CharField(max_length=64)
     last_name = models.CharField(max_length=128)
     email = models.EmailField(max_length=255, blank=True, null=True)
-    phone = PhoneNumberField(blank=True, null=True, default=None)
+    phone = PhoneNumberField(blank=False, null=False, default=None)
 
     def __str__(self) -> str:
         return f"{self.firstname} {self.lastname}"
@@ -188,30 +191,34 @@ class FostererProfile(models.Model):
         OWN = "OWN", "Own"
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    firstname = models.CharField(blank=True, null=True, max_length=64, default=None)
-    lastname = models.CharField(blank=True, null=True, max_length=64, default=None)
-    age = models.IntegerField(blank=True, null=True, default=None)
-    email = models.EmailField(blank=True, null=True, max_length=255, default=None)
-    phone = PhoneNumberField(blank=True, null=True, default=None)
+    firstname = models.CharField(blank=False, null=False, max_length=64, default=None)
+    lastname = models.CharField(blank=False, null=False, max_length=64, default=None)
+    age = models.IntegerField(
+        blank=False,
+        null=False,
+        default=None
+    )
+    email = models.EmailField(blank=False, null=False, max_length=255, default=None)
+    phone = PhoneNumberField(blank=False, null=False, default=None)
     street_address = models.CharField(
-        blank=True, null=True, max_length=244, default=None
+        blank=False, null=False, max_length=244, default=None
     )
-    city = models.CharField(max_length=32, blank=True, null=True, default=None)
+    city = models.CharField(max_length=32, blank=False, null=False, default=None)
     state = models.CharField(
-        max_length=2, blank=True, null=True, choices=states.items(), default=None
+        max_length=2, blank=False, null=False, choices=states.items(), default=None
     )
-    zip_code = models.CharField(max_length=16, blank=True, null=True, default=None)
+    zip_code = models.CharField(max_length=16, blank=False, null=False, default=None)
     type_of_animals = ChoiceArrayField(
         models.CharField(max_length=32, choices=TypeOfAnimals.choices),
-        blank=True,
-        null=True,
+        blank=False,
+        null=False,
         default=None,
         verbose_name="Which type of animal(s) are you wanting to foster?",
     )
     category_of_animals = ChoiceArrayField(
         models.CharField(max_length=32, choices=CategoryOfAnimals.choices),
-        blank=True,
-        null=True,
+        blank=False,
+        null=False,
         default=None,
         verbose_name="Please check any / all that you're interested in fostering.",
     )
@@ -227,8 +234,8 @@ class FostererProfile(models.Model):
     )
     behavioural_attributes = ChoiceArrayField(
         models.CharField(max_length=32, choices=BehaviouralAttributes.choices),
-        blank=True,
-        null=True,
+        blank=False,
+        null=False,
         default=None,
         verbose_name=(
             "Please check any of the requirements you have for a foster animal."
@@ -302,19 +309,28 @@ class FostererProfile(models.Model):
     # These references are not used and simply to preserve existing data.
     # going forward associated `ReferenceDetail` holds this information.
     reference_1 = models.TextField(
-        blank=True, null=True, default=None, verbose_name="Reference #1"
+        blank=True,
+        null=True,
+        default=None,
+        verbose_name="Reference #1"
     )
     reference_1.system_check_deprecated_details = dict(
         msg='The ReferenceDetail1 field has been deprecated.',
     )
     reference_2 = models.TextField(
-        blank=True, null=True, default=None, verbose_name="Reference #2"
+        blank=True,
+        null=True,
+        default=None,
+        verbose_name="Reference #2"
     )
     reference_2.system_check_deprecated_details = dict(
         msg='The ReferenceDetail2 field has been deprecated.',
     )
     reference_3 = models.TextField(
-        blank=True, null=True, default=None, verbose_name="Reference #3"
+        blank=True,
+        null=True,
+        default=None,
+        verbose_name="Reference #3"
     )
     reference_3.system_check_deprecated_details = dict(
         msg='The ReferenceDetail3 field has been deprecated.',
@@ -331,7 +347,7 @@ class FostererProfile(models.Model):
     )
     num_people_in_home = models.IntegerField(
         blank=True,
-        null=True,
+        null=False,
         default=None,
         verbose_name="How many people live in your home, excluding yourself?",
     )
@@ -352,7 +368,7 @@ class FostererProfile(models.Model):
         choices=YesNo.choices,
         max_length=32,
         blank=False,
-        null=True,
+        null=False,
         default=None,
         verbose_name="Are all members of your household in agreement about fostering?",
     )
@@ -392,7 +408,7 @@ class FostererProfile(models.Model):
         choices=RentOwn.choices,
         max_length=32,
         blank=False,
-        null=True,
+        null=False,
         default=None,
         verbose_name="Do you rent or own?",
     )
@@ -417,19 +433,19 @@ class FostererProfile(models.Model):
     )
     hours_alone_description = models.TextField(
         blank=True,
-        null=True,
+        null=False,
         default=None,
         verbose_name="How many hours per day will your foster animal be left alone?",
     )
     hours_alone_location = models.TextField(
         blank=True,
-        null=True,
+        null=False,
         default=None,
         verbose_name="Where will your foster animal be kept when you're not home?",
     )
     sleep_location = models.TextField(
         blank=True,
-        null=True,
+        null=False,
         default=None,
         verbose_name="Where will your foster animal sleep?",
     )
@@ -443,7 +459,7 @@ class FostererProfile(models.Model):
         choices=YesNo.choices,
         max_length=32,
         blank=False,
-        null=True,
+        null=False,
         default=None,
         verbose_name=(
             "Have you or a family / household member ever been convicted"
@@ -454,7 +470,7 @@ class FostererProfile(models.Model):
         choices=YesNo.choices,
         max_length=32,
         blank=False,
-        null=True,
+        null=False,
         default=None,
         verbose_name=(
             "Do you agree that we can share the details you've provided with rescues?"
@@ -464,7 +480,7 @@ class FostererProfile(models.Model):
         choices=YesNo.choices,
         max_length=32,
         blank=False,
-        null=True,
+        null=False,
         default=None,
         verbose_name=(
             "Do you agree to help promote your foster animal on social media"
@@ -543,7 +559,7 @@ class FosterApplication(models.Model):
     )
     status = models.CharField(max_length=32, choices=Statuses.choices)
     reject_reason = models.CharField(
-        max_length=32, choices=RejectionReasons.choices, null=True
+        max_length=32, choices=RejectionReasons.choices, null=False, default='default reject_reason'
     )
     reject_reason_detail = models.TextField(max_length=65516, null=True, blank=True)
     submitted_on = models.DateField(auto_now_add=True)
