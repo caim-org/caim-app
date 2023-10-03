@@ -46,23 +46,25 @@ class YesNo(models.TextChoices):
 
 
 class FostererExistingPetDetail(models.Model):
-    name = models.CharField(max_length=64, blank=False, null=False)
-    type_of_animal = models.CharField(max_length=64, blank=False, null=False)
-    breed = models.CharField(max_length=64, blank=False, null=False)
+    name = models.CharField(max_length=64, blank=False, null=False, default='N/A')
+    type_of_animal = models.CharField(max_length=64, blank=False, null=False, default='N/A')
+    breed = models.CharField(max_length=64, blank=False, null=False, default='N/A')
     sex = models.CharField(
         max_length=6,
         choices=(("Male", "Male"), ("Female", "Female")),
         blank=False,
         null=False,
+        default='N/A'
     )
-    age = models.PositiveIntegerField(blank=False, null=False)
-    weight_lbs = models.PositiveIntegerField(blank=False, null=False)
+    age = models.PositiveIntegerField(blank=False, null=False, default=0)
+    weight_lbs = models.PositiveIntegerField(blank=False, null=False, default=0)
     spayed_neutered = models.CharField(
         choices=YesNo.choices,
         max_length=32,
         blank=False,
         null=False,
         verbose_name="Spayed or Neutered?",
+        default='N/A'
     )
     up_to_date_shots = models.CharField(
         choices=YesNo.choices,
@@ -70,6 +72,7 @@ class FostererExistingPetDetail(models.Model):
         blank=False,
         null=False,
         verbose_name="Up to date on their shots?",
+        default='N/A'
     )
     quirks = models.TextField(
         max_length=1024, blank=True, null=True, verbose_name="Any quirks?"
@@ -306,8 +309,8 @@ class FostererProfile(models.Model):
     # These references are not used and simply to preserve existing data.
     # going forward associated `ReferenceDetail` holds this information.
     reference_1 = models.TextField(
-        blank=False,
-        null=False,
+        blank=True,
+        null=True,
         default=None,
         verbose_name="Reference #1"
     )
@@ -315,8 +318,8 @@ class FostererProfile(models.Model):
         msg='The ReferenceDetail1 field has been deprecated.',
     )
     reference_2 = models.TextField(
-        blank=False,
-        null=False,
+        blank=True,
+        null=True,
         default=None,
         verbose_name="Reference #2"
     )
@@ -324,8 +327,8 @@ class FostererProfile(models.Model):
         msg='The ReferenceDetail2 field has been deprecated.',
     )
     reference_3 = models.TextField(
-        blank=False,
-        null=False,
+        blank=True,
+        null=True,
         default=None,
         verbose_name="Reference #3"
     )
@@ -556,7 +559,7 @@ class FosterApplication(models.Model):
     )
     status = models.CharField(max_length=32, choices=Statuses.choices)
     reject_reason = models.CharField(
-        max_length=32, choices=RejectionReasons.choices, null=False
+        max_length=32, choices=RejectionReasons.choices, null=False, default='default reject_reason'
     )
     reject_reason_detail = models.TextField(max_length=65516, null=True, blank=True)
     submitted_on = models.DateField(auto_now_add=True)
