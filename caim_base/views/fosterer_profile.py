@@ -26,6 +26,10 @@ class ExistingPetDetailForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_tag = False
+        # To make appear required on the form submission page
+        for field_name in self.Meta.required:
+            self.fields[field_name].required = True
+
 
     class Meta:
         model = FostererExistingPetDetail
@@ -39,6 +43,16 @@ class ExistingPetDetailForm(forms.ModelForm):
             "spayed_neutered",
             "up_to_date_shots",
             "quirks",
+        ]
+        required = [
+            "name",
+            "type_of_animal",
+            "breed",
+            "sex",
+            "age",
+            "weight_lbs",
+            "spayed_neutered",
+            "up_to_date_shots",
         ]
         labels = {
             "type_of_animal": "Type",
@@ -74,6 +88,9 @@ class PersonInHomeDetailForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_tag = False
+        # To make appear required on the form submission page
+        for field_name in self.Meta.required:
+            self.fields[field_name].required = True
 
     class Meta:
         model = FostererPersonInHomeDetail
@@ -83,7 +100,12 @@ class PersonInHomeDetailForm(forms.ModelForm):
             "age",
             "email",
         ]
-        required = ()
+        required = [
+            "name",
+            "relation",
+            "age",
+            "email",
+        ]
 
 
 class FostererProfileStage1Form(ModelForm):
