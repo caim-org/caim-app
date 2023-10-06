@@ -38,49 +38,49 @@
               <div class="row text-secondary fs-7">{{ app.animal.awg.city}}, {{ app.animal.awg.state }}</div>
             </div>
           </div>
-            <form class="pt-3" action="/organization/{{ awg.id }}/applications/{{ app.id }}", method="post" style="height: 100%;">
-              {% csrf_token %}
-              <input class="d-none" name="status" type="text" value="{{ app.Statuses.REJECTED | title }}" readonly>
-              <div class="row d-flex justify-content-center flex-column justify-content-start align-content-start text-center" style="height: 50%;">
-                <div class="fs-6 py-3">Select the reason for rejection</div>
-                <div class="input-group py-2" style="height: 25%;">
-                  <select class="form-control row" name="reject_reason">
+          <form class="pt-3" action="/organization/{{ awg.id }}/applications/{{ app.id }}", method="post" style="height: 100%;">
+            {% csrf_token %}
+            <input class="d-none" name="status" type="text" value="{{ app.Statuses.REJECTED | title }}" readonly>
+            <div class="row d-flex justify-content-center flex-column justify-content-start align-content-start text-center" style="height: 50%;">
+              <div class="fs-6 py-3">Select the reason for rejection</div>
+              <div class="input-group py-2" style="height: 25%;">
+                <select class="form-control row" name="reject_reason">
+                  <option
+                    value=""
+                  >
+                    Select
+                  </option>
+                  {% for rr in reject_reasons %}
                     <option
-                      value=""
+                      value="{{ rr.0 }}"
                     >
-                      Select
+                      {{ rr.1 }}
                     </option>
-                    {% for rr in reject_reasons %}
-                      <option
-                        value="{{ rr.0 }}"
-                      >
-                        {{ rr.1 }}
-                      </option>
-                    {% endfor %}
-                  </select>
-                </div>
-                <div class="input-group py-2" style="height: 75%;">
-                  <textarea
-                    name='reject_reason_detail'
-                    class="form-control row"
-                    aria-label="Rejection Reason"
-                    placeholder="Please describe anything else you would like us to know"
-                  ></textarea>
-                </div>
+                  {% endfor %}
+                </select>
               </div>
-              <div class="d-flex justify-content-center py-4">
-                <button
-                  class="btn btn-primary btn-lg"
-                  hx-post="{% url 'awg_update_application_status_submit_modal' awg_id=awg.id application_id=app.id %}"
-                  hx-target="#awg-applications-modal"
-                  _="on htmx:afterOnLoad wait 10ms then add .show to #modal then add .show to #modal-backdrop"
-                >Reject</button>
+              <div class="input-group py-2" style="height: 75%;">
+                <textarea
+                  name='reject_reason_detail'
+                  class="form-control row"
+                  aria-label="Rejection Reason"
+                  placeholder="Please describe anything else you would like us to know"
+                ></textarea>
               </div>
-            </form>
-
-            <div class="d-flex justify-content-center">
-              <button type="button py-2" class="btn btn-link text-decoration-none" onclick="closeModal('awg-applications-modal')">cancel</button>
             </div>
+            <div class="d-flex justify-content-center py-4">
+              <button
+                class="btn btn-primary btn-lg"
+                hx-post="{% url 'awg_update_application_status_submit_modal' awg_id=awg.id application_id=app.id %}"
+                hx-target="#awg-applications-modal"
+                _="on htmx:afterOnLoad wait 10ms then add .show to #modal then add .show to #modal-backdrop"
+              >Reject</button>
+            </div>
+          </form>
+
+          <div class="d-flex justify-content-center">
+            <button type="button py-2" class="btn btn-link text-decoration-none" onclick="closeModal('awg-applications-modal')">cancel</button>
+          </div>
         </div>
       </div>
     </div>

@@ -83,12 +83,16 @@ class CommentAdmin(admin.ModelAdmin):
 
 
 class FostererProfileAdmin(admin.ModelAdmin):
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields = [x.name for x in FostererProfile._meta.fields if x.editable and
-                         not x.is_relation and
-                         not x.primary_key and not getattr(x, 'system_check_deprecated_details')]
+        self.fields = [
+            x.name
+            for x in FostererProfile._meta.fields
+            if x.editable
+            and not x.is_relation
+            and not x.primary_key
+            and not x.system_check_deprecated_details
+        ]
 
     inlines = [ReferenceInline]
 

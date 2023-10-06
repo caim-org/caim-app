@@ -3,7 +3,6 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django.views.decorators.http import require_http_methods
-from django.conf import settings
 
 from ..forms import zip_validator
 from ..models.user import UserProfile
