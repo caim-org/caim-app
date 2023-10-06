@@ -3,7 +3,7 @@ services:
   django:
     image: caim-django:latest
     build: .
-    restart: always
+    restart: on-failure
     environment:
       - PRODUCTION=0
       - DEBUG=1
@@ -33,7 +33,7 @@ services:
     container_name: postgres
     image: postgis/postgis:14-3.3
     platform: linux/amd64
-    restart: always
+    restart: on-failure
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
