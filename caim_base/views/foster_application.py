@@ -91,7 +91,7 @@ def application(request):
             "animal": animal,
             "fosterer_profile": fosterer_profile,
             "pageTitle": "Foster Application",
-            'current_url_escaped': quote(request.get_full_path())
+            "current_url_escaped": quote(request.get_full_path()),
         },
     )
 
