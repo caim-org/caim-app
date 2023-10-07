@@ -168,6 +168,20 @@
             var rentRestrictionsInput =  document.querySelector('#div_id_rent_restrictions');
             var landlordContactText =  document.querySelector('#div_id_landlord_contact_text');
 
+
+            // Append the asterisk to make conditional form logic work
+            var asterisk = document.createElement('label');
+            asterisk.textContent = '*';
+            asterisk.style.color = 'red';
+            document.querySelector('#div_id_rent_restrictions>label').append(asterisk);
+
+            // Append the asterisk to make conditional form logic work
+            var asterisk = document.createElement('label');
+            asterisk.textContent = '*';
+            asterisk.style.color = 'red';
+            document.querySelector('#div_id_landlord_contact_text>label').append(asterisk);
+
+
             function toggleRentRestrictions() {
                 var rented = document.querySelector('#id_rent_own_0');
                 var owned = document.querySelector('#id_rent_own_1');

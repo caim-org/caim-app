@@ -538,8 +538,7 @@ def edit(request, stage_id):
                                 f"\"Pet Details\" sections you entirely have filled out."
                             )
                             break
-
-            if not existing_pet_detail_formset.is_valid():
+            else:
                 formsets_are_valid = False
 
         if stage_id == "references":
@@ -554,8 +553,7 @@ def edit(request, stage_id):
                 for index, person_in_home_detail_form in enumerate(person_in_home_detail_formset):
                     if index < num_people_in_home:
                         person_in_home_detail_form.full_clean()
-                        any_missing_fields = not all(value is not None for value in person_in_home_detail_form.cleaned_data.values())
-                        if not person_in_home_detail_form.cleaned_data or any_missing_fields:
+                        if not person_in_home_detail_form.is_valid():
                             formsets_are_valid = False
                             messages.error(
                                 request,
@@ -563,7 +561,8 @@ def edit(request, stage_id):
                                 f"the number of \"Person in Home Details\" sections you have entirely filled out."
                             )
                             break
-
+            else:
+                formsets_are_valid = False
             # Ensure if a user has selected `Rent` they must fill out rent details.
             rent_own = person_in_home_detail_formset.data['rent_own']
             if rent_own == FostererProfile.RentOwn.RENT:
@@ -573,9 +572,6 @@ def edit(request, stage_id):
                 if not person_in_home_detail_formset.data['landlord_contact_text']:
                     formsets_are_valid = False
                     messages.error(request, 'Please provide your landlord’s contact information below.')
-
-            if not person_in_home_detail_formset.is_valid():
-                formsets_are_valid = False
 
         form_is_valid = form.is_valid()
 
