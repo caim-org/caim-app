@@ -415,6 +415,11 @@ class FostererProfile(models.Model):
             " We will contact them to confirm that you have approval to foster."
         ),
     )
+    landlord_contact_text.system_check_deprecated_details = {
+        "msg": "The ReferenceDetail1 field has been deprecated, "
+        "use FostererLandlordContact instead"
+    }
+
     hours_alone_description = models.TextField(
         blank=True,
         null=True,

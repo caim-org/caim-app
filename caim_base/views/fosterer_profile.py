@@ -15,7 +15,7 @@ from ..models import (
     FostererPersonInHomeDetail,
     FostererReferenceDetail,
 )
-from ..models.fosterer import FostererProfile
+from ..models.fosterer import FostererProfile, FostererLandlordContact
 from ..models.user import UserProfile
 from ..notifications import notify_new_fosterer_profile
 from ..utils import salesforce
@@ -117,9 +117,10 @@ class FostererProfileStage1Form(ModelForm):
         fosterer_profile: FostererProfile | None = kwargs.get("instance")
         if fosterer_profile:
             user = fosterer_profile.user
-            user_profile = UserProfile.objects.get(user=user)
+            user_profile = UserProfile.objects.filter(user=user)
 
             if user_profile is not None:
+                user_profile = user_profile.get()
                 if not fosterer_profile.firstname:
                     initial_args["firstname"] = user.first_name
                 if not fosterer_profile.lastname:
@@ -324,6 +325,10 @@ class FostererProfileStage5Form(ModelForm):
                 "yard_type",
                 "yard_fence_over_5ft",
                 "rent_own",
+                "landlord_first_name",
+                "landlord_last_name",
+                "landlord_email",
+                "landlord_phone",
                 "rent_restrictions",
                 "hours_alone_description",
                 "hours_alone_location",
@@ -334,6 +339,11 @@ class FostererProfileStage5Form(ModelForm):
             ),
             Submit("submit", "Save and continue &raquo;", css_class="btn btn-primary"),
         )
+
+    landlord_first_name = forms.CharField(required=False)
+    landlord_last_name = forms.CharField(required=False)
+    landlord_email = forms.EmailField(required=False)
+    landlord_phone = forms.CharField(required=False)
 
     class Meta:
         model = FostererProfile
@@ -346,7 +356,11 @@ class FostererProfileStage5Form(ModelForm):
             "yard_fence_over_5ft",
             "rent_own",
             "rent_restrictions",
-            "landlord_contact_text",
+            "landlord_first_name",
+            "landlord_last_name",
+            "landlord_email",
+            "landlord_phone",
+            "rent_restrictions",
             "hours_alone_description",
             "hours_alone_location",
             "sleep_location",
@@ -527,31 +541,18 @@ def edit(request, stage_id):
             # Number of pet fields filled must be
             # equal or greater then the listed number of pets.
             num_of_pets = int(existing_pet_detail_formset.data["num_existing_pets"])
-            if num_of_pets:
-                for index, existing_pet_detail_form in enumerate(
-                    existing_pet_detail_formset
-                ):
-                    if index < num_of_pets:
-                        existing_pet_detail_form.full_clean()
-                        any_missing_fields = not all(
-                            value is not None
-                            for value in existing_pet_detail_form.cleaned_data.values()
-                        )
-                        if (
-                            not existing_pet_detail_form.cleaned_data
-                            or any_missing_fields
-                        ):
-                            formsets_are_valid = False
-                            messages.error(
-                                request,
-                                f'Ensure the "Number of Pets" ({num_of_pets}) matches '
-                                f'the number of "Pet Details" sections you have '
-                                f"entirely filled out.",
-                            )
-                            break
-
-            if not existing_pet_detail_formset.is_valid():
-                formsets_are_valid = False
+            for index, existing_pet_detail_form in enumerate(
+                existing_pet_detail_formset
+            ):
+                if index < num_of_pets and not existing_pet_detail_form.is_valid():
+                    formsets_are_valid = False
+                    messages.error(
+                        request,
+                        f'Ensure the "Number of Pets" ({num_of_pets}) matches '
+                        f'the number of "Pet Details" sections you have '
+                        f"entirely filled out.",
+                    )
+                    break
 
         if stage_id == "references":
             if not reference_detail_formset.is_valid():
@@ -563,32 +564,21 @@ def edit(request, stage_id):
             num_people_in_home = int(
                 person_in_home_detail_formset.data["num_people_in_home"]
             )
-            if num_people_in_home:
-                for index, person_in_home_detail_form in enumerate(
-                    person_in_home_detail_formset
-                ):
-                    if index < num_people_in_home:
-                        person_in_home_detail_form.full_clean()
-                        any_missing_fields = not all(
-                            value is not None
-                            for value in (
-                                person_in_home_detail_form.cleaned_data.values()
-                            )
+            for index, person_in_home_detail_form in enumerate(
+                person_in_home_detail_formset
+            ):
+                if index < num_people_in_home:
+                    person_in_home_detail_form.full_clean()
+                    if not person_in_home_detail_form.is_valid():
+                        formsets_are_valid = False
+                        messages.error(
+                            request,
+                            f"Ensure the number of people in your home "
+                            f"({num_people_in_home}) matches the number of "
+                            f'"Person in Home Details" sections you have '
+                            f"entirely filled out.",
                         )
-                        if (
-                            not person_in_home_detail_form.cleaned_data
-                            or any_missing_fields
-                        ):
-                            formsets_are_valid = False
-                            messages.error(
-                                request,
-                                f"Ensure the number of people in your home "
-                                f"({num_people_in_home}) matches the number of "
-                                f'"Person in Home Details" sections you have '
-                                f"entirely filled out.",
-                            )
-                            break
-
+                        break
             # Ensure if a user has selected `Rent` they must fill out rent details.
             rent_own = person_in_home_detail_formset.data["rent_own"]
             if rent_own == FostererProfile.RentOwn.RENT:
@@ -598,15 +588,30 @@ def edit(request, stage_id):
                         request,
                         "Please describe any pet restrictions that are in place.",
                     )
-                if not person_in_home_detail_formset.data["landlord_contact_text"]:
+                if not person_in_home_detail_formset.data["landlord_phone"]:
                     formsets_are_valid = False
                     messages.error(
                         request,
-                        "Please provide your landlord’s contact information below.",
+                        "Please add your landlord's phone contact.",
                     )
-
-            if not person_in_home_detail_formset.is_valid():
-                formsets_are_valid = False
+                if not person_in_home_detail_formset.data["landlord_first_name"]:
+                    formsets_are_valid = False
+                    messages.error(
+                        request,
+                        "Please add your landlord's first name.",
+                    )
+                if not person_in_home_detail_formset.data["landlord_last_name"]:
+                    formsets_are_valid = False
+                    messages.error(
+                        request,
+                        "Please add your landlord's last name.",
+                    )
+                if not person_in_home_detail_formset.data["landlord_email"]:
+                    formsets_are_valid = False
+                    messages.error(
+                        request,
+                        "Please add your landlord's email.",
+                    )
 
         form_is_valid = form.is_valid()
 
@@ -703,6 +708,19 @@ def edit(request, stage_id):
                 existing_household_members = FostererPersonInHomeDetail.objects.filter(
                     fosterer_profile=fosterer_profile
                 ).order_by("id")
+                (
+                    landlord_details,
+                    created,
+                ) = FostererLandlordContact.objects.get_or_create(
+                    fosterer_profile=fosterer_profile
+                )
+                form_data = form.data
+                landlord_details.first_name = form_data.get("landlord_first_name")
+                landlord_details.last_name = form_data.get("landlord_last_name")
+                landlord_details.email = form_data.get("landlord_email")
+                landlord_details.phone = form_data.get("landlord_phone")
+
+                landlord_details.save()
 
                 for index, detail_form in enumerate(person_in_home_detail_formset):
                     if detail_form.is_valid() and detail_form.has_changed():
@@ -732,8 +750,18 @@ def edit(request, stage_id):
                 return redirect(f"/fosterer/{next_stage}?after={after}")
 
     else:
-        form = form_class(instance=fosterer_profile)
-
+        landlord_details, created = FostererLandlordContact.objects.get_or_create(
+            fosterer_profile=fosterer_profile
+        )
+        form = form_class(
+            instance=fosterer_profile,
+            initial={
+                "landlord_first_name": landlord_details.first_name,
+                "landlord_last_name": landlord_details.last_name,
+                "landlord_email": landlord_details.email,
+                "landlord_phone": landlord_details.phone,
+            },
+        )
         existing_pets = FostererExistingPetDetail.objects.filter(
             fosterer_profile=fosterer_profile
         ).order_by("id")

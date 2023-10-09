@@ -100,6 +100,7 @@
                   </div>
                 {% endfor %}
                 <legend>Other Household Details</legend>
+                {{ landlord_contact_detail_formset| crispy }}
                 {% for field in form %}
                   {% if not field.name == 'num_people_in_home' %}
                     {{ field|as_crispy_field }}
@@ -134,7 +135,6 @@
     </div>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
-
         function updateDetailsVisibility(inputSelector, detailSelector) {
           var numInput = document.querySelector(inputSelector);
           var details = document.querySelectorAll(detailSelector);
@@ -142,7 +142,7 @@
           function setVisibility() {
             var num = parseInt(numInput.value);
 
-                    // Iterate through all details and show/hide based on num value
+            // Iterate through all details and show/hide based on num value
             for(var i = 0; i < details.length; i++) {
               if(i < num) {
                 details[i].style.display = '';
@@ -153,30 +153,50 @@
           }
 
           if(numInput) {
-                    // Initial setup
+            // Initial setup
             setVisibility();
-                    // Listen to the change event
+            // Listen to the change event
             numInput.addEventListener('change', setVisibility);
           }
         }
 
-            // Initialize for Pets and People in Home
+        // Initialize for Pets and People in Home
         updateDetailsVisibility('[name="num_existing_pets"]', '.pet-detail');
         updateDetailsVisibility('[name="num_people_in_home"]', '.person-detail');
 
-            // Make rent specific fields disappear for homeowners
+        // Make rent specific fields disappear for homeowners
         var rentRestrictionsInput =  document.querySelector('#div_id_rent_restrictions');
-        var landlordContactText =  document.querySelector('#div_id_landlord_contact_text');
+        var landlordFirstName =  document.querySelector('#div_id_landlord_first_name');
+        var landlordLastName =  document.querySelector('#div_id_landlord_last_name');
+        var landlordPhone =  document.querySelector('#div_id_landlord_phone');
+        var landlordEmail =  document.querySelector('#div_id_landlord_email');
+
+
+        // Append the asterisk to make conditional form logic work
+        var asterisk = document.createElement('label');
+        asterisk.textContent = '*';
+        asterisk.style.color = 'red';
+        document.querySelector('#div_id_rent_restrictions>label').append(asterisk);
+        document.querySelector('#div_id_landlord_first_name>label').append(asterisk.cloneNode(true));
+        document.querySelector('#div_id_landlord_last_name>label').append(asterisk.cloneNode(true));
+        document.querySelector('#div_id_landlord_phone>label').append(asterisk.cloneNode(true));
+        document.querySelector('#div_id_landlord_email>label').append(asterisk.cloneNode(true));
 
         function toggleRentRestrictions() {
           var rented = document.querySelector('#id_rent_own_0');
           var owned = document.querySelector('#id_rent_own_1');
           if(rented.checked) {
             rentRestrictionsInput.style.display = 'block';
-            landlordContactText.style.display = 'block';
+            landlordFirstName.style.display = 'block';
+            landlordLastName.style.display = 'block';
+            landlordPhone.style.display = 'block';
+            landlordEmail.style.display = 'block';
           } else {
             rentRestrictionsInput.style.display = 'none';
-            landlordContactText.style.display = 'none';
+            landlordFirstName.style.display = 'none';
+            landlordLastName.style.display = 'none';
+            landlordEmail.style.display = 'none';
+            landlordPhone.style.display = 'none';
           }
         }
         var rentInput = document.querySelector('#id_rent_own_0');

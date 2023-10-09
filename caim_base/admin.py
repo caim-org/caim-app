@@ -13,7 +13,12 @@ from .models.animals import (
     User,
 )
 from .models.awg import AwgMember
-from .models.fosterer import FostererProfile, FosterApplication, FostererReferenceDetail
+from .models.fosterer import (
+    FostererProfile,
+    FosterApplication,
+    FostererReferenceDetail,
+    FostererLandlordContact,
+)
 from .models.user import UserProfile
 
 # Unregister the user admin so we can user our own
@@ -78,6 +83,10 @@ class ReferenceInline(admin.TabularInline):
     model = FostererReferenceDetail
 
 
+class LandlordContactInline(admin.TabularInline):
+    model = FostererLandlordContact
+
+
 class CommentAdmin(admin.ModelAdmin):
     inlines = [SubCommentInline]
 
@@ -94,7 +103,7 @@ class FostererProfileAdmin(admin.ModelAdmin):
             and not x.system_check_deprecated_details
         ]
 
-    inlines = [ReferenceInline]
+    inlines = [ReferenceInline, LandlordContactInline]
 
 
 admin.site.register(Breed)
