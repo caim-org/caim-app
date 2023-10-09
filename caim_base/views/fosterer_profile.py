@@ -117,9 +117,10 @@ class FostererProfileStage1Form(ModelForm):
         fosterer_profile: FostererProfile | None = kwargs.get("instance")
         if fosterer_profile:
             user = fosterer_profile.user
-            user_profile = FostererProfile.objects.get(user=user)
+            user_profile = UserProfile.objects.filter(user=user)
 
             if user_profile is not None:
+                user_profile = user_profile.get()
                 if not fosterer_profile.firstname:
                     initial_args["firstname"] = user.first_name
                 if not fosterer_profile.lastname:
