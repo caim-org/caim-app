@@ -117,7 +117,7 @@ class FostererProfileStage1Form(ModelForm):
         fosterer_profile: FostererProfile | None = kwargs.get("instance")
         if fosterer_profile:
             user = fosterer_profile.user
-            user_profile = UserProfile.objects.get(user=user)
+            user_profile = FostererProfile.objects.get(user=user)
 
             if user_profile is not None:
                 if not fosterer_profile.firstname:
@@ -540,30 +540,18 @@ def edit(request, stage_id):
             # Number of pet fields filled must be
             # equal or greater then the listed number of pets.
             num_of_pets = int(existing_pet_detail_formset.data["num_existing_pets"])
-            if num_of_pets:
-                for index, existing_pet_detail_form in enumerate(
-                    existing_pet_detail_formset
-                ):
-                    if index < num_of_pets:
-                        existing_pet_detail_form.full_clean()
-                        any_missing_fields = not all(
-                            value is not None
-                            for value in existing_pet_detail_form.cleaned_data.values()
-                        )
-                        if (
-                            not existing_pet_detail_form.cleaned_data
-                            or any_missing_fields
-                        ):
-                            formsets_are_valid = False
-                            messages.error(
-                                request,
-                                f'Ensure the "Number of Pets" ({num_of_pets}) matches '
-                                f'the number of "Pet Details" sections you have '
-                                f"entirely filled out.",
-                            )
-                            break
-            else:
-                formsets_are_valid = False
+            for index, existing_pet_detail_form in enumerate(
+                existing_pet_detail_formset
+            ):
+                if index < num_of_pets and not existing_pet_detail_form.is_valid():
+                    formsets_are_valid = False
+                    messages.error(
+                        request,
+                        f'Ensure the "Number of Pets" ({num_of_pets}) matches '
+                        f'the number of "Pet Details" sections you have '
+                        f"entirely filled out.",
+                    )
+                    break
 
         if stage_id == "references":
             if not reference_detail_formset.is_valid():
