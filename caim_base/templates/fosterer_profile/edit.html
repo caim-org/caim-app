@@ -178,6 +178,10 @@
             asterisk.textContent = '*';
             asterisk.style.color = 'red';
             document.querySelector('#div_id_rent_restrictions>label').append(asterisk);
+            document.querySelector('#div_id_landlord_first_name>label').append(asterisk.cloneNode(true));
+            document.querySelector('#div_id_landlord_last_name>label').append(asterisk.cloneNode(true));
+            document.querySelector('#div_id_landlord_phone>label').append(asterisk.cloneNode(true));
+            document.querySelector('#div_id_landlord_email>label').append(asterisk.cloneNode(true));
 
             function toggleRentRestrictions() {
                 var rented = document.querySelector('#id_rent_own_0');
