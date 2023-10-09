@@ -582,24 +582,21 @@ def edit(request, stage_id):
             num_people_in_home = int(
                 person_in_home_detail_formset.data["num_people_in_home"]
             )
-            if num_people_in_home:
-                for index, person_in_home_detail_form in enumerate(
-                    person_in_home_detail_formset
-                ):
-                    if index < num_people_in_home:
-                        person_in_home_detail_form.full_clean()
-                        if not person_in_home_detail_form.is_valid():
-                            formsets_are_valid = False
-                            messages.error(
-                                request,
-                                f"Ensure the number of people in your home "
-                                f"({num_people_in_home}) matches the number of "
-                                f'"Person in Home Details" sections you have '
-                                f"entirely filled out.",
-                            )
-                            break
-            else:
-                formsets_are_valid = False
+            for index, person_in_home_detail_form in enumerate(
+                person_in_home_detail_formset
+            ):
+                if index < num_people_in_home:
+                    person_in_home_detail_form.full_clean()
+                    if not person_in_home_detail_form.is_valid():
+                        formsets_are_valid = False
+                        messages.error(
+                            request,
+                            f"Ensure the number of people in your home "
+                            f"({num_people_in_home}) matches the number of "
+                            f'"Person in Home Details" sections you have '
+                            f"entirely filled out.",
+                        )
+                        break
             # Ensure if a user has selected `Rent` they must fill out rent details.
             rent_own = person_in_home_detail_formset.data["rent_own"]
             if rent_own == FostererProfile.RentOwn.RENT:
