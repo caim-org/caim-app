@@ -8,6 +8,7 @@ from .. import models
 
 logger = getLogger(__name__)
 
+
 @cache
 def _salesforce_connection():
     """create salesforce connection with auth"""
@@ -16,6 +17,7 @@ def _salesforce_connection():
         password=settings.SALESFORCE_PASSWORD,
         security_token=settings.SALESFORCE_SECURITY_TOKEN,
     )
+
 
 def _create_contact(salesforce_contact, connection):
     logger.info("Enter create contact")
@@ -40,6 +42,7 @@ def _create_contact(salesforce_contact, connection):
     except SalesforceMalformedRequest:
         logger.exception("Unable to create contact")
 
+
 def _update_contact(salesforce_id, salesforce_contact, connection):
     try:
         # 204 (no content) results from successful update
@@ -62,6 +65,7 @@ def _user_from_form(user_form):
         "MailingPostalCode": form_data.get("zip_code"),
     }
 
+
 def _user_profile_to_salesforce_contact(user_profile: models.UserProfile):
     return {
         "FirstName": user_profile.user.first_name,
@@ -72,20 +76,22 @@ def _user_profile_to_salesforce_contact(user_profile: models.UserProfile):
         "MailingPostalCode": user_profile.zip_code,
     }
 
+
 def update_fosterer_profile_complete(user: models.User):
     if not settings.SALESFORCE_ENABLED:
         logger.info("Salesforce not enabled for this environment, skipping")
-        return 
+        return
 
     try:
         user_profile = models.UserProfile.objects.get(user=user)
         connection = _salesforce_connection()
-        connection.Contact.update(user_profile.salesforce_id, {"FosterProfile": "Complete"})
+        connection.Contact.update(
+            user_profile.salesforce_id, {"FosterProfile": "Complete"}
+        )
     except models.UserProfile.DoesNotExist:
         logger.info("Unable to retrieve UserProfile for user %s", user)
     except Exception:
         logger.exception("Not able to update contact")
-
 
 
 def create_or_update_contact(user_profile: models.UserProfile):
@@ -96,7 +102,9 @@ def create_or_update_contact(user_profile: models.UserProfile):
     salesforce_contact = _user_profile_to_salesforce_contact(user_profile)
 
     if user_profile.salesforce_id is not None:
-        _update_contact(user_profile.salesforce_id, salesforce_contact, _salesforce_connection())
+        _update_contact(
+            user_profile.salesforce_id, salesforce_contact, _salesforce_connection()
+        )
     else:
         logger.info("salesforce_id is not present, creating new contact")
         salesforce_id = _create_contact(salesforce_contact, _salesforce_connection())

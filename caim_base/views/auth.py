@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
@@ -7,6 +6,7 @@ from django.shortcuts import redirect, render
 from ..forms import NewUserForm
 from ..models import UserProfile, FostererProfile
 from ..utils import salesforce
+
 
 def login_view(request):
     if request.method == "POST":

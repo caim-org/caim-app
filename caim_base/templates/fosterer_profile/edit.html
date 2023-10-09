@@ -100,6 +100,7 @@
                   </div>
                 {% endfor %}
                 <legend>Other Household Details</legend>
+                {{ landlord_contact_detail_formset| crispy }}
                 {% for field in form %}
                   {% if not field.name == 'num_people_in_home' %}
                     {{ field|as_crispy_field }}
@@ -166,7 +167,10 @@
 
             // Make rent specific fields disappear for homeowners
             var rentRestrictionsInput =  document.querySelector('#div_id_rent_restrictions');
-            var landlordContactText =  document.querySelector('#div_id_landlord_contact_text');
+            var landlordFirstName =  document.querySelector('#div_id_landlord_first_name');
+            var landlordLastName =  document.querySelector('#div_id_landlord_last_name');
+            var landlordPhone =  document.querySelector('#div_id_landlord_phone');
+            var landlordEmail =  document.querySelector('#div_id_landlord_email');
 
 
             // Append the asterisk to make conditional form logic work
@@ -175,22 +179,21 @@
             asterisk.style.color = 'red';
             document.querySelector('#div_id_rent_restrictions>label').append(asterisk);
 
-            // Append the asterisk to make conditional form logic work
-            var asterisk = document.createElement('label');
-            asterisk.textContent = '*';
-            asterisk.style.color = 'red';
-            document.querySelector('#div_id_landlord_contact_text>label').append(asterisk);
-
-
             function toggleRentRestrictions() {
                 var rented = document.querySelector('#id_rent_own_0');
                 var owned = document.querySelector('#id_rent_own_1');
                 if(rented.checked) {
                     rentRestrictionsInput.style.display = 'block';
-                    landlordContactText.style.display = 'block';
+                    landlordFirstName.style.display = 'block';
+                    landlordLastName.style.display = 'block';
+                    landlordPhone.style.display = 'block';
+                    landlordEmail.style.display = 'block';
                 } else {
                     rentRestrictionsInput.style.display = 'none';
-                    landlordContactText.style.display = 'none';
+                    landlordFirstName.style.display = 'none';
+                    landlordLastName.style.display = 'none';
+                    landlordEmail.style.display = 'none';
+                    landlordPhone.style.display = 'none';
                 }
             }
             var rentInput = document.querySelector('#id_rent_own_0');

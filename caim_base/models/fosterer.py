@@ -304,21 +304,21 @@ class FostererProfile(models.Model):
     reference_1 = models.TextField(
         blank=True, null=True, default=None, verbose_name="Reference #1"
     )
-    reference_1.system_check_deprecated_details = dict(
-        msg='The ReferenceDetail1 field has been deprecated.',
-    )
+    reference_1.system_check_deprecated_details = {
+        "msg": "The ReferenceDetail1 field has been deprecated.",
+    }
     reference_2 = models.TextField(
         blank=True, null=True, default=None, verbose_name="Reference #2"
     )
-    reference_2.system_check_deprecated_details = dict(
-        msg='The ReferenceDetail2 field has been deprecated.',
-    )
+    reference_2.system_check_deprecated_details = {
+        "msg": "The ReferenceDetail2 field has been deprecated.",
+    }
     reference_3 = models.TextField(
         blank=True, null=True, default=None, verbose_name="Reference #3"
     )
-    reference_3.system_check_deprecated_details = dict(
-        msg='The ReferenceDetail3 field has been deprecated.',
-    )
+    reference_3.system_check_deprecated_details = {
+        "msg": "The ReferenceDetail3 field has been deprecated.",
+    }
     # This is old "people at home" and is simply to preserve existing data.
     # Unused in the future this info should come from associated `PersonInHomeDetail`.
     people_at_home = models.TextField(
@@ -345,9 +345,9 @@ class FostererProfile(models.Model):
             " excluding yourself: Name, Relation, Age, Email address."
         ),
     )
-    people_in_home_detail.system_check_deprecated_details = dict(
-        msg='The PeopleInHomeDetail field has been deprecated.',
-    )
+    people_in_home_detail.system_check_deprecated_details = {
+        "msg": "The PeopleInHomeDetail field has been deprecated.",
+    }
     all_in_agreement = models.CharField(
         choices=YesNo.choices,
         max_length=32,

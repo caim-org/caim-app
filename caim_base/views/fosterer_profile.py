@@ -30,7 +30,6 @@ class ExistingPetDetailForm(forms.ModelForm):
         for field_name in self.Meta.required:
             self.fields[field_name].required = True
 
-
     class Meta:
         model = FostererExistingPetDetail
         fields = [
@@ -452,11 +451,13 @@ STAGES = {
     },
 }
 
+
 @login_required()
 @require_http_methods(["GET"])
 def start(request):
-    after = request.GET.get('after', '')
+    after = request.GET.get("after", "")
     return redirect(f"/fosterer/about-you?after={after}")
+
 
 @login_required()
 @require_http_methods(["POST", "GET"])
@@ -479,7 +480,7 @@ def edit(request, stage_id):
             salesforce.update_fosterer_profile_complete(user)
             notify_new_fosterer_profile(fosterer_profile)
 
-        link = request.GET.get('after') or reverse('browse')
+        link = request.GET.get("after") or reverse("browse")
         return render(
             request,
             "fosterer_profile/complete.html",
@@ -523,19 +524,29 @@ def edit(request, stage_id):
         formsets_are_valid = True
 
         if stage_id == "pet-experience":
-            # Number of pet fields filled must be equal, or great then the listed number of pets.
-            num_of_pets = int(existing_pet_detail_formset.data['num_existing_pets'])
+            # Number of pet fields filled must be
+            # equal or greater then the listed number of pets.
+            num_of_pets = int(existing_pet_detail_formset.data["num_existing_pets"])
             if num_of_pets:
-                for index, existing_pet_detail_form in enumerate(existing_pet_detail_formset):
+                for index, existing_pet_detail_form in enumerate(
+                    existing_pet_detail_formset
+                ):
                     if index < num_of_pets:
                         existing_pet_detail_form.full_clean()
-                        any_missing_fields = not all(value is not None for value in existing_pet_detail_form.cleaned_data.values())
-                        if not existing_pet_detail_form.cleaned_data or any_missing_fields:
+                        any_missing_fields = not all(
+                            value is not None
+                            for value in existing_pet_detail_form.cleaned_data.values()
+                        )
+                        if (
+                            not existing_pet_detail_form.cleaned_data
+                            or any_missing_fields
+                        ):
                             formsets_are_valid = False
                             messages.error(
                                 request,
-                                f"Ensure the \"Number of Pets\" ({num_of_pets}) matches the number of "
-                                f"\"Pet Details\" sections you entirely have filled out."
+                                f'Ensure the "Number of Pets" ({num_of_pets}) matches '
+                                f'the number of "Pet Details" sections you have '
+                                f"entirely filled out.",
                             )
                             break
             else:
@@ -546,32 +557,44 @@ def edit(request, stage_id):
                 formsets_are_valid = False
 
         if stage_id == "household-details":
-            # Number of cohabitant fields filled must be equal, or great then the listed number of people in the
-            # home.
-            num_people_in_home = int(person_in_home_detail_formset.data['num_people_in_home'])
+            # Number of cohabitant fields filled must be
+            # equal or greater then the listed number of people in the home.
+            num_people_in_home = int(
+                person_in_home_detail_formset.data["num_people_in_home"]
+            )
             if num_people_in_home:
-                for index, person_in_home_detail_form in enumerate(person_in_home_detail_formset):
+                for index, person_in_home_detail_form in enumerate(
+                    person_in_home_detail_formset
+                ):
                     if index < num_people_in_home:
                         person_in_home_detail_form.full_clean()
                         if not person_in_home_detail_form.is_valid():
                             formsets_are_valid = False
                             messages.error(
                                 request,
-                                f"Ensure the number of people in your home ({num_people_in_home}) matches " \
-                                f"the number of \"Person in Home Details\" sections you have entirely filled out."
+                                f"Ensure the number of people in your home "
+                                f"({num_people_in_home}) matches the number of "
+                                f'"Person in Home Details" sections you have '
+                                f"entirely filled out.",
                             )
                             break
             else:
                 formsets_are_valid = False
             # Ensure if a user has selected `Rent` they must fill out rent details.
-            rent_own = person_in_home_detail_formset.data['rent_own']
+            rent_own = person_in_home_detail_formset.data["rent_own"]
             if rent_own == FostererProfile.RentOwn.RENT:
-                if not person_in_home_detail_formset.data['rent_restrictions']:
+                if not person_in_home_detail_formset.data["rent_restrictions"]:
                     formsets_are_valid = False
-                    messages.error(request, 'Please describe any pet restrictions that are in place.')
-                if not person_in_home_detail_formset.data['landlord_contact_text']:
+                    messages.error(
+                        request,
+                        "Please describe any pet restrictions that are in place.",
+                    )
+                if not person_in_home_detail_formset.data["landlord_contact_text"]:
                     formsets_are_valid = False
-                    messages.error(request, 'Please provide your landlord’s contact information below.')
+                    messages.error(
+                        request,
+                        "Please provide your landlord’s contact information below.",
+                    )
 
         form_is_valid = form.is_valid()
 
@@ -689,7 +712,7 @@ def edit(request, stage_id):
                             )
 
             is_previous = "submit_prev" in request.POST
-            after = request.GET.get('after', '')
+            after = request.GET.get("after", "")
 
             if is_previous:
                 return redirect(f"/fosterer/{prev_stage}?after={after}")
