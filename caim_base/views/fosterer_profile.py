@@ -380,13 +380,6 @@ class FostererProfileStage5Form(ModelForm):
             "yard_fence_over_5ft": RadioSelect(),
             "rent_own": RadioSelect(),
         }
-        labels = {
-            "landlord_first_name": 'Landlord\'s First Name',
-            "landlord_last_name": 'Landlord\'s Last Name',
-            "landlord_email": 'Landlord\'s Email Contact',
-            "landlord_phone": 'Landlord\'s Phone',
-
-        }
 
 
 class FostererProfileStage6Form(ModelForm):
@@ -610,25 +603,25 @@ def edit(request, stage_id):
                     formsets_are_valid = False
                     messages.error(
                         request,
-                        "Please add your landlord\'s phone contact.",
+                        "Please add your landlord's phone contact.",
                     )
                 if not person_in_home_detail_formset.data["landlord_first_name"]:
                     formsets_are_valid = False
                     messages.error(
                         request,
-                        "Please add your landlord\'s first name.",
+                        "Please add your landlord's first name.",
                     )
                 if not person_in_home_detail_formset.data["landlord_last_name"]:
                     formsets_are_valid = False
                     messages.error(
                         request,
-                        "Please add your landlord\'s last name.",
+                        "Please add your landlord's last name.",
                     )
                 if not person_in_home_detail_formset.data["landlord_email"]:
                     formsets_are_valid = False
                     messages.error(
                         request,
-                        "Please add your landlord\'s email.",
+                        "Please add your landlord's email.",
                     )
 
         form_is_valid = form.is_valid()
@@ -726,7 +719,10 @@ def edit(request, stage_id):
                 existing_household_members = FostererPersonInHomeDetail.objects.filter(
                     fosterer_profile=fosterer_profile
                 ).order_by("id")
-                landlord_details, created = FostererLandlordContact.objects.get_or_create(
+                (
+                    landlord_details,
+                    created,
+                ) = FostererLandlordContact.objects.get_or_create(
                     fosterer_profile=fosterer_profile
                 )
                 form_data = form.data
@@ -736,7 +732,6 @@ def edit(request, stage_id):
                 landlord_details.phone = form_data.get("landlord_phone")
 
                 landlord_details.save()
-
 
                 for index, detail_form in enumerate(person_in_home_detail_formset):
                     if detail_form.is_valid() and detail_form.has_changed():
@@ -766,7 +761,9 @@ def edit(request, stage_id):
                 return redirect(f"/fosterer/{next_stage}?after={after}")
 
     else:
-        landlord_details, created = FostererLandlordContact.objects.get_or_create(fosterer_profile=fosterer_profile)
+        landlord_details, created = FostererLandlordContact.objects.get_or_create(
+            fosterer_profile=fosterer_profile
+        )
         form = form_class(
             instance=fosterer_profile,
             initial={
@@ -774,7 +771,7 @@ def edit(request, stage_id):
                 "landlord_last_name": landlord_details.last_name,
                 "landlord_email": landlord_details.email,
                 "landlord_phone": landlord_details.phone,
-            }
+            },
         )
         existing_pets = FostererExistingPetDetail.objects.filter(
             fosterer_profile=fosterer_profile

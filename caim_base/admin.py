@@ -13,7 +13,12 @@ from .models.animals import (
     User,
 )
 from .models.awg import AwgMember
-from .models.fosterer import FostererProfile, FosterApplication, FostererReferenceDetail, FostererLandlordContact
+from .models.fosterer import (
+    FostererProfile,
+    FosterApplication,
+    FostererReferenceDetail,
+    FostererLandlordContact,
+)
 from .models.user import UserProfile
 
 # Unregister the user admin so we can user our own

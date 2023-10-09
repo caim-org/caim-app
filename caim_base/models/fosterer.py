@@ -416,7 +416,8 @@ class FostererProfile(models.Model):
         ),
     )
     landlord_contact_text.system_check_deprecated_details = {
-        "msg": "The ReferenceDetail1 field has been deprecated, use FostererLandlordContact instead",
+        "msg": "The ReferenceDetail1 field has been deprecated, "
+        "use FostererLandlordContact instead"
     }
 
     hours_alone_description = models.TextField(
