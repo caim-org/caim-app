@@ -121,7 +121,7 @@ class FostererLandlordContact(models.Model):
     phone = PhoneNumberField(blank=True, null=True, default=None)
 
     def __str__(self) -> str:
-        return f"{self.firstname} {self.lastname}"
+        return f"{self.first_name} {self.last_name} ({self.email})"
 
 
 class FostererProfile(models.Model):
