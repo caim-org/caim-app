@@ -100,9 +100,14 @@
                   </div>
                 {% endfor %}
                 <legend>Other Household Details</legend>
-                {{ landlord_contact_detail_formset| crispy }}
                 {% for field in form %}
-                  {% if not field.name == 'num_people_in_home' %}
+                  {% if field.name == 'rent_restrictions' %}
+                    {{ field|as_crispy_field }}
+                    <p>
+                      If you rent, please provide your landlord’s contact information. We will contact them to confirm
+                      that you have approval to foster.
+                    </p>
+                  {% elif not field.name == 'num_people_in_home' %}
                     {{ field|as_crispy_field }}
                   {% endif %}
                 {% endfor %}
