@@ -1,4 +1,4 @@
-FROM python:3.9.13-alpine3.16
+FROM python:3.11.5-alpine3.18
 
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -19,6 +19,7 @@ RUN set -ex \
         font-noto\
         font-noto-cjk\
         font-noto-extra\
+        py3-psycopg2\
     && apk add --no-cache --virtual .build-deps\
         postgresql-dev\
         build-base\
