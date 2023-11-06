@@ -2,9 +2,11 @@
 # Caim app
 
 
-### Static and media
+## Static and media
 
-These are all hosted on an S3 bucket. Configured with the `MEDIA_USE_S3` env var.
+These are all hosted on an S3 bucket. Configured with the `MEDIA_USE_S3` environment variable (refer to `caim/settings.py` or to `docker-compose.yml` for a set of relevant environment variables).
+
+## App features
 
 ### Image CDN / resizing
 
@@ -40,7 +42,11 @@ In the future we might want to add extra logic here, e.g. a comment can be edite
 
 A user can shortlist many animals. Powered by a simple API to set and upset the shortlist status for a given animal.
 
-### Frontend
+## Code organization
+
+Application code lives in `caim_base`.
+
+## Frontend
 
 The app is rendered as Django templates.
 
@@ -49,7 +55,6 @@ CSS styling based on the bootstrap framework.
 We use a mix of good old jQuery and HTMX for interactivity.
 
 Slideshow is https://github.com/sachinchoolur/lightslider. Just copied the dist folder into static for ease.
-
 
 ## Local development
 
@@ -66,28 +71,41 @@ Running the app locally requires:
 After you've set up the app, you can start it by running `./run.sh`.
 
 Notes:
-- The postgres local docker image listenes on port 5434 (rather than the default postgres port of 5432) to avoid clashes if you happen to have postgres running locally on your machine
+- The postgres local docker image listens on port 5434 (rather than the default postgres port of 5432) to avoid clashes if you happen to have postgres running locally on your machine
+
+## Testing
+
+We have a nacent testing Github workflow which will run on pull requests. Most functionality is not covered by automated testing and improved automated tests would be a significant benefit for reliability and velocity.
 
 ## How to contribute
 
 We welcome your help! Please browse the attached project and issues for things to work on (more will be added shortly). Please branch off `main`, implement your feature, and send a pull request.
 
+To land commits to the main branch, you must be added to the `@caim-org/engineers` team.
+
 ## Hosting
 
-The app is currently hostest on AWS AppRunner.
+The app is currently hosted on AWS AppRunner. There is a staging environment and a production environment.
+
+The app relies on a number of environment variables which are set within the AWS console for each environment. The environment variables we rely on can be found in `caim/settings.py`. 
+
+### Service dependencies
+
+We're integrated with Salesforce and Supabase (for Postgres hosting). Salesforce can be disabled via setting the `SALESFORCE_ENABLED` environment variable to `0`. Postgres is configured through DB environment variables. A DB is required for the app to function, so hosting must be established.
+
+### Logging
+
+We have some logging enabled for the app but not much is currently being logged. Logging is configured to output to stdout.
 
 ### Deployment notes
 
-To deploy to the staging site:
+Deployment is managed by Github Actions. There are two automated workflows, `Deploy to staging` and `Deploy to production`. Both of these workflows operate on commits to the main branch,
+which is a source of workflow issues. In the future, it would be useful to move the staging deployment upstream of a commit to the main branch.
 
-```
-1) Login to AWS ECR (need AWS access and correct AWS_PROFILE):
+#### Deploy to staging
 
-AWS_PROFILE=caim aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 324366619902.dkr.ecr.us-east-1.amazonaws.com
+Runs on every commit and deploys the app to AWS App Runner staging environment.
 
-2) Build image and push to staging ECR
-docker buildx build --platform linux/amd64 -t 324366619902.dkr.ecr.us-east-1.amazonaws.com/caim-app-staging:latest --push .
+#### Deploy to production
 
-3) Build image and push to prod ECR
-docker buildx build --platform linux/amd64 -t 324366619902.dkr.ecr.us-east-1.amazonaws.com/caim-app-prod:latest --push .
-```
+Runs on commits tagged with a semver version (eg, v1.0.0) and deploys the app to AWS App Runner production environment.
