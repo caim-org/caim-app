@@ -110,7 +110,6 @@ class FostererPersonInHomeDetail(models.Model):
         return f"{self.name}"
 
 
-# NOTE model not currently in use.
 class FostererLandlordContact(models.Model):
     fosterer_profile = models.OneToOneField(
         "FostererProfile", on_delete=models.CASCADE, related_name="landlord_contact"
